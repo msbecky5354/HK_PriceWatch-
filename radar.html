@@ -131,9 +131,9 @@
         }
 
         const uiDict = {
-            'zh-Hant': { appTitle: "慳真D", title: "跨超市海鮮價雷達", brand: "品牌", name: "貨品名稱", maxP: "全城最貴 ($)", minP: "全城最平 ($)", diffP: "慳幾多 ($)", percent: "相差 (%)", bestSm: "推薦超市", loading: "正在掃描全城數據...", fail: "讀取失敗", cheapest: "全城最平", exp: "全城最貴", gap: "差價", noData: "暫時未有數據 🤷‍♂️", lastUpdated: "更新於: " },
-            'zh-Hans': { appTitle: "悭真D", title: "跨超市海鲜价雷达", brand: "品牌", name: "商品名称", maxP: "全城最贵 ($)", minP: "全城最平 ($)", diffP: "省多少 ($)", percent: "相差 (%)", bestSm: "推荐超市", loading: "正在扫描全城数据...", fail: "读取失败", cheapest: "全城最平", exp: "全城最贵", gap: "差价", noData: "暂无数据 🤷‍♂️", lastUpdated: "更新于: " },
-            'en': { appTitle: "HK Smart Price", title: "Price Gap Radar", brand: "Brand", name: "Product Name", maxP: "Max Price ($)", minP: "Min Price ($)", diffP: "Save ($)", percent: "Diff (%)", bestSm: "Best Supermarket", loading: "Scanning citywide data...", fail: "Load Failed", cheapest: "Lowest", exp: "Highest", gap: "Gap", noData: "No Data Found 🤷‍♂️", lastUpdated: "Updated: " }
+            'zh-Hant': { appTitle: "慳真D", title: "跨超市海鮮價雷達", back: "返回", brand: "品牌", name: "貨品名稱", maxP: "全城最貴 ($)", minP: "全城最平 ($)", diffP: "慳幾多 ($)", percent: "相差 (%)", bestSm: "推薦超市", loading: "正在掃描全城數據...", fail: "讀取失敗", cheapest: "全城最平", exp: "全城最貴", gap: "差價", noData: "暫時未有數據 🤷‍♂️", lastUpdated: "更新於: " },
+            'zh-Hans': { appTitle: "悭真D", title: "跨超市海鲜价雷达", back: "返回", brand: "品牌", name: "商品名称", maxP: "全城最贵 ($)", minP: "全城最平 ($)", diffP: "省多少 ($)", percent: "相差 (%)", bestSm: "推荐超市", loading: "正在扫描全城数据...", fail: "读取失败", cheapest: "全城最平", exp: "全城最贵", gap: "差价", noData: "暂无数据 🤷‍♂️", lastUpdated: "更新于: " },
+            'en': { appTitle: "HK Smart Price", title: "Price Gap Radar", back: "Back", brand: "Brand", name: "Product Name", maxP: "Max Price ($)", minP: "Min Price ($)", diffP: "Save ($)", percent: "Diff (%)", bestSm: "Best Supermarket", loading: "Scanning citywide data...", fail: "Load Failed", cheapest: "Lowest", exp: "Highest", gap: "Gap", noData: "No Data Found 🤷‍♂️", lastUpdated: "Updated: " }
         };
 
         function getSmName(code, lang) {
@@ -156,6 +156,10 @@
                 
                 if(document.getElementById('appTitle')) document.getElementById('appTitle').innerText = d.appTitle;
                 if(document.getElementById('pageTitleText')) document.getElementById('pageTitleText').innerText = d.title;
+               // 💡 就係加返呢行！救返個「返回」掣！
+                if(document.getElementById('backBtn')) document.getElementById('backBtn').innerText = d.back;
+                
+                // 下面原本嘅 th-brand / th-sm 等等照舊保留...
                 if(document.getElementById('th-brand')) document.getElementById('th-brand').innerText = d.brand;
                 if(document.getElementById('th-name')) document.getElementById('th-name').innerText = d.name;
                 if(document.getElementById('th-maxP')) document.getElementById('th-maxP').innerText = d.maxP;
