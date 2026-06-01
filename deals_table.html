@@ -139,10 +139,10 @@
             return JSON.stringify(obj);
         };
 
-        const uiDict = {
-            'zh-Hant': { appTitle: "慳真D", title: "今日劈價排行榜", sm: "超市", label: "貨品", percent: "減價幅度 (%)", original: "原價", effective: "折實價", promo: "優惠內容", loading: "正在計算減價幅度...", fail: "讀取失敗", avgEff: "平均折實價", singleOrig: "單件原價", cut: "劈", noData: "暫時未有劈價優惠 🤷‍♂️", lastUpdated: "更新於: " },
-            'zh-Hans': { appTitle: "悭真D", title: "今日降价排行榜", sm: "超市", label: "商品", percent: "降价幅度 (%)", original: "原价", effective: "折实价", promo: "优惠内容", loading: "正在计算降价幅度...", fail: "读取失败", avgEff: "平均折实价", singleOrig: "单件原价", cut: "降", noData: "暂无降价优惠 🤷‍♂️", lastUpdated: "更新于: " },
-            'en': { appTitle: "HK Smart Price", title: "Top Deals Ranking", sm: "Store", label: "Product", percent: "Discount (%)", original: "Original", effective: "Effective", promo: "Promo Detail", loading: "Calculating discounts...", fail: "Load Failed", avgEff: "Avg Price", singleOrig: "Original", cut: "Save", noData: "No major deals found 🤷‍♂️", lastUpdated: "Updated: " }
+      const uiDict = {
+            'zh-Hant': { appTitle: "慳真D", title: "今日劈價排行榜", back: "返回", sm: "超市", label: "貨品", percent: "減價幅度 (%)", original: "原價", effective: "折實價", promo: "優惠內容", loading: "正在計算減價幅度...", fail: "讀取失敗", avgEff: "平均折實價", singleOrig: "單件原價", cut: "劈", noData: "暫時未有劈價優惠 🤷‍♂️", lastUpdated: "更新於: " },
+            'zh-Hans': { appTitle: "悭真D", title: "今日降价排行榜", back: "返回", sm: "超市", label: "商品", percent: "降价幅度 (%)", original: "原价", effective: "折实价", promo: "优惠内容", loading: "正在计算降价幅度...", fail: "读取失败", avgEff: "平均折实价", singleOrig: "单件原价", cut: "降", noData: "暂无降价优惠 🤷‍♂️", lastUpdated: "更新于: " },
+            'en': { appTitle: "HK Smart Price", title: "Top Deals Ranking", back: "Back", sm: "Store", label: "Product", percent: "Discount (%)", original: "Original", effective: "Effective", promo: "Promo Detail", loading: "Calculating discounts...", fail: "Load Failed", avgEff: "Avg Price", singleOrig: "Original", cut: "Save", noData: "No major deals found 🤷‍♂️", lastUpdated: "Updated: " }
         };
 
         function getSmName(code, lang) {
@@ -165,6 +165,8 @@
                 
                 if(document.getElementById('appTitle')) document.getElementById('appTitle').innerText = d.appTitle;
                 if(document.getElementById('pageTitleText')) document.getElementById('pageTitleText').innerText = d.title;
+               // 💡 就係加返呢行！救返個「返回」掣！
+                if(document.getElementById('backBtn')) document.getElementById('backBtn').innerText = d.back;
                 if(document.getElementById('th-sm')) document.getElementById('th-sm').innerText = d.sm;
                 if(document.getElementById('th-label')) document.getElementById('th-label').innerText = d.label;
                 if(document.getElementById('th-percent')) document.getElementById('th-percent').innerText = d.percent;
