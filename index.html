@@ -8,10 +8,22 @@
             try {
                 const params = new URLSearchParams(window.location.search);
                 const urlLang = params.get('lang');
+                const searchQuery = params.get('q'); // 捉住搜尋字眼
+                
                 if (urlLang) {
                     localStorage.setItem('appLang', urlLang);
                     localStorage.setItem('lang', urlLang); 
-                    window.history.replaceState(null, '', window.location.pathname);
+                }
+
+                // 💡 關鍵邏輯：重新構建 URL，如果原 URL 有 'q'，我哋就保留佢，唔好清空！
+                let newUrl = window.location.pathname;
+                if (searchQuery) {
+                    newUrl += '?q=' + encodeURIComponent(searchQuery);
+                }
+                
+                // 只在 URL 有變動（需要清理時）才執行 replaceState
+                if (window.location.search !== (searchQuery ? '?q=' + encodeURIComponent(searchQuery) : '')) {
+                    window.history.replaceState(null, '', newUrl);
                 }
             } catch(e) {}
         })();
@@ -103,6 +115,8 @@
         }
     </style>
 </head>
+
+//Body
 <body class="bg-slate-50 h-[100dvh] flex flex-col font-sans text-slate-900 overflow-hidden w-full text-[15px] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
 
   <header class="bg-white border-b flex-none z-30 px-3 py-3 shadow-sm sticky top-0 dark:bg-slate-900 dark:border-slate-800 transition-colors">
@@ -443,13 +457,20 @@
                 
                 const urlParams = new URLSearchParams(window.location.search);
                 const sharedQuery = urlParams.get('q');
+                
                 if (sharedQuery) {
                     const input = document.getElementById('globalSearchInput');
                     if (input) {
                         input.value = sharedQuery;
-                        setTimeout(() => { 
-                            if (typeof triggerGlobalSearch === 'function') triggerGlobalSearch(); 
-                        }, 300);
+                        
+                        // 🌟 智能等待機制：確保 rawApiData 有數據先至開始搜尋
+                        const checkInterval = setInterval(() => {
+                            if (typeof rawApiData !== 'undefined' && rawApiData.length > 0 && typeof triggerGlobalSearch === 'function') {
+                                clearInterval(checkInterval);
+                                console.log("🔍 數據就緒，執行搜尋:", sharedQuery);
+                                triggerGlobalSearch();
+                            }
+                        }, 200); // 每 200ms 檢查一次
                     }
                 }
                 
@@ -460,6 +481,8 @@
             }
         }
 
+
+        // share product
         async function shareProduct(name, brand, minPrice) {
             const baseUrl = window.location.origin + window.location.pathname;
             const productUrl = `${baseUrl}?q=${encodeURIComponent(name)}`;
