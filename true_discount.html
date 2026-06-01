@@ -74,9 +74,17 @@
             <div class="flex flex-wrap items-center gap-2 text-[12px]">
                 <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
                 
-                <button onclick="toggle50PctFilter()" id="btn50Pct" class="px-2.5 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-    🔥 <span id="txtBtn50Pct">半價以上 (>50%)</span>
-</button>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold">
+                        <span id="txtBtnPct20">>20% 減幅</span>
+                    </button>
+                    <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold">
+                        <span id="txtBtnPct30">>30% 減幅</span>
+                    </button>
+                    <button onclick="togglePctFilter(50)" id="btnPct50" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                        🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
+                    </button>
+                </div>
                 
                 <div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
                 
@@ -112,6 +120,7 @@
         </div>
 
         <!-- ℹ️ 運算機制與免責聲明 Modal -->
+         <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors"></div>
     <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
             <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
@@ -136,7 +145,7 @@
     let fullDataList = [];
     let lastUpdatedTime = null;
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
-    let isOnly50Pct = false;
+    let currentMinPct = 0; // 0 代表不限制減幅
 
     // --- 2. 核心工具函數 ---
     function formatDateTime(date) {
@@ -207,24 +216,32 @@
                 // 步驟 1: 收集「這個貨品」在各超市的今日有效價格 (包含 promoEngine 計算)
                 item.prices.forEach(p => {
                     const smCode = (p.supermarketCode || p.supermarket || '').toUpperCase();
-                    if (smCode === 'ZTORE' || !smCode) return; // WHERE f.supermarket_code != 'ZTORE'
+                    if (smCode === 'ZTORE' || !smCode) return; 
                     
                     const basePrice = parseFloat(p.price);
                     if (isNaN(basePrice)) return;
                     
                     let effectivePrice = basePrice;
                     let promoCalcText = "";
+                    let offerStr_display = "-"; 
+                    let offerStr_en = ""; // 💡 NEW: Exclusively for English logic matching
                     
-                    // 提取促銷公式
+                    // 提取促銷公式與多語言內容
                     const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
                     for (let key of promoKeys) {
                         if (p[key]) {
-                            promoCalcText = (typeof p[key] === 'object') ? (p[key]['en'] || p[key]['zh-Hant'] || '') : p[key];
+                            promoCalcText = (typeof p[key] === 'object') ? (p[key]['en'] || p[key]['zh-Hant'] || '') : String(p[key]);
+                            offerStr_display = (typeof p[key] === 'object') ? (p[key]['zh-Hant'] || p[key]['zh-Hans'] || p[key]['en'] || '') : String(p[key]);
+                            // 💡 Force extract the English string for our new Regex
+                            offerStr_en = (typeof p[key] === 'object') ? (p[key]['en'] || '') : String(p[key]);
                             break;
                         } else if (Array.isArray(item[key])) {
                             let matchOffer = item[key].find(o => (o.supermarketCode || o.supermarket || '').toUpperCase() === smCode);
                             if (matchOffer) {
                                 promoCalcText = matchOffer.en || matchOffer['zh-Hant'] || '';
+                                offerStr_display = matchOffer['zh-Hant'] || matchOffer['zh-Hans'] || matchOffer.en || '';
+                                // 💡 Force extract the English string for our new Regex
+                                offerStr_en = matchOffer.en || '';
                                 break;
                             }
                         }
@@ -238,13 +255,12 @@
                         }
                     }
                     
-                    const offerStr = getText(p.offer || p.promotion || item.offer || '-', 'zh-Hant');
-                    
                     validPricesForThisItem.push({
                         smCode: smCode,
                         basePrice: basePrice,
                         effectivePrice: effectivePrice,
-                        offerStr: offerStr
+                        offerStr: offerStr_display, 
+                        offerStr_en: offerStr_en // 💡 Pass the English string to Step 3
                     });
                 });
                 
@@ -257,19 +273,19 @@
                 
                 if (marketAvgPrice <= 0) return;
                 
-                // 步驟 3: 計算該貨品在每一間超市的「真實減幅」，並過濾出真正的平貨
+              // 步驟 3: 計算該貨品在每一間超市的「真實減幅」，並過濾出真正的平貨
                 validPricesForThisItem.forEach(vp => {
                     // 公式：(市場平均價 - 折實價) / 市場平均價
                     const realDiscountPct = ((marketAvgPrice - vp.effectivePrice) / marketAvgPrice) * 100;
                     
-                    // WHERE real_discount_pct > 0 (踢走假劈價或貴過市場平均的超市)
                     if (realDiscountPct <= 0) return; 
                     
-                    // 正則表達式分類優惠類型
-                    const isPromo = /(買|送|件|第二件|半價|優惠)/.test(vp.offerStr); 
+                    // 💡 NEW: Pure English Regex logic (case-insensitive)
+                    // Matches standard HK supermarket terms: "Buy 2...", "save $4", "2 item(s)", "Half price", "Any 2"
+                    const isPromo = /(buy|get|item|save|half|any|discount)/i.test(vp.offerStr_en); 
                     const offerTypeRaw = isPromo ? 'promo' : 'discount';
                     
-                    // 💡 修正：儲存原始陣列，讓渲染表格時可以根據當前語言動態翻譯超市名稱
+                    // 儲存原始陣列，讓渲染表格時可以根據當前語言動態翻譯超市名稱
                     const otherPricesArr = validPricesForThisItem
                         .filter(other => other.smCode !== vp.smCode)
                         .map(other => ({ smCode: other.smCode, price: other.effectivePrice }));
@@ -282,8 +298,8 @@
                         originalPrice: vp.basePrice,
                         effectivePrice: vp.effectivePrice,
                         realDiscountPct: realDiscountPct,
-                        otherPricesRaw: otherPricesArr, // 傳遞原始數據
-                        offerStr: vp.offerStr
+                        otherPricesRaw: otherPricesArr, 
+                        offerStr: vp.offerStr // Keeps original string for UI display
                     });
                 });
             });
@@ -313,16 +329,28 @@
         if (filterInput) filterInput.addEventListener('input', applyFilters);
     });
 
-    function toggle50PctFilter() {
-        isOnly50Pct = !isOnly50Pct;
-        const btn = document.getElementById('btn50Pct');
-        if (btn) {
-            if (isOnly50Pct) {
-                btn.className = "px-2.5 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold flex items-center gap-1 shadow-md scale-105 transition-all";
-            } else {
-                btn.className = "px-2.5 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1";
-            }
+    function togglePctFilter(pct) {
+        // 如果點擊的是目前已經啟動的按鈕，則取消過濾 (設回 0)
+        if (currentMinPct === pct) {
+            currentMinPct = 0;
+        } else {
+            currentMinPct = pct;
         }
+
+        // 更新所有減幅按鈕的 UI 狀態
+        [20, 30, 50].forEach(p => {
+            const btn = document.getElementById('btnPct' + p);
+            if (btn) {
+                if (currentMinPct === p) {
+                    // 啟動狀態：變為紅色實心按鈕
+                    btn.className = (p === 50 ? "px-2 py-1 flex items-center gap-1 " : "px-2 py-1 ") + "bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all";
+                } else {
+                    // 未啟動狀態：恢復淡紅色邊框按鈕
+                    btn.className = (p === 50 ? "px-2 py-1 flex items-center gap-1 " : "px-2 py-1 ") + "bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold";
+                }
+            }
+        });
+
         applyFilters();
     }
 
@@ -382,7 +410,7 @@
             const matchesKw = name.includes(kw) || smNameText.includes(kw);
             const matchesSm = (sm === 'ALL' || i.smCode === sm);
             const matchesCat = (cat === 'ALL' || categoryText === cat);
-            const matchesPct = isOnly50Pct ? (i.realDiscountPct >= 50) : true; 
+            const matchesPct = currentMinPct > 0 ? (i.realDiscountPct >= currentMinPct) : true;
             
             return matchesKw && matchesSm && matchesCat && matchesPct;
         });
@@ -448,12 +476,23 @@
             if (el) el.innerText = d[uiElements[id]] || '';
         });
         
-        // 動態翻譯 50% 按鈕
-        const txtBtn50Pct = document.getElementById('txtBtn50Pct');
-        if (txtBtn50Pct) {
-            if (lang === 'en') txtBtn50Pct.innerText = '>50% Off';
-            else if (lang === 'zh-Hans') txtBtn50Pct.innerText = '半价以上 (>50%)';
-            else txtBtn50Pct.innerText = '半價以上 (>50%)';
+        // 動態翻譯減幅按鈕
+        const txtBtnPct20 = document.getElementById('txtBtnPct20');
+        const txtBtnPct30 = document.getElementById('txtBtnPct30');
+        const txtBtnPct50 = document.getElementById('txtBtnPct50');
+        
+        if (lang === 'en') {
+            if (txtBtnPct20) txtBtnPct20.innerText = '> 20% Off';
+            if (txtBtnPct30) txtBtnPct30.innerText = '> 30% Off';
+            if (txtBtnPct50) txtBtnPct50.innerText = '> 50% Off';
+        } else if (lang === 'zh-Hans') {
+            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 减幅';
+            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 减幅';
+            if (txtBtnPct50) txtBtnPct50.innerText = '半价以上 (>50%)';
+        } else {
+            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 減幅';
+            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 減幅';
+            if (txtBtnPct50) txtBtnPct50.innerText = '半價以上 (>50%)';
         }
 
         const filterInput = document.getElementById('filterInput');
