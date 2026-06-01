@@ -153,7 +153,27 @@ const uiText = {
         foundBigGapCat: '為你搜羅到該分類下符合超大差價嘅最抵結果：',
         foundDiscountKw: '為你搜尋到「{keyword}」中精選優惠貨品結果：',
         foundDiscountCat: '為你搜羅到該分類下精選優惠貨品結果：',
-        foundKw: '為你搜尋到「{keyword}」嘅最抵結果：'
+        foundKw: '為你搜尋到「{keyword}」嘅最抵結果：',
+
+
+        // --- 📊 Section 2: 智選真抵榜 (true_discount.html) ---
+        appTitle: "慳真D", 
+        pageTitleText: "智選真抵榜", 
+        subTitleText: "踢走假劈價，對比全城平均價", 
+        filterPlace: "搜尋分類、品牌、貨品或推薦超市...", 
+        backBtn: "返回",
+        optSmAll: "推薦超市 (全部)", 
+        optCatAll: "所有分類", 
+        optSortDiff: "📉 真・減幅最高", 
+        optSortMinP: "💰 折實價最低", 
+        optSortCustom: "自訂排序",
+        qsLabel: "熱門搜尋:", 
+        qs1: "可樂", qs2: "出前一丁", qs3: "百佳", qs4: "惠康",
+        listTitle: "🔥 今日 Top 劈價貨品", 
+        dailyUpdateBadge: "每日更新",
+        thRank: "排名", thCat: "分類", thSm: "超市", thName: "貨品名稱", thType: "優惠類型", thOrig: "原價", thEff: "折實價", thDiff: "真・減幅", thOther: "其他超市定價",
+        typeDiscount: "📉 真降價", typePromo: "🏷️ 促銷優惠", 
+        noData: "暫時未有數據 🤷‍♂️", origPriceStr: "原價", fail: "讀取數據失敗"
     },
     
     'zh-Hans': { 
@@ -284,7 +304,16 @@ const uiText = {
         foundBigGapCat: '为您搜罗到该分类下符合超大差价的最抵结果：',
         foundDiscountKw: '为您搜寻到「{keyword}」中精选优惠货品结果：',
         foundDiscountCat: '为您搜罗到该分类下精选优惠货品结果：',
-        foundKw: '为您搜寻到「{keyword}」的最抵结果：'
+        foundKw: '为您搜寻到「{keyword}」的最抵结果：',
+
+        // 請將上述內容改為簡體，確保 Key 名稱與 zh-Hant 一模一樣
+        appTitle: "智选真抵榜", pageTitleText: "智选真抵榜", subTitleText: "踢走假降价，对比全城平均价",
+        filterPlace: "搜索分类、品牌、商品或推荐超市...", backBtn: "返回",
+        optSmAll: "推荐超市 (全部)", optCatAll: "所有分类", optSortDiff: "📉 真・减幅最高", optSortMinP: "💰 折实价最低", optSortCustom: "自定义排序",
+        qsLabel: "热门搜索:", qs1: "可乐", qs2: "出前一丁", qs3: "百佳", qs4: "惠康",
+        listTitle: "🔥 今日 Top 降价商品", dailyUpdateBadge: "每日更新",
+        thRank: "排名", thCat: "分类", thSm: "超市", thName: "商品名称", thType: "优惠类型", thOrig: "原价", thEff: "折实价", thDiff: "真・减幅", thOther: "其他超市定价",
+        typeDiscount: "📉 真降价", typePromo: "🏷️ 促销优惠", noData: "暂无数据 🤷‍♂️", origPriceStr: "原价", fail: "读取数据失败"
     },
     
     'en': { 
@@ -415,7 +444,17 @@ const uiText = {
         foundBigGapCat: 'Here are the top deals with huge price gaps in this category:',
         foundDiscountKw: 'Here are the discounted products for "{keyword}":',
         foundDiscountCat: 'Here are the discounted products in this category:',
-        foundKw: 'Here are the best results for "{keyword}":'
+        foundKw: 'Here are the best results for "{keyword}":',
+
+        // 請將上述內容改為英文，確保 Key 名稱與 zh-Hant 一模一樣
+        appTitle: "SmartDeal Board", pageTitleText: "SmartDeal Board", subTitleText: "Compare with City Average",
+        filterPlace: "Search category, brand, product or store...", backBtn: "Back",
+        optSmAll: "Best Store (All)", optCatAll: "All Categories", optSortDiff: "📉 Highest True Discount", optSortMinP: "💰 Lowest Price", optSortCustom: "Custom Sort",
+        qsLabel: "Quick Search:", qs1: "Cola", qs2: "Noodles", qs3: "PARKnSHOP", qs4: "Wellcome",
+        listTitle: "🔥 Today's Top Discounts", dailyUpdateBadge: "Daily Update",
+        thRank: "Rank", thCat: "Category", thSm: "Store", thName: "Product Name", thType: "Offer Type", thOrig: "Original", thEff: "Effective", thDiff: "True Diff", thOther: "Other Prices",
+        typeDiscount: "📉 True Drop", typePromo: "🏷️ Promo Offer", noData: "No Data Found 🤷‍♂️", origPriceStr: "Orig.", fail: "Load Failed"
+    
     }
 };
     
