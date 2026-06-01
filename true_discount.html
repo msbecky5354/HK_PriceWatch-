@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>全城真降價榜單 | 慳真D🔎</title>
+    <script src="lang.js?v=10"></script>
+    <script src="promoEngine.js?v=10"></script>
+    <script src="alertSystem.js?v=2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
+    </script>
+    <style> th { white-space: nowrap; } </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+    <script src="appUtils.js?v=1"></script>
+    <script src="header.js?v=1"></script>
+
+    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
+        
+        <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-xl md:text-2xl">📉</span> 
+                <div class="flex flex-col">
+                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全城真降價榜單</h1>
+                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">踢走假劈價，對比全城平均價</span>
+                </div>
+            </div>
+            <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95">返回</button>
+        </div>
+
+        <div class="px-4 md:px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col gap-3">
+            <div class="flex flex-col lg:flex-row gap-3 w-full">
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="filterInput" placeholder="搜尋分類、品牌、貨品或推薦超市..." class="w-full pl-9 pr-9 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 placeholder-slate-400 transition-colors shadow-sm">
+                    <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center">
+                        <button id="clearSearchBtn" onclick="setQuickSearch('')" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-[10px] transition-colors">✕</button>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap md:flex-nowrap gap-2 w-full lg:w-auto">
+                    <div class="relative flex-1 min-w-[110px]">
+                        <select id="catFilter" onchange="applyFilters()" class="w-full appearance-none px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 transition-colors font-bold text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
+                            <option value="ALL" id="optCatAll">所有分類</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                    </div>
+                    <div class="relative flex-1 min-w-[110px]">
+                        <select id="smFilter" onchange="applyFilters()" class="w-full appearance-none px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 transition-colors font-bold text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
+                            <option value="ALL" id="optSmAll">推薦超市 (全部)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                    </div>
+                    <div class="relative w-full md:flex-1 min-w-[140px]">
+                        <select id="sortFilter" onchange="handleDropdownSort()" class="w-full appearance-none px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 transition-colors font-bold text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
+                            <option value="realDiscountPct_desc" id="optSortDiff">📉 真・減幅最高</option>
+                            <option value="effectivePrice_asc" id="optSortMinP">💰 折實價最低</option>
+                            <option value="custom" id="optSortCustom" hidden>自訂排序</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 text-[12px]">
+                <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
+                
+                <button onclick="toggle50PctFilter()" id="btn50Pct" class="px-2.5 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    🔥 半價以上 (>50%)
+                </button>
+                
+                <div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+                
+                <button onclick="setQuickSearch('可樂')" id="qs1" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">可樂</button>
+                <button onclick="setQuickSearch('出前一丁')" id="qs2" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">出前一丁</button>
+                <button onclick="setQuickSearch('百佳')" id="qs3" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">百佳</button>
+                <button onclick="setQuickSearch('惠康')" id="qs4" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">惠康</button>
+            </div>
+        </div>
+
+        <div class="px-4 md:px-5 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <h2 id="listTitle" class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">🔥 今日 Top 劈價貨品</h2>
+            <span id="dailyUpdateBadge" class="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded font-bold">每日更新</span>
+        </div>
+
+        <div class="hidden md:block overflow-x-auto bg-white dark:bg-slate-800">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-blue-50/50 dark:bg-slate-700/50 select-none border-b border-blue-100 dark:border-slate-700 text-sm">
+                        <th id="thRank" onclick="handleSort('displayRank')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center w-16 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thRank">排名</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thCat" onclick="handleSort('categoryRaw')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thCat">分類</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thSm" onclick="handleSort('smCode')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center w-20 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thSm">超市</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thName" onclick="handleSort('name')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thType" onclick="handleSort('offerTypeRaw')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thType">優惠類型</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thOrig" onclick="handleSort('originalPrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thOrig">原價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thEff" onclick="handleSort('effectivePrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thEff">折實價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thDiff" onclick="handleSort('realDiscountPct')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thDiff">真・減幅</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100">▼</span></th>
+                        <th id="thOther" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400"><span id="txt-thOther">其他超市定價</span></th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors"></div>
+
+    </div>
+
+   <script>
+    // --- 1. 全域變數 ---
+    let currentLang = localStorage.getItem('appLang') || 'zh-Hant';
+    let fullDataList = [];
+    let lastUpdatedTime = null;
+    let currentSort = { column: 'realDiscountPct', dir: 'desc' };
+    let isOnly50Pct = false;
+
+    // --- 2. 核心工具函數 ---
+    function formatDateTime(date) {
+        if (!date || isNaN(date.getTime())) return '';
+        return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+    }
+
+    function getText(content, lang) {
+        if (!content) return '-';
+        if (typeof content === 'string') return content;
+        if (typeof content === 'object') {
+            return content[lang] || content['zh-Hant'] || Object.values(content)[0] || '-';
+        }
+        return String(content);
+    }
+
+    function getSmName(code, lang) {
+        let c = (code || '').toUpperCase();
+        if (typeof supermarketDict !== 'undefined' && supermarketDict[lang] && supermarketDict[lang][c]) {
+            return supermarketDict[lang][c];
+        }
+        return c;
+    }
+
+    // --- 3. UI 輔助與互動功能 ---
+    function getSmBadge(smCode, lang) {
+        let code = (smCode || '').toUpperCase();
+        let name = getSmName(code, lang);
+        
+        let bgCls = 'bg-slate-100 dark:bg-slate-700'; 
+        let textCls = 'text-slate-600 dark:text-slate-300';
+        let borderCls = 'border-slate-200 dark:border-slate-600';
+
+        if (code === 'WELLCOME' || code === 'LUNGFUNG') { bgCls = 'bg-red-50 dark:bg-red-900/20'; textCls = 'text-red-600 dark:text-red-400'; borderCls = 'border-red-200 dark:border-red-800'; }
+        else if (code === 'PARKNSHOP') { bgCls = 'bg-blue-50 dark:bg-blue-900/20'; textCls = 'text-blue-600 dark:text-blue-400'; borderCls = 'border-blue-200 dark:border-blue-800'; }
+        else if (code === 'WATSONS') { bgCls = 'bg-teal-50 dark:bg-teal-900/20'; textCls = 'text-teal-600 dark:text-teal-400'; borderCls = 'border-teal-200 dark:border-teal-800'; }
+        else if (code === 'HKTVMALL') { bgCls = 'bg-green-50 dark:bg-green-900/20'; textCls = 'text-green-600 dark:text-green-400'; borderCls = 'border-green-200 dark:border-green-800'; }
+        else if (code === 'JASONS' || code === 'MARKETPLACE') { bgCls = 'bg-emerald-50 dark:bg-emerald-900/20'; textCls = 'text-emerald-700 dark:text-emerald-400'; borderCls = 'border-emerald-200 dark:border-emerald-800'; }
+        else if (code === 'MANNINGS') { bgCls = 'bg-orange-50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; borderCls = 'border-orange-200 dark:border-orange-800'; }
+        else if (code === 'AEON') { bgCls = 'bg-fuchsia-50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-600 dark:text-fuchsia-400'; borderCls = 'border-fuchsia-200 dark:border-fuchsia-800'; }
+
+        return `<span onclick="setQuickSearch('${name}'); window.scrollTo({ top: 0, behavior: 'smooth' });" title="加入搜尋框" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${bgCls} ${textCls} ${borderCls} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 hover:scale-105 active:scale-95 transition-all inline-block">${name}</span>`;
+    }
+
+    function goToProductSearch(productName) {
+        window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
+    }
+
+   // --- 4. 數據讀取與處理引擎 (極速階層運算版，防崩潰、防假死) ---
+    async function loadTrueDiscountData() {
+        try {
+            const [timeRes, dataRes] = await Promise.all([
+                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt"),
+                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json")
+            ]);
+            
+            if (timeRes.ok) lastUpdatedTime = new Date(await timeRes.text());
+            const items = await dataRes.json();
+            
+            let processedData = [];
+            
+            // 💡 改良版高效能運算：直接利用 JSON 既有的貨品階層結構，取代 O(N²) 的全域搜尋，秒速載入！
+            items.forEach((item) => {
+                if (!item.prices || item.prices.length === 0) return;
+                
+                let validPricesForThisItem = [];
+                
+                // 步驟 1: 收集「這個貨品」在各超市的今日有效價格 (包含 promoEngine 計算)
+                item.prices.forEach(p => {
+                    const smCode = (p.supermarketCode || p.supermarket || '').toUpperCase();
+                    if (smCode === 'ZTORE' || !smCode) return; // WHERE f.supermarket_code != 'ZTORE'
+                    
+                    const basePrice = parseFloat(p.price);
+                    if (isNaN(basePrice)) return;
+                    
+                    let effectivePrice = basePrice;
+                    let promoCalcText = "";
+                    
+                    // 提取促銷公式
+                    const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
+                    for (let key of promoKeys) {
+                        if (p[key]) {
+                            promoCalcText = (typeof p[key] === 'object') ? (p[key]['en'] || p[key]['zh-Hant'] || '') : p[key];
+                            break;
+                        } else if (Array.isArray(item[key])) {
+                            let matchOffer = item[key].find(o => (o.supermarketCode || o.supermarket || '').toUpperCase() === smCode);
+                            if (matchOffer) {
+                                promoCalcText = matchOffer.en || matchOffer['zh-Hant'] || '';
+                                break;
+                            }
+                        }
+                    }
+
+                    // 呼叫 promoEngine 計算折實價 (COALESCE 包底)
+                    if (typeof calculateAvgPrice === 'function' && promoCalcText) {
+                        let avgPrice = calculateAvgPrice(promoCalcText, basePrice);
+                        if (avgPrice && avgPrice > 0 && avgPrice < basePrice) {
+                            effectivePrice = avgPrice;
+                        }
+                    }
+                    
+                    const offerStr = getText(p.offer || p.promotion || item.offer || '-', 'zh-Hant');
+                    
+                    validPricesForThisItem.push({
+                        smCode: smCode,
+                        basePrice: basePrice,
+                        effectivePrice: effectivePrice,
+                        offerStr: offerStr
+                    });
+                });
+                
+                if (validPricesForThisItem.length === 0) return;
+                
+                // 步驟 2: 計算「這個貨品」的市場平均基準價 (完美模擬 SQL 的 GROUP BY AVG)
+                let sum = 0;
+                validPricesForThisItem.forEach(vp => sum += vp.effectivePrice);
+                let marketAvgPrice = sum / validPricesForThisItem.length;
+                
+                if (marketAvgPrice <= 0) return;
+                
+                // 步驟 3: 計算該貨品在每一間超市的「真實減幅」，並過濾出真正的平貨
+                validPricesForThisItem.forEach(vp => {
+                    // 公式：(市場平均價 - 折實價) / 市場平均價
+                    const realDiscountPct = ((marketAvgPrice - vp.effectivePrice) / marketAvgPrice) * 100;
+                    
+                    // WHERE real_discount_pct > 0 (踢走假劈價或貴過市場平均的超市)
+                    if (realDiscountPct <= 0) return; 
+                    
+                    // 正則表達式分類優惠類型
+                    const isPromo = /(買|送|件|第二件|半價|優惠)/.test(vp.offerStr); 
+                    const offerTypeRaw = isPromo ? 'promo' : 'discount';
+                    
+                    // 從「自己這個貨品」的紀錄中，極速抽出其他超市的定價 (免去全域搜尋當機的風險)
+                    const otherPricesStr = validPricesForThisItem
+                        .filter(other => other.smCode !== vp.smCode)
+                        .map(other => `${getSmName(other.smCode, 'zh-Hant')}: $${other.effectivePrice.toFixed(1)}`)
+                        .join(' | ');
+                        
+                    processedData.push({
+                        smCode: vp.smCode,
+                        name: item.name,
+                        categoryRaw: item.cat1Name || {'zh-Hant': '其他'},
+                        offerTypeRaw: offerTypeRaw,
+                        originalPrice: vp.basePrice,
+                        effectivePrice: vp.effectivePrice,
+                        realDiscountPct: realDiscountPct,
+                        otherPrices: otherPricesStr || '-',
+                        offerStr: vp.offerStr
+                    });
+                });
+            });
+            
+            // ORDER BY t.real_discount_pct DESC
+            fullDataList = processedData.sort((a, b) => b.realDiscountPct - a.realDiscountPct);
+            
+            // 通知 UI 刷新
+            changeLanguage(currentLang);
+            
+        } catch (e) { 
+            console.error("數據載入或運算錯誤:", e); 
+            const tbody = document.getElementById('leaderboardTableBody');
+            if (tbody) tbody.innerHTML = `<tr><td colspan="9" class="p-5 text-center text-red-500 font-bold">載入錯誤: ${e.message}</td></tr>`;
+        }
+    }
+
+    // --- 5. 過濾與搜尋功能 ---
+    function setQuickSearch(kw) {
+        const input = document.getElementById('filterInput');
+        if (input) input.value = kw;
+        applyFilters();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterInput = document.getElementById('filterInput');
+        if (filterInput) filterInput.addEventListener('input', applyFilters);
+    });
+
+    function toggle50PctFilter() {
+        isOnly50Pct = !isOnly50Pct;
+        const btn = document.getElementById('btn50Pct');
+        if (btn) {
+            if (isOnly50Pct) {
+                btn.className = "px-2.5 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold flex items-center gap-1 shadow-md scale-105 transition-all";
+            } else {
+                btn.className = "px-2.5 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1";
+            }
+        }
+        applyFilters();
+    }
+
+    function handleDropdownSort() {
+        const val = document.getElementById('sortFilter').value;
+        if (val === 'custom') return;
+        const [col, dir] = val.split('_');
+        currentSort = { column: col, dir: dir };
+        applyFilters();
+    }
+
+    function handleSort(col) {
+        if (col === 'displayRank') {
+            currentSort = { column: 'realDiscountPct', dir: 'desc' };
+        } else if (currentSort.column === col) {
+            currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
+        } else {
+            currentSort.column = col;
+            currentSort.dir = (col === 'effectivePrice' || col === 'originalPrice') ? 'asc' : 'desc'; 
+        }
+        const sortFilter = document.getElementById('sortFilter');
+        if (sortFilter) sortFilter.value = 'custom';
+        applyFilters();
+    }
+
+    function updateSortUI() {
+        document.querySelectorAll('.sort-icon').forEach(el => el.innerText = '');
+        const thMapping = {
+            'displayRank': 'thRank', 'categoryRaw': 'thCat', 'smCode': 'thSm',
+            'name': 'thName', 'offerTypeRaw': 'thType', 'originalPrice': 'thOrig',
+            'effectivePrice': 'thEff', 'realDiscountPct': 'thDiff'
+        };
+        const thId = thMapping[currentSort.column];
+        if (thId) {
+            const th = document.getElementById(thId);
+            if (th) {
+                const icon = th.querySelector('.sort-icon');
+                if (icon) icon.innerText = currentSort.dir === 'asc' ? '▲' : '▼';
+            }
+        }
+    }
+
+    function applyFilters() {
+        const kwInput = document.getElementById('filterInput');
+        const kw = kwInput ? kwInput.value.toLowerCase().trim() : '';
+        const sm = document.getElementById('smFilter').value;
+        const cat = document.getElementById('catFilter').value;
+
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if (clearBtn) clearBtn.classList.toggle('hidden', kw.length === 0);
+
+        let filtered = fullDataList.filter(i => {
+            const name = getText(i.name, currentLang).toLowerCase();
+            const smNameText = getSmName(i.smCode, currentLang).toLowerCase(); 
+            const categoryText = getText(i.categoryRaw, currentLang); 
+            
+            const matchesKw = name.includes(kw) || smNameText.includes(kw);
+            const matchesSm = (sm === 'ALL' || i.smCode === sm);
+            const matchesCat = (cat === 'ALL' || categoryText === cat);
+            const matchesPct = isOnly50Pct ? (i.realDiscountPct >= 50) : true; 
+            
+            return matchesKw && matchesSm && matchesCat && matchesPct;
+        });
+
+        filtered.sort((a, b) => {
+            let valA = a[currentSort.column];
+            let valB = b[currentSort.column];
+            
+            if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
+                 valA = getText(a[currentSort.column], currentLang);
+                 valB = getText(b[currentSort.column], currentLang);
+                 return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            if (currentSort.column === 'smCode' || currentSort.column === 'offerTypeRaw') {
+                valA = String(valA || '');
+                valB = String(valB || '');
+                return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return currentSort.dir === 'asc' ? valA - valB : valB - valA;
+        });
+
+        updateSortUI();
+        renderLeaderboard(filtered);
+    }
+
+    // --- 6. 多語言與選單初始化 ---
+    function populateDropdowns() {
+        const sm = document.getElementById('smFilter');
+        const cat = document.getElementById('catFilter');
+        if (!sm || !cat) return;
+
+        const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
+
+        const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
+        sm.innerHTML = `<option value="ALL">${d.optSmAll}</option>` + 
+                       smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
+
+        const categories = [...new Set(fullDataList.map(i => getText(i.categoryRaw, currentLang)))];
+        cat.innerHTML = `<option value="ALL">${d.optCatAll}</option>` + 
+                        categories.map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+
+    function changeLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('appLang', lang);
+        const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
+        
+        const uiElements = {
+            'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
+            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thName': 'thName', 'txt-thType': 'thType',
+            'txt-thOrig': 'thOrig', 'txt-thEff': 'thEff', 'txt-thDiff': 'thDiff', 'txt-thOther': 'thOther',
+            'qsLabel': 'qsLabel', 'qs1': 'qs1', 'qs2': 'qs2', 'qs3': 'qs3', 'qs4': 'qs4',
+            'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn',
+            'optCatAll': 'optCatAll', 'optSmAll': 'optSmAll', 'optSortDiff': 'optSortDiff',
+            'optSortMinP': 'optSortMinP', 'optSortCustom': 'optSortCustom'
+        };
+
+        Object.keys(uiElements).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = d[uiElements[id]] || '';
+        });
+        
+        const filterInput = document.getElementById('filterInput');
+        if (filterInput) filterInput.placeholder = d.filterPlace || '';
+
+        const statusLabel = document.getElementById('todayStatusLabel');
+        if (lastUpdatedTime && statusLabel) {
+            statusLabel.innerText = (d.lastUpdated || '') + formatDateTime(lastUpdatedTime);
+        }
+        
+        populateDropdowns();
+        applyFilters();
+    }
+
+    function renderLeaderboard(list) {
+        const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
+        
+        // 1. 電腦版 Table 渲染
+        const body = document.getElementById('leaderboardTableBody');
+        if (body) {
+            body.innerHTML = list.map((item, i) => {
+                let rankClass = i < 3 ? 'text-amber-500 text-lg' : 'text-slate-400 text-sm';
+                let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
+                let displayName = getText(item.name, currentLang);
+                
+                return `
+                <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/30 transition-colors group">
+                    <td class="p-3.5 text-center font-black ${rankClass}">${rankMedal}</td>
+                    <td class="p-3.5 text-[12px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</td>
+                    <td class="p-3.5 text-center">${getSmBadge(item.smCode, currentLang)}</td>
+                    <td class="p-3.5 font-bold text-[14px]">
+                        <a href="javascript:void(0)" onclick="goToProductSearch('${displayName.replace(/'/g, "\\'")}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">
+                            ${displayName}
+                        </a>
+                    </td>
+                    <td class="p-3.5 text-center text-[12px]">
+                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-600 whitespace-nowrap">${item.offerTypeRaw === 'promo' ? d.typePromo : d.typeDiscount}</span>
+                    </td>
+                    <td class="p-3.5 text-right text-slate-400 dark:text-slate-500 line-through text-[12px]">$${item.originalPrice.toFixed(1)}</td>
+                    <td class="p-3.5 text-right font-black text-blue-600 dark:text-blue-400 text-[16px]">$${item.effectivePrice.toFixed(1)}</td>
+                    <td class="p-3.5 text-right">
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-lg border border-red-200 dark:border-red-800 whitespace-nowrap shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
+                    </td>
+                    <td class="p-3.5 text-[11px] text-slate-400 dark:text-slate-500 leading-tight max-w-[150px] truncate hover:whitespace-normal transition-all" title="${item.otherPrices}">${item.otherPrices || '-'}</td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        // 2. 手機版 Card 渲染
+        const mobileContainer = document.getElementById('leaderboardMobile');
+        if (mobileContainer) {
+            mobileContainer.innerHTML = list.map((item, i) => {
+                let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
+                let displayName = getText(item.name, currentLang);
+                
+                return `
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-3 relative overflow-hidden transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-xl font-black text-amber-500 drop-shadow-sm">${rankMedal}</span>
+                            ${getSmBadge(item.smCode, currentLang)}
+                        </div>
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-lg border border-red-200 dark:border-red-800 text-[12px] shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
+                    </div>
+                    
+                    <h3 class="font-bold text-[15px] leading-snug">
+                        <a href="javascript:void(0)" onclick="goToProductSearch('${displayName.replace(/'/g, "\\'")}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">
+                            ${displayName}
+                        </a>
+                    </h3>
+                    
+                    <div class="flex justify-between items-end mt-1">
+                        <div class="flex flex-col gap-1.5">
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</span>
+                            <span class="text-[11px] bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md w-max font-bold">${item.offerTypeRaw === 'promo' ? d.typePromo : d.typeDiscount}</span>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-[12px] text-slate-400 dark:text-slate-500 line-through mb-0.5">$${item.originalPrice.toFixed(1)}</span>
+                            <span class="text-[20px] font-black text-blue-600 dark:text-blue-400 leading-none">$${item.effectivePrice.toFixed(1)}</span>
+                        </div>
+                    </div>
+                    
+                    ${item.otherPrices ? `<div class="mt-2 pt-2.5 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">其他: ${item.otherPrices}</div>` : ''}
+                </div>
+                `;
+            }).join('');
+        }
+    }
+
+    // --- 啟動 ---
+    loadTrueDiscountData();
+</script>
+
+</body>
+</html>
