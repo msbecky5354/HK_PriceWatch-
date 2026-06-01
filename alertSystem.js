@@ -1,26 +1,34 @@
-// alertSystem.js - 慳真D🔎 純前端到價提醒系統 (零個資版 + 多語言 + 黑夜模式)
+// alertSystem.js - 慳真D🔎 純前端到價提醒系統 (修正：支援 index 與 true_discount 雙頁面)
 
-// 取得產品當前最低折實價的 Helper 函數
+// 修正後的數據獲取函數
 function getCurrentMinPrice(pName) {
-    if (!window.structuredData) return null;
-    for (let cat1 in window.structuredData) {
-        for (let cat2 in window.structuredData[cat1]) {
-            if (window.structuredData[cat1][cat2][pName]) {
-                const info = window.structuredData[cat1][cat2][pName];
-                let validPrices = [];
-                info.prices.forEach(p => {
-                    let parsed = parseFloat(p.price);
-                    if (!isNaN(parsed)) {
-                        let avg = window.calculateAvgPrice ? window.calculateAvgPrice(p.promoCalc, parsed) : parsed;
-                        validPrices.push((avg && avg > 0 && avg < parsed) ? avg : parsed);
-                    }
-                });
-                return validPrices.length > 0 ? Math.min(...validPrices) : null;
+    // 1. 如果是 index.html (透過 structuredData)
+    if (window.structuredData) {
+        for (let cat1 in window.structuredData) {
+            for (let cat2 in window.structuredData[cat1]) {
+                if (window.structuredData[cat1][cat2][pName]) {
+                    const info = window.structuredData[cat1][cat2][pName];
+                    let validPrices = info.prices.map(p => parseFloat(p.price)).filter(p => !isNaN(p));
+                    return validPrices.length > 0 ? Math.min(...validPrices) : null;
+                }
             }
         }
+    } 
+    // 2. 如果是 true_discount.html (透過 fullDataList)
+    else if (typeof fullDataList !== 'undefined') {
+        const product = fullDataList.find(item => {
+            const name = typeof item.name === 'object' ? (item.name['zh-Hant'] || '') : item.name;
+            return name === pName;
+        });
+        if (product) return product.effectivePrice;
     }
     return null;
 }
+
+// (以下保持 alertModal, saveAlert 等函數不變，只需確保上面的 getCurrentMinPrice 修正即可)
+// ... [其餘原本的程式碼保持不動] ...
+
+
 
 // 1. 打開設定心水價彈窗
 function openAlertModal(pName, currentMinPrice) {
