@@ -119,41 +119,7 @@
 
 <body class="bg-slate-50 h-[100dvh] flex flex-col font-sans text-slate-900 overflow-hidden w-full text-[15px] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-  <header class="bg-white border-b flex-none z-30 px-3 py-3 shadow-sm sticky top-0 dark:bg-slate-900 dark:border-slate-800 transition-colors">
-    <div class="flex justify-between items-center w-full max-w-[600px] mx-auto">
-        
-        <div onclick="showLevel1()" class="flex items-center gap-2.5 cursor-pointer active:scale-[0.97] transition-transform shrink-0" title="返回主頁">
-            <img src="logo.JPG" alt="Logo" class="w-10 h-10 object-cover rounded-xl border border-slate-100 shadow-sm dark:border-slate-700">
-            <div class="flex flex-col justify-center gap-1">
-                <h1 id="appTitle" class="text-[16px] bg-gradient-to-r from-indigo-600 to-blue-700 bg-clip-text text-transparent font-black tracking-tight leading-none dark:from-indigo-400 dark:to-blue-400">慳真D</h1>
-                <span id="todayStatusLabel" class="text-[9px] text-slate-400 font-medium whitespace-nowrap leading-none">載入中...</span>
-            </div>
-        </div>
-        
-        <div class="flex items-center gap-2.5 shrink-0">
-            <div class="flex items-center gap-1">
-                <span class="hidden min-[390px]:block text-[10px] font-bold text-slate-400 leading-none">EN/中</span>
-                <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-slate-100 border-none text-[11px] font-bold text-slate-700 rounded-md px-1.5 py-1 outline-none cursor-pointer dark:bg-slate-800 dark:text-slate-200 transition-colors">
-                    <option value="zh-Hant">繁體</option>
-                    <option value="zh-Hans">简体</option>
-                    <option value="en">Eng</option>
-                </select>
-            </div>
-
-            <div class="flex items-center gap-1.5">
-                <button onclick="toggleTheme()" id="themeBtn" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 border border-slate-200 shadow-sm active:scale-95 transition-all dark:bg-slate-800 dark:border-slate-700">☀️</button>
-                <button onclick="openMyAlerts()" class="relative w-7 h-7 flex items-center justify-center rounded-full bg-rose-50 text-rose-600 border border-rose-100 shadow-sm active:scale-95 transition-all dark:bg-rose-900/30 dark:border-rose-800">
-                🔔
-               <span id="alertBadge" class="hidden absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-slate-800 shadow-sm"></span>
-               </button>
-                <button onclick="openManual()" class="w-7 h-7 flex items-center justify-center rounded-full bg-amber-50 text-amber-600 border border-amber-100 shadow-sm text-[12px] active:scale-95 transition-all dark:bg-amber-900/30 dark:border-amber-800">📖</button>
-                <button onclick="openShareAppModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 border border-blue-100 shadow-sm active:scale-95 transition-all dark:bg-blue-900/30 dark:border-blue-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-  </header>
+  <script src="header.js"></script>
 
 <main class="flex-1 overflow-hidden w-full max-w-2xl mx-auto relative flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
     <section id="level1Section" class="absolute inset-0 flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-y-auto no-scrollbar">
@@ -579,10 +545,11 @@
                 
                 if (typeof window.checkGeminiKey === 'function') window.checkGeminiKey();
 
+                // --- 由呢度開始覆蓋 ---
                 const homeUI = {
-                    'zh-Hant': { title: "想搵咩平嘢？直接話我知", placeholder: "例如: 可口可樂、出前一丁...", quickTitle: "✨ 快捷尋寶", catTitle: "或者按主分類慢慢行", b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介", dealsBtn: "🛠️ 今日劈價排行榜", radarBtn: "📡 跨超市海鮮價雷達" },
-                    'zh-Hans': { title: "想找什么便宜货？直接告诉我", placeholder: "例如: 可口可乐、出前一丁...", quickTitle: "✨ 快捷寻宝", catTitle: "或者按主分类慢慢逛", b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐", dealsBtn: "🛠️ 今日降价排行榜", radarBtn: "📡 跨超市海鲜价雷达" },
-                    'en': { title: "What are you looking for? Tell me!", placeholder: "e.g., Coca Cola, Noodles...", quickTitle: "✨ Quick Search", catTitle: "Or browse by categories", b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals", dealsBtn: "🛠️ Top Deals Ranking", radarBtn: "📡 Price Gap Radar" }
+                    'zh-Hant': { title: "想搵咩平嘢？直接話我知", placeholder: "例如: 可口可樂、出前一丁...", quickTitle: "✨ 快捷尋寶", catTitle: "或者按主分類慢慢行", b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介", trueDiscountBtn: "📉 全城真降價榜單" },
+                    'zh-Hans': { title: "想找什么便宜货？直接告诉我", placeholder: "例如: 可口可乐、出前一丁...", quickTitle: "✨ 快捷寻宝", catTitle: "或者按主分类慢慢逛", b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐", trueDiscountBtn: "📉 全城真降价榜单" },
+                    'en': { title: "What are you looking for? Tell me!", placeholder: "e.g., Coca Cola, Noodles...", quickTitle: "✨ Quick Search", catTitle: "Or browse by categories", b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals", trueDiscountBtn: "📉 True Discount Leaderboard" }
                 };
 
                 let activeLang = homeUI[lang] ? lang : 'zh-Hant';
@@ -611,14 +578,13 @@
                         <button onclick="triggerHomeQuickAction('search', '${homeUI[activeLang].b4}', '${kwBread}')" class="w-full flex flex-col items-center justify-center text-center bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-amber-100 dark:hover:bg-amber-900/50 leading-tight min-h-[55px] break-words">
                             ${homeUI[activeLang].b4.replace(' ', '<br>')}
                         </button>
-                        <button onclick="window.location.href='deals_table.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-2 text-center bg-gradient-to-r from-orange-100 to-red-100 dark:from-red-900/40 dark:to-orange-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 p-3 rounded-2xl text-[13px] font-black active:scale-95 transition shadow-sm mb-1 mt-2">
-                            ${homeUI[activeLang].dealsBtn}
-                        </button>
-                        <button onclick="window.location.href='radar.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-2 text-center bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800 p-3 rounded-2xl text-[13px] font-black active:scale-95 transition shadow-sm mb-2">
-                            ${homeUI[activeLang].radarBtn}
+                        
+                        <button onclick="window.location.href='true_discount.html?lang=' + currentLang" class="col-span-2 w-full flex items-center justify-center gap-2 text-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white border border-blue-600 p-3.5 rounded-2xl text-[14px] font-black active:scale-95 transition shadow-md mb-1 mt-2">
+                            ${homeUI[activeLang].trueDiscountBtn}
                         </button>
                     `;
                 }
+                // --- 覆蓋到呢度為止 ---
 
                 if (typeof renderQuickActions === 'function') renderQuickActions();
                 if (typeof buildStructuredData === 'function') buildStructuredData();
