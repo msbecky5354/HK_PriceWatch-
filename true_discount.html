@@ -141,7 +141,9 @@
 
    <script>
     // --- 1. 全域變數 ---
-    let currentLang = localStorage.getItem('appLang') || 'zh-Hant';
+    
+    // 💡 修正：強制從 Header 獲取當前語言，如果獲取不到才讀取 localStorage
+    let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
     let fullDataList = [];
     let lastUpdatedTime = null;
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
@@ -194,9 +196,22 @@
         window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
     }
 
-   // --- 4. 數據讀取與處理引擎 (極速階層運算版，防崩潰、防假死) ---
+   // --- 4. 數據讀取與處理引擎 ---
     async function loadTrueDiscountData() {
         try {
+            // 💡 修正：讓 Loading 畫面完美跟隨目前的語系設定
+            const tbody = document.getElementById('leaderboardTableBody');
+            const mbody = document.getElementById('leaderboardMobile');
+            
+            let loadingStr = '⏳ 正在分析全城大數據...';
+            if (currentLang === 'en') loadingStr = '⏳ Analyzing Market Data...';
+            else if (currentLang === 'zh-Hans') loadingStr = '⏳ 正在分析全城大数据...';
+            
+            const loadingHTML = `<div class="p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px]">${loadingStr}</div>`;
+            
+            if (tbody) tbody.innerHTML = `<tr><td colspan="9">${loadingHTML}</td></tr>`;
+            if (mbody) mbody.innerHTML = loadingHTML;
+
             const [timeRes, dataRes] = await Promise.all([
                 fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt"),
                 fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json")
@@ -436,12 +451,13 @@
         renderLeaderboard(filtered);
     }
 
-    // --- 6. 多語言與選單初始化 (完美融合 Header 版) ---
+    // --- 6. 多語言與選單初始化 (事件監聽版，不再衝突) ---
     function populateDropdowns() {
         const sm = document.getElementById('smFilter');
         const cat = document.getElementById('catFilter');
         if (!sm || !cat) return;
 
+        // 確保 uiText 已載入，否則使用 fallback
         const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
 
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
@@ -452,6 +468,62 @@
         cat.innerHTML = `<option value="ALL">${d.optCatAll || '所有分類'}</option>` + 
                         categories.map(c => `<option value="${c}">${c}</option>`).join('');
     }
+
+    // 本頁專屬的翻譯渲染函數
+    function updateLocalBoardUI(lang) {
+        currentLang = lang;
+        const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
+        
+        document.title = (d.pageTitleText || "SmartDeal Board") + " | " + (d.title || "慳真D") + "🔎";
+        
+        const uiElements = {
+            'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
+            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thName': 'thName', 'txt-thType': 'thType',
+            'txt-thOrig': 'thOrig', 'txt-thEff': 'thEff', 'txt-thDiff': 'thDiff', 'txt-thOther': 'thOther',
+            'qsLabel': 'qsLabel', 'qs1': 'qs1', 'qs2': 'qs2', 'qs3': 'qs3', 'qs4': 'qs4',
+            'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn',
+            'optCatAll': 'optCatAll', 'optSmAll': 'optSmAll', 'optSortDiff': 'optSortDiff',
+            'optSortMinP': 'optSortMinP', 'optSortCustom': 'optSortCustom'
+        };
+
+        Object.keys(uiElements).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = d[uiElements[id]] || '';
+        });
+
+        // 按鈕動態文字
+        const txtBtnPct20 = document.getElementById('txtBtnPct20');
+        const txtBtnPct30 = document.getElementById('txtBtnPct30');
+        const txtBtnPct50 = document.getElementById('txtBtnPct50');
+        if (lang === 'en') {
+            if (txtBtnPct20) txtBtnPct20.innerText = '> 20% Off';
+            if (txtBtnPct30) txtBtnPct30.innerText = '> 30% Off';
+            if (txtBtnPct50) txtBtnPct50.innerText = '> 50% Off';
+        } else if (lang === 'zh-Hans') {
+            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 减幅';
+            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 减幅';
+            if (txtBtnPct50) txtBtnPct50.innerText = '半价以上 (>50%)';
+        } else {
+            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 減幅';
+            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 減幅';
+            if (txtBtnPct50) txtBtnPct50.innerText = '半價以上 (>50%)';
+        }
+
+        populateDropdowns();
+        applyFilters();
+    }
+
+    // 💡 關鍵：監聽 Header 發出的語言切換事件
+    window.addEventListener('languageChanged', (e) => {
+        updateLocalBoardUI(e.detail.lang);
+    });
+
+    // 初始化時，直接抓取 Header 當前的語言
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+        updateLocalBoardUI(initialLang);
+        loadTrueDiscountData();
+    });
 
     // 💡 修正：改名為本頁專屬翻譯，避免覆蓋 lang.js 的 Header 翻譯功能
     function updateLocalLanguage(lang) {
@@ -501,6 +573,14 @@
         const statusLabel = document.getElementById('todayStatusLabel');
         if (lastUpdatedTime && statusLabel) {
             statusLabel.innerText = (d.lastUpdated || '') + formatDateTime(lastUpdatedTime);
+
+        // 獨立修正標題切換：確保只影響 appTitle
+const appTitle = document.getElementById('appTitle');
+if (appTitle) {
+    const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
+    appTitle.innerText = d.title || '慳真D'; // 根據 lang.js 嘅 title 進行更新
+}
+
         }
         
         populateDropdowns();
@@ -508,7 +588,7 @@
     }
 
     // 💡 關鍵修正：將 Header 全域翻譯與本頁專屬翻譯完美對接（已修正錯字與重複宣告）
-    const globalChangeLang = window.changeLanguage; 
+    //const globalChangeLang = window.changeLanguage; 
     window.changeLanguage = function(lang) {
         if (typeof globalChangeLang === 'function') {
             globalChangeLang(lang); // 1. 先執行 lang.js 裡面的 Header/Logo/分頁翻譯
@@ -529,6 +609,8 @@
                 let rankClass = i < 3 ? 'text-amber-500 text-lg' : 'text-slate-400 text-sm';
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 let displayName = getText(item.name, currentLang);
+// 💡 修復：同時過濾單引號與雙引號，防止破壞 HTML 結構
+let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 // 💡 修正：在這裡根據 currentLang 動態產生其他超市的語言
                 let otherPricesHTML = '-';
@@ -542,9 +624,9 @@
                     <td class="p-3.5 text-[12px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</td>
                     <td class="p-3.5 text-center">${getSmBadge(item.smCode, currentLang)}</td>
                     <td class="p-3.5 font-bold text-[14px]">
-                        <a href="javascript:void(0)" onclick="goToProductSearch('${displayName.replace(/'/g, "\\'")}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">
-                            ${displayName}
-                        </a>
+                        <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">
+    ${displayName}
+</a>
                     </td>
                     <td class="p-3.5 text-center text-[12px]">
                         <span class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-600 whitespace-nowrap">${item.offerTypeRaw === 'promo' ? d.typePromo : d.typeDiscount}</span>
@@ -566,6 +648,7 @@
             mobileContainer.innerHTML = list.map((item, i) => {
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 let displayName = getText(item.name, currentLang);
+let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 let otherPricesHTML = '-';
                 if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
@@ -583,9 +666,9 @@
                     </div>
                     
                     <h3 class="font-bold text-[15px] leading-snug">
-                        <a href="javascript:void(0)" onclick="goToProductSearch('${displayName.replace(/'/g, "\\'")}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">
-                            ${displayName}
-                        </a>
+                        <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">
+    ${displayName}
+</a>
                     </h3>
                     
                     <div class="flex justify-between items-end mt-1">
@@ -695,7 +778,15 @@
         }
     }
 
-
+// --- 啟動初始化 ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // 等待 Header 載入完成後，確保本頁面的語言設定與之同步
+        if (typeof window.currentLang !== 'undefined') {
+            updateLocalLanguage(window.currentLang);
+        } else {
+            updateLocalLanguage(currentLang);
+        }
+    });
 
     // --- 啟動 ---
     loadTrueDiscountData();
