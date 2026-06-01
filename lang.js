@@ -173,7 +173,8 @@ const uiText = {
         dailyUpdateBadge: "每日更新",
         thRank: "排名", thCat: "分類", thSm: "超市", thName: "貨品名稱", thType: "優惠類型", thOrig: "原價", thEff: "折實價", thDiff: "真・減幅", thOther: "其他超市定價",
         typeDiscount: "📉 真降價", typePromo: "🏷️ 促銷優惠", 
-        noData: "暫時未有數據 🤷‍♂️", origPriceStr: "原價", fail: "讀取數據失敗"
+        noData: "暫時未有數據 🤷‍♂️", origPriceStr: "原價", fail: "讀取數據失敗",
+        pageTitleText: "智選真抵榜"
     },
     
     'zh-Hans': { 
@@ -313,7 +314,8 @@ const uiText = {
         qsLabel: "热门搜索:", qs1: "可乐", qs2: "出前一丁", qs3: "百佳", qs4: "惠康",
         listTitle: "🔥 今日 Top 降价商品", dailyUpdateBadge: "每日更新",
         thRank: "排名", thCat: "分类", thSm: "超市", thName: "商品名称", thType: "优惠类型", thOrig: "原价", thEff: "折实价", thDiff: "真・减幅", thOther: "其他超市定价",
-        typeDiscount: "📉 真降价", typePromo: "🏷️ 促销优惠", noData: "暂无数据 🤷‍♂️", origPriceStr: "原价", fail: "读取数据失败"
+        typeDiscount: "📉 真降价", typePromo: "🏷️ 促销优惠", noData: "暂无数据 🤷‍♂️", origPriceStr: "原价", fail: "读取数据失败",
+        pageTitleText: "智选真抵榜"
     },
     
     'en': { 
@@ -453,7 +455,8 @@ const uiText = {
         qsLabel: "Quick Search:", qs1: "Cola", qs2: "Noodles", qs3: "PARKnSHOP", qs4: "Wellcome",
         listTitle: "🔥 Today's Top Discounts", dailyUpdateBadge: "Daily Update",
         thRank: "Rank", thCat: "Category", thSm: "Store", thName: "Product Name", thType: "Offer Type", thOrig: "Original", thEff: "Effective", thDiff: "True Diff", thOther: "Other Prices",
-        typeDiscount: "📉 True Drop", typePromo: "🏷️ Promo Offer", noData: "No Data Found 🤷‍♂️", origPriceStr: "Orig.", fail: "Load Failed"
+        typeDiscount: "📉 True Drop", typePromo: "🏷️ Promo Offer", noData: "No Data Found 🤷‍♂️", origPriceStr: "Orig.", fail: "Load Failed",
+        pageTitleText: "SmartDeal Board"
     
     }
 };
