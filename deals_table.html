@@ -14,10 +14,8 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
-    <!-- 🌟 100% 同步 index.html 嘅完美 Header -->
     <header class="bg-white border-b flex-none z-30 px-3 py-3 shadow-sm sticky top-0 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-300">
         <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
-            
             <div onclick="window.location.href='index.html?lang=' + currentLang" class="flex items-center gap-2.5 cursor-pointer active:scale-[0.97] transition-transform shrink-0" title="返回主頁">
                 <img src="logo.JPG" alt="Logo" class="w-10 h-10 object-cover rounded-xl border border-slate-100 shadow-sm dark:border-slate-700">
                 <div class="flex flex-col justify-center gap-1">
@@ -35,11 +33,9 @@
                         <option value="en">Eng</option>
                     </select>
                 </div>
-
                 <div class="flex items-center gap-1.5">
                     <button onclick="toggleTheme()" id="themeBtn" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 border border-slate-200 shadow-sm active:scale-95 transition-all dark:bg-slate-800 dark:border-slate-700">☀️</button>
-                    <!-- 提示：點擊鈴鐺/分享會跳返去主頁，確保功能正常運作 -->
-                    <button onclick="window.location.href='index.html?lang=' + currentLang" class="relative w-7 h-7 flex items-center justify-center rounded-full bg-rose-50 text-rose-600 border border-rose-100 shadow-sm active:scale-95 transition-all dark:bg-rose-900/30 dark:border-rose-800">🔔</button>
+                    <button onclick="window.location.href='index.html?lang=' + currentLang" class="w-7 h-7 flex items-center justify-center rounded-full bg-rose-50 text-rose-600 border border-rose-100 shadow-sm active:scale-95 transition-all dark:bg-rose-900/30 dark:border-rose-800">🔔</button>
                     <button onclick="openManual()" class="w-7 h-7 flex items-center justify-center rounded-full bg-amber-50 text-amber-600 border border-amber-100 shadow-sm text-[12px] active:scale-95 transition-all dark:bg-amber-900/30 dark:border-amber-800">📖</button>
                     <button onclick="window.location.href='index.html?lang=' + currentLang" class="w-7 h-7 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 border border-blue-100 shadow-sm active:scale-95 transition-all dark:bg-blue-900/30 dark:border-blue-800">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
@@ -51,7 +47,6 @@
 
     <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
         
-        <!-- 頁面專屬標題 (不再 Sticky) -->
         <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
             <h1 class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                 <span class="text-xl md:text-2xl">🛠️</span> 
@@ -60,21 +55,71 @@
             <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95">返回</button>
         </div>
 
-        <!-- 🖥️ 桌面版 -->
+        <!-- 過濾器控制列 -->
+        <div class="px-4 md:px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col gap-3">
+            <div class="flex flex-col lg:flex-row gap-3 w-full">
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="filterInput" placeholder="搜尋分類、品牌、貨品或超市..." class="w-full pl-9 pr-9 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 placeholder-slate-400 transition-colors shadow-sm">
+                    <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center">
+                        <button id="clearSearchBtn" onclick="setQuickSearch('')" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-[10px] transition-colors">✕</button>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap md:flex-nowrap gap-2 w-full lg:w-auto">
+                    <div class="relative flex-1 min-w-[110px]">
+                        <select id="catFilter" onchange="applyFilters()" class="w-full appearance-none px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 transition-colors font-bold text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
+                            <option value="ALL" id="optCatAll">所有分類</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                    </div>
+                    <div class="relative flex-1 min-w-[110px]">
+                        <select id="smFilter" onchange="applyFilters()" class="w-full appearance-none px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 transition-colors font-bold text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
+                            <option value="ALL" id="optSmAll">所有超市</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                    </div>
+                    <div class="relative w-full md:flex-1 min-w-[130px]">
+                        <select id="sortFilter" onchange="handleDropdownSort()" class="w-full appearance-none px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 transition-colors font-bold text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
+                            <option value="percent_desc" id="optSortPercent">📉 減幅最大</option>
+                            <option value="effective_asc" id="optSortPriceAsc">💰 折實價最平</option>
+                            <option value="effective_desc" id="optSortPriceDesc">💎 折實價最貴</option>
+                            <option value="custom" id="optSortCustom" hidden>自訂排序</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 熱門搜尋 Tag -->
+            <div class="flex flex-wrap items-center gap-2 text-[12px]">
+                <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
+                <button onclick="setQuickSearch('可樂')" id="qs1" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors shadow-sm">可樂</button>
+                <button onclick="setQuickSearch('出前一丁')" id="qs2" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors shadow-sm">出前一丁</button>
+                <button onclick="setQuickSearch('紙巾')" id="qs3" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors shadow-sm">紙巾</button>
+                <button onclick="setQuickSearch('米')" id="qs4" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors shadow-sm">米</button>
+            </div>
+        </div>
+
+        <!-- 🖥️ 桌面版表格 -->
         <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-blue-50/50 dark:bg-slate-700/50">
-                        <th id="th-sm" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-center">超市</th>
-                        <th id="th-label" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700">貨品</th>
-                        <th id="th-percent" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-right">減價幅度 (%)</th>
-                        <th id="th-original" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-right">原價</th>
-                        <th id="th-effective" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-right">折實價</th>
-                        <th id="th-promo" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700">優惠內容</th>
+                    <tr class="bg-blue-50/50 dark:bg-slate-700/50 select-none">
+                        <th id="th-sm" onclick="handleSort('sm')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-sm">超市</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-category" onclick="handleSort('category')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-cat">分類</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-brand" onclick="handleSort('brand')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-brand">品牌</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-label" onclick="handleSort('label')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-label">貨品</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-percent" onclick="handleSort('percent')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-percent">減價幅度 (%)</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100">▼</span></th>
+                        <th id="th-original" onclick="handleSort('original')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-original">原價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-effective" onclick="handleSort('effective')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-effective">折實價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-promoDetail" onclick="handleSort('promoDetail')" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-promo">優惠內容</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="th-action" class="py-4 px-4 text-sm font-bold text-blue-500 dark:text-blue-400 border-b border-blue-100 dark:border-slate-700 text-center">全城對比</th>
                     </tr>
                 </thead>
                 <tbody id="dealsTableBody">
-                    <tr><td colspan="6" class="text-center py-10 text-slate-400 dark:text-slate-500" id="loadingText1">正在計算減價幅度...</td></tr>
+                    <tr><td colspan="9" class="text-center py-10 text-slate-400 dark:text-slate-500" id="loadingText1">正在計算減價幅度...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -113,6 +158,11 @@
         let currentLang = urlParams.get('lang') || localStorage.getItem('appLang') || 'zh-Hant';
         let cachedData = [];
         let lastUpdatedTime = null;
+        window.fullDealsList = []; 
+        let currentSearchKw = '';
+
+        let currentSortColumn = 'percent';
+        let currentSortAsc = false;
 
         function formatDateTime(date) {
             const y = date.getFullYear();
@@ -139,10 +189,10 @@
             return JSON.stringify(obj);
         };
 
-      const uiDict = {
-            'zh-Hant': { appTitle: "慳真D", title: "今日劈價排行榜", back: "返回", sm: "超市", label: "貨品", percent: "減價幅度 (%)", original: "原價", effective: "折實價", promo: "優惠內容", loading: "正在計算減價幅度...", fail: "讀取失敗", avgEff: "平均折實價", singleOrig: "單件原價", cut: "劈", noData: "暫時未有劈價優惠 🤷‍♂️", lastUpdated: "更新於: " },
-            'zh-Hans': { appTitle: "悭真D", title: "今日降价排行榜", back: "返回", sm: "超市", label: "商品", percent: "降价幅度 (%)", original: "原价", effective: "折实价", promo: "优惠内容", loading: "正在计算降价幅度...", fail: "读取失败", avgEff: "平均折实价", singleOrig: "单件原价", cut: "降", noData: "暂无降价优惠 🤷‍♂️", lastUpdated: "更新于: " },
-            'en': { appTitle: "HK Smart Price", title: "Top Deals Ranking", back: "Back", sm: "Store", label: "Product", percent: "Discount (%)", original: "Original", effective: "Effective", promo: "Promo Detail", loading: "Calculating discounts...", fail: "Load Failed", avgEff: "Avg Price", singleOrig: "Original", cut: "Save", noData: "No major deals found 🤷‍♂️", lastUpdated: "Updated: " }
+        const uiDict = {
+            'zh-Hant': { appTitle: "慳真D", title: "今日劈價排行榜", back: "返回", sm: "超市", cat: "分類", brand: "品牌", label: "貨品", percent: "減價幅度 (%)", original: "原價", effective: "折實價", promo: "優惠內容", loading: "正在計算減價幅度...", fail: "讀取失敗", avgEff: "平均折實價", singleOrig: "單件原價", cut: "劈", noData: "暫時未有劈價優惠 🤷‍♂️", lastUpdated: "更新於: ", filterPlace: "搜尋分類、品牌、貨品或超市...", optSmAll: "所有超市", optCatAll: "所有分類", optSortPercent: "📉 減幅最大", optSortPriceAsc: "💰 折實價最平", optSortPriceDesc: "💎 折實價最貴", optSortCustom: "自訂排序", qsLabel: "熱門搜尋:", qs1: "可樂", qs2: "出前一丁", qs3: "紙巾", qs4: "米", compareBtn: "查全城 🔍" },
+            'zh-Hans': { appTitle: "悭真D", title: "今日降价排行榜", back: "返回", sm: "超市", cat: "分类", brand: "品牌", label: "商品", percent: "降价幅度 (%)", original: "原价", effective: "折实价", promo: "优惠内容", loading: "正在计算降价幅度...", fail: "读取失败", avgEff: "平均折实价", singleOrig: "单件原价", cut: "降", noData: "暂无降价优惠 🤷‍♂️", lastUpdated: "更新于: ", filterPlace: "搜索分类、品牌、商品或超市...", optSmAll: "所有超市", optCatAll: "所有分类", optSortPercent: "📉 降幅最大", optSortPriceAsc: "💰 折实价最低", optSortPriceDesc: "💎 折实价最高", optSortCustom: "自定义排序", qsLabel: "热门搜索:", qs1: "可乐", qs2: "出前一丁", qs3: "纸巾", qs4: "米", compareBtn: "查全城 🔍" },
+            'en': { appTitle: "HK Smart Price", title: "Top Deals Ranking", back: "Back", sm: "Store", cat: "Category", brand: "Brand", label: "Product", percent: "Discount (%)", original: "Original", effective: "Effective", promo: "Promo Detail", loading: "Calculating discounts...", fail: "Load Failed", avgEff: "Avg Price", singleOrig: "Original", cut: "Save", noData: "No major deals found 🤷‍♂️", lastUpdated: "Updated: ", filterPlace: "Search category, brand, product or store...", optSmAll: "All Stores", optCatAll: "All Categories", optSortPercent: "📉 Largest Drop", optSortPriceAsc: "💰 Lowest Price", optSortPriceDesc: "💎 Highest Price", optSortCustom: "Custom Sort", qsLabel: "Quick Search:", qs1: "Cola", qs2: "Noodles", qs3: "Tissue", qs4: "Rice", compareBtn: "Check 🔍" }
         };
 
         function getSmName(code, lang) {
@@ -151,6 +201,27 @@
                 return supermarketDict[lang][c];
             }
             return c; 
+        }
+
+        function getSmColor(code) {
+            let c = (code || '').toUpperCase();
+            let bgCls = 'border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800';
+            let textCls = 'text-slate-600 dark:text-slate-400';
+
+            if (c === 'WELLCOME' || c === 'LUNGFUNG') { bgCls = 'border-red-200 bg-red-50/30 dark:border-red-900/50 dark:bg-red-900/20'; textCls = 'text-red-700 dark:text-red-400'; }
+            else if (c === 'PARKNSHOP') { bgCls = 'border-blue-200 bg-blue-50/30 dark:border-blue-900/50 dark:bg-blue-900/20'; textCls = 'text-blue-700 dark:text-blue-400'; }
+            else if (c === 'WATSONS') { bgCls = 'border-teal-200 bg-teal-50/30 dark:border-teal-900/50 dark:bg-teal-900/20'; textCls = 'text-teal-700 dark:text-teal-400'; }
+            else if (c === 'HKTVMALL') { bgCls = 'border-green-200 bg-green-50/30 dark:border-green-900/50 dark:bg-green-900/20'; textCls = 'text-green-700 dark:text-green-400'; }
+            else if (c === 'JASONS') { bgCls = 'border-emerald-300 bg-emerald-100/40 dark:border-emerald-900/50 dark:bg-emerald-900/20'; textCls = 'text-emerald-800 dark:text-emerald-400'; }
+            else if (c === 'MANNINGS') { bgCls = 'border-orange-200 bg-orange-50/30 dark:border-orange-900/50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; }
+            else if (c === 'AEON') { bgCls = 'border-fuchsia-200 bg-fuchsia-50/30 dark:border-fuchsia-900/50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-700 dark:text-fuchsia-400'; }
+
+            return { bg: bgCls, text: textCls };
+        }
+
+        // 🌟 核心修復：只帶走產品資訊跳轉，完全移除超市過濾限制，實現全網格價
+        function redirectToGlobalSearch(keyword) {
+            window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(keyword);
         }
 
         function changeLanguage(lang) {
@@ -165,14 +236,32 @@
                 
                 if(document.getElementById('appTitle')) document.getElementById('appTitle').innerText = d.appTitle;
                 if(document.getElementById('pageTitleText')) document.getElementById('pageTitleText').innerText = d.title;
-               // 💡 就係加返呢行！救返個「返回」掣！
                 if(document.getElementById('backBtn')) document.getElementById('backBtn').innerText = d.back;
-                if(document.getElementById('th-sm')) document.getElementById('th-sm').innerText = d.sm;
-                if(document.getElementById('th-label')) document.getElementById('th-label').innerText = d.label;
-                if(document.getElementById('th-percent')) document.getElementById('th-percent').innerText = d.percent;
-                if(document.getElementById('th-original')) document.getElementById('th-original').innerText = d.original;
-                if(document.getElementById('th-effective')) document.getElementById('th-effective').innerText = d.effective;
-                if(document.getElementById('th-promo')) document.getElementById('th-promo').innerText = d.promo;
+                
+                if(document.getElementById('filterInput')) document.getElementById('filterInput').placeholder = d.filterPlace;
+                if(document.getElementById('optSmAll')) document.getElementById('optSmAll').innerText = d.optSmAll;
+                if(document.getElementById('optCatAll')) document.getElementById('optCatAll').innerText = d.optCatAll;
+                if(document.getElementById('optSortPercent')) document.getElementById('optSortPercent').innerText = d.optSortPercent;
+                if(document.getElementById('optSortPriceAsc')) document.getElementById('optSortPriceAsc').innerText = d.optSortPriceAsc;
+                if(document.getElementById('optSortPriceDesc')) document.getElementById('optSortPriceDesc').innerText = d.optSortPriceDesc;
+                if(document.getElementById('optSortCustom')) document.getElementById('optSortCustom').innerText = d.optSortCustom;
+                
+                if(document.getElementById('qsLabel')) document.getElementById('qsLabel').innerText = d.qsLabel;
+                if(document.getElementById('qs1')) document.getElementById('qs1').innerText = d.qs1;
+                if(document.getElementById('qs2')) document.getElementById('qs2').innerText = d.qs2;
+                if(document.getElementById('qs3')) document.getElementById('qs3').innerText = d.qs3;
+                if(document.getElementById('qs4')) document.getElementById('qs4').innerText = d.qs4;
+
+                if(document.getElementById('txt-sm')) document.getElementById('txt-sm').innerText = d.sm;
+                if(document.getElementById('txt-cat')) document.getElementById('txt-cat').innerText = d.cat;
+                if(document.getElementById('txt-brand')) document.getElementById('txt-brand').innerText = d.brand;
+                if(document.getElementById('txt-label')) document.getElementById('txt-label').innerText = d.label;
+                if(document.getElementById('txt-percent')) document.getElementById('txt-percent').innerText = d.percent;
+                if(document.getElementById('txt-original')) document.getElementById('txt-original').innerText = d.original;
+                if(document.getElementById('txt-effective')) document.getElementById('txt-effective').innerText = d.effective;
+                if(document.getElementById('txt-promo')) document.getElementById('txt-promo').innerText = d.promo;
+                if(document.getElementById('th-action')) document.getElementById('th-action').innerText = d.compareBtn;
+
                 if(document.getElementById('loadingText1')) document.getElementById('loadingText1').innerText = d.loading;
                 if(document.getElementById('loadingText2')) document.getElementById('loadingText2').innerText = d.loading;
                 
@@ -180,7 +269,7 @@
                     document.getElementById('todayStatusLabel').innerText = (d.lastUpdated || '更新於: ') + formatDateTime(lastUpdatedTime);
                 }
                 
-                if(cachedData.length > 0) processAndRender(cachedData);
+                if(cachedData.length > 0) applyFilters();
             } catch(e) { console.warn(e); }
         }
 
@@ -188,7 +277,6 @@
             try {
                 if (typeof calculateAvgPrice !== 'function') throw new Error("promoEngine.js 載入失敗！");
                 
-                // 同步讀取時間同數據
                 const [timeRes, dataRes] = await Promise.all([
                     fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt"),
                     fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json")
@@ -206,19 +294,135 @@
                 processAndRender(cachedData);
             } catch (e) {
                 const failMsg = uiDict[currentLang] ? uiDict[currentLang].fail : "Failed";
-                document.getElementById('dealsTableBody').innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500 font-bold">${failMsg} : ${e.message}</td></tr>`;
+                document.getElementById('dealsTableBody').innerHTML = `<tr><td colspan="8" class="text-center py-10 text-red-500 font-bold">${failMsg} : ${e.message}</td></tr>`;
                 document.getElementById('dealsMobileList').innerHTML = `<div class="text-center py-10 text-red-500 font-bold">${failMsg}</div>`;
             }
+        }
+
+        function populateDropdowns(list) {
+            const smSelect = document.getElementById('smFilter');
+            const smVal = smSelect.value;
+            const smArray = Array.from(new Set(list.map(i => i.sm))).sort();
+            
+            let html = `<option value="ALL" id="optSmAll">${uiDict[currentLang].optSmAll}</option>`;
+            smArray.forEach(sm => { html += `<option value="${sm}">${sm}</option>`; });
+            smSelect.innerHTML = html;
+            if (smArray.includes(smVal)) smSelect.value = smVal;
+
+            const catSelect = document.getElementById('catFilter');
+            const catVal = catSelect.value;
+            const catArray = Array.from(new Set(list.map(i => i.category).filter(c => c && c !== '-'))).sort();
+            let catHtml = `<option value="ALL" id="optCatAll">${uiDict[currentLang].optCatAll}</option>`;
+            catArray.forEach(cat => { catHtml += `<option value="${cat}">${cat}</option>`; });
+            catSelect.innerHTML = catHtml;
+            if (catArray.includes(catVal)) catSelect.value = catVal;
+        }
+
+        function updateClearBtn() {
+            const btn = document.getElementById('clearSearchBtn');
+            if (currentSearchKw.length > 0) btn.classList.remove('hidden');
+            else btn.classList.add('hidden');
+        }
+
+        function setQuickSearch(kw) {
+            document.getElementById('filterInput').value = kw;
+            currentSearchKw = kw.toLowerCase().trim();
+            updateClearBtn();
+            applyFilters();
+        }
+
+        document.getElementById('filterInput').addEventListener('input', function(e) {
+            currentSearchKw = e.target.value.toLowerCase().trim();
+            updateClearBtn();
+            applyFilters();
+        });
+
+        function handleDropdownSort() {
+            let val = document.getElementById('sortFilter').value;
+            if (val === 'custom') return; 
+            let parts = val.split('_');
+            currentSortColumn = parts[0];
+            currentSortAsc = (parts[1] === 'asc');
+            applyFilters();
+        }
+
+        function handleSort(col) {
+            if (currentSortColumn === col) {
+                currentSortAsc = !currentSortAsc; 
+            } else {
+                currentSortColumn = col;
+                currentSortAsc = true; 
+            }
+            
+            let dropdown = document.getElementById('sortFilter');
+            let matchedVal = currentSortColumn + '_' + (currentSortAsc ? 'asc' : 'desc');
+            let optionExists = Array.from(dropdown.options).some(opt => opt.value === matchedVal);
+            
+            if(optionExists) {
+                dropdown.value = matchedVal;
+            } else {
+                dropdown.value = 'custom'; 
+            }
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let smFilter = document.getElementById('smFilter').value;
+            let catFilter = document.getElementById('catFilter').value;
+            
+            let filtered = window.fullDealsList.filter(item => {
+                let matchSearch = true;
+                if (currentSearchKw) {
+                    matchSearch = (item.label && item.label.toLowerCase().includes(currentSearchKw)) ||
+                                  (item.brand && item.brand.toLowerCase().includes(currentSearchKw)) ||
+                                  (item.category && item.category.toLowerCase().includes(currentSearchKw)) ||
+                                  (item.sm && item.sm.toLowerCase().includes(currentSearchKw)) ||
+                                  (item.promoDetail && item.promoDetail.toLowerCase().includes(currentSearchKw));
+                }
+                let matchSm = smFilter === 'ALL' || item.sm === smFilter || (item.smCode === 'JASONS' && smFilter.includes('Jasons'));
+                let matchCat = catFilter === 'ALL' || item.category === catFilter;
+                return matchSearch && matchSm && matchCat;
+            });
+
+            filtered.sort((a, b) => {
+                let valA = a[currentSortColumn];
+                let valB = b[currentSortColumn];
+                if (typeof valA === 'string') valA = valA.toLowerCase();
+                if (typeof valB === 'string') valB = valB.toLowerCase();
+                
+                if (valA < valB) return currentSortAsc ? -1 : 1;
+                if (valA > valB) return currentSortAsc ? 1 : -1;
+                return 0;
+            });
+
+            document.querySelectorAll('th .sort-icon').forEach(el => el.innerHTML = '');
+            let activeTh = document.getElementById('th-' + currentSortColumn);
+            if (activeTh) {
+                let iconEl = activeTh.querySelector('.sort-icon');
+                if (iconEl) iconEl.innerHTML = currentSortAsc ? '▲' : '▼';
+            }
+
+            renderUI(filtered.slice(0, 100));
         }
 
         function processAndRender(items) {
             let dealsList = [];
             items.forEach(item => {
                 let rawName = typeof item.name === 'object' ? (item.name[currentLang] || item.name['zh-Hant'] || item.name['en']) : item.name;
+                let brandObj = item.brand || item.brandName || '';
+                let brand = (typeof brandObj === 'object' ? (brandObj[currentLang] || brandObj['zh-Hant'] || brandObj['en']) : brandObj) || '-';
+                
+                let catObj = item.cat1Name || item.category || '';
+                let category = (typeof catObj === 'object' ? (catObj[currentLang] || catObj['zh-Hant'] || catObj['en']) : catObj) || '-';
+                if (category && typeof category === 'string' && category.includes('/')) {
+                    category = category.split('/')[0].trim();
+                }
+
                 if (Array.isArray(item.prices)) {
                     item.prices.forEach(p => {
                         let smCode = (p.supermarketCode || (typeof p.supermarket === 'string' ? p.supermarket : "UNKNOWN")).toUpperCase();
                         let smDisplayName = getSmName(smCode, currentLang);
+                        
                         let originalPrice = parseFloat(p.price);
                         let promoCalcStr = "";
                         let promoDisplayStr = "";
@@ -244,7 +448,10 @@
                             if (effectivePrice && effectivePrice > 0 && effectivePrice < originalPrice) {
                                 let discountPercent = ((originalPrice - effectivePrice) / originalPrice) * 100;
                                 dealsList.push({ 
+                                    smCode: smCode, 
                                     sm: smDisplayName, 
+                                    category: category,
+                                    brand: brand,
                                     label: rawName,
                                     percent: discountPercent, 
                                     original: originalPrice, 
@@ -257,34 +464,74 @@
                 }
             });
 
-            dealsList.sort((a, b) => b.percent - a.percent);
-            renderUI(dealsList.slice(0, 100));
+            window.fullDealsList = dealsList; 
+            populateDropdowns(dealsList);
+            applyFilters();
         }
 
         function renderUI(list) {
             let d = uiDict[currentLang];
             if (list.length === 0) {
-                document.getElementById('dealsTableBody').innerHTML = `<tr><td colspan="6" class="text-center py-10 text-slate-500">${d.noData}</td></tr>`;
+                document.getElementById('dealsTableBody').innerHTML = `<tr><td colspan="9" class="text-center py-10 text-slate-500">${d.noData}</td></tr>`;
                 document.getElementById('dealsMobileList').innerHTML = `<div class="text-center py-10 text-slate-500">${d.noData}</div>`;
                 return;
             }
 
-            document.getElementById('dealsTableBody').innerHTML = list.map(item => `
+            document.getElementById('dealsTableBody').innerHTML = list.map(item => {
+                let smStyle = getSmColor(item.smCode);
+                
+                let smLabelHtml = item.sm;
+                if (item.smCode === 'JASONS') {
+                    smLabelHtml = `<div class="flex flex-col items-center leading-tight"><span>Jasons</span><span class="text-[10px] opacity-90">(Market Place)</span></div>`;
+                }
+
+                // 🌟 精準過濾聯動：跳轉時只帶產品字根（包含品牌），徹底鬆開超市鏈條
+                let searchQuery = item.brand !== '-' ? `${item.brand} ${item.label}` : item.label;
+                let escapedQuery = searchQuery.replace(/'/g, "\\'");
+
+                return `
                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition border-b border-slate-100 dark:border-slate-700 last:border-none">
-                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300 text-center font-bold">${item.sm}</td>
+                    <td class="py-3 px-4 text-sm text-center font-bold cursor-pointer hover:opacity-80 transition-opacity" onclick="setQuickSearch('${item.sm.replace(/'/g, "\\'")}')" title="點擊過濾此超市">
+                        <span class="inline-block px-2.5 py-1 rounded-lg border ${smStyle.bg} ${smStyle.text}">${smLabelHtml}</span>
+                    </td>
+                    <td class="py-3 px-4 text-sm text-slate-500 dark:text-slate-400 text-center cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline" onclick="setQuickSearch('${item.category.replace(/'/g, "\\'")}')" title="點擊過濾此分類">${item.category}</td>
+                    <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400 text-center cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline" onclick="setQuickSearch('${item.brand.replace(/'/g, "\\'")}')" title="點擊過濾此品牌">${item.brand}</td>
                     <td class="py-3 px-4 text-sm font-medium text-slate-800 dark:text-slate-100">${item.label}</td>
                     <td class="py-3 px-4 text-sm font-black text-red-500 dark:text-red-400 text-right">-${item.percent.toFixed(1)}%</td>
                     <td class="py-3 px-4 text-sm text-slate-500 dark:text-slate-400 text-right line-through">$${item.original.toFixed(1)}</td>
                     <td class="py-3 px-4 text-sm font-bold text-green-600 dark:text-green-400 text-right">$${item.effective.toFixed(1)}</td>
                     <td class="py-3 px-4 text-xs text-slate-600 dark:text-slate-300"><span class="bg-red-50 dark:bg-red-900/30 px-2 py-1 rounded text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800 font-bold">${item.promoDetail}</span></td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="redirectToGlobalSearch('${escapedQuery}')" class="px-2 py-1 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg shadow-sm transition active:scale-95 whitespace-nowrap">
+                            ${d.compareBtn}
+                        </button>
+                    </td>
                 </tr>
-            `).join('');
+            `}).join('');
 
-            document.getElementById('dealsMobileList').innerHTML = list.map(item => `
+            document.getElementById('dealsMobileList').innerHTML = list.map(item => {
+                let smStyle = getSmColor(item.smCode);
+                
+                let smLabelHtml = item.sm;
+                if (item.smCode === 'JASONS') {
+                    smLabelHtml = `<div class="flex flex-col items-center leading-tight"><span>Jasons</span><span class="text-[9px] opacity-90">(Market Place)</span></div>`;
+                }
+
+                let searchQuery = item.brand !== '-' ? `${item.brand} ${item.label}` : item.label;
+                let escapedQuery = searchQuery.replace(/'/g, "\\'");
+
+                return `
                 <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm flex flex-col relative transition-colors">
                     <div class="flex justify-between items-start mb-2">
-                        <span class="text-[10px] font-black text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded border border-blue-100 dark:border-blue-800">${item.sm}</span>
-                        <span class="text-[11px] font-black text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded border border-red-100 dark:border-red-800">${d.cut} ${item.percent.toFixed(1)}%</span>
+                        <span class="text-[10px] font-black px-2 py-0.5 rounded border cursor-pointer hover:opacity-80 transition-opacity ${smStyle.bg} ${smStyle.text}" onclick="setQuickSearch('${item.sm.replace(/'/g, "\\'")}')">${smLabelHtml}</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="redirectToGlobalSearch('${escapedQuery}')" class="p-1 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-lg font-bold text-[11px] active:scale-95 transition" title="查全城超市價格">查全城 🔍</button>
+                            <span class="text-[11px] font-black text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded border border-red-100 dark:border-red-800">${d.cut} ${item.percent.toFixed(1)}%</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full cursor-pointer hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-400 transition" onclick="setQuickSearch('${item.category.replace(/'/g, "\\'")}')">${item.category}</span>
+                        <span class="text-[11px] text-blue-500 dark:text-blue-400 font-bold uppercase cursor-pointer hover:underline" onclick="setQuickSearch('${item.brand.replace(/'/g, "\\'")}')">${item.brand}</span>
                     </div>
                     <div class="text-[14px] font-bold text-slate-800 dark:text-slate-100 leading-snug mb-3">${item.label}</div>
                     <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700">
@@ -301,10 +548,9 @@
                         🏷️ ${item.promoDetail}
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
         
-        changeLanguage(currentLang);
         loadDealsData();
     </script>
 </body>
