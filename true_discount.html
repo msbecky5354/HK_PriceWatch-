@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>全城真降價榜單 | 慳真D🔎</title>
+    <title>智選真抵榜 | 慳真D🔎</title>
     <script src="lang.js?v=10"></script>
     <script src="promoEngine.js?v=10"></script>
     <script src="alertSystem.js?v=2"></script>
@@ -12,6 +12,7 @@
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
     </script>
     <style> th { white-space: nowrap; } </style>
+    
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
@@ -24,7 +25,10 @@
             <div class="flex items-center gap-3">
                 <span class="text-xl md:text-2xl">📉</span> 
                 <div class="flex flex-col">
-                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全城真降價榜單</h1>
+                   <div class="flex items-center gap-2">
+    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">智選真抵榜</h1>
+    <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[12px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
+</div>
                     <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">踢走假劈價，對比全城平均價</span>
                 </div>
             </div>
@@ -71,8 +75,8 @@
                 <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
                 
                 <button onclick="toggle50PctFilter()" id="btn50Pct" class="px-2.5 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    🔥 半價以上 (>50%)
-                </button>
+    🔥 <span id="txtBtn50Pct">半價以上 (>50%)</span>
+</button>
                 
                 <div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
                 
@@ -107,7 +111,22 @@
             </table>
         </div>
 
-        <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors"></div>
+        <!-- ℹ️ 運算機制與免責聲明 Modal -->
+    <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
+            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+                <h3 id="calcModalTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">ℹ️ 運算機制與聲明</h3>
+                <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            </div>
+            <!-- 加上自訂滾動條設計 -->
+            <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
+                <div id="calcModalContent"></div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 shrink-0">
+                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-sm active:scale-95 transition">明白</button>
+            </div>
+        </div>
+    </div>
 
     </div>
 
@@ -250,11 +269,10 @@
                     const isPromo = /(買|送|件|第二件|半價|優惠)/.test(vp.offerStr); 
                     const offerTypeRaw = isPromo ? 'promo' : 'discount';
                     
-                    // 從「自己這個貨品」的紀錄中，極速抽出其他超市的定價 (免去全域搜尋當機的風險)
-                    const otherPricesStr = validPricesForThisItem
+                    // 💡 修正：儲存原始陣列，讓渲染表格時可以根據當前語言動態翻譯超市名稱
+                    const otherPricesArr = validPricesForThisItem
                         .filter(other => other.smCode !== vp.smCode)
-                        .map(other => `${getSmName(other.smCode, 'zh-Hant')}: $${other.effectivePrice.toFixed(1)}`)
-                        .join(' | ');
+                        .map(other => ({ smCode: other.smCode, price: other.effectivePrice }));
                         
                     processedData.push({
                         smCode: vp.smCode,
@@ -264,7 +282,7 @@
                         originalPrice: vp.basePrice,
                         effectivePrice: vp.effectivePrice,
                         realDiscountPct: realDiscountPct,
-                        otherPrices: otherPricesStr || '-',
+                        otherPricesRaw: otherPricesArr, // 傳遞原始數據
                         offerStr: vp.offerStr
                     });
                 });
@@ -390,7 +408,7 @@
         renderLeaderboard(filtered);
     }
 
-    // --- 6. 多語言與選單初始化 ---
+    // --- 6. 多語言與選單初始化 (完美融合 Header 版) ---
     function populateDropdowns() {
         const sm = document.getElementById('smFilter');
         const cat = document.getElementById('catFilter');
@@ -399,20 +417,20 @@
         const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
 
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
-        sm.innerHTML = `<option value="ALL">${d.optSmAll}</option>` + 
+        sm.innerHTML = `<option value="ALL">${d.optSmAll || '推薦超市 (全部)'}</option>` + 
                        smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
 
         const categories = [...new Set(fullDataList.map(i => getText(i.categoryRaw, currentLang)))];
-        cat.innerHTML = `<option value="ALL">${d.optCatAll}</option>` + 
+        cat.innerHTML = `<option value="ALL">${d.optCatAll || '所有分類'}</option>` + 
                         categories.map(c => `<option value="${c}">${c}</option>`).join('');
     }
 
-    function changeLanguage(lang) {
+    // 💡 修正：改名為本頁專屬翻譯，避免覆蓋 lang.js 的 Header 翻譯功能
+    function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
         const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
         
-        // 💡 新增這行：動態更新瀏覽器分頁的標籤名稱 (Tab Name)
         document.title = (d.pageTitleText || "智選真抵榜") + " | " + (d.title || "慳真D") + "🔎";
         
         const uiElements = {
@@ -430,6 +448,14 @@
             if (el) el.innerText = d[uiElements[id]] || '';
         });
         
+        // 動態翻譯 50% 按鈕
+        const txtBtn50Pct = document.getElementById('txtBtn50Pct');
+        if (txtBtn50Pct) {
+            if (lang === 'en') txtBtn50Pct.innerText = '>50% Off';
+            else if (lang === 'zh-Hans') txtBtn50Pct.innerText = '半价以上 (>50%)';
+            else txtBtn50Pct.innerText = '半價以上 (>50%)';
+        }
+
         const filterInput = document.getElementById('filterInput');
         if (filterInput) filterInput.placeholder = d.filterPlace || '';
 
@@ -442,8 +468,20 @@
         applyFilters();
     }
 
+    // 💡 關鍵修正：將 Header 全域翻譯與本頁專屬翻譯完美對接（已修正錯字與重複宣告）
+    const globalChangeLang = window.changeLanguage; 
+    window.changeLanguage = function(lang) {
+        if (typeof globalChangeLang === 'function') {
+            globalChangeLang(lang); // 1. 先執行 lang.js 裡面的 Header/Logo/分頁翻譯
+        }
+        if (typeof updateLocalLanguage === 'function') {
+            updateLocalLanguage(lang);  // 2. 再執行本頁智選真抵榜的表格與按鈕翻譯
+        }
+    };
+
     function renderLeaderboard(list) {
         const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
+        const otherStrText = currentLang === 'en' ? 'Others' : (currentLang === 'zh-Hans' ? '其他' : '其他');
         
         // 1. 電腦版 Table 渲染
         const body = document.getElementById('leaderboardTableBody');
@@ -452,6 +490,12 @@
                 let rankClass = i < 3 ? 'text-amber-500 text-lg' : 'text-slate-400 text-sm';
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 let displayName = getText(item.name, currentLang);
+                
+                // 💡 修正：在這裡根據 currentLang 動態產生其他超市的語言
+                let otherPricesHTML = '-';
+                if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
+                    otherPricesHTML = item.otherPricesRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
+                }
                 
                 return `
                 <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/30 transition-colors group">
@@ -471,7 +515,7 @@
                     <td class="p-3.5 text-right">
                         <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-lg border border-red-200 dark:border-red-800 whitespace-nowrap shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
                     </td>
-                    <td class="p-3.5 text-[11px] text-slate-400 dark:text-slate-500 leading-tight max-w-[150px] truncate hover:whitespace-normal transition-all" title="${item.otherPrices}">${item.otherPrices || '-'}</td>
+                    <td class="p-3.5 text-[11px] text-slate-400 dark:text-slate-500 leading-tight max-w-[150px] truncate hover:whitespace-normal transition-all" title="${otherPricesHTML}">${otherPricesHTML}</td>
                 </tr>
                 `;
             }).join('');
@@ -483,6 +527,11 @@
             mobileContainer.innerHTML = list.map((item, i) => {
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 let displayName = getText(item.name, currentLang);
+                
+                let otherPricesHTML = '-';
+                if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
+                    otherPricesHTML = item.otherPricesRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
+                }
                 
                 return `
                 <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-3 relative overflow-hidden transition-colors">
@@ -511,12 +560,103 @@
                         </div>
                     </div>
                     
-                    ${item.otherPrices ? `<div class="mt-2 pt-2.5 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">其他: ${item.otherPrices}</div>` : ''}
+                    ${item.otherPricesRaw && item.otherPricesRaw.length > 0 ? `<div class="mt-2 pt-2.5 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">${otherStrText}: ${otherPricesHTML}</div>` : ''}
                 </div>
                 `;
             }).join('');
         }
     }
+
+    // --- ℹ️ 運算機制與聲明 Modal 邏輯與多語言字庫 ---
+    const calcInfoTexts = {
+        'zh-Hant': {
+            title: "ℹ️ 運算機制與聲明",
+            close: "我明白",
+            content: `
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 數據運算機制大解密</h4>
+                <p class="mb-2">本榜單採用純數學公式進行客觀對比，絕無人工干預：</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><b>1. 鎖定數據：</b>每日同步政府「網上價格一覽通」數據。</li>
+                    <li><b>2. 還原折實價：</b>AI 引擎自動拆解「買X件$Y」等綑綁促銷，計算單件真實折合價。</li>
+                    <li><b>3. 確立基準線：</b>將同款貨品在全港超市的折實價加總求平均，得出最公允的「全城市場平均價」，拒絕超市自稱的虛高原價。</li>
+                    <li><b>4. 計算真減幅：</b>公式為 <code>((市場平均價 - 該超市折實價) / 市場平均價) x 100%</code>。只有減幅 > 0% 的貨品才會上榜。</li>
+                </ul>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免責聲明</h4>
+                <p class="mb-2"><b>1. 資訊僅供參考：</b>所有價格均由電腦基於公開數據自動運算得出。數據可能因同步延遲或分店差異而有別，絕不構成購買建議。結帳前請自行核實實體店標價。</p>
+                <p class="mb-2"><b>2. 數據中立性：</b>本程式不隸屬任何超市，絕不人工干預價格數據，排名純依數學差異客觀排列。</p>
+                <p><b>3. 責任限制：</b>本程式以「現況」提供。對於因數據落差引致之任何損失，本程式及開發團隊概不承擔法律責任。</p>
+            `
+        },
+        'zh-Hans': {
+            title: "ℹ️ 运算机制与声明",
+            close: "我明白",
+            content: `
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 数据运算机制大解密</h4>
+                <p class="mb-2">本榜单采用纯数学公式进行客观对比，绝无人工干预：</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><b>1. 锁定数据：</b>每日同步政府「网上价格一览通」数据。</li>
+                    <li><b>2. 还原折实价：</b>AI 引擎自动拆解「买X件$Y」等捆绑促销，计算单件真实折合价。</li>
+                    <li><b>3. 确立基准线：</b>将同款商品在全港超市的折实价加总求平均，得出最公允的「全城市场平均价」，拒绝超市自称的虚高原价。</li>
+                    <li><b>4. 计算真减幅：</b>公式为 <code>((市场平均价 - 该超市折实价) / 市场平均价) x 100%</code>。只有减幅 > 0% 的商品才会上榜。</li>
+                </ul>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免责声明</h4>
+                <p class="mb-2"><b>1. 资讯仅供参考：</b>所有价格均由电脑基于公开数据自动运算得出。数据可能因同步延迟或分店差异而有别，绝不构成购买建议。结帐前请自行核实实体店标价。</p>
+                <p class="mb-2"><b>2. 数据中立性：</b>本程式不隶属任何超市，绝不人工干预价格数据，排名纯依数学差异客观排列。</p>
+                <p><b>3. 责任限制：</b>本程式以「现况」提供。对于因数据落差引致之任何损失，本程式及开发团队概不承担法律责任。</p>
+            `
+        },
+        'en': {
+            title: "ℹ️ Algorithm & Disclaimer",
+            close: "I Understand",
+            content: `
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 How is it calculated?</h4>
+                <p class="mb-2">Our board uses pure math for objective comparisons, with no manual intervention:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><b>1. Official Data:</b> Synced daily with the government's "Online Price Watch".</li>
+                    <li><b>2. True Effective Price:</b> Our AI breaks down promos (e.g., "Buy 2 for $Y") to calculate the true price per item.</li>
+                    <li><b>3. Market Benchmark:</b> We average the effective prices across all supermarkets to find the fair "Market Average Price", ignoring inflated "original prices".</li>
+                    <li><b>4. True Discount:</b> Formula: <code>((Average - Effective Price) / Average) x 100%</code>. Only products with > 0% savings are listed.</li>
+                </ul>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ Legal Disclaimer</h4>
+                <p class="mb-2"><b>1. For Reference Only:</b> Prices are auto-calculated from public data. Discrepancies may occur due to delays or branch variations. Always verify at the physical store before purchasing.</p>
+                <p class="mb-2"><b>2. Neutrality:</b> We are not affiliated with any supermarkets. Rankings are strictly based on math.</p>
+                <p><b>3. Liability:</b> Provided "AS IS". The developers accept no liability for any losses caused by data discrepancies.</p>
+            `
+        }
+    };
+
+    function openCalcInfoModal() {
+        const modal = document.getElementById('calcInfoModal');
+        const box = document.getElementById('calcInfoBox');
+        
+        // 載入對應語言的內容
+        const langData = calcInfoTexts[currentLang] || calcInfoTexts['zh-Hant'];
+        document.getElementById('calcModalTitle').innerHTML = langData.title;
+        document.getElementById('calcModalContent').innerHTML = langData.content;
+        document.getElementById('calcModalCloseBtn').innerText = langData.close;
+
+        if (modal && box) {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                box.classList.remove('scale-95');
+                box.classList.add('scale-100');
+            }, 10);
+        }
+    }
+
+    function closeCalcInfoModal() {
+        const modal = document.getElementById('calcInfoModal');
+        const box = document.getElementById('calcInfoBox');
+        if (modal && box) {
+            modal.classList.add('opacity-0');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+    }
+
+
 
     // --- 啟動 ---
     loadTrueDiscountData();
