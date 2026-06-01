@@ -412,6 +412,9 @@
         localStorage.setItem('appLang', lang);
         const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
         
+        // 💡 新增這行：動態更新瀏覽器分頁的標籤名稱 (Tab Name)
+        document.title = (d.pageTitleText || "智選真抵榜") + " | " + (d.title || "慳真D") + "🔎";
+        
         const uiElements = {
             'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
             'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thName': 'thName', 'txt-thType': 'thType',
