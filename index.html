@@ -2,6 +2,21 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
+    
+    <script>
+        (function() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const urlLang = params.get('lang');
+                if (urlLang) {
+                    localStorage.setItem('appLang', urlLang);
+                    localStorage.setItem('lang', urlLang); 
+                    window.history.replaceState(null, '', window.location.pathname);
+                }
+            } catch(e) {}
+        })();
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -66,32 +81,26 @@
         }
         .star-blink { animation: star-blink 1.5s infinite ease-in-out; display: inline-block; }
 
-     
-    /* ... 你原本既 CSS ... */
-    
-    @keyframes stamp-appear {
-        0% { transform: scale(2) rotate(-15deg); opacity: 0; }
-        100% { transform: scale(1) rotate(-15deg); opacity: 1; }
-    }
-    .fake-stamp {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 45px;
-        height: 45px;
-        border: 3px solid #ef4444;
-        border-radius: 50%;
-        color: #ef4444;
-        font-weight: 900;
-        font-size: 10px;
-        text-align: center;
-        line-height: 1.1;
-        animation: stamp-appear 0.3s ease-out;
-        background: rgba(254, 226, 226, 0.5);
-    }
-
-
-
+        @keyframes stamp-appear {
+            0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+            100% { transform: scale(1) rotate(-15deg); opacity: 1; }
+        }
+        .fake-stamp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border: 3px solid #ef4444;
+            border-radius: 50%;
+            color: #ef4444;
+            font-weight: 900;
+            font-size: 10px;
+            text-align: center;
+            line-height: 1.1;
+            animation: stamp-appear 0.3s ease-out;
+            background: rgba(254, 226, 226, 0.5);
+        }
     </style>
 </head>
 <body class="bg-slate-50 h-[100dvh] flex flex-col font-sans text-slate-900 overflow-hidden w-full text-[15px] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
@@ -108,7 +117,6 @@
         </div>
         
         <div class="flex items-center gap-2.5 shrink-0">
-            
             <div class="flex items-center gap-1">
                 <span class="hidden min-[390px]:block text-[10px] font-bold text-slate-400 leading-none">EN/中</span>
                 <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-slate-100 border-none text-[11px] font-bold text-slate-700 rounded-md px-1.5 py-1 outline-none cursor-pointer dark:bg-slate-800 dark:text-slate-200 transition-colors">
@@ -120,21 +128,18 @@
 
             <div class="flex items-center gap-1.5">
                 <button onclick="toggleTheme()" id="themeBtn" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 border border-slate-200 shadow-sm active:scale-95 transition-all dark:bg-slate-800 dark:border-slate-700">☀️</button>
-
                 <button onclick="openMyAlerts()" class="relative w-7 h-7 flex items-center justify-center rounded-full bg-rose-50 text-rose-600 border border-rose-100 shadow-sm active:scale-95 transition-all dark:bg-rose-900/30 dark:border-rose-800">
                 🔔
                <span id="alertBadge" class="hidden absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-slate-800 shadow-sm"></span>
                </button>
-               
                 <button onclick="openManual()" class="w-7 h-7 flex items-center justify-center rounded-full bg-amber-50 text-amber-600 border border-amber-100 shadow-sm text-[12px] active:scale-95 transition-all dark:bg-amber-900/30 dark:border-amber-800">📖</button>
                 <button onclick="openShareAppModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 border border-blue-100 shadow-sm active:scale-95 transition-all dark:bg-blue-900/30 dark:border-blue-800">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                 </button>
             </div>
-
         </div>
     </div>
-</header>
+  </header>
 
 <main class="flex-1 overflow-hidden w-full max-w-2xl mx-auto relative flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
     <section id="level1Section" class="absolute inset-0 flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-y-auto no-scrollbar">
@@ -236,7 +241,7 @@
            href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" 
            target="_blank" 
            class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">
-           懶人工具駅
+            懶人工具駅
         </a>
     </div>
 </div>
@@ -359,7 +364,10 @@
 
         let rawApiData = [];    
         window.structuredData = {}; 
-        let currentLang = 'zh-Hant';
+        
+        // 💡 修正 1：一開波就讀大腦記憶，而唔係寫死繁體
+        let currentLang = localStorage.getItem('appLang') || 'zh-Hant';
+        
         let selectedCat1 = null; 
         
         let currentKeyword = ""; 
@@ -392,7 +400,6 @@
         async function init() {
             try {
                 let commitSha = '';
-                
                 try {
                     const apiRes = await fetch('https://api.github.com/repos/msbecky5354/HK_PriceWatch-/commits/main');
                     if (apiRes.ok) {
@@ -405,7 +412,6 @@
                 }
 
                 let dataUrl, logUrl;
-
                 if (commitSha) {
                     dataUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/pricewatch.json";
                     logUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/update_log.txt";
@@ -430,7 +436,10 @@
                     console.log("✅ 數據載入成功！來源: " + (commitSha ? "jsDelivr" : "GitHub Raw"));
                 }
 
-                changeLanguage('zh-Hant');
+                // 💡 修正 2：用正確嘅語言，而唔係寫死 zh-Hant
+                changeLanguage(currentLang);
+                let langSel = document.getElementById('langSelector');
+                if (langSel) langSel.value = currentLang;
                 
                 const urlParams = new URLSearchParams(window.location.search);
                 const sharedQuery = urlParams.get('q');
@@ -488,116 +497,102 @@
             } catch (err) { console.log('Share error:', err); }
         }
 
-       function changeLanguage(lang) {
+        // 💡 修正 3：超級防禦版 changeLanguage
+        function changeLanguage(lang) {
             try {
                 currentLang = lang;
                 document.documentElement.lang = lang;
                 
+                // 強行寫入記憶
+                localStorage.setItem('appLang', lang);
+                localStorage.setItem('lang', lang);
+                
                 const dict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : {};
 
-                if (document.getElementById('appTitle')) document.getElementById('appTitle').innerText = dict.title || '慳真D';
+                const updateText = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).innerText = text; };
+                const updatePlaceholder = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).placeholder = text; };
+
+                updateText('appTitle', dict.title || '慳真D');
                 document.title = dict.title || '慳真D';
                 
-                const ogTitle = document.getElementById('ogTitle');
-                const ogDesc = document.getElementById('ogDesc');
+                if (document.getElementById('ogTitle')) document.getElementById('ogTitle').setAttribute("content", dict.title || '慳真D');
+                if (document.getElementById('ogDesc')) document.getElementById('ogDesc').setAttribute("content", dict.ogDesc || '香港超市格價神器，秒速幫你搵出最平貨品！');
                 
-                if (ogTitle) ogTitle.setAttribute("content", dict.title || '慳真D');
-                if (ogDesc) ogDesc.setAttribute("content", dict.ogDesc || '香港超市格價神器，秒速幫你搵出最平貨品！');
-                
-                if (document.getElementById('dataSourceBadge')) document.getElementById('dataSourceBadge').innerText = dict.badge || '政府數據連線';
+                updateText('dataSourceBadge', dict.badge || '政府數據連線');
                 
                 if (lastUpdatedTime) {
-                    if (document.getElementById('todayStatusLabel')) document.getElementById('todayStatusLabel').innerText = (dict.lastUpdated || '最後更新: ') + formatDateTime(lastUpdatedTime);
+                    updateText('todayStatusLabel', (dict.lastUpdated || '最後更新: ') + formatDateTime(lastUpdatedTime));
                 } else {
-                    if (document.getElementById('todayStatusLabel')) document.getElementById('todayStatusLabel').innerText = dict.subLabel || '載入中...';
+                    updateText('todayStatusLabel', dict.subLabel || '載入中...');
                 }
 
-                if (document.getElementById('mainCatLabel')) document.getElementById('mainCatLabel').innerText = dict.mainCat || '主分類';
-                if (document.getElementById('sortTip')) document.getElementById('sortTip').innerText = dict.sortTip || '分類';
-                if (document.getElementById('backBtnText')) document.getElementById('backBtnText').innerText = dict.back || '返回';
-                if (document.getElementById('sendBtnText')) document.getElementById('sendBtnText').innerText = dict.send || '搜尋';
-                if (document.getElementById('chatInput')) document.getElementById('chatInput').placeholder = dict.placeholder || '搜尋...';
+                updateText('mainCatLabel', dict.mainCat);
+                updateText('sortTip', dict.sortTip);
+                updateText('backBtnText', dict.back);
+                updateText('sendBtnText', dict.send);
+                updatePlaceholder('chatInput', dict.placeholder);
 
-                if (document.getElementById('shareAppTitle')) document.getElementById('shareAppTitle').innerText = dict.shareAppTitle || '分享';
-                if (document.getElementById('shareAppDesc')) document.getElementById('shareAppDesc').innerText = dict.shareAppDesc || '分享給朋友';
-                if (document.getElementById('shareBtnCopy')) document.getElementById('shareBtnCopy').innerText = dict.shareBtnCopy || '複製';
-                if (document.getElementById('shareBtnWhatsApp')) document.getElementById('shareBtnWhatsApp').innerText = dict.shareBtnWhatsApp || 'WhatsApp';
-                if (document.getElementById('shareBtnMore')) document.getElementById('shareBtnMore').innerText = dict.shareBtnMore || '更多';
-                if (document.getElementById('toastMsg')) document.getElementById('toastMsg').innerText = dict.copiedToast || '已複製';
+                updateText('shareAppTitle', dict.shareAppTitle);
+                updateText('shareAppDesc', dict.shareAppDesc);
+                updateText('shareBtnCopy', dict.shareBtnCopy);
+                updateText('shareBtnWhatsApp', dict.shareBtnWhatsApp);
+                updateText('shareBtnMore', dict.shareBtnMore);
+                updateText('toastMsg', dict.copiedToast);
 
                 if (document.getElementById('miniFooterLinks')) {
                     document.getElementById('miniFooterLinks').innerText = dict.miniFooterLinks || '關於我們、條款及免責聲明';
                     document.getElementById('miniFooterCopy').innerText = dict.miniFooterCopy || '© 2026 慳真D';
                 }
 
-                // ==========================================
                 // 📸 新增：相機選單與 API 設定多語言切換
-                // ==========================================
-                if (document.getElementById('cameraModalTitle')) document.getElementById('cameraModalTitle').innerText = dict.cameraModalTitle || "📸 AI 視覺辨識";
-                if (document.getElementById('cameraBtnText')) document.getElementById('cameraBtnText').innerText = dict.cameraBtn || "📷 拍照 或 選擇圖片";
-                if (document.getElementById('geminiTitleText')) document.getElementById('geminiTitleText').innerText = dict.geminiTitle || "⚙️ 連接 Gemini 專業大腦";
-                if (document.getElementById('geminiDescText')) document.getElementById('geminiDescText').innerText = dict.geminiDesc || "預設使用離線基礎辨識...";
-                if (document.getElementById('geminiGuideText')) document.getElementById('geminiGuideText').innerText = dict.geminiGuide || "👉 按此前往 Google 免費領取 API Key";
-                if (document.getElementById('geminiKeyInput')) document.getElementById('geminiKeyInput').placeholder = dict.geminiPlaceholder || "API Key (AIzaSy...)";
-                if (document.getElementById('saveKeyBtn')) document.getElementById('saveKeyBtn').innerText = dict.saveBtn || "儲存";
-                if (document.getElementById('clearKeyBtn')) document.getElementById('clearKeyBtn').innerText = dict.clearBtn || "清除";
+                updateText('cameraModalTitle', dict.cameraModalTitle);
+                updateText('cameraBtnText', dict.cameraBtn);
+                updateText('geminiTitleText', dict.geminiTitle);
+                updateText('geminiDescText', dict.geminiDesc);
+                updateText('geminiGuideText', dict.geminiGuide);
+                updatePlaceholder('geminiKeyInput', dict.geminiPlaceholder);
+                updateText('saveKeyBtn', dict.saveBtn);
+                updateText('clearKeyBtn', dict.clearBtn);
                 
-                // 重新檢查一次鎖匙狀態，以更新狀態字眼嘅語言
                 if (typeof window.checkGeminiKey === 'function') window.checkGeminiKey();
-                // ==========================================
 
                 const homeUI = {
-                    'zh-Hant': {
-                        title: "想搵咩平嘢？直接話我知",
-                        placeholder: "例如: 可口可樂、出前一丁...",
-                        quickTitle: "✨ 快捷尋寶",
-                        catTitle: "或者按主分類慢慢行",
-                        b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介"
-                    },
-                    'zh-Hans': {
-                        title: "想找什么便宜货？直接告诉我",
-                        placeholder: "例如: 可口可乐、出前一丁...",
-                        quickTitle: "✨ 快捷寻宝",
-                        catTitle: "或者按主分类慢慢逛",
-                        b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐"
-                    },
-                    'en': {
-                        title: "What are you looking for? Tell me!",
-                        placeholder: "e.g., Coca Cola, Noodles...",
-                        quickTitle: "✨ Quick Search",
-                        catTitle: "Or browse by categories",
-                        b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals"
-                    }
+                    'zh-Hant': { title: "想搵咩平嘢？直接話我知", placeholder: "例如: 可口可樂、出前一丁...", quickTitle: "✨ 快捷尋寶", catTitle: "或者按主分類慢慢行", b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介", dealsBtn: "🛠️ 今日劈價排行榜", radarBtn: "📡 跨超市海鮮價雷達" },
+                    'zh-Hans': { title: "想找什么便宜货？直接告诉我", placeholder: "例如: 可口可乐、出前一丁...", quickTitle: "✨ 快捷寻宝", catTitle: "或者按主分类慢慢逛", b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐", dealsBtn: "🛠️ 今日降价排行榜", radarBtn: "📡 跨超市海鲜价雷达" },
+                    'en': { title: "What are you looking for? Tell me!", placeholder: "e.g., Coca Cola, Noodles...", quickTitle: "✨ Quick Search", catTitle: "Or browse by categories", b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals", dealsBtn: "🛠️ Top Deals Ranking", radarBtn: "📡 Price Gap Radar" }
                 };
 
-                if(document.getElementById('homeTitle')) document.getElementById('homeTitle').innerText = homeUI[lang].title;
-                if(document.getElementById('globalSearchInput')) document.getElementById('globalSearchInput').placeholder = homeUI[lang].placeholder;
-                if(document.getElementById('quickTitle')) document.getElementById('quickTitle').innerText = homeUI[lang].quickTitle;
-                if(document.getElementById('catTitle')) document.getElementById('catTitle').innerHTML = `<span class="text-lg">🛒</span> ${homeUI[lang].catTitle}`;
+                let activeLang = homeUI[lang] ? lang : 'zh-Hant';
+
+                updateText('homeTitle', homeUI[activeLang].title);
+                updatePlaceholder('globalSearchInput', homeUI[activeLang].placeholder);
+                updateText('quickTitle', homeUI[activeLang].quickTitle);
+                if(document.getElementById('catTitle')) document.getElementById('catTitle').innerHTML = `<span class="text-lg">🛒</span> ${homeUI[activeLang].catTitle}`;
 
                 let kwCola = '可口可樂';
                 let kwBread = '麵包';
-                if (lang === 'en') {
-                    kwCola = 'cola'; 
-                    kwBread = 'bread';
-                } else if (lang === 'zh-Hans') {
-                    kwCola = '可乐'; 
-                    kwBread = '面包';
-                }
+                if (activeLang === 'en') { kwCola = 'cola'; kwBread = 'bread'; } 
+                else if (activeLang === 'zh-Hans') { kwCola = '可乐'; kwBread = '面包'; }
 
                 if(document.getElementById('quickBtnGroup')) {
                     document.getElementById('quickBtnGroup').innerHTML = `
-                        <button onclick="triggerHomeQuickAction('bigGap', '${homeUI[lang].b1}')" class="w-full flex flex-col items-center justify-center text-center bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-red-100 dark:hover:bg-red-900/50 leading-tight min-h-[55px] break-words">
-                            ${homeUI[lang].b1.replace(' ', '<br>')}
+                        <button onclick="triggerHomeQuickAction('bigGap', '${homeUI[activeLang].b1}')" class="w-full flex flex-col items-center justify-center text-center bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-red-100 dark:hover:bg-red-900/50 leading-tight min-h-[55px] break-words">
+                            ${homeUI[activeLang].b1.replace(' ', '<br>')}
                         </button>
-                        <button onclick="triggerHomeQuickAction('discount', '${homeUI[lang].b2}')" class="w-full flex flex-col items-center justify-center text-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-blue-100 dark:hover:bg-blue-900/50 leading-tight min-h-[55px] break-words">
-                            ${homeUI[lang].b2.replace(' ', '<br>')}
+                        <button onclick="triggerHomeQuickAction('discount', '${homeUI[activeLang].b2}')" class="w-full flex flex-col items-center justify-center text-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-blue-100 dark:hover:bg-blue-900/50 leading-tight min-h-[55px] break-words">
+                            ${homeUI[activeLang].b2.replace(' ', '<br>')}
                         </button>
-                        <button onclick="triggerHomeQuickAction('search', '${homeUI[lang].b3}', '${kwCola}')" class="w-full flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-slate-200 dark:hover:bg-slate-700 leading-tight min-h-[55px] break-words">
-                            ${homeUI[lang].b3.replace(' ', '<br>')}
+                        <button onclick="triggerHomeQuickAction('search', '${homeUI[activeLang].b3}', '${kwCola}')" class="w-full flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-slate-200 dark:hover:bg-slate-700 leading-tight min-h-[55px] break-words">
+                            ${homeUI[activeLang].b3.replace(' ', '<br>')}
                         </button>
-                        <button onclick="triggerHomeQuickAction('search', '${homeUI[lang].b4}', '${kwBread}')" class="w-full flex flex-col items-center justify-center text-center bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-amber-100 dark:hover:bg-amber-900/50 leading-tight min-h-[55px] break-words">
-                            ${homeUI[lang].b4.replace(' ', '<br>')}
+                        <button onclick="triggerHomeQuickAction('search', '${homeUI[activeLang].b4}', '${kwBread}')" class="w-full flex flex-col items-center justify-center text-center bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-amber-100 dark:hover:bg-amber-900/50 leading-tight min-h-[55px] break-words">
+                            ${homeUI[activeLang].b4.replace(' ', '<br>')}
+                        </button>
+                        <button onclick="window.location.href='deals_table.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-2 text-center bg-gradient-to-r from-orange-100 to-red-100 dark:from-red-900/40 dark:to-orange-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 p-3 rounded-2xl text-[13px] font-black active:scale-95 transition shadow-sm mb-1 mt-2">
+                            ${homeUI[activeLang].dealsBtn}
+                        </button>
+                        <button onclick="window.location.href='radar.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-2 text-center bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800 p-3 rounded-2xl text-[13px] font-black active:scale-95 transition shadow-sm mb-2">
+                            ${homeUI[activeLang].radarBtn}
                         </button>
                     `;
                 }
@@ -748,94 +743,92 @@
             }, 300);
         }
         
-        // buildStructuredData
- function buildStructuredData() {
-    structuredData = {};
-    const unknownSupermarkets = new Set(); 
+        function buildStructuredData() {
+            structuredData = {};
+            const unknownSupermarkets = new Set(); 
 
-    if (!rawApiData || rawApiData.length === 0) return;
+            if (!rawApiData || rawApiData.length === 0) return;
 
-    rawApiData.forEach(item => {
-        let cat1 = item.cat1Name?.[currentLang] || item.cat1Name?.['zh-Hant'];
-        if (!cat1) return;
-        
-        let cat2 = item.cat3Name?.[currentLang] || item.cat2Name?.[currentLang] || 'Other';
-        let rawName = item.name?.[currentLang] || item.name?.['zh-Hant'] || 'Unknown';
-        
-        let brandObj = item.brand || item.brandName || '';
-        let localBrand = (typeof brandObj === 'object') ? (brandObj[currentLang] || brandObj['zh-Hant'] || '') : brandObj;
-        
-        let brandEn = (typeof brandObj === 'object') ? (brandObj['en'] || localBrand) : localBrand;
-        let enName = (item.name && item.name['en']) ? item.name['en'] : rawName;
+            rawApiData.forEach(item => {
+                let cat1 = item.cat1Name?.[currentLang] || item.cat1Name?.['zh-Hant'];
+                if (!cat1) return;
+                
+                let cat2 = item.cat3Name?.[currentLang] || item.cat2Name?.[currentLang] || 'Other';
+                let rawName = item.name?.[currentLang] || item.name?.['zh-Hant'] || 'Unknown';
+                
+                let brandObj = item.brand || item.brandName || '';
+                let localBrand = (typeof brandObj === 'object') ? (brandObj[currentLang] || brandObj['zh-Hant'] || '') : brandObj;
+                
+                let brandEn = (typeof brandObj === 'object') ? (brandObj['en'] || localBrand) : localBrand;
+                let enName = (item.name && item.name['en']) ? item.name['en'] : rawName;
 
-        // 💡 核心修復：將「牌子 + 產品名」結合成獨一無二嘅 Key，唔再炒車
-        let uniqueName = localBrand ? `${localBrand} - ${rawName}` : rawName;
-        
-        if (!structuredData[cat1]) structuredData[cat1] = {};
-        if (!structuredData[cat1][cat2]) structuredData[cat1][cat2] = {};
-        
-        if (!structuredData[cat1][cat2][uniqueName]) {
-            let allNames = Object.values(item.name || {}).join(' '); 
-            let allBrands = (typeof brandObj === 'object') ? Object.values(brandObj).join(' ') : brandObj;
-            let allCat2 = Object.values(item.cat2Name || {}).join(' ') + ' ' + Object.values(item.cat3Name || {}).join(' ');
+                let uniqueName = localBrand ? `${localBrand} - ${rawName}` : rawName;
+                
+                if (!structuredData[cat1]) structuredData[cat1] = {};
+                if (!structuredData[cat1][cat2]) structuredData[cat1][cat2] = {};
+                
+                if (!structuredData[cat1][cat2][uniqueName]) {
+                    let allNames = Object.values(item.name || {}).join(' '); 
+                    let allBrands = (typeof brandObj === 'object') ? Object.values(brandObj).join(' ') : brandObj;
+                    let allCat2 = Object.values(item.cat2Name || {}).join(' ') + ' ' + Object.values(item.cat3Name || {}).join(' ');
 
-            structuredData[cat1][cat2][uniqueName] = { 
-                brand: localBrand,
-                brandEn: brandEn,
-                enName: enName, 
-                searchKeywords: normalizeStr(`${allNames} ${allBrands} ${allCat2} ${cat1}`),
-                prices: [] 
-            };
-        }
-        
-        if (Array.isArray(item.prices)) {
-            item.prices.forEach(p => {
-                let codeUpper = (p.supermarketCode || '').toUpperCase();
-                let smName = p.supermarketCode;
-
-                if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][codeUpper]) {
-                    smName = supermarketDict[currentLang][codeUpper]; 
-                } else if (p.supermarketName && p.supermarketName[currentLang]) {
-                    smName = p.supermarketName[currentLang]; 
+                    structuredData[cat1][cat2][uniqueName] = { 
+                        brand: localBrand,
+                        brandEn: brandEn,
+                        enName: enName, 
+                        searchKeywords: normalizeStr(`${allNames} ${allBrands} ${allCat2} ${cat1}`),
+                        prices: [] 
+                    };
                 }
                 
-                let promoDisplay = "";
-                let promoCalcEn = "";
-                const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
-                
-                for (let key of promoKeys) {
-                    if (Array.isArray(item[key])) {
-                        let matchingOffer = item[key].find(o => o.supermarketCode === p.supermarketCode || o.supermarket === p.supermarketCode);
-                        if (matchingOffer) {
-                            let extractedDisplay = extractDeepPromoText(matchingOffer, currentLang);
-                            if (extractedDisplay && extractedDisplay !== "[object Object]") {
-                                promoDisplay = extractedDisplay;
-                                promoCalcEn = extractDeepPromoText(matchingOffer, 'en');
-                                break; 
+                if (Array.isArray(item.prices)) {
+                    item.prices.forEach(p => {
+                        let codeUpper = (p.supermarketCode || '').toUpperCase();
+                        let smName = p.supermarketCode;
+
+                        if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][codeUpper]) {
+                            smName = supermarketDict[currentLang][codeUpper]; 
+                        } else if (p.supermarketName && p.supermarketName[currentLang]) {
+                            smName = p.supermarketName[currentLang]; 
+                        }
+                        
+                        let promoDisplay = "";
+                        let promoCalcEn = "";
+                        const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
+                        
+                        for (let key of promoKeys) {
+                            if (Array.isArray(item[key])) {
+                                let matchingOffer = item[key].find(o => o.supermarketCode === p.supermarketCode || o.supermarket === p.supermarketCode);
+                                if (matchingOffer) {
+                                    let extractedDisplay = extractDeepPromoText(matchingOffer, currentLang);
+                                    if (extractedDisplay && extractedDisplay !== "[object Object]") {
+                                        promoDisplay = extractedDisplay;
+                                        promoCalcEn = extractDeepPromoText(matchingOffer, 'en');
+                                        break; 
+                                    }
+                                }
+                            } 
+                            else if (p[key]) {
+                                let extractedDisplay = extractDeepPromoText(p[key], currentLang);
+                                if (extractedDisplay && extractedDisplay !== "[object Object]") {
+                                    promoDisplay = extractedDisplay;
+                                    promoCalcEn = extractDeepPromoText(p[key], 'en');
+                                    break;
+                                }
                             }
                         }
-                    } 
-                    else if (p[key]) {
-                        let extractedDisplay = extractDeepPromoText(p[key], currentLang);
-                        if (extractedDisplay && extractedDisplay !== "[object Object]") {
-                            promoDisplay = extractedDisplay;
-                            promoCalcEn = extractDeepPromoText(p[key], 'en');
-                            break;
-                        }
-                    }
+                        
+                        structuredData[cat1][cat2][uniqueName].prices.push({ 
+                            rawCode: p.supermarketCode, 
+                            supermarket: smName, 
+                            price: p.price ?? '--', 
+                            promoDisplay: promoDisplay,
+                            promoCalc: promoCalcEn 
+                        });
+                    });
                 }
-                
-                structuredData[cat1][cat2][uniqueName].prices.push({ 
-                    rawCode: p.supermarketCode, 
-                    supermarket: smName, 
-                    price: p.price ?? '--', 
-                    promoDisplay: promoDisplay,
-                    promoCalc: promoCalcEn 
-                });
             });
         }
-    });
-}
 
         function renderLevel1() {
             if(!level1Container) return;
@@ -858,29 +851,27 @@
             return { icon: '📦', bg: 'from-slate-100 to-slate-200', text: 'text-slate-800', border: 'border-slate-300' };
         }
 
-        function showLevel1() 
-        { chatSection.classList.add('hidden'); level1Section.classList.remove('hidden'); renderLevel1(); }
+        function showLevel1() { 
+            chatSection.classList.add('hidden'); level1Section.classList.remove('hidden'); renderLevel1(); 
+        }
 
-    function startChat(cat1) {
-    selectedCat1 = cat1; 
-    chatSection.classList.remove('hidden'); 
-    level1Section.classList.add('hidden');
-    
-    const style = getCatStyle(cat1);
-    chatTitle.innerHTML = `<span class="mr-1.5">${style.icon}</span> ${cat1}`;
-    chatMessages.innerHTML = '';
-    
-    // 重置搜尋參數
-    isBigGapMode = false;
-    isDiscountMode = false;
-    currentKeyword = ""; 
-    
-    addBotMessage(`${uiText[currentLang].chatWelcome} <strong class="text-blue-600 dark:text-blue-400">${style.icon} ${cat1}</strong>。<br>${uiText[currentLang].chatAsk}`);
-    
-    // --- 【新增此行】觸發搜尋 ---
-    // 因為 currentKeyword 已經清空，這會觸發「顯示該分類下所有產品」的邏輯
-    executeProductSearch(); 
-}
+        function startChat(cat1) {
+            selectedCat1 = cat1; 
+            chatSection.classList.remove('hidden'); 
+            level1Section.classList.add('hidden');
+            
+            const style = getCatStyle(cat1);
+            chatTitle.innerHTML = `<span class="mr-1.5">${style.icon}</span> ${cat1}`;
+            chatMessages.innerHTML = '';
+            
+            isBigGapMode = false;
+            isDiscountMode = false;
+            currentKeyword = ""; 
+            
+            addBotMessage(`${uiText[currentLang].chatWelcome} <strong class="text-blue-600 dark:text-blue-400">${style.icon} ${cat1}</strong>。<br>${uiText[currentLang].chatAsk}`);
+            executeProductSearch(); 
+        }
+
         function cleanUserInput(q) {
             let kw = q;
             const noiseWords = ['可唔可以幫我搵', '可唔可以幫我買', '幫我搵吓', '幫我搵下', '我想搵吓', '我想搵下', '我想搵', '我想買', '幫我搵', '幫我買', '有無', '有冇', '想搵', '想買', '搵', '買', 'search', '找', '有沒有'];
@@ -923,106 +914,89 @@
             return "🤖 系統連線中..."; 
         }
 
-    function submitChat() {
-    const originalQ = chatInput.value.trim();
-    if (!originalQ) return;
+        function submitChat() {
+            const originalQ = chatInput.value.trim();
+            if (!originalQ) return;
 
-    // 💡 關鍵改動：先將用戶輸入洗乾淨 (去標點、去雜音)
-    const cleanText = cleanUserInput(originalQ); 
+            const cleanText = cleanUserInput(originalQ); 
+            const goHomeKeywords = ['主目錄', '主頁', '首頁', '返轉頭','返回','上一頁', 'home', 'main menu', 'back', '主页', '目錄'];
+            const isGoHome = goHomeKeywords.some(keyword => cleanText.includes(keyword));
 
-    // 💡 關鍵改動：定義更多樣化嘅關鍵字 (加入「翻」、「返」等同義詞)
-    const goHomeKeywords = ['主目錄', '主頁', '首頁', '返轉頭','返回','上一頁', 'home', 'main menu', 'back', '主页', '目錄'];
+            if (isGoHome) {
+                addUserMessage(originalQ);
+                chatInput.value = '';
+                chatInput.blur();
+                showLevel1(); 
+                return;
+            }
 
-    // 檢查 cleanText 係咪包含任何一個關鍵字
-    const isGoHome = goHomeKeywords.some(keyword => cleanText.includes(keyword));
-
-    if (isGoHome) {
-        addUserMessage(originalQ); // 顯示用戶輸入
-        chatInput.value = '';
-        chatInput.blur();
-        showLevel1(); // 直接跳走
-        return; // 呢度一定要 return，停止之後所有搜尋邏輯
-    }
-
-    // --- 原本嘅搜尋邏輯 ---
-    addUserMessage(originalQ); 
-    chatInput.value = ''; 
-    chatInput.blur();
-    setTimeout(() => {
-        const talk = checkSmallTalk(originalQ);
-        if (talk) { addBotMessage(talk); return; }
-        
-        // 呢度已經用緊 cleanUserInput，所以搜尋準確度唔會受影響
-        currentKeyword = normalizeStr(cleanText).trim();
-        if (!currentKeyword) { 
-            addBotMessage(uiText[currentLang].askKeyword || '請問你想搵咩貨品呢？'); 
-            return; 
-        }
-        executeProductSearch(); 
-    }, 300);
-}
-
-
-    function getFilteredProductsHTML(keywordToTest) {
-    const isAll = ['所有', '全部', 'all', 'list', '*'].includes(keywordToTest) || !keywordToTest;
-    let foundProducts = [];
-    window.scoredProducts = []; // 💡 確保每次 Search 都重置救場陣列
-
-    const categoriesToSearch = selectedCat1 === 'GLOBAL' ? Object.keys(structuredData) : [selectedCat1];
-    
-    categoriesToSearch.forEach(cat1 => {
-        if (!structuredData[cat1]) return;
-        Object.keys(structuredData[cat1]).forEach(cat2 => {
-            Object.keys(structuredData[cat1][cat2]).forEach(pName => {
-                const info = structuredData[cat1][cat2][pName];
+            addUserMessage(originalQ); 
+            chatInput.value = ''; 
+            chatInput.blur();
+            setTimeout(() => {
+                const talk = checkSmallTalk(originalQ);
+                if (talk) { addBotMessage(talk); return; }
                 
-                // 💡 核心修復：無視空格同大小寫進行無縫比對
-                const safeSearchTarget = info.searchKeywords.replace(/\s+/g, '').toLowerCase();
-                const safeInput = (keywordToTest || '').replace(/\s+/g, '').toLowerCase();
-                const matchesKeyword = isAll || safeSearchTarget.includes(safeInput);
-                
-                const hasDiscount = info.prices.some(p => p.promoDisplay || p.promoCalc);
-                const matchesDiscount = !isDiscountMode || hasDiscount;
-                
-                // ⚠️ 已經移除咗 matchesBigGap，唔再強行隱藏冇大差價嘅貨品！
-
-                if (matchesDiscount) {
-                    if (matchesKeyword) {
-                        const gapInfo = checkPriceGap(info);
-                        foundProducts.push({
-                            pName: pName,
-                            info: info,
-                            gapPercent: gapInfo.percentage || 0
-                        });
-                    } else if (!isAll && keywordToTest.length >= 2) {
-                        // 💡 救場邏輯：如果只係部分中字，計分放入 scoredProducts
-                        let score = typeof calculateRelevance === 'function' ? calculateRelevance(keywordToTest, info.searchKeywords, info.brand) : 0;
-                        if (score > 10) {
-                            window.scoredProducts.push({ name: pName, info: info, score: score });
-                        }
-                    }
+                currentKeyword = normalizeStr(cleanText).trim();
+                if (!currentKeyword) { 
+                    addBotMessage(uiText[currentLang].askKeyword || '請問你想搵咩貨品呢？'); 
+                    return; 
                 }
+                executeProductSearch(); 
+            }, 300);
+        }
+
+        function getFilteredProductsHTML(keywordToTest) {
+            const isAll = ['所有', '全部', 'all', 'list', '*'].includes(keywordToTest) || !keywordToTest;
+            let foundProducts = [];
+            window.scoredProducts = []; 
+
+            const categoriesToSearch = selectedCat1 === 'GLOBAL' ? Object.keys(structuredData) : [selectedCat1];
+            
+            categoriesToSearch.forEach(cat1 => {
+                if (!structuredData[cat1]) return;
+                Object.keys(structuredData[cat1]).forEach(cat2 => {
+                    Object.keys(structuredData[cat1][cat2]).forEach(pName => {
+                        const info = structuredData[cat1][cat2][pName];
+                        
+                        const safeSearchTarget = info.searchKeywords.replace(/\s+/g, '').toLowerCase();
+                        const safeInput = (keywordToTest || '').replace(/\s+/g, '').toLowerCase();
+                        const matchesKeyword = isAll || safeSearchTarget.includes(safeInput);
+                        
+                        const hasDiscount = info.prices.some(p => p.promoDisplay || p.promoCalc);
+                        const matchesDiscount = !isDiscountMode || hasDiscount;
+                        
+                        if (matchesDiscount) {
+                            if (matchesKeyword) {
+                                const gapInfo = checkPriceGap(info);
+                                foundProducts.push({
+                                    pName: pName,
+                                    info: info,
+                                    gapPercent: gapInfo.percentage || 0
+                                });
+                            } else if (!isAll && keywordToTest.length >= 2) {
+                                let score = typeof calculateRelevance === 'function' ? calculateRelevance(keywordToTest, info.searchKeywords, info.brand) : 0;
+                                if (score > 10) {
+                                    window.scoredProducts.push({ name: pName, info: info, score: score });
+                                }
+                            }
+                        }
+                    });
+                });
             });
-        });
-    });
 
-    // 💡 核心修復：如果開啟了「大差價模式」，才將收集好的貨品按差價由大到小排隊
-    if (isBigGapMode) {
-        foundProducts.sort((a, b) => b.gapPercent - a.gapPercent);
-    }
+            if (isBigGapMode) {
+                foundProducts.sort((a, b) => b.gapPercent - a.gapPercent);
+            }
 
-    // 將排序後的結果生成 HTML
-    return foundProducts.map(item => generateProductCardHTML(item.pName, item.info)).join('');
-}
+            return foundProducts.map(item => generateProductCardHTML(item.pName, item.info)).join('');
+        }
 
-
-
-       function executeProductSearch() {
+        function executeProductSearch() {
             const html = getFilteredProductsHTML(currentKeyword);
             const isAll = ['所有', '全部', 'all', 'list', '*'].includes(currentKeyword) || !currentKeyword;
 
             if (!html) {
-                // 🚀 第一重救場：出最高分嘅貨品
                 if (window.scoredProducts && window.scoredProducts.length > 0) {
                     window.scoredProducts.sort((a, b) => b.score - a.score);
                     let topMatches = window.scoredProducts.slice(0, 4); 
@@ -1042,7 +1016,6 @@
                     return true;
                 }
 
-                // 🛡️ 第二重救場：出建議按鈕
                 let noResultMsg = uiText[currentLang].chatNoResult;
                 if (isDiscountMode) {
                     const langMsgs = {
@@ -1068,7 +1041,6 @@
                     noResultMsg = langMsgs[currentLang];
                 }
 
-                // 🧠 產生建議按鈕邏輯 (中英雙語通殺版)
                 let suggestions = [];
                 if (currentKeyword && currentKeyword.length >= 2) {
                      let isEnglish = /^[a-zA-Z0-9\s]+$/.test(currentKeyword);
@@ -1122,8 +1094,6 @@
                     botTip = uiText[currentLang].foundKw.replace('{keyword}', currentKeyword);
                 }
 
-                // 🌟 【新增】專屬排序按鈕邏輯
-                // 如果當前並非「大差價模式」，就在結果的最上方加入一個「按差價排序」的按鈕
                 let finalHtml = html;
                 if (!isBigGapMode) {
                     const sortText = currentLang === 'en' ? 'Sort by Price Gap' : (currentLang === 'zh-Hans' ? '按差价排序' : '按差價排序');
@@ -1137,32 +1107,29 @@
                     finalHtml = sortBtnHtml + finalHtml;
                 }
 
-                // 使用 finalHtml 輸出
                 addBotMessage(botTip, finalHtml);
                 return true; 
             }
         }
-    function addBotMessage(text, cardsHTML = null) {
-    const wrapper = document.createElement('div');
-    // 加返 bot-response-block 等你之後想做其他嘢方便捉到個位置
-    wrapper.className = 'flex flex-col items-start w-full bot-response-block';
-    
-    wrapper.innerHTML = `
-        <div class="flex items-end gap-2 max-w-[90%]">
-            <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-slate-700 flex items-center justify-center text-lg shadow-sm border border-blue-200 dark:border-slate-600 shrink-0">🤖</div>
-            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm dark:shadow-none text-[15px] transition-colors">${text}</div>
-        </div>
-        ${cardsHTML ? `<div class="w-full mt-4 space-y-5">${cardsHTML}</div>` : ''}
-    `;
-    
-    chatMessages.appendChild(wrapper);
 
-    // 💡 關鍵改動：唔使撳掣，出完訊息後自動「飛」去嗰格
-    // 等 100ms 係確保 HTML 已經渲染完先至 Scroll
-    setTimeout(() => {
-        wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-}
+        function addBotMessage(text, cardsHTML = null) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex flex-col items-start w-full bot-response-block';
+            
+            wrapper.innerHTML = `
+                <div class="flex items-end gap-2 max-w-[90%]">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-slate-700 flex items-center justify-center text-lg shadow-sm border border-blue-200 dark:border-slate-600 shrink-0">🤖</div>
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm dark:shadow-none text-[15px] transition-colors">${text}</div>
+                </div>
+                ${cardsHTML ? `<div class="w-full mt-4 space-y-5">${cardsHTML}</div>` : ''}
+            `;
+            
+            chatMessages.appendChild(wrapper);
+
+            setTimeout(() => {
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
 
         function userMessage(text) {
             addUserMessage(text);
@@ -1193,133 +1160,132 @@
             return { isBigGap: gap >= 10, percentage: Math.round(gap) };
         }
 
-   function generateProductCardHTML(pName, info) {
-    let validPrices = [];
-    info.prices.forEach(p => {
-        let parsed = parseFloat(p.price);
-        if (!isNaN(parsed)) {
-            let avg = typeof calculateAvgPrice === 'function' ? calculateAvgPrice(p.promoCalc, parsed) : parsed;
-            validPrices.push((avg && avg > 0 && avg < parsed) ? avg : parsed);
-        }
-    });
+        function generateProductCardHTML(pName, info) {
+            let validPrices = [];
+            info.prices.forEach(p => {
+                let parsed = parseFloat(p.price);
+                if (!isNaN(parsed)) {
+                    let avg = typeof calculateAvgPrice === 'function' ? calculateAvgPrice(p.promoCalc, parsed) : parsed;
+                    validPrices.push((avg && avg > 0 && avg < parsed) ? avg : parsed);
+                }
+            });
 
-    let minBasePrice = Math.min(...info.prices.map(p => parseFloat(p.price)).filter(pr => !isNaN(pr)));
-    let minEffectivePrice = validPrices.length > 0 ? Math.min(...validPrices) : null;
-    let allSameBasePrice = info.prices.filter(p => !isNaN(parseFloat(p.price))).every(v => parseFloat(v.price) === minBasePrice);
-    let allSameEffectivePrice = validPrices.length > 1 && validPrices.every(v => Math.abs(v - validPrices[0]) < 0.01);
+            let minBasePrice = Math.min(...info.prices.map(p => parseFloat(p.price)).filter(pr => !isNaN(pr)));
+            let minEffectivePrice = validPrices.length > 0 ? Math.min(...validPrices) : null;
+            let allSameBasePrice = info.prices.filter(p => !isNaN(parseFloat(p.price))).every(v => parseFloat(v.price) === minBasePrice);
+            let allSameEffectivePrice = validPrices.length > 1 && validPrices.every(v => Math.abs(v - validPrices[0]) < 0.01);
 
-    const gapInfo = checkPriceGap(info);
-    let gapBadgeHtml = '';
-    if (gapInfo.isBigGap) {
-        let badgeText = currentLang === 'en' ? `🔥 Save ${gapInfo.percentage}%` : `🔥 差價 ${gapInfo.percentage}%`;
-        gapBadgeHtml = `<span class="ml-2 px-1.5 py-0.5 bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 font-bold text-[11px] rounded-md shadow-sm border border-red-200 dark:border-red-800 inline-flex items-center" style="white-space: nowrap; transform: translateY(-1px);">${badgeText}</span>`;
-    }
-
-    const priceList = info.prices.map(p => {
-        let parsed = parseFloat(p.price);
-        let isLowestBase = (!isNaN(parsed) && parsed === minBasePrice && info.prices.length > 1 && !allSameBasePrice);
-        let cls = 'border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-700/30'; 
-        let textCls = 'text-slate-600 dark:text-slate-300';
-        let displayName = p.supermarket;
-        let code = (p.rawCode || '').toUpperCase();
-
-        if (code === 'WELLCOME' || code === 'LUNGFUNG') { cls = 'border-red-200 bg-red-50/30 dark:border-red-900/50 dark:bg-red-900/20'; textCls = 'text-red-700 dark:text-red-400'; }
-        else if (code === 'PARKNSHOP') { cls = 'border-blue-200 bg-blue-50/30 dark:border-blue-900/50 dark:bg-blue-900/20'; textCls = 'text-blue-700 dark:text-blue-400'; }
-        else if (code === 'WATSONS') { cls = 'border-teal-200 bg-teal-50/30 dark:border-teal-900/50 dark:bg-teal-900/20'; textCls = 'text-teal-700 dark:text-teal-400'; }
-        else if (code === 'HKTVMALL') { cls = 'border-green-200 bg-green-50/30 dark:border-green-900/50 dark:bg-green-900/20'; textCls = 'text-green-700 dark:text-green-400'; }
-        else if (code === 'JASONS') { cls = 'border-emerald-300 bg-emerald-100/40 dark:border-emerald-900/50 dark:bg-emerald-900/20'; textCls = 'text-emerald-800 dark:text-emerald-400'; if (!displayName.includes('Market Place')) displayName += ' (Market Place)'; }
-        else if (code === 'MANNINGS') { cls = 'border-orange-200 bg-orange-50/30 dark:border-orange-900/50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; }
-        else if (code === 'AEON') { cls = 'border-fuchsia-200 bg-fuchsia-50/30 dark:border-fuchsia-900/50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-700 dark:text-fuchsia-400'; }
-
-        let avgLabel = '';
-        let fakePromoIcon = ''; 
-        
-        if (typeof calculateAvgPrice === 'function') {
-            let avg = calculateAvgPrice(p.promoCalc, parsed);
-            // 正常優惠顯示
-            if (avg && avg > 0 && avg < parsed) {
-                let isAbsoluteLowest = (minEffectivePrice !== null && Math.abs(avg - minEffectivePrice) < 0.01 && validPrices.length > 1 && !allSameEffectivePrice);
-                let starHtml = isAbsoluteLowest ? `<span class="star-blink ml-1 text-[13px]">⭐</span>` : '';
-                avgLabel = `<span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black shadow-sm ml-1 shrink-0 whitespace-nowrap flex items-center">💰 ${(currentLang === 'en' ? 'Avg' : '折合')} $${avg.toFixed(1)}/${(currentLang === 'en' ? 'ea' : '件')}${starHtml}</span>`;
-            } 
-            // 💡 踢爆假優惠：取代原本嗰段，換成「假優惠」印仔
-            else if (avg >= parsed && p.promoDisplay) {
-                let stampText = (currentLang === 'en') ? 'FAKE<br>OFFER' : '假<br>優惠';
-                fakePromoIcon = `<span class="fake-stamp ml-1 cursor-help shadow-md" title="${currentLang === 'en' ? 'Fake Discount!' : '呢個優惠冇平到呀！'}">${stampText}</span>`;
+            const gapInfo = checkPriceGap(info);
+            let gapBadgeHtml = '';
+            if (gapInfo.isBigGap) {
+                let badgeText = currentLang === 'en' ? `🔥 Save ${gapInfo.percentage}%` : `🔥 差價 ${gapInfo.percentage}%`;
+                gapBadgeHtml = `<span class="ml-2 px-1.5 py-0.5 bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 font-bold text-[11px] rounded-md shadow-sm border border-red-200 dark:border-red-800 inline-flex items-center" style="white-space: nowrap; transform: translateY(-1px);">${badgeText}</span>`;
             }
-        }
-        
-        return `<div class="flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : ''} transition-all"><div class="flex justify-between items-center w-full"><span class="font-black text-[13px] ${textCls} flex items-center gap-1">${displayName}</span><span class="text-[17px] font-black text-slate-800 dark:text-slate-100">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' 👍' : ''}</span></div>${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-md border border-red-100 dark:border-red-800 break-words w-full sm:w-auto">🏷️ ${p.promoDisplay}</span>${fakePromoIcon}${avgLabel}</div>` : ''}</div>`;
-    }).join('');
 
-    let alertTitle = (currentLang === 'zh-Hans') ? "设定到价提醒" : (currentLang === 'en') ? "Set Price Alert" : "設定到價提醒";
+            const priceList = info.prices.map(p => {
+                let parsed = parseFloat(p.price);
+                let isLowestBase = (!isNaN(parsed) && parsed === minBasePrice && info.prices.length > 1 && !allSameBasePrice);
+                let cls = 'border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-700/30'; 
+                let textCls = 'text-slate-600 dark:text-slate-300';
+                let displayName = p.supermarket;
+                let code = (p.rawCode || '').toUpperCase();
 
-    const englishName = (info.enName) ? info.enName : pName;
-    const brandZh = info.brand || '綜合品牌';
-    const brandEn = info.brandEn || info.brand || 'General';
+                if (code === 'WELLCOME' || code === 'LUNGFUNG') { cls = 'border-red-200 bg-red-50/30 dark:border-red-900/50 dark:bg-red-900/20'; textCls = 'text-red-700 dark:text-red-400'; }
+                else if (code === 'PARKNSHOP') { cls = 'border-blue-200 bg-blue-50/30 dark:border-blue-900/50 dark:bg-blue-900/20'; textCls = 'text-blue-700 dark:text-blue-400'; }
+                else if (code === 'WATSONS') { cls = 'border-teal-200 bg-teal-50/30 dark:border-teal-900/50 dark:bg-teal-900/20'; textCls = 'text-teal-700 dark:text-teal-400'; }
+                else if (code === 'HKTVMALL') { cls = 'border-green-200 bg-green-50/30 dark:border-green-900/50 dark:bg-green-900/20'; textCls = 'text-green-700 dark:text-green-400'; }
+                else if (code === 'JASONS') { cls = 'border-emerald-300 bg-emerald-100/40 dark:border-emerald-900/50 dark:bg-emerald-900/20'; textCls = 'text-emerald-800 dark:text-emerald-400'; if (!displayName.includes('Market Place')) displayName += ' (Market Place)'; }
+                else if (code === 'MANNINGS') { cls = 'border-orange-200 bg-orange-50/30 dark:border-orange-900/50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; }
+                else if (code === 'AEON') { cls = 'border-fuchsia-200 bg-fuchsia-50/30 dark:border-fuchsia-900/50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-700 dark:text-fuchsia-400'; }
 
-    let displayZhName = pName;
-    if (info.brand && displayZhName.startsWith(info.brand + ' - ')) {
-        displayZhName = displayZhName.substring(info.brand.length + 3);
-    }
-    let displayEnName = englishName;
-    if (info.brandEn && displayEnName.toLowerCase().startsWith(info.brandEn.toLowerCase() + ' - ')) {
-        displayEnName = displayEnName.substring(info.brandEn.length + 3);
-    } else if (info.brand && displayEnName.toLowerCase().startsWith(info.brand.toLowerCase() + ' - ')) {
-        displayEnName = displayEnName.substring(info.brand.length + 3);
-    }
+                let avgLabel = '';
+                let fakePromoIcon = ''; 
+                
+                if (typeof calculateAvgPrice === 'function') {
+                    let avg = calculateAvgPrice(p.promoCalc, parsed);
+                    if (avg && avg > 0 && avg < parsed) {
+                        let isAbsoluteLowest = (minEffectivePrice !== null && Math.abs(avg - minEffectivePrice) < 0.01 && validPrices.length > 1 && !allSameEffectivePrice);
+                        let starHtml = isAbsoluteLowest ? `<span class="star-blink ml-1 text-[13px]">⭐</span>` : '';
+                        avgLabel = `<span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black shadow-sm ml-1 shrink-0 whitespace-nowrap flex items-center">💰 ${(currentLang === 'en' ? 'Avg' : '折合')} $${avg.toFixed(1)}/${(currentLang === 'en' ? 'ea' : '件')}${starHtml}</span>`;
+                    } 
+                    else if (avg >= parsed && p.promoDisplay) {
+                        let stampText = (currentLang === 'en') ? 'FAKE<br>OFFER' : '假<br>優惠';
+                        fakePromoIcon = `<span class="fake-stamp ml-1 cursor-help shadow-md" title="${currentLang === 'en' ? 'Fake Discount!' : '呢個優惠冇平到呀！'}">${stampText}</span>`;
+                    }
+                }
+                
+                return `<div class="flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : ''} transition-all"><div class="flex justify-between items-center w-full"><span class="font-black text-[13px] ${textCls} flex items-center gap-1">${displayName}</span><span class="text-[17px] font-black text-slate-800 dark:text-slate-100">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' 👍' : ''}</span></div>${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-md border border-red-100 dark:border-red-800 break-words w-full sm:w-auto">🏷️ ${p.promoDisplay}</span>${fakePromoIcon}${avgLabel}</div>` : ''}</div>`;
+            }).join('');
 
-    let defaultDisplayName = currentLang === 'en' ? displayEnName : displayZhName;
+            let alertTitle = (currentLang === 'zh-Hans') ? "设定到价提醒" : (currentLang === 'en') ? "Set Price Alert" : "設定到價提醒";
 
-    const langSwitchBtn = (currentLang === 'en') ? '' : `
-        <button onclick="toggleCardLang(this)" 
-                data-zh="${displayZhName.replace(/"/g, '&quot;')}" 
-                data-en="${displayEnName.replace(/"/g, '&quot;')}" 
-                data-brand-zh="${brandZh.replace(/"/g, '&quot;')}"
-                data-brand-en="${brandEn.replace(/"/g, '&quot;')}"
-                class="px-1.5 py-0.5 text-[10px] bg-slate-200 dark:bg-slate-700 rounded-md font-bold hover:bg-blue-200 transition-colors ml-1">
-            中/EN
-        </button>`;
+            const englishName = (info.enName) ? info.enName : pName;
+            const brandZh = info.brand || '綜合品牌';
+            const brandEn = info.brandEn || info.brand || 'General';
 
-    let fullSearchQuery = pName.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-    const searchBtn = `
-        <button onclick="window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent('${fullSearchQuery}'), '_blank')" 
-                class="w-6 h-6 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 rounded-md hover:bg-blue-200 transition-colors ml-1" 
-                title="Google 搜尋/Search"> 
-            <img src="Images_Search.png" alt="Search" class="w-4 h-4 object-contain">
-        </button>`;
+            let displayZhName = pName;
+            if (info.brand && displayZhName.startsWith(info.brand + ' - ')) {
+                displayZhName = displayZhName.substring(info.brand.length + 3);
+            }
+            let displayEnName = englishName;
+            if (info.brandEn && displayEnName.toLowerCase().startsWith(info.brandEn.toLowerCase() + ' - ')) {
+                displayEnName = displayEnName.substring(info.brandEn.length + 3);
+            } else if (info.brand && displayEnName.toLowerCase().startsWith(info.brand.toLowerCase() + ' - ')) {
+                displayEnName = displayEnName.substring(info.brand.length + 3);
+            }
 
-    return `<div class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-sm dark:shadow-none border border-slate-200 dark:border-slate-700 flex flex-col gap-3 relative overflow-hidden transition-colors">
-                <div class="flex justify-between items-start gap-3">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="product-brand text-[12px] text-blue-500 dark:text-blue-400 font-black tracking-widest uppercase" 
-                                 data-brand-zh="${brandZh.replace(/"/g, '&quot;')}" 
-                                 data-brand-en="${brandEn.replace(/"/g, '&quot;')}">
-                                 ${brandZh}
+            let defaultDisplayName = currentLang === 'en' ? displayEnName : displayZhName;
+
+            const langSwitchBtn = (currentLang === 'en') ? '' : `
+                <button onclick="toggleCardLang(this)" 
+                        data-zh="${displayZhName.replace(/"/g, '&quot;')}" 
+                        data-en="${displayEnName.replace(/"/g, '&quot;')}" 
+                        data-brand-zh="${brandZh.replace(/"/g, '&quot;')}"
+                        data-brand-en="${brandEn.replace(/"/g, '&quot;')}"
+                        class="px-1.5 py-0.5 text-[10px] bg-slate-200 dark:bg-slate-700 rounded-md font-bold hover:bg-blue-200 transition-colors ml-1">
+                    中/EN
+                </button>`;
+
+            let fullSearchQuery = pName.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+            const searchBtn = `
+                <button onclick="window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent('${fullSearchQuery}'), '_blank')" 
+                        class="w-6 h-6 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 rounded-md hover:bg-blue-200 transition-colors ml-1" 
+                        title="Google 搜尋/Search"> 
+                    <img src="Images_Search.png" alt="Search" class="w-4 h-4 object-contain">
+                </button>`;
+
+            return `<div class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-sm dark:shadow-none border border-slate-200 dark:border-slate-700 flex flex-col gap-3 relative overflow-hidden transition-colors">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="product-brand text-[12px] text-blue-500 dark:text-blue-400 font-black tracking-widest uppercase" 
+                                         data-brand-zh="${brandZh.replace(/"/g, '&quot;')}" 
+                                         data-brand-en="${brandEn.replace(/"/g, '&quot;')}">
+                                         ${brandZh}
+                                    </div>
+                                    ${langSwitchBtn}
+                                    ${searchBtn} 
+                                </div>
+                                <div class="flex items-start justify-between gap-2">
+                                    <h3 class="font-bold text-slate-800 dark:text-slate-100 text-[16px] leading-tight break-words">
+                                        <span class="product-name" data-zh="${displayZhName.replace(/"/g, '&quot;')}" data-en="${displayEnName.replace(/"/g, '&quot;')}">${defaultDisplayName}</span>
+                                    </h3>
+                                    ${gapBadgeHtml}
+                                </div>
                             </div>
-                            ${langSwitchBtn}
-                            ${searchBtn} 
+                            <div class="flex items-center gap-2 shrink-0">
+                                <button onclick="openAlertModal('${fullSearchQuery}', '${minBasePrice}')" class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-50 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-200 dark:border-amber-800 text-amber-500 dark:text-amber-400 active:scale-90 transition-all shadow-sm" title="${alertTitle}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                </button>
+                                <button onclick="shareProduct('${displayZhName.replace(/'/g, "\\'")}', '${info.brand}', '${minBasePrice}')" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#1877F2] dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 active:scale-90 transition-all shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                                </button>
+                            </div>
                         </div>
-                        <div class="flex items-start justify-between gap-2">
-                            <h3 class="font-bold text-slate-800 dark:text-slate-100 text-[16px] leading-tight break-words">
-                                <span class="product-name" data-zh="${displayZhName.replace(/"/g, '&quot;')}" data-en="${displayEnName.replace(/"/g, '&quot;')}">${defaultDisplayName}</span>
-                            </h3>
-                            ${gapBadgeHtml}
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="openAlertModal('${fullSearchQuery}', '${minBasePrice}')" class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-50 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-200 dark:border-amber-800 text-amber-500 dark:text-amber-400 active:scale-90 transition-all shadow-sm" title="${alertTitle}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                        </button>
-                        <button onclick="shareProduct('${displayZhName.replace(/'/g, "\\'")}', '${info.brand}', '${minBasePrice}')" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#1877F2] dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 active:scale-90 transition-all shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2.5">${priceList}</div>
-            </div>`;
-  }
+                        <div class="flex flex-col gap-2.5">${priceList}</div>
+                    </div>`;
+        }
+
         function triggerHomeQuickAction(mode, label, kw = '') {
             selectedCat1 = 'GLOBAL'; 
             chatSection.classList.remove('hidden'); 
@@ -1337,18 +1303,35 @@
             setTimeout(() => { executeProductSearch(); }, 300);
         }
         
+        // 🌟 1. 初始化日夜模式 (讀取大腦記憶)
+        function initTheme() {
+            const themeBtn = document.getElementById('themeBtn');
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                if (themeBtn) themeBtn.textContent = '🌙';
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (themeBtn) themeBtn.textContent = '☀️';
+            }
+        }
+
+        // 🌟 2. 切換時寫入大腦
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const themeBtn = document.getElementById('themeBtn');
             if (document.documentElement.classList.contains('dark')) {
                 themeBtn.textContent = '🌙';
+                localStorage.setItem('theme', 'dark'); // 💡 寫入記憶
             } else {
                 themeBtn.textContent = '☀️';
+                localStorage.setItem('theme', 'light'); // 💡 寫入記憶
             }
         }
+
+        // 🌟 3. 確保載入時、或者由其他頁面撳「返回」時，都會強制對齊顏色！
+        initTheme();
+        window.addEventListener('pageshow', initTheme);
         
-    
-        // 📸 相機選單控制
         function openCameraMenu() {
             const modal = document.getElementById('cameraMenuModal');
             if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
@@ -1358,7 +1341,6 @@
             if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
         }
 
-        // Gemini API Key 全域處理
         window.checkGeminiKey = function() {
             const keyInput = document.getElementById('geminiKeyInput');
             const keyStatus = document.getElementById('keyStatus');
@@ -1378,7 +1360,6 @@
             }
         };
 
-        // 綁定儲存/清除
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('saveKeyBtn')?.addEventListener('click', () => {
                 const key = document.getElementById('geminiKeyInput').value.trim();
@@ -1398,29 +1379,20 @@
             window.checkGeminiKey();
         });
 
+        function scrollToResults() {
+            const anchor = document.getElementById('latest-search-anchor');
+            const container = document.getElementById('chatMessages');
+            
+            if (anchor && container) {
+                container.scrollTo({ 
+                    top: anchor.offsetTop - 20,
+                    behavior: 'smooth' 
+                });
+            }
+        }
 
-
-        
-    // 💡 返回頂部嘅 Function
-      function scrollToResults() {
-    const anchor = document.getElementById('latest-search-anchor');
-    const container = document.getElementById('chatMessages');
-    
-    if (anchor && container) {
-        // 💡 將錨點滾動到容器嘅頂部
-        const offsetTop = anchor.offsetTop - container.offsetTop;
-        container.scrollTo({ 
-            top: anchor.offsetTop - 20, // 減 20 留返少少空間
-            behavior: 'smooth' 
-        });
-    }
-}
-
-        
-     
+        // 啟動主程式
         init();
     </script>
-
-
 </body>
 </html>
