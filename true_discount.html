@@ -107,7 +107,10 @@
                         <th id="thRank" onclick="handleSort('displayRank')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center w-16 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thRank">排名</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thCat" onclick="handleSort('categoryRaw')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thCat">分類</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thSm" onclick="handleSort('smCode')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center w-20 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thSm">超市</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        <th id="thName" onclick="handleSort('name')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                       
+<!-- 💡 新增：品牌標題 (無排序功能) -->
+<th id="thBrand" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 transition-colors w-20 md:w-24"><span id="txt-thBrand">品牌</span></th>
+<th id="thName" onclick="handleSort('name')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thType" onclick="handleSort('offerTypeRaw')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thType">優惠類型</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thOrig" onclick="handleSort('originalPrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thOrig">原價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thEff" onclick="handleSort('effectivePrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thEff">折實價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
@@ -314,7 +317,8 @@
                         effectivePrice: vp.effectivePrice,
                         realDiscountPct: realDiscountPct,
                         otherPricesRaw: otherPricesArr, 
-                        offerStr: vp.offerStr // Keeps original string for UI display
+                        offerStr: vp.offerStr, // Keeps original string for UI display
+                        brand: item.brand // 💡 新增：提取品牌數據
                     });
                 });
             });
@@ -478,7 +482,7 @@
         
         const uiElements = {
             'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
-            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thName': 'thName', 'txt-thType': 'thType',
+            'txt-thCat': 'thCat', 'txt-thSm': 'thSm','txt-thBrand': 'thBrand', 'txt-thName': 'thName', 'txt-thType': 'thType',
             'txt-thOrig': 'thOrig', 'txt-thEff': 'thEff', 'txt-thDiff': 'thDiff', 'txt-thOther': 'thOther',
             'qsLabel': 'qsLabel', 'qs1': 'qs1', 'qs2': 'qs2', 'qs3': 'qs3', 'qs4': 'qs4',
             'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn',
@@ -534,8 +538,8 @@
         document.title = (d.pageTitleText || "智選真抵榜") + " | " + (d.title || "慳真D") + "🔎";
         
         const uiElements = {
-            'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
-            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thName': 'thName', 'txt-thType': 'thType',
+           'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
+            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thBrand': 'thBrand', 'txt-thName': 'thName', 'txt-thType': 'thType',
             'txt-thOrig': 'thOrig', 'txt-thEff': 'thEff', 'txt-thDiff': 'thDiff', 'txt-thOther': 'thOther',
             'qsLabel': 'qsLabel', 'qs1': 'qs1', 'qs2': 'qs2', 'qs3': 'qs3', 'qs4': 'qs4',
             'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn',
@@ -623,6 +627,8 @@ let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     <td class="p-3.5 text-center font-black ${rankClass}">${rankMedal}</td>
                     <td class="p-3.5 text-[12px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</td>
                     <td class="p-3.5 text-center">${getSmBadge(item.smCode, currentLang)}</td>
+                    <!-- 💡 新增：品牌顯示欄位 -->
+                    <td class="p-3.5 text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px] md:max-w-[100px]" title="${getText(item.brand, currentLang)}">${getText(item.brand, currentLang)}</td>
                     <td class="p-3.5 font-bold text-[14px]">
                         <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">
     ${displayName}
@@ -666,6 +672,8 @@ let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     </div>
                     
                     <h3 class="font-bold text-[15px] leading-snug">
+                        <!-- 💡 新增：手機版品牌名稱顯示 -->
+                        <span class="text-[12px] font-normal text-slate-500 dark:text-slate-400 block mb-0.5">${getText(item.brand, currentLang)}</span>
                         <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">
     ${displayName}
 </a>
