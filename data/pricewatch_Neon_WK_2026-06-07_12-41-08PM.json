@@ -1,0 +1,39 @@
+{
+  "code": "P000003700",
+  "brand": {
+    "en": "Meadows",
+    "zh-Hant": "Meadows",
+    "zh-Hans": "Meadows"
+  },
+  "name": {
+    "en": "Sandwich Bread 8 slices",
+    "zh-Hant": "三文治方包 8片",
+    "zh-Hans": "三文治方包 8片"
+  },
+  "cat1Name": {
+    "en": "Bakery / Cereals / Spreads",
+    "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬",
+    "zh-Hans": "面包蛋糕 / 谷类早餐 / 面包酱"
+  },
+  "cat2Name": {
+    "en": "Breads",
+    "zh-Hant": "麵包",
+    "zh-Hans": "面包"
+  },
+  "cat3Name": {
+    "en": "Bread loaf",
+    "zh-Hant": "方包",
+    "zh-Hans": "方包"
+  },
+  "prices": [
+    {
+      "supermarketCode": "WELLCOME",
+      "price": "11.90"
+    },
+    {
+      "supermarketCode": "JASONS",
+      "price": "11.90"
+    }
+  ],
+  "offers": []
+}
