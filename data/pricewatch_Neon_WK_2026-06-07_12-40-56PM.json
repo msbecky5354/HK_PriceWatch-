@@ -1,0 +1,35 @@
+{
+  "code": "P000003985",
+  "brand": {
+    "en": "Baker's Choice",
+    "zh-Hant": "Baker's Choice",
+    "zh-Hans": "Baker's Choice"
+  },
+  "name": {
+    "en": "WHOLE WHEAT SANDWICH BREAD 8S 8SLICES",
+    "zh-Hant": "全麥方包８片裝",
+    "zh-Hans": "全麦方包８片装"
+  },
+  "cat1Name": {
+    "en": "Bakery / Cereals / Spreads",
+    "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬",
+    "zh-Hans": "面包蛋糕 / 谷类早餐 / 面包酱"
+  },
+  "cat2Name": {
+    "en": "Breads",
+    "zh-Hant": "麵包",
+    "zh-Hans": "面包"
+  },
+  "cat3Name": {
+    "en": "Bread loaf",
+    "zh-Hant": "方包",
+    "zh-Hans": "方包"
+  },
+  "prices": [
+    {
+      "supermarketCode": "PARKNSHOP",
+      "price": "12.50"
+    }
+  ],
+  "offers": []
+}
