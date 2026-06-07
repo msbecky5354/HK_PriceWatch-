@@ -1,0 +1,47 @@
+{
+  "code": "P000000033",
+  "brand": {
+    "en": "Garden",
+    "zh-Hant": "嘉頓",
+    "zh-Hans": "嘉顿"
+  },
+  "name": {
+    "en": "Crustless Wheat Sandwich Bread 6 slices",
+    "zh-Hant": "切皮三文治方麥包 6片",
+    "zh-Hans": "切皮三文治方麦包 6片"
+  },
+  "cat1Name": {
+    "en": "Bakery / Cereals / Spreads",
+    "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬",
+    "zh-Hans": "面包蛋糕 / 谷类早餐 / 面包酱"
+  },
+  "cat2Name": {
+    "en": "Breads",
+    "zh-Hant": "麵包",
+    "zh-Hans": "面包"
+  },
+  "cat3Name": {
+    "en": "Bread loaf",
+    "zh-Hant": "方包",
+    "zh-Hans": "方包"
+  },
+  "prices": [
+    {
+      "supermarketCode": "WELLCOME",
+      "price": "11.50"
+    },
+    {
+      "supermarketCode": "PARKNSHOP",
+      "price": "11.50"
+    },
+    {
+      "supermarketCode": "JASONS",
+      "price": "12.00"
+    },
+    {
+      "supermarketCode": "AEON",
+      "price": "11.50"
+    }
+  ],
+  "offers": []
+}
