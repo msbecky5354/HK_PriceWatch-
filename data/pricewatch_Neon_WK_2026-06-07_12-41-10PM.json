@@ -1,0 +1,35 @@
+{
+  "code": "P000003986",
+  "brand": {
+    "en": "Baker's Choice",
+    "zh-Hant": "Baker's Choice",
+    "zh-Hans": "Baker's Choice"
+  },
+  "name": {
+    "en": "CLASSIC HAMBURGER BUN 4 PIECES",
+    "zh-Hant": "漢堡包 4個",
+    "zh-Hans": "汉堡包 4个"
+  },
+  "cat1Name": {
+    "en": "Bakery / Cereals / Spreads",
+    "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬",
+    "zh-Hans": "面包蛋糕 / 谷类早餐 / 面包酱"
+  },
+  "cat2Name": {
+    "en": "Breads",
+    "zh-Hant": "麵包",
+    "zh-Hans": "面包"
+  },
+  "cat3Name": {
+    "en": "Bread rolls",
+    "zh-Hant": "餐包 / 餡料麵包",
+    "zh-Hans": "餐包 / 馅料面包"
+  },
+  "prices": [
+    {
+      "supermarketCode": "PARKNSHOP",
+      "price": "14.50"
+    }
+  ],
+  "offers": []
+}
