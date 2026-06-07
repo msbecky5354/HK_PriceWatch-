@@ -1,0 +1,43 @@
+{
+  "code": "P000002937",
+  "brand": {
+    "en": "Garden",
+    "zh-Hant": "嘉頓",
+    "zh-Hans": "嘉顿"
+  },
+  "name": {
+    "en": "Super Soft Cake - Vanilla Flavor 8pcs",
+    "zh-Hant": "超軟蛋糕 - 雲呢拿味 8片",
+    "zh-Hans": "超软蛋糕 - 云呢拿味 8片"
+  },
+  "cat1Name": {
+    "en": "Bakery / Cereals / Spreads",
+    "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬",
+    "zh-Hans": "面包蛋糕 / 谷类早餐 / 面包酱"
+  },
+  "cat2Name": {
+    "en": "Cakes",
+    "zh-Hant": "蛋糕",
+    "zh-Hans": "蛋糕"
+  },
+  "cat3Name": {
+    "en": "Sponge cakes",
+    "zh-Hant": "海綿蛋糕",
+    "zh-Hans": "海绵蛋糕"
+  },
+  "prices": [
+    {
+      "supermarketCode": "WELLCOME",
+      "price": "26.50"
+    },
+    {
+      "supermarketCode": "PARKNSHOP",
+      "price": "32.00"
+    },
+    {
+      "supermarketCode": "JASONS",
+      "price": "28.00"
+    }
+  ],
+  "offers": []
+}
