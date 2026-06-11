@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-06-11T21:43:48.187Z",
-  "report_date": "2026-06-11",
+  "generated_at": "2026-06-12T00:00:02.542Z",
+  "report_date": "2026-06-12",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "425",
-      "avg_discount_pct": "6.50",
+      "total_drop_items": "427",
+      "avg_discount_pct": "6.33",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": null,
-      "cat_drop_count": "81",
+      "cat_drop_count": "86",
       "top_3_deals": [
         {
           "name_zh": "午餐豬肉 340克",
@@ -21,7 +21,7 @@
           "name_zh": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
           "name_en": null,
           "price": 5.6,
-          "pct": 32.12
+          "pct": 30.72
         },
         {
           "name_zh": "冷氣機潔淨劑 (清新花香) 420毫升",
@@ -33,11 +33,11 @@
     },
     {
       "supermarket_code": "PARKNSHOP",
-      "total_drop_items": "355",
-      "avg_discount_pct": "8.78",
-      "top_category_zh": "個人護理",
+      "total_drop_items": "358",
+      "avg_discount_pct": "8.82",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": null,
-      "cat_drop_count": "65",
+      "cat_drop_count": "67",
       "top_3_deals": [
         {
           "name_zh": "可樂 - 樽裝 2公升",
@@ -61,11 +61,11 @@
     },
     {
       "supermarket_code": "JASONS",
-      "total_drop_items": "292",
-      "avg_discount_pct": "7.49",
+      "total_drop_items": "295",
+      "avg_discount_pct": "7.20",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": null,
-      "cat_drop_count": "53",
+      "cat_drop_count": "57",
       "top_3_deals": [
         {
           "name_zh": "午餐豬肉 340克",
@@ -77,7 +77,7 @@
           "name_zh": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
           "name_en": null,
           "price": 5.6,
-          "pct": 32.12
+          "pct": 30.72
         },
         {
           "name_zh": "薯片 - 酸忌廉洋蔥味 102克",
@@ -89,11 +89,11 @@
     },
     {
       "supermarket_code": "AEON",
-      "total_drop_items": "97",
-      "avg_discount_pct": "14.66",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "total_drop_items": "98",
+      "avg_discount_pct": "13.96",
+      "top_category_zh": "飲品",
       "top_category_en": null,
-      "cat_drop_count": "21",
+      "cat_drop_count": "19",
       "top_3_deals": [
         {
           "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
@@ -117,8 +117,8 @@
     },
     {
       "supermarket_code": "WATSONS",
-      "total_drop_items": "82",
-      "avg_discount_pct": "12.21",
+      "total_drop_items": "85",
+      "avg_discount_pct": "11.62",
       "top_category_zh": "個人護理",
       "top_category_en": null,
       "cat_drop_count": "64",
@@ -130,33 +130,27 @@
           "pct": 45.63
         },
         {
-          "name_zh": "草本極緻綿柔纖巧夜用衛生巾 41厘米 8片",
-          "name_en": null,
-          "price": 20,
-          "pct": 37.5
-        },
-        {
           "name_zh": "草本極緻綿柔超薄日夜用衛生巾 28厘米 12片",
           "name_en": null,
           "price": 15,
+          "pct": 37.5
+        },
+        {
+          "name_zh": "草本極緻綿柔纖巧夜用衛生巾 41厘米 8片",
+          "name_en": null,
+          "price": 20,
           "pct": 37.5
         }
       ]
     },
     {
       "supermarket_code": "MANNINGS",
-      "total_drop_items": "52",
-      "avg_discount_pct": "11.04",
+      "total_drop_items": "51",
+      "avg_discount_pct": "10.68",
       "top_category_zh": "個人護理",
       "top_category_en": null,
       "cat_drop_count": "44",
       "top_3_deals": [
-        {
-          "name_zh": "淨肌呵護纖巧特多流量夜用衛生巾 40厘米 7片",
-          "name_en": null,
-          "price": 14.95,
-          "pct": 38.95
-        },
         {
           "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
           "name_en": null,
@@ -168,6 +162,12 @@
           "name_en": null,
           "price": 9.45,
           "pct": 30.45
+        },
+        {
+          "name_zh": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
+          "name_en": null,
+          "price": 15.95,
+          "pct": 25
         }
       ]
     },
@@ -230,7 +230,7 @@
     {
       "supermarket_code": "DCHFOOD",
       "total_drop_items": "3",
-      "avg_discount_pct": "7.57",
+      "avg_discount_pct": "10.44",
       "top_category_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "top_category_en": null,
       "cat_drop_count": "1",
@@ -239,7 +239,7 @@
           "name_zh": "忌廉黃粟蓉 425克",
           "name_en": null,
           "price": 8,
-          "pct": 8.05
+          "pct": 16.67
         },
         {
           "name_zh": "金裝倍醇奶茶 16.5克 x 10",
