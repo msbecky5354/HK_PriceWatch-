@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T20:08:42.981Z",
+  "generated_at": "2026-06-11T21:07:40.638Z",
   "report_date": "2026-06-11",
   "total_items": 9,
   "results": [
@@ -7,7 +7,8 @@
       "supermarket_code": "WELLCOME",
       "total_drop_items": "425",
       "avg_discount_pct": "6.50",
-      "top_category": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_en": null,
       "cat_drop_count": "81",
       "top_3_deals": [
         {
@@ -34,7 +35,8 @@
       "supermarket_code": "PARKNSHOP",
       "total_drop_items": "355",
       "avg_discount_pct": "8.78",
-      "top_category": "個人護理",
+      "top_category_zh": "個人護理",
+      "top_category_en": null,
       "cat_drop_count": "65",
       "top_3_deals": [
         {
@@ -61,7 +63,8 @@
       "supermarket_code": "JASONS",
       "total_drop_items": "292",
       "avg_discount_pct": "7.49",
-      "top_category": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_en": null,
       "cat_drop_count": "53",
       "top_3_deals": [
         {
@@ -88,7 +91,8 @@
       "supermarket_code": "AEON",
       "total_drop_items": "97",
       "avg_discount_pct": "14.66",
-      "top_category": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_en": null,
       "cat_drop_count": "21",
       "top_3_deals": [
         {
@@ -115,7 +119,8 @@
       "supermarket_code": "WATSONS",
       "total_drop_items": "82",
       "avg_discount_pct": "12.21",
-      "top_category": "個人護理",
+      "top_category_zh": "個人護理",
+      "top_category_en": null,
       "cat_drop_count": "64",
       "top_3_deals": [
         {
@@ -142,7 +147,8 @@
       "supermarket_code": "MANNINGS",
       "total_drop_items": "52",
       "avg_discount_pct": "11.04",
-      "top_category": "個人護理",
+      "top_category_zh": "個人護理",
+      "top_category_en": null,
       "cat_drop_count": "44",
       "top_3_deals": [
         {
@@ -169,7 +175,8 @@
       "supermarket_code": "SASA",
       "total_drop_items": "5",
       "avg_discount_pct": "18.75",
-      "top_category": "個人護理",
+      "top_category_zh": "個人護理",
+      "top_category_en": null,
       "cat_drop_count": "5",
       "top_3_deals": [
         {
@@ -196,7 +203,8 @@
       "supermarket_code": "LUNGFUNG",
       "total_drop_items": "5",
       "avg_discount_pct": "16.40",
-      "top_category": "個人護理",
+      "top_category_zh": "個人護理",
+      "top_category_en": null,
       "cat_drop_count": "4",
       "top_3_deals": [
         {
@@ -223,7 +231,8 @@
       "supermarket_code": "DCHFOOD",
       "total_drop_items": "3",
       "avg_discount_pct": "7.57",
-      "top_category": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
+      "top_category_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
+      "top_category_en": null,
       "cat_drop_count": "1",
       "top_3_deals": [
         {
