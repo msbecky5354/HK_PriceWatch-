@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>智選真抵榜 | 慳真D🔎</title>
-    <script src="lang.js?v=10"></script>
-    <script src="promoEngine.js?v=10"></script>
+    <script src="lang.js?v=11"></script>
+    <script src="promoEngine.js?v=11"></script>
     <script src="alertSystem.js?v=2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
     </script>
     <style> th { white-space: nowrap; } </style>
-    
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
@@ -26,9 +25,9 @@
                 <span class="text-xl md:text-2xl">📉</span> 
                 <div class="flex flex-col">
                    <div class="flex items-center gap-2">
-    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">智選真抵榜</h1>
-    <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[12px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
-</div>
+                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">智選真抵榜</h1>
+                        <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[12px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
+                    </div>
                     <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">踢走假劈價，對比全城平均價</span>
                 </div>
             </div>
@@ -73,7 +72,6 @@
 
             <div class="flex flex-wrap items-center gap-2 text-[12px]">
                 <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
-                
                 <div class="flex items-center gap-1.5">
                     <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold">
                         <span id="txtBtnPct20">>20% 減幅</span>
@@ -85,13 +83,6 @@
                         🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
                     </button>
                 </div>
-                
-                <div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
-                
-                <button onclick="setQuickSearch('可樂')" id="qs1" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">可樂</button>
-                <button onclick="setQuickSearch('出前一丁')" id="qs2" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">出前一丁</button>
-                <button onclick="setQuickSearch('百佳')" id="qs3" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">百佳</button>
-                <button onclick="setQuickSearch('惠康')" id="qs4" class="px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm">惠康</button>
             </div>
         </div>
 
@@ -107,50 +98,57 @@
                         <th id="thRank" onclick="handleSort('displayRank')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center w-16 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thRank">排名</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thCat" onclick="handleSort('categoryRaw')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thCat">分類</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thSm" onclick="handleSort('smCode')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center w-20 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thSm">超市</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                       
-<!-- 💡 新增：品牌標題 (無排序功能) -->
-<th id="thBrand" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 transition-colors w-20 md:w-24"><span id="txt-thBrand">品牌</span></th>
-<th id="thName" onclick="handleSort('name')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        <th id="thType" onclick="handleSort('offerTypeRaw')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thType">優惠類型</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        <th id="thOrig" onclick="handleSort('originalPrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thOrig">原價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        <th id="thEff" onclick="handleSort('effectivePrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thEff">折實價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thBrand" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 transition-colors w-20 md:w-24"><span id="txt-thBrand">品牌</span></th>
+                        <th id="thName" onclick="handleSort('name')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        
+                        <th id="thStatus" onclick="handleSort('statusKey')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thStatus">歷史狀態判定</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        
+                        <th id="thOrig" onclick="handleSort('originalPrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thOrig">今日原價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
+                        <th id="thEff" onclick="handleSort('effectivePrice')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thEff">今日折實</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thDiff" onclick="handleSort('realDiscountPct')" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thDiff">真・減幅</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100">▼</span></th>
-                        <th id="thOther" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400"><span id="txt-thOther">其他超市定價</span></th>
+                        <th id="thOther" class="py-4 px-4 font-bold text-blue-500 dark:text-blue-400"><span id="txt-thOther">其他對手定價</span></th>
                     </tr>
                 </thead>
                 <tbody id="leaderboardTableBody"></tbody>
             </table>
         </div>
 
-        <!-- ℹ️ 運算機制與免責聲明 Modal -->
-         <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors"></div>
-    <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
-        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
-            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
-                <h3 id="calcModalTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">ℹ️ 運算機制與聲明</h3>
-                <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
-            </div>
-            <!-- 加上自訂滾動條設計 -->
-            <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
-                <div id="calcModalContent"></div>
-            </div>
-            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 shrink-0">
-                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-sm active:scale-95 transition">明白</button>
+        <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors"></div>
+        
+        <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
+                <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+                    <h3 id="calcModalTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">ℹ️ 運算機制與聲明</h3>
+                    <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+                </div>
+                <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
+                    <div id="calcModalContent"></div>
+                </div>
+                <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 shrink-0">
+                    <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-sm active:scale-95 transition">明白</button>
+                </div>
             </div>
         </div>
-    </div>
 
     </div>
 
    <script>
     // --- 1. 全域變數 ---
-    
-    // 💡 修正：強制從 Header 獲取當前語言，如果獲取不到才讀取 localStorage
     let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
     let fullDataList = [];
     let lastUpdatedTime = null;
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
-    let currentMinPct = 0; // 0 代表不限制減幅
+    let currentMinPct = 0; 
+
+    // 💡 狀態標籤多語言對照表
+    const statusI18n = {
+        'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800' },
+        'drop': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
+        'fake': { 'en': '⚠️ Fake Promo', 'zh-Hant': '⚠️ 假促銷(無平到)', 'zh-Hans': '⚠️ 假促销(无降价)', 'color': 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800' },
+        'increase': { 'en': '📈 Hidden Increase', 'zh-Hant': '📈 價格暗升', 'zh-Hans': '📈 价格暗升', 'color': 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800' },
+        'promo_changed': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
+        'maintained': { 'en': '⏸️ Maintained', 'zh-Hant': '⏸️ 價格維持', 'zh-Hans': '⏸️ 价格维持', 'color': 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' }
+    };
 
     // --- 2. 核心工具函數 ---
     function formatDateTime(date) {
@@ -175,15 +173,10 @@
         return c;
     }
 
-    // --- 3. UI 輔助與互動功能 ---
     function getSmBadge(smCode, lang) {
         let code = (smCode || '').toUpperCase();
         let name = getSmName(code, lang);
-        
-        let bgCls = 'bg-slate-100 dark:bg-slate-700'; 
-        let textCls = 'text-slate-600 dark:text-slate-300';
-        let borderCls = 'border-slate-200 dark:border-slate-600';
-
+        let bgCls = 'bg-slate-100 dark:bg-slate-700', textCls = 'text-slate-600 dark:text-slate-300', borderCls = 'border-slate-200 dark:border-slate-600';
         if (code === 'WELLCOME' || code === 'LUNGFUNG') { bgCls = 'bg-red-50 dark:bg-red-900/20'; textCls = 'text-red-600 dark:text-red-400'; borderCls = 'border-red-200 dark:border-red-800'; }
         else if (code === 'PARKNSHOP') { bgCls = 'bg-blue-50 dark:bg-blue-900/20'; textCls = 'text-blue-600 dark:text-blue-400'; borderCls = 'border-blue-200 dark:border-blue-800'; }
         else if (code === 'WATSONS') { bgCls = 'bg-teal-50 dark:bg-teal-900/20'; textCls = 'text-teal-600 dark:text-teal-400'; borderCls = 'border-teal-200 dark:border-teal-800'; }
@@ -191,47 +184,56 @@
         else if (code === 'JASONS' || code === 'MARKETPLACE') { bgCls = 'bg-emerald-50 dark:bg-emerald-900/20'; textCls = 'text-emerald-700 dark:text-emerald-400'; borderCls = 'border-emerald-200 dark:border-emerald-800'; }
         else if (code === 'MANNINGS') { bgCls = 'bg-orange-50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; borderCls = 'border-orange-200 dark:border-orange-800'; }
         else if (code === 'AEON') { bgCls = 'bg-fuchsia-50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-600 dark:text-fuchsia-400'; borderCls = 'border-fuchsia-200 dark:border-fuchsia-800'; }
-
-        return `<span onclick="setQuickSearch('${name}'); window.scrollTo({ top: 0, behavior: 'smooth' });" title="加入搜尋框" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${bgCls} ${textCls} ${borderCls} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 hover:scale-105 active:scale-95 transition-all inline-block">${name}</span>`;
+        return `<span onclick="setQuickSearch('${name}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${bgCls} ${textCls} ${borderCls} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
     }
 
     function goToProductSearch(productName) {
         window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
     }
 
-   // --- 4. 數據讀取與處理引擎 ---
+   // --- 4. 🚀 數據讀取與 Browser-Side JOIN 引擎 ---
     async function loadTrueDiscountData() {
         try {
-            // 💡 修正：讓 Loading 畫面完美跟隨目前的語系設定
             const tbody = document.getElementById('leaderboardTableBody');
             const mbody = document.getElementById('leaderboardMobile');
             
-            let loadingStr = '⏳ 正在分析全城大數據...';
-            if (currentLang === 'en') loadingStr = '⏳ Analyzing Market Data...';
-            else if (currentLang === 'zh-Hans') loadingStr = '⏳ 正在分析全城大数据...';
-            
+            let loadingStr = currentLang === 'en' ? '⏳ Compiling Real-Time Prices & History...' : (currentLang === 'zh-Hans' ? '⏳ 正在组装实时价格与历史快照...' : '⏳ 正在組裝實時價格與歷史快照...');
             const loadingHTML = `<div class="p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px]">${loadingStr}</div>`;
-            
-            if (tbody) tbody.innerHTML = `<tr><td colspan="9">${loadingHTML}</td></tr>`;
+            if (tbody) tbody.innerHTML = `<tr><td colspan="10">${loadingHTML}</td></tr>`;
             if (mbody) mbody.innerHTML = loadingHTML;
 
-            const [timeRes, dataRes] = await Promise.all([
-                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt"),
-                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json")
+            // 🚀 同時下載 3 份檔案 (包含 snapshot.json 歷史記憶)
+            const [timeRes, dataRes, snapRes] = await Promise.all([
+                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt").catch(() => null),
+                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json").catch(() => null),
+                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json").catch(() => null)
             ]);
             
-            if (timeRes.ok) lastUpdatedTime = new Date(await timeRes.text());
-            const items = await dataRes.json();
+            if (timeRes && timeRes.ok) lastUpdatedTime = new Date(await timeRes.text());
+            const items = dataRes && dataRes.ok ? await dataRes.json() : [];
             
+            // 🧠 建立 O(1) 的大腦快照字典
+            const snapshotMap = new Map();
+            if (snapRes && snapRes.ok) {
+                try {
+                    const snapJson = await snapRes.json();
+                    const snapArray = snapJson.results || snapJson; 
+                    if (Array.isArray(snapArray)) {
+                        snapArray.forEach(row => {
+                            const pCode = row.product_code || row.productCode;
+                            const sCode = (row.supermarket_code || row.supermarketCode || '').toUpperCase();
+                            if (pCode && sCode) snapshotMap.set(`${pCode}_${sCode}`, row);
+                        });
+                    }
+                } catch(e) { console.warn("快照字典建立失敗", e); }
+            }
+
             let processedData = [];
             
-            // 💡 改良版高效能運算：直接利用 JSON 既有的貨品階層結構，取代 O(N²) 的全域搜尋，秒速載入！
             items.forEach((item) => {
                 if (!item.prices || item.prices.length === 0) return;
-                
                 let validPricesForThisItem = [];
                 
-                // 步驟 1: 收集「這個貨品」在各超市的今日有效價格 (包含 promoEngine 計算)
                 item.prices.forEach(p => {
                     const smCode = (p.supermarketCode || p.supermarket || '').toUpperCase();
                     if (smCode === 'ZTORE' || !smCode) return; 
@@ -240,17 +242,13 @@
                     if (isNaN(basePrice)) return;
                     
                     let effectivePrice = basePrice;
-                    let promoCalcText = "";
-                    let offerStr_display = "-"; 
-                    let offerStr_en = ""; // 💡 NEW: Exclusively for English logic matching
+                    let promoCalcText = "", offerStr_display = "-", offerStr_en = "";
                     
-                    // 提取促銷公式與多語言內容
                     const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
                     for (let key of promoKeys) {
                         if (p[key]) {
                             promoCalcText = (typeof p[key] === 'object') ? (p[key]['en'] || p[key]['zh-Hant'] || '') : String(p[key]);
                             offerStr_display = (typeof p[key] === 'object') ? (p[key]['zh-Hant'] || p[key]['zh-Hans'] || p[key]['en'] || '') : String(p[key]);
-                            // 💡 Force extract the English string for our new Regex
                             offerStr_en = (typeof p[key] === 'object') ? (p[key]['en'] || '') : String(p[key]);
                             break;
                         } else if (Array.isArray(item[key])) {
@@ -258,81 +256,72 @@
                             if (matchOffer) {
                                 promoCalcText = matchOffer.en || matchOffer['zh-Hant'] || '';
                                 offerStr_display = matchOffer['zh-Hant'] || matchOffer['zh-Hans'] || matchOffer.en || '';
-                                // 💡 Force extract the English string for our new Regex
                                 offerStr_en = matchOffer.en || '';
                                 break;
                             }
                         }
                     }
 
-                    // 呼叫 promoEngine 計算折實價 (COALESCE 包底)
                     if (typeof calculateAvgPrice === 'function' && promoCalcText) {
                         let avgPrice = calculateAvgPrice(promoCalcText, basePrice);
-                        if (avgPrice && avgPrice > 0 && avgPrice < basePrice) {
-                            effectivePrice = avgPrice;
-                        }
+                        if (avgPrice && avgPrice > 0 && avgPrice < basePrice) effectivePrice = avgPrice;
                     }
                     
-                    validPricesForThisItem.push({
-                        smCode: smCode,
-                        basePrice: basePrice,
-                        effectivePrice: effectivePrice,
-                        offerStr: offerStr_display, 
-                        offerStr_en: offerStr_en // 💡 Pass the English string to Step 3
-                    });
+                    validPricesForThisItem.push({ smCode, basePrice, effectivePrice, offerStr_display, offerStr_en });
                 });
                 
                 if (validPricesForThisItem.length === 0) return;
                 
-                // 步驟 2: 計算「這個貨品」的市場平均基準價 (完美模擬 SQL 的 GROUP BY AVG)
                 let sum = 0;
                 validPricesForThisItem.forEach(vp => sum += vp.effectivePrice);
                 let marketAvgPrice = sum / validPricesForThisItem.length;
-                
                 if (marketAvgPrice <= 0) return;
                 
-              // 步驟 3: 計算該貨品在每一間超市的「真實減幅」，並過濾出真正的平貨
+                // 🚀 前端 Browser-Side JOIN 邏輯
                 validPricesForThisItem.forEach(vp => {
-                    // 公式：(市場平均價 - 折實價) / 市場平均價
                     const realDiscountPct = ((marketAvgPrice - vp.effectivePrice) / marketAvgPrice) * 100;
-                    
                     if (realDiscountPct <= 0) return; 
                     
-                    // 💡 NEW: Pure English Regex logic (case-insensitive)
-                    // Matches standard HK supermarket terms: "Buy 2...", "save $4", "2 item(s)", "Half price", "Any 2"
-                    const isPromo = /(buy|get|item|save|half|any|discount)/i.test(vp.offerStr_en); 
-                    const offerTypeRaw = isPromo ? 'promo' : 'discount';
-                    
-                    // 儲存原始陣列，讓渲染表格時可以根據當前語言動態翻譯超市名稱
-                    const otherPricesArr = validPricesForThisItem
-                        .filter(other => other.smCode !== vp.smCode)
-                        .map(other => ({ smCode: other.smCode, price: other.effectivePrice }));
+                    const history = snapshotMap.get(`${item.code}_${vp.smCode}`);
+                    let statusKey = 'maintained';
+                    let prevBasePrice = null, prevEffPrice = null, lastChangeDate = '-', prevOfferText = '-';
+
+                    if (history) {
+                        prevBasePrice = parseFloat(history.previous_base_price || history.price);
+                        prevEffPrice = parseFloat(history.previous_effective_price || history.effective_price || history.price);
+                        lastChangeDate = history.last_changed_date ? history.last_changed_date.split('T')[0] : '-';
+                        prevOfferText = history.previous_offer_zh_hant || history.offer_zh_hant || history.previous_offer_en || '-';
+
+                        const dbStatus = history.change_status || '';
+                        const prevOfferEn = history.previous_offer_en || history.offer_en || '';
+
+                        if (dbStatus === 'NEW_ADDED' || isNaN(prevEffPrice)) statusKey = 'new';
+                        else if (vp.effectivePrice < prevEffPrice) statusKey = 'drop';
+                        else if (vp.offerStr_en && vp.effectivePrice >= prevEffPrice) statusKey = 'fake';
+                        else if (vp.effectivePrice > prevEffPrice) statusKey = 'increase';
+                        else if (vp.offerStr_en && vp.offerStr_en !== prevOfferEn) statusKey = 'promo_changed';
+                        else statusKey = 'maintained';
+                    } else {
+                        statusKey = 'new';
+                    }
+
+                    const otherPricesArr = validPricesForThisItem.filter(other => other.smCode !== vp.smCode).map(other => ({ smCode: other.smCode, price: other.effectivePrice }));
                         
                     processedData.push({
-                        smCode: vp.smCode,
-                        name: item.name,
-                        categoryRaw: item.cat1Name || {'zh-Hant': '其他'},
-                        offerTypeRaw: offerTypeRaw,
-                        originalPrice: vp.basePrice,
-                        effectivePrice: vp.effectivePrice,
-                        realDiscountPct: realDiscountPct,
-                        otherPricesRaw: otherPricesArr, 
-                        offerStr: vp.offerStr, // Keeps original string for UI display
-                        brand: item.brand // 💡 新增：提取品牌數據
+                        smCode: vp.smCode, name: item.name, categoryRaw: item.cat1Name || {'zh-Hant': '其他'},
+                        originalPrice: vp.basePrice, effectivePrice: vp.effectivePrice, realDiscountPct: realDiscountPct,
+                        otherPricesRaw: otherPricesArr, brand: item.brand, currentOffer: vp.offerStr_display,
+                        statusKey: statusKey, prevBasePrice: prevBasePrice, prevEffPrice: prevEffPrice, 
+                        prevOffer: prevOfferText, lastChangeDate: lastChangeDate
                     });
                 });
             });
             
-            // ORDER BY t.real_discount_pct DESC
             fullDataList = processedData.sort((a, b) => b.realDiscountPct - a.realDiscountPct);
-            
-            // 通知 UI 刷新
-            changeLanguage(currentLang);
+            changeLanguage(currentLang); 
             
         } catch (e) { 
-            console.error("數據載入或運算錯誤:", e); 
-            const tbody = document.getElementById('leaderboardTableBody');
-            if (tbody) tbody.innerHTML = `<tr><td colspan="9" class="p-5 text-center text-red-500 font-bold">載入錯誤: ${e.message}</td></tr>`;
+            console.error("數據載入錯誤:", e); 
         }
     }
 
@@ -342,34 +331,17 @@
         if (input) input.value = kw;
         applyFilters();
     }
-
     document.addEventListener('DOMContentLoaded', () => {
         const filterInput = document.getElementById('filterInput');
         if (filterInput) filterInput.addEventListener('input', applyFilters);
     });
 
     function togglePctFilter(pct) {
-        // 如果點擊的是目前已經啟動的按鈕，則取消過濾 (設回 0)
-        if (currentMinPct === pct) {
-            currentMinPct = 0;
-        } else {
-            currentMinPct = pct;
-        }
-
-        // 更新所有減幅按鈕的 UI 狀態
+        if (currentMinPct === pct) currentMinPct = 0; else currentMinPct = pct;
         [20, 30, 50].forEach(p => {
             const btn = document.getElementById('btnPct' + p);
-            if (btn) {
-                if (currentMinPct === p) {
-                    // 啟動狀態：變為紅色實心按鈕
-                    btn.className = (p === 50 ? "px-2 py-1 flex items-center gap-1 " : "px-2 py-1 ") + "bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all";
-                } else {
-                    // 未啟動狀態：恢復淡紅色邊框按鈕
-                    btn.className = (p === 50 ? "px-2 py-1 flex items-center gap-1 " : "px-2 py-1 ") + "bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold";
-                }
-            }
+            if (btn) btn.className = (p === 50 ? "px-2 py-1 flex items-center gap-1 " : "px-2 py-1 ") + (currentMinPct === p ? "bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all" : "bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold");
         });
-
         applyFilters();
     }
 
@@ -382,14 +354,9 @@
     }
 
     function handleSort(col) {
-        if (col === 'displayRank') {
-            currentSort = { column: 'realDiscountPct', dir: 'desc' };
-        } else if (currentSort.column === col) {
-            currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
-        } else {
-            currentSort.column = col;
-            currentSort.dir = (col === 'effectivePrice' || col === 'originalPrice') ? 'asc' : 'desc'; 
-        }
+        if (col === 'displayRank') { currentSort = { column: 'realDiscountPct', dir: 'desc' }; } 
+        else if (currentSort.column === col) { currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc'; } 
+        else { currentSort.column = col; currentSort.dir = (col === 'effectivePrice' || col === 'originalPrice') ? 'asc' : 'desc'; }
         const sortFilter = document.getElementById('sortFilter');
         if (sortFilter) sortFilter.value = 'custom';
         applyFilters();
@@ -397,18 +364,11 @@
 
     function updateSortUI() {
         document.querySelectorAll('.sort-icon').forEach(el => el.innerText = '');
-        const thMapping = {
-            'displayRank': 'thRank', 'categoryRaw': 'thCat', 'smCode': 'thSm',
-            'name': 'thName', 'offerTypeRaw': 'thType', 'originalPrice': 'thOrig',
-            'effectivePrice': 'thEff', 'realDiscountPct': 'thDiff'
-        };
+        const thMapping = { 'displayRank': 'thRank', 'categoryRaw': 'thCat', 'smCode': 'thSm', 'name': 'thName', 'originalPrice': 'thOrig', 'effectivePrice': 'thEff', 'realDiscountPct': 'thDiff' };
         const thId = thMapping[currentSort.column];
         if (thId) {
             const th = document.getElementById(thId);
-            if (th) {
-                const icon = th.querySelector('.sort-icon');
-                if (icon) icon.innerText = currentSort.dir === 'asc' ? '▲' : '▼';
-            }
+            if (th) { const icon = th.querySelector('.sort-icon'); if (icon) icon.innerText = currentSort.dir === 'asc' ? '▲' : '▼'; }
         }
     }
 
@@ -417,7 +377,6 @@
         const kw = kwInput ? kwInput.value.toLowerCase().trim() : '';
         const sm = document.getElementById('smFilter').value;
         const cat = document.getElementById('catFilter').value;
-
         const clearBtn = document.getElementById('clearSearchBtn');
         if (clearBtn) clearBtn.classList.toggle('hidden', kw.length === 0);
 
@@ -425,27 +384,21 @@
             const name = getText(i.name, currentLang).toLowerCase();
             const smNameText = getSmName(i.smCode, currentLang).toLowerCase(); 
             const categoryText = getText(i.categoryRaw, currentLang); 
-            
             const matchesKw = name.includes(kw) || smNameText.includes(kw);
             const matchesSm = (sm === 'ALL' || i.smCode === sm);
             const matchesCat = (cat === 'ALL' || categoryText === cat);
             const matchesPct = currentMinPct > 0 ? (i.realDiscountPct >= currentMinPct) : true;
-            
             return matchesKw && matchesSm && matchesCat && matchesPct;
         });
 
         filtered.sort((a, b) => {
-            let valA = a[currentSort.column];
-            let valB = b[currentSort.column];
-            
+            let valA = a[currentSort.column], valB = b[currentSort.column];
             if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
-                 valA = getText(a[currentSort.column], currentLang);
-                 valB = getText(b[currentSort.column], currentLang);
+                 valA = getText(a[currentSort.column], currentLang); valB = getText(b[currentSort.column], currentLang);
                  return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
             }
-            if (currentSort.column === 'smCode' || currentSort.column === 'offerTypeRaw') {
-                valA = String(valA || '');
-                valB = String(valB || '');
+            if (currentSort.column === 'smCode' || currentSort.column === 'statusKey') {
+                valA = String(valA || ''); valB = String(valB || '');
                 return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
             }
             return currentSort.dir === 'asc' ? valA - valB : valB - valA;
@@ -455,242 +408,220 @@
         renderLeaderboard(filtered);
     }
 
-    // --- 6. 多語言與選單初始化 (事件監聽版，不再衝突) ---
     function populateDropdowns() {
-        const sm = document.getElementById('smFilter');
-        const cat = document.getElementById('catFilter');
+        const sm = document.getElementById('smFilter'), cat = document.getElementById('catFilter');
         if (!sm || !cat) return;
-
-        // 確保 uiText 已載入，否則使用 fallback
         const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
-
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
-        sm.innerHTML = `<option value="ALL">${d.optSmAll || '推薦超市 (全部)'}</option>` + 
-                       smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
-
+        sm.innerHTML = `<option value="ALL">${d.optSmAll || '推薦超市 (全部)'}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
         const categories = [...new Set(fullDataList.map(i => getText(i.categoryRaw, currentLang)))];
-        cat.innerHTML = `<option value="ALL">${d.optCatAll || '所有分類'}</option>` + 
-                        categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        cat.innerHTML = `<option value="ALL">${d.optCatAll || '所有分類'}</option>` + categories.map(c => `<option value="${c}">${c}</option>`).join('');
     }
 
-    // 本頁專屬的翻譯渲染函數
-    function updateLocalBoardUI(lang) {
-        currentLang = lang;
-        const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
-        
-        document.title = (d.pageTitleText || "SmartDeal Board") + " | " + (d.title || "慳真D") + "🔎";
-        
-        const uiElements = {
-            'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
-            'txt-thCat': 'thCat', 'txt-thSm': 'thSm','txt-thBrand': 'thBrand', 'txt-thName': 'thName', 'txt-thType': 'thType',
-            'txt-thOrig': 'thOrig', 'txt-thEff': 'thEff', 'txt-thDiff': 'thDiff', 'txt-thOther': 'thOther',
-            'qsLabel': 'qsLabel', 'qs1': 'qs1', 'qs2': 'qs2', 'qs3': 'qs3', 'qs4': 'qs4',
-            'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn',
-            'optCatAll': 'optCatAll', 'optSmAll': 'optSmAll', 'optSortDiff': 'optSortDiff',
-            'optSortMinP': 'optSortMinP', 'optSortCustom': 'optSortCustom'
-        };
-
-        Object.keys(uiElements).forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = d[uiElements[id]] || '';
-        });
-
-        // 按鈕動態文字
-        const txtBtnPct20 = document.getElementById('txtBtnPct20');
-        const txtBtnPct30 = document.getElementById('txtBtnPct30');
-        const txtBtnPct50 = document.getElementById('txtBtnPct50');
-        if (lang === 'en') {
-            if (txtBtnPct20) txtBtnPct20.innerText = '> 20% Off';
-            if (txtBtnPct30) txtBtnPct30.innerText = '> 30% Off';
-            if (txtBtnPct50) txtBtnPct50.innerText = '> 50% Off';
-        } else if (lang === 'zh-Hans') {
-            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 减幅';
-            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 减幅';
-            if (txtBtnPct50) txtBtnPct50.innerText = '半价以上 (>50%)';
-        } else {
-            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 減幅';
-            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 減幅';
-            if (txtBtnPct50) txtBtnPct50.innerText = '半價以上 (>50%)';
-        }
-
-        populateDropdowns();
-        applyFilters();
-    }
-
-    // 💡 關鍵：監聽 Header 發出的語言切換事件
-    window.addEventListener('languageChanged', (e) => {
-        updateLocalBoardUI(e.detail.lang);
-    });
-
-    // 初始化時，直接抓取 Header 當前的語言
-    document.addEventListener('DOMContentLoaded', () => {
-        const initialLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
-        updateLocalBoardUI(initialLang);
-        loadTrueDiscountData();
-    });
-
-    // 💡 修正：改名為本頁專屬翻譯，避免覆蓋 lang.js 的 Header 翻譯功能
     function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
         const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
-        
         document.title = (d.pageTitleText || "智選真抵榜") + " | " + (d.title || "慳真D") + "🔎";
         
         const uiElements = {
            'pageTitleText': 'pageTitleText', 'subTitleText': 'subTitleText', 'txt-thRank': 'thRank',
-            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thBrand': 'thBrand', 'txt-thName': 'thName', 'txt-thType': 'thType',
+            'txt-thCat': 'thCat', 'txt-thSm': 'thSm', 'txt-thBrand': 'thBrand', 'txt-thName': 'thName',
             'txt-thOrig': 'thOrig', 'txt-thEff': 'thEff', 'txt-thDiff': 'thDiff', 'txt-thOther': 'thOther',
-            'qsLabel': 'qsLabel', 'qs1': 'qs1', 'qs2': 'qs2', 'qs3': 'qs3', 'qs4': 'qs4',
-            'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn',
-            'optCatAll': 'optCatAll', 'optSmAll': 'optSmAll', 'optSortDiff': 'optSortDiff',
-            'optSortMinP': 'optSortMinP', 'optSortCustom': 'optSortCustom'
+            'qsLabel': 'qsLabel', 'listTitle': 'listTitle', 'dailyUpdateBadge': 'dailyUpdateBadge', 'backBtn': 'backBtn'
         };
+        Object.keys(uiElements).forEach(id => { const el = document.getElementById(id); if (el) el.innerText = d[uiElements[id]] || ''; });
 
-        Object.keys(uiElements).forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = d[uiElements[id]] || '';
-        });
-        
-        // 動態翻譯減幅按鈕
-        const txtBtnPct20 = document.getElementById('txtBtnPct20');
-        const txtBtnPct30 = document.getElementById('txtBtnPct30');
-        const txtBtnPct50 = document.getElementById('txtBtnPct50');
-        
+        const txtBtnPct20 = document.getElementById('txtBtnPct20'), txtBtnPct30 = document.getElementById('txtBtnPct30'), txtBtnPct50 = document.getElementById('txtBtnPct50');
         if (lang === 'en') {
-            if (txtBtnPct20) txtBtnPct20.innerText = '> 20% Off';
-            if (txtBtnPct30) txtBtnPct30.innerText = '> 30% Off';
-            if (txtBtnPct50) txtBtnPct50.innerText = '> 50% Off';
+            if (txtBtnPct20) txtBtnPct20.innerText = '> 20% Off'; if (txtBtnPct30) txtBtnPct30.innerText = '> 30% Off'; if (txtBtnPct50) txtBtnPct50.innerText = '> 50% Off';
         } else if (lang === 'zh-Hans') {
-            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 减幅';
-            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 减幅';
-            if (txtBtnPct50) txtBtnPct50.innerText = '半价以上 (>50%)';
+            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 减幅'; if (txtBtnPct30) txtBtnPct30.innerText = '>30% 减幅'; if (txtBtnPct50) txtBtnPct50.innerText = '半价以上 (>50%)';
         } else {
-            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 減幅';
-            if (txtBtnPct30) txtBtnPct30.innerText = '>30% 減幅';
-            if (txtBtnPct50) txtBtnPct50.innerText = '半價以上 (>50%)';
+            if (txtBtnPct20) txtBtnPct20.innerText = '>20% 減幅'; if (txtBtnPct30) txtBtnPct30.innerText = '>30% 減幅'; if (txtBtnPct50) txtBtnPct50.innerText = '半價以上 (>50%)';
         }
 
         const filterInput = document.getElementById('filterInput');
         if (filterInput) filterInput.placeholder = d.filterPlace || '';
-
-        const statusLabel = document.getElementById('todayStatusLabel');
-        if (lastUpdatedTime && statusLabel) {
-            statusLabel.innerText = (d.lastUpdated || '') + formatDateTime(lastUpdatedTime);
-
-        // 獨立修正標題切換：確保只影響 appTitle
-const appTitle = document.getElementById('appTitle');
-if (appTitle) {
-    const d = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : uiText['zh-Hant'];
-    appTitle.innerText = d.title || '慳真D'; // 根據 lang.js 嘅 title 進行更新
-}
-
-        }
         
         populateDropdowns();
         applyFilters();
     }
 
-    // 💡 關鍵修正：將 Header 全域翻譯與本頁專屬翻譯完美對接（已修正錯字與重複宣告）
-    //const globalChangeLang = window.changeLanguage; 
     window.changeLanguage = function(lang) {
-        if (typeof globalChangeLang === 'function') {
-            globalChangeLang(lang); // 1. 先執行 lang.js 裡面的 Header/Logo/分頁翻譯
+        if (typeof globalChangeLang === 'function') globalChangeLang(lang);
+        if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
+    };
+
+  // --- 💡 新增：控制歷史面板摺疊/展開的函數 ---
+    window.toggleHistoryBox = function(boxId, iconId) {
+        const box = document.getElementById(boxId);
+        const icon = document.getElementById(iconId);
+        if (box) {
+            box.classList.toggle('hidden');
         }
-        if (typeof updateLocalLanguage === 'function') {
-            updateLocalLanguage(lang);  // 2. 再執行本頁智選真抵榜的表格與按鈕翻譯
+        if (icon) {
+            // 切換箭頭上下旋轉動畫
+            icon.classList.toggle('rotate-180');
         }
     };
 
+   // --- 6. 🚀 渲染畫面與注入詳細歷史資訊 ---
     function renderLeaderboard(list) {
         const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
         const otherStrText = currentLang === 'en' ? 'Others' : (currentLang === 'zh-Hans' ? '其他' : '其他');
         
-        // 1. 電腦版 Table 渲染
+        const lblDate = currentLang === 'en' ? 'Last Changed:' : (currentLang === 'zh-Hans' ? '上次变动:' : '上次變動:');
+        const lblBase = currentLang === 'en' ? 'Prev Base:' : (currentLang === 'zh-Hans' ? '上次原价:' : '上次原價:');
+        const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
+        const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
+
+        // ----------------------------------------------------
+        // 1. 🖥️ 電腦版 Table 渲染 (💡 修復高度無法縮短的問題)
+        // ----------------------------------------------------
         const body = document.getElementById('leaderboardTableBody');
         if (body) {
             body.innerHTML = list.map((item, i) => {
                 let rankClass = i < 3 ? 'text-amber-500 text-lg' : 'text-slate-400 text-sm';
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 let displayName = getText(item.name, currentLang);
-// 💡 修復：同時過濾單引號與雙引號，防止破壞 HTML 結構
-let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
-                // 💡 修正：在這裡根據 currentLang 動態產生其他超市的語言
                 let otherPricesHTML = '-';
                 if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
                     otherPricesHTML = item.otherPricesRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
                 }
+
+                const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
+                const statusText = stDict[currentLang] || stDict['zh-Hant'];
+                let prevEffText = item.prevEffPrice ? `$${item.prevEffPrice.toFixed(1)}` : '-';
+                let prevBaseText = item.prevBasePrice ? `$${item.prevBasePrice.toFixed(1)}` : '-';
+                let prevOfferText = item.prevOffer && item.prevOffer !== '-' ? item.prevOffer : (currentLang === 'en' ? 'None' : '無');
+                let lastDateText = item.lastChangeDate && item.lastChangeDate !== '-' ? item.lastChangeDate : '-';
                 
+                const deskBoxId = `desk-hist-${i}`;
+                const deskIconId = `desk-icon-${i}`;
+                
+                const statusBadgeHTML = `
+                    <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="toggleHistoryBox('${deskBoxId}', '${deskIconId}')">
+                        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] font-bold rounded border ${stDict.color} whitespace-nowrap shadow-sm">
+                            <span class="${item.statusKey === 'increase' || item.statusKey === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span> ${statusText}
+                        </span>
+                        <div class="bg-slate-100 dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
+                            <svg id="${deskIconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <div id="${deskBoxId}" class="hidden mt-1.5 p-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[10px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[145px]">
+                        <div class="flex justify-between gap-3"><span>${lblDate}</span> <span class="font-medium text-slate-600 dark:text-slate-300">${lastDateText}</span></div>
+                        <div class="flex justify-between gap-3"><span>${lblBase}</span> <span class="font-medium text-slate-600 dark:text-slate-300">${prevBaseText}</span></div>
+                        <div class="flex justify-between gap-3"><span>${lblEff}</span> <span class="font-bold text-slate-600 dark:text-slate-300">${prevEffText}</span></div>
+                        <div class="flex justify-between gap-3 items-start"><span class="shrink-0">${lblOffer}</span> <span class="font-medium text-slate-600 dark:text-slate-300 truncate max-w-[90px] text-right" title="${prevOfferText}">${prevOfferText}</span></div>
+                    </div>
+                `;
+                
+                // 💡 移除所有強制的 margin (mt-1) 與 padding (pt-4)，讓 row 可以自由縮短
                 return `
                 <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/30 transition-colors group">
-                    <td class="p-3.5 text-center font-black ${rankClass}">${rankMedal}</td>
-                    <td class="p-3.5 text-[12px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</td>
-                    <td class="p-3.5 text-center">${getSmBadge(item.smCode, currentLang)}</td>
-                    <!-- 💡 新增：品牌顯示欄位 -->
-                    <td class="p-3.5 text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px] md:max-w-[100px]" title="${getText(item.brand, currentLang)}">${getText(item.brand, currentLang)}</td>
-                    <td class="p-3.5 font-bold text-[14px]">
-                        <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">
-    ${displayName}
-</a>
+                    <td class="p-3 align-top text-center font-black ${rankClass} whitespace-nowrap">${rankMedal}</td>
+                    <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 whitespace-nowrap">${getText(item.categoryRaw, currentLang)}</td>
+                    <td class="p-3 align-top text-center whitespace-nowrap">${getSmBadge(item.smCode, currentLang)}</td>
+                    <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px]" title="${getText(item.brand, currentLang)}">${getText(item.brand, currentLang)}</td>
+                    <td class="p-3 align-top font-bold text-[14px]">
+                        <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">${displayName}</a>
+                        ${item.currentOffer && item.currentOffer !== '-' ? `<div class="text-[11px] text-red-500 mt-1">${item.currentOffer}</div>` : ''}
                     </td>
-                    <td class="p-3.5 text-center text-[12px]">
-                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-600 whitespace-nowrap">${item.offerTypeRaw === 'promo' ? d.typePromo : d.typeDiscount}</span>
+                    <td class="p-3 align-top">${statusBadgeHTML}</td>
+                    <td class="p-3 align-top text-right text-slate-400 dark:text-slate-500 line-through text-[12px] whitespace-nowrap">$${item.originalPrice.toFixed(1)}</td>
+                    <td class="p-3 align-top text-right font-black text-blue-600 dark:text-blue-400 text-[16px] whitespace-nowrap">$${item.effectivePrice.toFixed(1)}</td>
+                    <td class="p-3 align-top text-right whitespace-nowrap">
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
                     </td>
-                    <td class="p-3.5 text-right text-slate-400 dark:text-slate-500 line-through text-[12px]">$${item.originalPrice.toFixed(1)}</td>
-                    <td class="p-3.5 text-right font-black text-blue-600 dark:text-blue-400 text-[16px]">$${item.effectivePrice.toFixed(1)}</td>
-                    <td class="p-3.5 text-right">
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-lg border border-red-200 dark:border-red-800 whitespace-nowrap shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
-                    </td>
-                    <td class="p-3.5 text-[11px] text-slate-400 dark:text-slate-500 leading-tight max-w-[150px] truncate hover:whitespace-normal transition-all" title="${otherPricesHTML}">${otherPricesHTML}</td>
+                    <td class="p-3 align-top text-[11px] text-slate-400 dark:text-slate-500 leading-tight max-w-[150px] truncate hover:whitespace-normal transition-all" title="${otherPricesHTML}">${otherPricesHTML}</td>
                 </tr>
                 `;
             }).join('');
         }
 
-        // 2. 手機版 Card 渲染
+        // ----------------------------------------------------
+        // 2. 📱 手機版 Card 渲染 (保持之前的完美結構)
+        // ----------------------------------------------------
         const mobileContainer = document.getElementById('leaderboardMobile');
         if (mobileContainer) {
             mobileContainer.innerHTML = list.map((item, i) => {
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 let displayName = getText(item.name, currentLang);
-let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 let otherPricesHTML = '-';
                 if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
                     otherPricesHTML = item.otherPricesRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
                 }
+
+                const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
+                const statusText = stDict[currentLang] || stDict['zh-Hant'];
+                let prevEffText = item.prevEffPrice ? `$${item.prevEffPrice.toFixed(1)}` : '-';
+                let prevBaseText = item.prevBasePrice ? `$${item.prevBasePrice.toFixed(1)}` : '-';
+                let prevOfferText = item.prevOffer && item.prevOffer !== '-' ? item.prevOffer : (currentLang === 'en' ? 'None' : '無');
+                let lastDateText = item.lastChangeDate && item.lastChangeDate !== '-' ? item.lastChangeDate : '-';
                 
+                const mobBoxId = `mob-hist-${i}`;
+                const mobIconId = `mob-icon-${i}`;
+
+                const statusBadgeHTML = `
+                    <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="toggleHistoryBox('${mobBoxId}', '${mobIconId}')">
+                        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded border ${stDict.color} shadow-sm w-max">
+                            <span class="${item.statusKey === 'increase' || item.statusKey === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span> ${statusText}
+                        </span>
+                        <div class="bg-slate-100 dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
+                            <svg id="${mobIconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                `;
+
+                const microHistoryBox = `
+                    <div id="${mobBoxId}" class="hidden mt-1.5 p-2 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[150px]">
+                        <div class="flex justify-between gap-4"><span>${lblDate}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${lastDateText}</span></div>
+                        <div class="flex justify-between gap-4"><span>${lblBase}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${prevBaseText}</span></div>
+                        <div class="flex justify-between gap-4"><span>${lblEff}</span> <span class="font-bold text-slate-700 dark:text-slate-300">${prevEffText}</span></div>
+                        <div class="flex justify-between gap-4 items-start">
+                            <span class="shrink-0">${lblOffer}</span> 
+                            <span class="font-medium text-slate-700 dark:text-slate-300 truncate max-w-[100px] text-right" title="${prevOfferText}">${prevOfferText}</span>
+                        </div>
+                    </div>
+                `;
+
                 return `
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-3 relative overflow-hidden transition-colors">
-                    <div class="flex justify-between items-start">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-1 relative overflow-hidden transition-colors">
+                    
+                    <div class="flex justify-between items-start mb-2">
                         <div class="flex items-center gap-2.5">
                             <span class="text-xl font-black text-amber-500 drop-shadow-sm">${rankMedal}</span>
                             ${getSmBadge(item.smCode, currentLang)}
                         </div>
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-lg border border-red-200 dark:border-red-800 text-[12px] shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 text-[12px] shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
                     </div>
                     
-                    <h3 class="font-bold text-[15px] leading-snug">
-                        <!-- 💡 新增：手機版品牌名稱顯示 -->
+                    <div>
                         <span class="text-[12px] font-normal text-slate-500 dark:text-slate-400 block mb-0.5">${getText(item.brand, currentLang)}</span>
-                        <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">
-    ${displayName}
-</a>
-                    </h3>
+                        <h3 class="font-bold text-[15px] leading-snug mb-1">
+                            <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">${displayName}</a>
+                        </h3>
+                    </div>
                     
-                    <div class="flex justify-between items-end mt-1">
-                        <div class="flex flex-col gap-1.5">
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</span>
-                            <span class="text-[11px] bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md w-max font-bold">${item.offerTypeRaw === 'promo' ? d.typePromo : d.typeDiscount}</span>
+                    <div class="flex justify-between items-end mt-2">
+                        <div class="flex flex-col items-start gap-1 w-3/5">
+                            <span class="text-[12px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</span>
+                            ${statusBadgeHTML}
+                            ${microHistoryBox}
                         </div>
-                        <div class="flex flex-col items-end">
-                            <span class="text-[12px] text-slate-400 dark:text-slate-500 line-through mb-0.5">$${item.originalPrice.toFixed(1)}</span>
-                            <span class="text-[20px] font-black text-blue-600 dark:text-blue-400 leading-none">$${item.effectivePrice.toFixed(1)}</span>
+                        
+                        <div class="flex flex-col items-end justify-end shrink-0 pb-1">
+                            <span class="text-[14px] text-slate-400 dark:text-slate-500 line-through mb-0.5">$${item.originalPrice.toFixed(1)}</span>
+                            <span class="text-[26px] font-black text-blue-600 dark:text-blue-400 leading-none tracking-tight">$${item.effectivePrice.toFixed(1)}</span>
                         </div>
                     </div>
                     
-                    ${item.otherPricesRaw && item.otherPricesRaw.length > 0 ? `<div class="mt-2 pt-2.5 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">${otherStrText}: ${otherPricesHTML}</div>` : ''}
+                    ${item.otherPricesRaw && item.otherPricesRaw.length > 0 ? `<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">${otherStrText}: ${otherPricesHTML}</div>` : ''}
                 </div>
                 `;
             }).join('');
@@ -786,9 +717,8 @@ let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
     }
 
-// --- 啟動初始化 ---
+    // --- 啟動初始化 ---
     document.addEventListener('DOMContentLoaded', () => {
-        // 等待 Header 載入完成後，確保本頁面的語言設定與之同步
         if (typeof window.currentLang !== 'undefined') {
             updateLocalLanguage(window.currentLang);
         } else {
@@ -799,6 +729,5 @@ let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     // --- 啟動 ---
     loadTrueDiscountData();
 </script>
-
 </body>
 </html>
