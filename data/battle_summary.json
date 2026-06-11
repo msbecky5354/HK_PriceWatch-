@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T21:07:40.638Z",
+  "generated_at": "2026-06-11T21:35:30.452Z",
   "report_date": "2026-06-11",
   "total_items": 9,
   "results": [
@@ -7,9 +7,9 @@
       "supermarket_code": "WELLCOME",
       "total_drop_items": "425",
       "avg_discount_pct": "6.50",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "top_category_en": null,
-      "cat_drop_count": "81",
+      "cat_drop_count": "425",
       "top_3_deals": [
         {
           "name_zh": "午餐豬肉 340克",
@@ -35,9 +35,9 @@
       "supermarket_code": "PARKNSHOP",
       "total_drop_items": "355",
       "avg_discount_pct": "8.78",
-      "top_category_zh": "個人護理",
+      "top_category_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "top_category_en": null,
-      "cat_drop_count": "65",
+      "cat_drop_count": "355",
       "top_3_deals": [
         {
           "name_zh": "可樂 - 樽裝 2公升",
@@ -63,9 +63,9 @@
       "supermarket_code": "JASONS",
       "total_drop_items": "292",
       "avg_discount_pct": "7.49",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "top_category_en": null,
-      "cat_drop_count": "53",
+      "cat_drop_count": "292",
       "top_3_deals": [
         {
           "name_zh": "午餐豬肉 340克",
@@ -91,9 +91,9 @@
       "supermarket_code": "AEON",
       "total_drop_items": "97",
       "avg_discount_pct": "14.66",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "top_category_en": null,
-      "cat_drop_count": "21",
+      "cat_drop_count": "97",
       "top_3_deals": [
         {
           "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
@@ -119,9 +119,9 @@
       "supermarket_code": "WATSONS",
       "total_drop_items": "82",
       "avg_discount_pct": "12.21",
-      "top_category_zh": "個人護理",
+      "top_category_zh": "飲品",
       "top_category_en": null,
-      "cat_drop_count": "64",
+      "cat_drop_count": "82",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -147,9 +147,9 @@
       "supermarket_code": "MANNINGS",
       "total_drop_items": "52",
       "avg_discount_pct": "11.04",
-      "top_category_zh": "個人護理",
+      "top_category_zh": "奶粉 / 嬰兒用品",
       "top_category_en": null,
-      "cat_drop_count": "44",
+      "cat_drop_count": "52",
       "top_3_deals": [
         {
           "name_zh": "淨肌呵護纖巧特多流量夜用衛生巾 40厘米 7片",
@@ -203,9 +203,9 @@
       "supermarket_code": "LUNGFUNG",
       "total_drop_items": "5",
       "avg_discount_pct": "16.40",
-      "top_category_zh": "個人護理",
+      "top_category_zh": "家居用品 / 寵物食品及用品",
       "top_category_en": null,
-      "cat_drop_count": "4",
+      "cat_drop_count": "5",
       "top_3_deals": [
         {
           "name_zh": "兒童益生菌咀嚼片 30粒",
@@ -231,9 +231,9 @@
       "supermarket_code": "DCHFOOD",
       "total_drop_items": "3",
       "avg_discount_pct": "7.57",
-      "top_category_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
+      "top_category_zh": "飲品",
       "top_category_en": null,
-      "cat_drop_count": "1",
+      "cat_drop_count": "3",
       "top_3_deals": [
         {
           "name_zh": "忌廉黃粟蓉 425克",
