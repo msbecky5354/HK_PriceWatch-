@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T10:58:34.096Z",
+  "generated_at": "2026-06-12T11:01:06.199Z",
   "report_date": "2026-06-12",
   "total_items": 9,
   "results": [
@@ -8,24 +8,24 @@
       "total_drop_items": "427",
       "avg_discount_pct": "6.33",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "top_category_en": null,
+      "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "86",
       "top_3_deals": [
         {
           "name_zh": "午餐豬肉 340克",
-          "name_en": null,
+          "name_en": "Pork Luncheon Meat 340g",
           "price": 11,
           "pct": 36.69
         },
         {
           "name_zh": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
-          "name_en": null,
+          "name_en": "Menthol & Eucalyptus Chewing Gum 20pcs 28g",
           "price": 5.6,
           "pct": 30.72
         },
         {
           "name_zh": "冷氣機潔淨劑 (清新花香) 420毫升",
-          "name_en": null,
+          "name_en": "Air-Conditioner Cleaner (Forest) 420mL",
           "price": 28,
           "pct": 29.41
         }
@@ -36,24 +36,24 @@
       "total_drop_items": "359",
       "avg_discount_pct": "8.84",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "top_category_en": null,
+      "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "67",
       "top_3_deals": [
         {
           "name_zh": "可樂 - 樽裝 2公升",
-          "name_en": null,
+          "name_en": "Coke - Bottle 2L",
           "price": 10,
           "pct": 39.3
         },
         {
           "name_zh": "橙汁汽水 - 樽裝 2公升",
-          "name_en": null,
+          "name_en": "Orange Drink - Bottle 2L",
           "price": 10,
           "pct": 34.78
         },
         {
           "name_zh": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
-          "name_en": null,
+          "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 40cm 10pcs",
           "price": 19.95,
           "pct": 33.33
         }
@@ -64,24 +64,24 @@
       "total_drop_items": "295",
       "avg_discount_pct": "7.20",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "top_category_en": null,
+      "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "57",
       "top_3_deals": [
         {
           "name_zh": "午餐豬肉 340克",
-          "name_en": null,
+          "name_en": "Pork Luncheon Meat 340g",
           "price": 11,
           "pct": 36.69
         },
         {
           "name_zh": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
-          "name_en": null,
+          "name_en": "Menthol & Eucalyptus Chewing Gum 20pcs 28g",
           "price": 5.6,
           "pct": 30.72
         },
         {
           "name_zh": "薯片 - 酸忌廉洋蔥味 102克",
-          "name_en": null,
+          "name_en": "Potato Crisps - Sour Cream & Onion 102g",
           "price": 10,
           "pct": 27.14
         }
@@ -92,24 +92,24 @@
       "total_drop_items": "111",
       "avg_discount_pct": "11.38",
       "top_category_zh": "個人護理",
-      "top_category_en": null,
+      "top_category_en": "Personal care",
       "cat_drop_count": "83",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
-          "name_en": null,
+          "name_en": "Satin Floss (Mint) 50m",
           "price": 13.45,
           "pct": 45.63
         },
         {
           "name_zh": "無痕奢柔褲 (M-L碼) 3片",
-          "name_en": null,
+          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
           "price": 19.95,
           "pct": 44.75
         },
         {
           "name_zh": "無痕奢柔褲 (XL碼) 3片",
-          "name_en": null,
+          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 44.75
         }
@@ -120,24 +120,24 @@
       "total_drop_items": "98",
       "avg_discount_pct": "13.96",
       "top_category_zh": "飲品",
-      "top_category_en": null,
+      "top_category_en": "Drinks",
       "cat_drop_count": "19",
       "top_3_deals": [
         {
           "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
-          "name_en": null,
+          "name_en": "Sweet Sleep Wing Extra Long Night Use Pad 40cm 10pcs",
           "price": 22,
           "pct": 46.56
         },
         {
           "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
-          "name_en": null,
+          "name_en": "Air-Dry Pad 24cm 10pcs",
           "price": 11.95,
           "pct": 45.06
         },
         {
           "name_zh": "Air-Dry 雲枕瞬吸日用量大衛生巾 28厘米 10片",
-          "name_en": null,
+          "name_en": "Air-Dry Pad 28cm 10pcs",
           "price": 13.45,
           "pct": 44.99
         }
@@ -148,24 +148,24 @@
       "total_drop_items": "50",
       "avg_discount_pct": "10.63",
       "top_category_zh": "個人護理",
-      "top_category_en": null,
+      "top_category_en": "Personal care",
       "cat_drop_count": "43",
       "top_3_deals": [
         {
           "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
-          "name_en": null,
+          "name_en": "Anti-bacteria Ultra Slim (Day Use) (Wing) Pad 25cm 18pcs",
           "price": 17.95,
           "pct": 33.33
         },
         {
           "name_zh": "好自在 Air-Dry 雲枕護墊 16.3厘米 22片",
-          "name_en": null,
+          "name_en": "Air-Dry Liner (16.3cm) 22pcs",
           "price": 9.45,
           "pct": 30.45
         },
         {
           "name_zh": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
-          "name_en": null,
+          "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 30cm 14pcs",
           "price": 15.95,
           "pct": 25
         }
@@ -176,24 +176,24 @@
       "total_drop_items": "6",
       "avg_discount_pct": "15.43",
       "top_category_zh": "個人護理",
-      "top_category_en": null,
+      "top_category_en": "Personal care",
       "cat_drop_count": "5",
       "top_3_deals": [
         {
           "name_zh": "兒童益生菌咀嚼片 30粒",
-          "name_en": null,
+          "name_en": "Kids Probiotics Chewables 30 tablets",
           "price": 128,
           "pct": 42.17
         },
         {
           "name_zh": "高效眼唇卸妝液 145毫升",
-          "name_en": null,
+          "name_en": "Eye & Lip Makeup Remover (Eye & Lip) 145mL",
           "price": 33,
           "pct": 14.74
         },
         {
           "name_zh": "4合1 防蟲吸濕包 10片裝",
-          "name_en": null,
+          "name_en": "4 in 1 Anti-Moth Dehumidifying Bag 10pcs",
           "price": 75,
           "pct": 14.71
         }
@@ -204,24 +204,24 @@
       "total_drop_items": "5",
       "avg_discount_pct": "18.75",
       "top_category_zh": "個人護理",
-      "top_category_en": null,
+      "top_category_en": "Personal care",
       "cat_drop_count": "5",
       "top_3_deals": [
         {
           "name_zh": "腸道益生菌 (300億) 30粒",
-          "name_en": null,
+          "name_en": "Probiotics+ Daily Health 30 capsules",
           "price": 112,
           "pct": 47.88
         },
         {
           "name_zh": "SA水楊酸煥膚潔膚露 473毫升",
-          "name_en": null,
+          "name_en": "SA Smoothing Cleanser 473mL",
           "price": 116,
           "pct": 26.11
         },
         {
           "name_zh": "葯水 1.75安士 (50毫升)",
-          "name_en": null,
+          "name_en": "Alcool de Menthe (Peppermint Cure) 1.75oz (50mL)",
           "price": 51.5,
           "pct": 13.32
         }
@@ -232,24 +232,24 @@
       "total_drop_items": "3",
       "avg_discount_pct": "10.44",
       "top_category_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
-      "top_category_en": null,
+      "top_category_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_drop_count": "1",
       "top_3_deals": [
         {
           "name_zh": "忌廉黃粟蓉 425克",
-          "name_en": null,
+          "name_en": "Cream Style Corn 425g",
           "price": 8,
           "pct": 16.67
         },
         {
           "name_zh": "金裝倍醇奶茶 16.5克 x 10",
-          "name_en": null,
+          "name_en": "Gold Milk Tea 16.5g x 10",
           "price": 25,
           "pct": 7.68
         },
         {
           "name_zh": "牛奶朱古力 90克",
-          "name_en": null,
+          "name_en": "Milk Chocolate (Box) 90g",
           "price": 20,
           "pct": 6.98
         }
