@@ -1,155 +1,43 @@
 {
-  "generated_at": "2026-06-12T16:02:57.106Z",
+  "generated_at": "2026-06-12T16:12:59.446Z",
   "report_date": "2026-06-12",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "427",
-      "avg_discount_pct": "6.33",
+      "total_drop_items": "302",
+      "avg_discount_pct": "7.28",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "cat_drop_count": "86",
+      "cat_drop_count": "76",
       "top_3_deals": [
         {
-          "name_zh": "午餐豬肉 340克",
-          "name_en": "午餐豬肉 340克",
-          "price": 11,
-          "pct": 36.69
+          "name_zh": "粟米筒 (淡鹽味) 68克",
+          "name_en": "粟米筒 (淡鹽味) 68克",
+          "price": 10,
+          "pct": 26.34
         },
         {
-          "name_zh": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
-          "name_en": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
-          "price": 5.6,
-          "pct": 30.72
+          "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
+          "name_en": "維他命香橙及檸檬夾心果汁糖 50克",
+          "price": 5,
+          "pct": 25.65
         },
         {
-          "name_zh": "冷氣機潔淨劑 (清新花香) 420毫升",
-          "name_en": "冷氣機潔淨劑 (清新花香) 420毫升",
-          "price": 28,
-          "pct": 29.41
+          "name_zh": "原味巧克力三文治餅乾 200克",
+          "name_en": "原味巧克力三文治餅乾 200克",
+          "price": 20,
+          "pct": 23.95
         }
       ]
     },
     {
       "supermarket_code": "PARKNSHOP",
-      "total_drop_items": "359",
-      "avg_discount_pct": "8.84",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "top_category_en": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "cat_drop_count": "67",
-      "top_3_deals": [
-        {
-          "name_zh": "可樂 - 樽裝 2公升",
-          "name_en": "可樂 - 樽裝 2公升",
-          "price": 10,
-          "pct": 39.3
-        },
-        {
-          "name_zh": "橙汁汽水 - 樽裝 2公升",
-          "name_en": "橙汁汽水 - 樽裝 2公升",
-          "price": 10,
-          "pct": 34.78
-        },
-        {
-          "name_zh": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
-          "name_en": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
-          "price": 19.95,
-          "pct": 33.33
-        }
-      ]
-    },
-    {
-      "supermarket_code": "JASONS",
-      "total_drop_items": "295",
-      "avg_discount_pct": "7.20",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "top_category_en": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "cat_drop_count": "57",
-      "top_3_deals": [
-        {
-          "name_zh": "午餐豬肉 340克",
-          "name_en": "午餐豬肉 340克",
-          "price": 11,
-          "pct": 36.69
-        },
-        {
-          "name_zh": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
-          "name_en": "無糖香口珠 - 超涼薄荷味 20粒袋裝 28克",
-          "price": 5.6,
-          "pct": 30.72
-        },
-        {
-          "name_zh": "薯片 - 酸忌廉洋蔥味 102克",
-          "name_en": "薯片 - 酸忌廉洋蔥味 102克",
-          "price": 10,
-          "pct": 27.14
-        }
-      ]
-    },
-    {
-      "supermarket_code": "WATSONS",
-      "total_drop_items": "111",
-      "avg_discount_pct": "11.38",
+      "total_drop_items": "283",
+      "avg_discount_pct": "9.54",
       "top_category_zh": "個人護理",
       "top_category_en": "個人護理",
-      "cat_drop_count": "83",
-      "top_3_deals": [
-        {
-          "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
-          "name_en": "超滑牙線 Satin Floss (薄荷口味) 50米",
-          "price": 13.45,
-          "pct": 45.63
-        },
-        {
-          "name_zh": "無痕奢柔褲 (XL碼) 3片",
-          "name_en": "無痕奢柔褲 (XL碼) 3片",
-          "price": 19.95,
-          "pct": 44.75
-        },
-        {
-          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
-          "name_en": "無痕奢柔褲 (M-L碼) 3片",
-          "price": 19.95,
-          "pct": 44.75
-        }
-      ]
-    },
-    {
-      "supermarket_code": "AEON",
-      "total_drop_items": "98",
-      "avg_discount_pct": "13.96",
-      "top_category_zh": "飲品",
-      "top_category_en": "飲品",
-      "cat_drop_count": "19",
-      "top_3_deals": [
-        {
-          "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
-          "name_en": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
-          "price": 22,
-          "pct": 46.56
-        },
-        {
-          "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
-          "name_en": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
-          "price": 11.95,
-          "pct": 45.06
-        },
-        {
-          "name_zh": "Air-Dry 雲枕瞬吸日用量大衛生巾 28厘米 10片",
-          "name_en": "Air-Dry 雲枕瞬吸日用量大衛生巾 28厘米 10片",
-          "price": 13.45,
-          "pct": 44.99
-        }
-      ]
-    },
-    {
-      "supermarket_code": "MANNINGS",
-      "total_drop_items": "50",
-      "avg_discount_pct": "10.63",
-      "top_category_zh": "個人護理",
-      "top_category_en": "個人護理",
-      "cat_drop_count": "43",
+      "cat_drop_count": "65",
       "top_3_deals": [
         {
           "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
@@ -158,51 +46,135 @@
           "pct": 33.33
         },
         {
-          "name_zh": "好自在 Air-Dry 雲枕護墊 16.3厘米 22片",
-          "name_en": "好自在 Air-Dry 雲枕護墊 16.3厘米 22片",
-          "price": 9.45,
-          "pct": 30.45
+          "name_zh": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
+          "name_en": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
+          "price": 19.95,
+          "pct": 33.33
+        },
+        {
+          "name_zh": "蒸餾水 430毫升",
+          "name_en": "蒸餾水 430毫升",
+          "price": 3.33,
+          "pct": 32.67
+        }
+      ]
+    },
+    {
+      "supermarket_code": "JASONS",
+      "total_drop_items": "206",
+      "avg_discount_pct": "7.74",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_en": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "cat_drop_count": "53",
+      "top_3_deals": [
+        {
+          "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
+          "name_en": "維他命香橙及檸檬夾心果汁糖 50克",
+          "price": 5,
+          "pct": 25.65
+        },
+        {
+          "name_zh": "原味巧克力三文治餅乾 200克",
+          "name_en": "原味巧克力三文治餅乾 200克",
+          "price": 20,
+          "pct": 23.95
+        },
+        {
+          "name_zh": "直通粉 (n.73) 500克",
+          "name_en": "直通粉 (n.73) 500克",
+          "price": 13,
+          "pct": 23.08
+        }
+      ]
+    },
+    {
+      "supermarket_code": "WATSONS",
+      "total_drop_items": "88",
+      "avg_discount_pct": "9.85",
+      "top_category_zh": "個人護理",
+      "top_category_en": "個人護理",
+      "cat_drop_count": "72",
+      "top_3_deals": [
+        {
+          "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
+          "name_en": "超滑牙線 Satin Floss (薄荷口味) 50米",
+          "price": 13.45,
+          "pct": 45.63
+        },
+        {
+          "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "name_en": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "price": 17.95,
+          "pct": 39.18
+        },
+        {
+          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
+          "name_en": "無痕奢柔褲 (M-L碼) 3片",
+          "price": 19.95,
+          "pct": 31.96
+        }
+      ]
+    },
+    {
+      "supermarket_code": "AEON",
+      "total_drop_items": "88",
+      "avg_discount_pct": "12.96",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_en": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "cat_drop_count": "17",
+      "top_3_deals": [
+        {
+          "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
+          "name_en": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
+          "price": 22,
+          "pct": 46.56
+        },
+        {
+          "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "name_en": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "price": 17.95,
+          "pct": 39.18
+        },
+        {
+          "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
+          "name_en": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
+          "price": 11.95,
+          "pct": 33.98
+        }
+      ]
+    },
+    {
+      "supermarket_code": "MANNINGS",
+      "total_drop_items": "50",
+      "avg_discount_pct": "7.90",
+      "top_category_zh": "個人護理",
+      "top_category_en": "個人護理",
+      "cat_drop_count": "45",
+      "top_3_deals": [
+        {
+          "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
+          "name_en": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
+          "price": 17.95,
+          "pct": 33.33
         },
         {
           "name_zh": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
           "name_en": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
           "price": 15.95,
           "pct": 25
-        }
-      ]
-    },
-    {
-      "supermarket_code": "LUNGFUNG",
-      "total_drop_items": "6",
-      "avg_discount_pct": "15.43",
-      "top_category_zh": "個人護理",
-      "top_category_en": "個人護理",
-      "cat_drop_count": "5",
-      "top_3_deals": [
-        {
-          "name_zh": "兒童益生菌咀嚼片 30粒",
-          "name_en": "兒童益生菌咀嚼片 30粒",
-          "price": 128,
-          "pct": 42.17
         },
         {
-          "name_zh": "高效眼唇卸妝液 145毫升",
-          "name_en": "高效眼唇卸妝液 145毫升",
-          "price": 33,
-          "pct": 14.74
-        },
-        {
-          "name_zh": "4合1 防蟲吸濕包 10片裝",
-          "name_en": "4合1 防蟲吸濕包 10片裝",
-          "price": 75,
-          "pct": 14.71
+          "name_zh": "+維他命C (含多種維他命及礦物質) 葡萄口味咀嚼片 60粒",
+          "name_en": "+維他命C (含多種維他命及礦物質) 葡萄口味咀嚼片 60粒",
+          "price": 131.18,
+          "pct": 18.87
         }
       ]
     },
     {
       "supermarket_code": "SASA",
       "total_drop_items": "5",
-      "avg_discount_pct": "18.75",
+      "avg_discount_pct": "19.98",
       "top_category_zh": "個人護理",
       "top_category_en": "個人護理",
       "cat_drop_count": "5",
@@ -228,24 +200,52 @@
       ]
     },
     {
-      "supermarket_code": "DCHFOOD",
-      "total_drop_items": "3",
-      "avg_discount_pct": "10.44",
-      "top_category_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
-      "top_category_en": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
-      "cat_drop_count": "1",
+      "supermarket_code": "LUNGFUNG",
+      "total_drop_items": "5",
+      "avg_discount_pct": "17.48",
+      "top_category_zh": "個人護理",
+      "top_category_en": "個人護理",
+      "cat_drop_count": "4",
       "top_3_deals": [
         {
-          "name_zh": "忌廉黃粟蓉 425克",
-          "name_en": "忌廉黃粟蓉 425克",
-          "price": 8,
-          "pct": 16.67
+          "name_zh": "兒童益生菌咀嚼片 30粒",
+          "name_en": "兒童益生菌咀嚼片 30粒",
+          "price": 128,
+          "pct": 42.17
+        },
+        {
+          "name_zh": "高效眼唇卸妝液 145毫升",
+          "name_en": "高效眼唇卸妝液 145毫升",
+          "price": 33,
+          "pct": 14.74
+        },
+        {
+          "name_zh": "4合1 防蟲吸濕包 10片裝",
+          "name_en": "4合1 防蟲吸濕包 10片裝",
+          "price": 75,
+          "pct": 14.71
+        }
+      ]
+    },
+    {
+      "supermarket_code": "DCHFOOD",
+      "total_drop_items": "3",
+      "avg_discount_pct": "11.22",
+      "top_category_zh": "糖果 / 餅乾 / 小食",
+      "top_category_en": "糖果 / 餅乾 / 小食",
+      "cat_drop_count": "2",
+      "top_3_deals": [
+        {
+          "name_zh": "杏桃乾 200克",
+          "name_en": "杏桃乾 200克",
+          "price": 37.52,
+          "pct": 14.83
         },
         {
           "name_zh": "金裝倍醇奶茶 16.5克 x 10",
           "name_en": "金裝倍醇奶茶 16.5克 x 10",
           "price": 25,
-          "pct": 7.68
+          "pct": 11.85
         },
         {
           "name_zh": "牛奶朱古力 90克",
