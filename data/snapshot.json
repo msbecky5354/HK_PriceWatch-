@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T17:38:23.152Z",
+  "generated_at": "2026-06-12T23:05:16.281Z",
   "report_date": "2026-06-12",
   "total_items": 9,
   "results": [
@@ -8,23 +8,27 @@
       "total_drop_items": "302",
       "avg_discount_pct": "7.28",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh_hans": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "76",
       "top_3_deals": [
         {
           "name_zh": "粟米筒 (淡鹽味) 68克",
+          "name_zh_hans": "粟米筒 (淡鹽味) 68克",
           "name_en": "Corn (Salt) 68g",
           "price": 10,
           "pct": 26.34
         },
         {
           "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
+          "name_zh_hans": "維他命香橙及檸檬夾心果汁糖 50克",
           "name_en": "Fruity Filled Orange and Lemon Candies with Vitamins 50g",
           "price": 5,
           "pct": 25.65
         },
         {
           "name_zh": "原味巧克力三文治餅乾 200克",
+          "name_zh_hans": "原味巧克力三文治餅乾 200克",
           "name_en": "Original Chocolate Biscuits 200g",
           "price": 20,
           "pct": 23.95
@@ -36,23 +40,27 @@
       "total_drop_items": "283",
       "avg_discount_pct": "9.54",
       "top_category_zh": "個人護理",
+      "top_category_zh_hans": "個人護理",
       "top_category_en": "Personal care",
       "cat_drop_count": "65",
       "top_3_deals": [
         {
           "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
+          "name_zh_hans": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
           "name_en": "Anti-bacteria Ultra Slim (Day Use) (Wing) Pad 25cm 18pcs",
           "price": 17.95,
           "pct": 33.33
         },
         {
           "name_zh": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
+          "name_zh_hans": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
           "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 40cm 10pcs",
           "price": 19.95,
           "pct": 33.33
         },
         {
           "name_zh": "蒸餾水 430毫升",
+          "name_zh_hans": "蒸餾水 430毫升",
           "name_en": "Pure Distilled Water 430mL",
           "price": 3.33,
           "pct": 32.67
@@ -64,23 +72,27 @@
       "total_drop_items": "206",
       "avg_discount_pct": "7.74",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh_hans": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "53",
       "top_3_deals": [
         {
           "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
+          "name_zh_hans": "維他命香橙及檸檬夾心果汁糖 50克",
           "name_en": "Fruity Filled Orange and Lemon Candies with Vitamins 50g",
           "price": 5,
           "pct": 25.65
         },
         {
           "name_zh": "原味巧克力三文治餅乾 200克",
+          "name_zh_hans": "原味巧克力三文治餅乾 200克",
           "name_en": "Original Chocolate Biscuits 200g",
           "price": 20,
           "pct": 23.95
         },
         {
           "name_zh": "螺絲粉 (n.98) 500克",
+          "name_zh_hans": "螺絲粉 (n.98) 500克",
           "name_en": "Fusilli (n.98) 500g",
           "price": 13,
           "pct": 23.08
@@ -92,23 +104,27 @@
       "total_drop_items": "88",
       "avg_discount_pct": "9.85",
       "top_category_zh": "個人護理",
+      "top_category_zh_hans": "個人護理",
       "top_category_en": "Personal care",
       "cat_drop_count": "72",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
+          "name_zh_hans": "超滑牙線 Satin Floss (薄荷口味) 50米",
           "name_en": "Satin Floss (Mint) 50m",
           "price": 13.45,
           "pct": 45.63
         },
         {
           "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "name_zh_hans": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
           "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
           "price": 17.95,
           "pct": 39.18
         },
         {
           "name_zh": "無痕奢柔褲 (XL碼) 3片",
+          "name_zh_hans": "無痕奢柔褲 (XL碼) 3片",
           "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 31.96
@@ -120,23 +136,27 @@
       "total_drop_items": "88",
       "avg_discount_pct": "12.96",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh_hans": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "17",
       "top_3_deals": [
         {
           "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
+          "name_zh_hans": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
           "name_en": "Sweet Sleep Wing Extra Long Night Use Pad 40cm 10pcs",
           "price": 22,
           "pct": 46.56
         },
         {
           "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "name_zh_hans": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
           "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
           "price": 17.95,
           "pct": 39.18
         },
         {
           "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
+          "name_zh_hans": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
           "name_en": "Air-Dry Pad 24cm 10pcs",
           "price": 11.95,
           "pct": 33.98
@@ -148,23 +168,27 @@
       "total_drop_items": "50",
       "avg_discount_pct": "7.90",
       "top_category_zh": "個人護理",
+      "top_category_zh_hans": "個人護理",
       "top_category_en": "Personal care",
       "cat_drop_count": "45",
       "top_3_deals": [
         {
           "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
+          "name_zh_hans": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
           "name_en": "Anti-bacteria Ultra Slim (Day Use) (Wing) Pad 25cm 18pcs",
           "price": 17.95,
           "pct": 33.33
         },
         {
           "name_zh": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
+          "name_zh_hans": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
           "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 30cm 14pcs",
           "price": 15.95,
           "pct": 25
         },
         {
           "name_zh": "+維他命C (含多種維他命及礦物質) 葡萄口味咀嚼片 60粒",
+          "name_zh_hans": "+維他命C (含多種維他命及礦物質) 葡萄口味咀嚼片 60粒",
           "name_en": "+Extra C (From A to Zinc) Chewable Tablets 60 Tablets",
           "price": 131.18,
           "pct": 18.87
@@ -176,23 +200,27 @@
       "total_drop_items": "5",
       "avg_discount_pct": "19.98",
       "top_category_zh": "個人護理",
+      "top_category_zh_hans": "個人護理",
       "top_category_en": "Personal care",
       "cat_drop_count": "5",
       "top_3_deals": [
         {
           "name_zh": "腸道益生菌 (300億) 30粒",
+          "name_zh_hans": "腸道益生菌 (300億) 30粒",
           "name_en": "Probiotics+ Daily Health 30 capsules",
           "price": 112,
           "pct": 47.88
         },
         {
           "name_zh": "SA水楊酸煥膚潔膚露 473毫升",
+          "name_zh_hans": "SA水楊酸煥膚潔膚露 473毫升",
           "name_en": "SA Smoothing Cleanser 473mL",
           "price": 116,
           "pct": 26.11
         },
         {
           "name_zh": "葯水 1.75安士 (50毫升)",
+          "name_zh_hans": "葯水 1.75安士 (50毫升)",
           "name_en": "Alcool de Menthe (Peppermint Cure) 1.75oz (50mL)",
           "price": 51.5,
           "pct": 13.32
@@ -204,23 +232,27 @@
       "total_drop_items": "5",
       "avg_discount_pct": "17.48",
       "top_category_zh": "個人護理",
+      "top_category_zh_hans": "個人護理",
       "top_category_en": "Personal care",
       "cat_drop_count": "4",
       "top_3_deals": [
         {
           "name_zh": "兒童益生菌咀嚼片 30粒",
+          "name_zh_hans": "兒童益生菌咀嚼片 30粒",
           "name_en": "Kids Probiotics Chewables 30 tablets",
           "price": 128,
           "pct": 42.17
         },
         {
           "name_zh": "高效眼唇卸妝液 145毫升",
+          "name_zh_hans": "高效眼唇卸妝液 145毫升",
           "name_en": "Eye & Lip Makeup Remover (Eye & Lip) 145mL",
           "price": 33,
           "pct": 14.74
         },
         {
           "name_zh": "4合1 防蟲吸濕包 10片裝",
+          "name_zh_hans": "4合1 防蟲吸濕包 10片裝",
           "name_en": "4 in 1 Anti-Moth Dehumidifying Bag 10pcs",
           "price": 75,
           "pct": 14.71
@@ -232,23 +264,27 @@
       "total_drop_items": "3",
       "avg_discount_pct": "11.22",
       "top_category_zh": "糖果 / 餅乾 / 小食",
+      "top_category_zh_hans": "糖果 / 餅乾 / 小食",
       "top_category_en": "Candies / Biscuits / Snacks",
       "cat_drop_count": "2",
       "top_3_deals": [
         {
           "name_zh": "杏桃乾 200克",
+          "name_zh_hans": "杏桃乾 200克",
           "name_en": "Apricots 200g",
           "price": 37.52,
           "pct": 14.83
         },
         {
           "name_zh": "金裝倍醇奶茶 16.5克 x 10",
+          "name_zh_hans": "金裝倍醇奶茶 16.5克 x 10",
           "name_en": "Gold Milk Tea 16.5g x 10",
           "price": 25,
           "pct": 11.85
         },
         {
           "name_zh": "牛奶朱古力 90克",
+          "name_zh_hans": "牛奶朱古力 90克",
           "name_en": "Milk Chocolate (Box) 90g",
           "price": 20,
           "pct": 6.98
