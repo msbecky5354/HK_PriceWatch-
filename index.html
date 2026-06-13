@@ -2,26 +2,23 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    
     <script>
         (function() {
             try {
                 const params = new URLSearchParams(window.location.search);
                 const urlLang = params.get('lang');
-                const searchQuery = params.get('q'); // 捉住搜尋字眼
+                const searchQuery = params.get('q'); 
                 
                 if (urlLang) {
                     localStorage.setItem('appLang', urlLang);
                     localStorage.setItem('lang', urlLang); 
                 }
 
-                // 💡 關鍵邏輯：重新構建 URL，如果原 URL 有 'q'，我哋就保留佢，唔好清空！
                 let newUrl = window.location.pathname;
                 if (searchQuery) {
                     newUrl += '?q=' + encodeURIComponent(searchQuery);
                 }
                 
-                // 只在 URL 有變動（需要清理時）才執行 replaceState
                 if (window.location.search !== (searchQuery ? '?q=' + encodeURIComponent(searchQuery) : '')) {
                     window.history.replaceState(null, '', newUrl);
                 }
@@ -46,7 +43,6 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8256903623772163" crossorigin="anonymous"></script>
  
     <link rel="manifest" href="manifest.json">
-        
     <link rel="icon" type="image/png" href="/logo.JPG">
     <link rel="apple-touch-icon" href="/logo.JPG">
     
@@ -60,19 +56,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="HK Smart Price">
-    
     <meta name="mobile-web-app-capable" content="yes">
    
     <script src="botResponses.js?v=999"></script> 
-    <script src="lang.js?v=9"></script>
-    <script src="promoEngine.js?v=9"></script>
+    <script src="lang.js?v=11"></script>
+    <script src="promoEngine.js?v=11"></script>
+    <script src="alertSystem.js?v=2"></script> 
     
-    <script src="alertSystem.js?v=1"></script> 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = {
-        darkMode: 'class',
-      }
+      tailwind.config = { darkMode: 'class' }
     </script>
 
     <style>
@@ -81,45 +74,20 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
-        @keyframes pulse-lightning {
-            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 2px #fbbf24); }
-            50% { opacity: 0.7; transform: scale(1.1); filter: drop-shadow(0 0 8px #fbbf24); }
-        }
+        @keyframes pulse-lightning { 0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 2px #fbbf24); } 50% { opacity: 0.7; transform: scale(1.1); filter: drop-shadow(0 0 8px #fbbf24); } }
         .lightning-icon { animation: pulse-lightning 2s infinite ease-in-out; display: inline-block; }
 
-        @keyframes star-blink {
-            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 3px #fde047); }
-            50% { opacity: 0.5; transform: scale(1.3) rotate(15deg); filter: drop-shadow(0 0 8px #eab308); }
-        }
+        @keyframes star-blink { 0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 3px #fde047); } 50% { opacity: 0.5; transform: scale(1.3) rotate(15deg); filter: drop-shadow(0 0 8px #eab308); } }
         .star-blink { animation: star-blink 1.5s infinite ease-in-out; display: inline-block; }
 
-        @keyframes stamp-appear {
-            0% { transform: scale(2) rotate(-15deg); opacity: 0; }
-            100% { transform: scale(1) rotate(-15deg); opacity: 1; }
-        }
-        .fake-stamp {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            border: 3px solid #ef4444;
-            border-radius: 50%;
-            color: #ef4444;
-            font-weight: 900;
-            font-size: 10px;
-            text-align: center;
-            line-height: 1.1;
-            animation: stamp-appear 0.3s ease-out;
-            background: rgba(254, 226, 226, 0.5);
-        }
+        @keyframes stamp-appear { 0% { transform: scale(2) rotate(-15deg); opacity: 0; } 100% { transform: scale(1) rotate(-15deg); opacity: 1; } }
+        .fake-stamp { display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; border: 3px solid #ef4444; border-radius: 50%; color: #ef4444; font-weight: 900; font-size: 10px; text-align: center; line-height: 1.1; animation: stamp-appear 0.3s ease-out; background: rgba(254, 226, 226, 0.5); }
     </style>
 </head>
 
-
 <body class="bg-slate-50 h-[100dvh] flex flex-col font-sans text-slate-900 overflow-hidden w-full text-[15px] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-  <script src="header.js"></script>
+  <script src="header.js?v=2"></script>
 
 <main class="flex-1 overflow-hidden w-full max-w-2xl mx-auto relative flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
     <section id="level1Section" class="absolute inset-0 flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-y-auto no-scrollbar">
@@ -148,48 +116,42 @@
                 <div class="flex items-center justify-between mb-3 px-1">
                     <span id="quickTitle" class="text-[12px] font-black text-slate-400 dark:text-slate-500 tracking-wider uppercase transition-colors">✨ 快捷尋寶</span>
                 </div>
-                <div id="quickBtnGroup" class="grid grid-cols-2 gap-2.5 pb-2">
-                    </div>
+                <div id="quickBtnGroup" class="grid grid-cols-2 gap-2.5 pb-2"></div>
             </div>
 
-<div id="cameraMenuModal" class="fixed inset-0 bg-slate-900/60 z-[200] hidden flex-col justify-end sm:justify-center items-center p-4 backdrop-blur-sm transition-opacity">
-    <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-transform pb-safe">
-        
-        <div class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-700">
-            <h3 id="cameraModalTitle" class="font-bold text-lg text-slate-800 dark:text-white">📸 AI 視覺辨識</h3>
-            <button onclick="closeCameraMenu()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-2xl font-bold leading-none">&times;</button>
-        </div>
-
-        <div class="p-4 space-y-4">
-            <button id="cameraBtnText" onclick="document.getElementById('ocrFileInput').click()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg shadow-md">
-                📷 拍照 或 選擇圖片
-            </button>
-
-            <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-                <div class="flex items-center gap-2 mb-3">
-                    <span id="geminiTitleText" class="text-sm font-bold text-amber-600 dark:text-amber-500">⚙️ 連接 Gemini 專業大腦</span>
-                </div>
-                
-                <div class="text-[12px] text-slate-500 mb-4 leading-relaxed space-y-2">
-                    <p class="flex items-start gap-1">
-                        <span class="shrink-0">🛡️</span>
-                        <span id="geminiDescText">預設使用離線基礎辨識。輸入 Google Gemini API Key 可大幅提升辨識準確率。(僅安全儲存於本機)</span>
-                    </p>
-                    <div class="mt-2 p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
-                        <a id="geminiGuideText" href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-bold inline-block py-1">👉 按此前往 Google 免費領取 API Key</a>
+            <div id="cameraMenuModal" class="fixed inset-0 bg-slate-900/60 z-[200] hidden flex-col justify-end sm:justify-center items-center p-4 backdrop-blur-sm transition-opacity">
+                <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-transform pb-safe">
+                    <div class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-700">
+                        <h3 id="cameraModalTitle" class="font-bold text-lg text-slate-800 dark:text-white">📸 AI 視覺辨識</h3>
+                        <button onclick="closeCameraMenu()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-2xl font-bold leading-none">&times;</button>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <button id="cameraBtnText" onclick="document.getElementById('ocrFileInput').click()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg shadow-md">
+                            📷 拍照 或 選擇圖片
+                        </button>
+                        <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span id="geminiTitleText" class="text-sm font-bold text-amber-600 dark:text-amber-500">⚙️ 連接 Gemini 專業大腦</span>
+                            </div>
+                            <div class="text-[12px] text-slate-500 mb-4 leading-relaxed space-y-2">
+                                <p class="flex items-start gap-1">
+                                    <span class="shrink-0">🛡️</span>
+                                    <span id="geminiDescText">預設使用離線基礎辨識。輸入 Google Gemini API Key 可大幅提升辨識準確率。(僅安全儲存於本機)</span>
+                                </p>
+                                <div class="mt-2 p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
+                                    <a id="geminiGuideText" href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-bold inline-block py-1">👉 按此前往 Google 免費領取 API Key</a>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="password" id="geminiKeyInput" placeholder="API Key (AIzaSy...)" class="flex-1 px-3 py-2 text-sm border rounded-lg bg-white dark:bg-slate-800 dark:border-slate-600 outline-none focus:border-amber-400">
+                                <button id="saveKeyBtn" class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-lg transition-colors">儲存</button>
+                                <button id="clearKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-bold rounded-lg dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 transition-colors">清除</button>
+                            </div>
+                            <p id="keyStatus" class="text-xs font-bold mt-2 text-slate-500">🐢 目前使用基礎離線引擎</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="flex gap-2">
-                    <input type="password" id="geminiKeyInput" placeholder="API Key (AIzaSy...)" class="flex-1 px-3 py-2 text-sm border rounded-lg bg-white dark:bg-slate-800 dark:border-slate-600 outline-none focus:border-amber-400">
-                    <button id="saveKeyBtn" class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-lg transition-colors">儲存</button>
-                    <button id="clearKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-bold rounded-lg dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 transition-colors">清除</button>
-                </div>
-                <p id="keyStatus" class="text-xs font-bold mt-2 text-slate-500">🐢 目前使用基礎離線引擎</p>
             </div>
-        </div>
-    </div>
-</div>
 
             <div class="w-full mt-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex-none transition-colors duration-300">
                 <button onclick="toggleCategories()" class="w-full px-5 py-4.5 flex items-center justify-between bg-white dark:bg-slate-800 active:bg-slate-50 dark:active:bg-slate-700 transition outline-none">
@@ -207,24 +169,25 @@
                     </div>
                 </div>
             </div>
-<div class="text-center pt-8 pb-4 flex-none w-full"> 
-    <button id="miniFooterLinks" onclick="openDisclaimerModal()" 
-            class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
-        關於我們、條款及免責聲明
-    </button>
-    
-    <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 mb-8 tracking-wide flex items-center justify-center transition-colors">
-        <span id="miniFooterCopy">© 2026 慳真D</span> 
-        <span class="mx-1.5">|</span> 
-        <span id="footerDevTeam">開發團隊: </span>
-        <a id="footerDevName" 
-           href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" 
-           target="_blank" 
-           class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">
-            懶人工具駅
-        </a>
-    </div>
-</div>
+
+            <div class="text-center pt-8 pb-4 flex-none w-full"> 
+                <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
+                        class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
+                    關於我們、條款及免責聲明
+                </button>
+                
+                <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 mb-8 tracking-wide flex items-center justify-center transition-colors">
+                    <span id="miniFooterCopy">© 2026 慳真D</span> 
+                    <span class="mx-1.5">|</span> 
+                    <span id="footerDevTeam">開發團隊: </span>
+                    <a id="footerDevName" 
+                       href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" 
+                       target="_blank" 
+                       class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">
+                        懶人工具駅
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
@@ -255,7 +218,8 @@
         </div>
         
         <div id="chatMessages" class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-5">
-        <div id="results-top"></div> </div>
+            <div id="results-top"></div> 
+        </div>
         
         <div class="bg-white dark:bg-slate-800 border-t dark:border-slate-700 p-3 pb-[max(16px,env(safe-area-inset-bottom))] flex-none shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] dark:shadow-none z-20 flex flex-col gap-2 transition-colors">
             <div id="quickActionChips" class="flex gap-2 overflow-x-auto no-scrollbar max-w-2xl mx-auto w-full px-1"></div>
@@ -323,6 +287,49 @@
     <script src="ocrEngine.js"></script>
 
     <script>
+      // 🌟 修復 1：補回消失的分類選單 Toggle
+        window.toggleCategories = function() {
+            const container = document.getElementById('collapsibleCatContainer');
+            const icon = document.getElementById('catToggleIcon');
+            if (container && icon) {
+                if (container.classList.contains('hidden')) {
+                    container.classList.remove('hidden');
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    container.classList.add('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            }
+        };
+
+        // 🌟 修復 2：補回消失的卡片中/英切換函數
+        window.toggleCardLang = function(btn) {
+            const nameSpan = btn.closest('.flex-1').querySelector('.product-name');
+            const brandSpan = btn.closest('.flex-1').querySelector('.product-brand');
+            if (!nameSpan || !brandSpan) return;
+
+            const zhName = nameSpan.getAttribute('data-zh');
+            const enName = nameSpan.getAttribute('data-en');
+            const zhBrand = brandSpan.getAttribute('data-brand-zh');
+            const enBrand = brandSpan.getAttribute('data-brand-en');
+
+            if (nameSpan.innerText === zhName) {
+                nameSpan.innerText = enName || zhName;
+                brandSpan.innerText = enBrand || zhBrand;
+            } else {
+                nameSpan.innerText = zhName;
+                brandSpan.innerText = zhBrand;
+            }
+        };
+
+        // 🌟 修復 3：補回負責展開/收合歷史狀態面板的函數
+        window.toggleHistoryBox = function(boxId, iconId) {
+            const box = document.getElementById(boxId);
+            const icon = document.getElementById(iconId);
+            if (box) box.classList.toggle('hidden');
+            if (icon) icon.classList.toggle('rotate-180');
+        };
+
         window.normalizeStr = window.normalizeStr || function(str) {
             return str ? str.toLowerCase().replace(/[^\w\s\u4e00-\u9fa5]/gi, '') : '';
         };
@@ -345,11 +352,8 @@
         let rawApiData = [];    
         window.structuredData = {}; 
         
-        // 💡 修正 1：一開波就讀大腦記憶，而唔係寫死繁體
         let currentLang = localStorage.getItem('appLang') || 'zh-Hant';
-        
         let selectedCat1 = null; 
-        
         let currentKeyword = ""; 
         let isBigGapMode = false;
         let isDiscountMode = false;
@@ -377,6 +381,8 @@
             return `${y}-${m}-${d} ${h}:${min}`;
         }
 
+        let snapshotData = [];
+
         async function init() {
             try {
                 let commitSha = '';
@@ -385,25 +391,26 @@
                     if (apiRes.ok) {
                         const commitData = await apiRes.json();
                         commitSha = commitData.sha; 
-                        console.log("🔍 發現最新提交記錄:", commitSha);
                     }
                 } catch (e) {
                     console.warn("GitHub API 限制，將啟用保險方案");
                 }
 
-                let dataUrl, logUrl;
+                let dataUrl, logUrl, snapshotUrl;
                 if (commitSha) {
                     dataUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/pricewatch.json";
                     logUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/update_log.txt";
+                    snapshotUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/snapshot.json";
                 } else {
-                    console.log("⚠️ 正在使用 GitHub Raw 作為保險方案");
                     dataUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json";
                     logUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt";
+                    snapshotUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json";
                 }
 
-                const [timeRes, dataRes] = await Promise.all([
+                const [timeRes, dataRes, snapRes] = await Promise.all([
                     fetch(logUrl),
-                    fetch(dataUrl)
+                    fetch(dataUrl),
+                    fetch(snapshotUrl).catch(e => null) 
                 ]);
 
                 if (timeRes.ok) {
@@ -411,12 +418,17 @@
                     lastUpdatedTime = new Date(timeText.trim());
                 }
 
-                if (dataRes.ok) {
-                    rawApiData = await dataRes.json();
-                    console.log("✅ 數據載入成功！來源: " + (commitSha ? "jsDelivr" : "GitHub Raw"));
+                if (snapRes && snapRes.ok) {
+                    try {
+                        const snapJson = await snapRes.json();
+                        snapshotData = Array.isArray(snapJson) ? snapJson : (snapJson.results || []);
+                    } catch(e) { console.error("解析 Snapshot 失敗", e); }
                 }
 
-                // 💡 修正 2：用正確嘅語言，而唔係寫死 zh-Hant
+                if (dataRes.ok) {
+                    rawApiData = await dataRes.json();
+                }
+
                 changeLanguage(currentLang);
                 let langSel = document.getElementById('langSelector');
                 if (langSel) langSel.value = currentLang;
@@ -429,14 +441,12 @@
                     if (input) {
                         input.value = sharedQuery;
                         
-                        // 🌟 智能等待機制：確保 rawApiData 有數據先至開始搜尋
                         const checkInterval = setInterval(() => {
                             if (typeof rawApiData !== 'undefined' && rawApiData.length > 0 && typeof triggerGlobalSearch === 'function') {
                                 clearInterval(checkInterval);
-                                console.log("🔍 數據就緒，執行搜尋:", sharedQuery);
                                 triggerGlobalSearch();
                             }
-                        }, 200); // 每 200ms 檢查一次
+                        }, 200); 
                     }
                 }
                 
@@ -447,8 +457,6 @@
             }
         }
 
-
-        // share product
         async function shareProduct(name, brand, minPrice) {
             const baseUrl = window.location.origin + window.location.pathname;
             const productUrl = `${baseUrl}?q=${encodeURIComponent(name)}`;
@@ -486,13 +494,11 @@
             } catch (err) { console.log('Share error:', err); }
         }
 
-        // 💡 修正 3：超級防禦版 changeLanguage
         function changeLanguage(lang) {
             try {
                 currentLang = lang;
                 document.documentElement.lang = lang;
                 
-                // 強行寫入記憶
                 localStorage.setItem('appLang', lang);
                 localStorage.setItem('lang', lang);
                 
@@ -533,7 +539,13 @@
                     document.getElementById('miniFooterCopy').innerText = dict.miniFooterCopy || '© 2026 慳真D';
                 }
 
-                // 📸 新增：相機選單與 API 設定多語言切換
+                if (document.getElementById('footerDevTeam')) {
+                    document.getElementById('footerDevTeam').innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
+                }
+                if (document.getElementById('footerDevName')) {
+                    document.getElementById('footerDevName').innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
+                }
+
                 updateText('cameraModalTitle', dict.cameraModalTitle);
                 updateText('cameraBtnText', dict.cameraBtn);
                 updateText('geminiTitleText', dict.geminiTitle);
@@ -545,11 +557,10 @@
                 
                 if (typeof window.checkGeminiKey === 'function') window.checkGeminiKey();
 
-                // --- 由呢度開始覆蓋 ---
                 const homeUI = {
-                    'zh-Hant': { title: "想搵咩平嘢？直接話我知", placeholder: "例如: 可口可樂、出前一丁...", quickTitle: "✨ 快捷尋寶", catTitle: "或者按主分類慢慢行", b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介", trueDiscountBtn: "📉 智選真抵榜" },
-                    'zh-Hans': { title: "想找什么便宜货？直接告诉我", placeholder: "例如: 可口可乐、出前一丁...", quickTitle: "✨ 快捷寻宝", catTitle: "或者按主分类慢慢逛", b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐", trueDiscountBtn: "📉 智选真抵榜" },
-                    'en': { title: "What are you looking for? Tell me!", placeholder: "e.g., Coca Cola, Noodles...", quickTitle: "✨ Quick Search", catTitle: "Or browse by categories", b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals", trueDiscountBtn: "📉 SmartDeal Board" }
+                    'zh-Hant': { title: "想搵咩平嘢？直接話我知", placeholder: "例如: 可口可樂、出前一丁...", quickTitle: "✨ 快捷尋寶", catTitle: "或者按主分類慢慢行", b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介", trueDiscountBtn: "📉 智選真抵榜", battleSummaryBtn: "📊 戰情總結" },
+                    'zh-Hans': { title: "想找什么便宜货？直接告诉我", placeholder: "例如: 可口可乐、出前一丁...", quickTitle: "✨ 快捷寻宝", catTitle: "或者按主分类慢慢逛", b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐", trueDiscountBtn: "📉 智选真抵榜", battleSummaryBtn: "📊 战情总结" },
+                    'en': { title: "What are you looking for? Tell me!", placeholder: "e.g., Coca Cola, Noodles...", quickTitle: "✨ Quick Search", catTitle: "Or browse by categories", b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals", trueDiscountBtn: "📉 Smart Deals", battleSummaryBtn: "📊 Battle Summary" }
                 };
 
                 let activeLang = homeUI[lang] ? lang : 'zh-Hant';
@@ -579,12 +590,17 @@
                             ${homeUI[activeLang].b4.replace(' ', '<br>')}
                         </button>
                         
-                        <button onclick="window.location.href='true_discount.html?lang=' + currentLang" class="col-span-2 w-full flex items-center justify-center gap-2 text-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white border border-blue-600 p-3.5 rounded-2xl text-[14px] font-black active:scale-95 transition shadow-md mb-1 mt-2">
-                            ${homeUI[activeLang].trueDiscountBtn}
-                        </button>
+                        <div class="col-span-2 grid grid-cols-2 gap-3 mt-3 mb-1">
+                            <button onclick="window.location.href='true_discount.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-gradient-to-br from-emerald-400 to-teal-600 hover:from-emerald-500 hover:to-teal-700 text-white border border-emerald-400/30 p-3.5 rounded-2xl text-[13px] sm:text-[14px] font-black active:scale-95 transition shadow-[0_4px_15px_-3px_rgba(16,185,129,0.4)]">
+                                ${homeUI[activeLang].trueDiscountBtn}
+                            </button>
+                            
+                            <button onclick="window.location.href='battle_summary.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-gradient-to-br from-yellow-300 via-amber-400 to-orange-500 hover:from-yellow-400 hover:to-orange-600 text-[#431407] border border-yellow-300/50 p-3.5 rounded-2xl text-[13px] sm:text-[14px] font-black active:scale-95 transition shadow-[0_4px_15px_-3px_rgba(245,158,11,0.5)]">
+                                ${homeUI[activeLang].battleSummaryBtn}
+                            </button>
+                        </div>
                     `;
                 }
-                // --- 覆蓋到呢度為止 ---
 
                 if (typeof renderQuickActions === 'function') renderQuickActions();
                 if (typeof buildStructuredData === 'function') buildStructuredData();
@@ -600,16 +616,6 @@
             }
         }
         
-        function openManual() {
-            if (currentLang === 'zh-Hans') {
-                window.location.href = 'manual_cn.html';
-            } else if (currentLang === 'en') {
-                window.location.href = 'manual_en.html';
-            } else {
-                window.location.href = 'manual_tw.html';
-            }
-        }
-
         function openModal(titleKey, contentKey) {
             document.getElementById('modalTitle').innerText = uiText[currentLang][titleKey];
             document.getElementById('modalContent').innerHTML = uiText[currentLang][contentKey];
@@ -732,9 +738,8 @@
             }, 300);
         }
         
-        function buildStructuredData() {
+       function buildStructuredData() {
             structuredData = {};
-            const unknownSupermarkets = new Set(); 
 
             if (!rawApiData || rawApiData.length === 0) return;
 
@@ -753,15 +758,18 @@
 
                 let uniqueName = localBrand ? `${localBrand} - ${rawName}` : rawName;
                 
+                let productKey = item.code || uniqueName;
+                
                 if (!structuredData[cat1]) structuredData[cat1] = {};
                 if (!structuredData[cat1][cat2]) structuredData[cat1][cat2] = {};
                 
-                if (!structuredData[cat1][cat2][uniqueName]) {
+                if (!structuredData[cat1][cat2][productKey]) {
                     let allNames = Object.values(item.name || {}).join(' '); 
                     let allBrands = (typeof brandObj === 'object') ? Object.values(brandObj).join(' ') : brandObj;
                     let allCat2 = Object.values(item.cat2Name || {}).join(' ') + ' ' + Object.values(item.cat3Name || {}).join(' ');
 
-                    structuredData[cat1][cat2][uniqueName] = { 
+                    structuredData[cat1][cat2][productKey] = { 
+                        originalUniqueName: uniqueName, 
                         brand: localBrand,
                         brandEn: brandEn,
                         enName: enName, 
@@ -787,7 +795,7 @@
                         
                         for (let key of promoKeys) {
                             if (Array.isArray(item[key])) {
-                                let matchingOffer = item[key].find(o => o.supermarketCode === p.supermarketCode || o.supermarket === p.supermarketCode);
+                                let matchingOffer = item[key].find(o => String(o.supermarketCode) === String(p.supermarketCode) || String(o.supermarket) === String(p.supermarketCode));
                                 if (matchingOffer) {
                                     let extractedDisplay = extractDeepPromoText(matchingOffer, currentLang);
                                     if (extractedDisplay && extractedDisplay !== "[object Object]") {
@@ -807,14 +815,66 @@
                             }
                         }
                         
-                        structuredData[cat1][cat2][uniqueName].prices.push({ 
+                        let hasSnapshotRecord = false;
+                        let historyStatus = null;
+                        let prevPrice = null;
+                        let prevBase = null;
+                        let lastDate = null;
+                        let prevOffEn = null;
+                        let prevOffZh = null;
+                        let prevOffHans = null;
+                        
+                        if (snapshotData.length > 0) {
+                            const snapRecord = snapshotData.find(s => String(s.product_code) === String(item.code) && String(s.supermarket_code) === String(p.supermarketCode));
+                            if (snapRecord) {
+                                hasSnapshotRecord = true;
+                                historyStatus = snapRecord.change_status;
+                                prevPrice = snapRecord.previous_effective_price;
+                                prevBase = snapRecord.previous_base_price;   
+                                lastDate = snapRecord.last_changed_date;     
+                                prevOffEn = snapRecord.previous_offer_en;
+                                prevOffZh = snapRecord.previous_offer_zh_hant;
+                                prevOffHans = snapRecord.previous_offer_zh_hans;
+                            }
+                        }
+                        
+                        // 🛡️ 終極防禦：嚴格確認！只要不在大腦歷史快照裡的髒數據，絕對不准顯示！
+                        if (!hasSnapshotRecord) {
+                            return; 
+                        }
+                        
+                        const newPriceObj = { 
                             rawCode: p.supermarketCode, 
                             supermarket: smName, 
                             price: p.price ?? '--', 
                             promoDisplay: promoDisplay,
-                            promoCalc: promoCalcEn 
-                        });
+                            promoCalc: promoCalcEn,
+                            statusKey: historyStatus,  
+                            prevEffPrice: prevPrice,
+                            prevBasePrice: prevBase,     
+                            lastChangeDate: lastDate,    
+                            prevOfferEn: prevOffEn,        
+                            prevOfferZh: prevOffZh,        
+                            prevOfferHans: prevOffHans     
+                        };
+
+                        const existingIdx = structuredData[cat1][cat2][productKey].prices.findIndex(existing => existing.rawCode === p.supermarketCode);
+                        
+                        if (existingIdx !== -1) {
+                            let existingParsed = parseFloat(structuredData[cat1][cat2][productKey].prices[existingIdx].price);
+                            let newParsed = parseFloat(newPriceObj.price);
+                            if (!isNaN(newParsed) && !isNaN(existingParsed) && newParsed < existingParsed) {
+                                structuredData[cat1][cat2][productKey].prices[existingIdx] = newPriceObj; 
+                            }
+                        } else {
+                            structuredData[cat1][cat2][productKey].prices.push(newPriceObj);
+                        }
                     });
+                }
+                
+                // 🧹 清道夫：如果過濾後這項商品已經沒有任何合法的超市價格了，就整張卡片刪除
+                if (structuredData[cat1][cat2][productKey].prices.length === 0) {
+                    delete structuredData[cat1][cat2][productKey];
                 }
             });
         }
@@ -945,8 +1005,8 @@
             categoriesToSearch.forEach(cat1 => {
                 if (!structuredData[cat1]) return;
                 Object.keys(structuredData[cat1]).forEach(cat2 => {
-                    Object.keys(structuredData[cat1][cat2]).forEach(pName => {
-                        const info = structuredData[cat1][cat2][pName];
+                    Object.keys(structuredData[cat1][cat2]).forEach(productKey => {
+                        const info = structuredData[cat1][cat2][productKey];
                         
                         const safeSearchTarget = info.searchKeywords.replace(/\s+/g, '').toLowerCase();
                         const safeInput = (keywordToTest || '').replace(/\s+/g, '').toLowerCase();
@@ -959,14 +1019,14 @@
                             if (matchesKeyword) {
                                 const gapInfo = checkPriceGap(info);
                                 foundProducts.push({
-                                    pName: pName,
+                                    pName: info.originalUniqueName, 
                                     info: info,
                                     gapPercent: gapInfo.percentage || 0
                                 });
                             } else if (!isAll && keywordToTest.length >= 2) {
                                 let score = typeof calculateRelevance === 'function' ? calculateRelevance(keywordToTest, info.searchKeywords, info.brand) : 0;
                                 if (score > 10) {
-                                    window.scoredProducts.push({ name: pName, info: info, score: score });
+                                    window.scoredProducts.push({ name: info.originalUniqueName, info: info, score: score }); 
                                 }
                             }
                         }
@@ -1048,10 +1108,10 @@
                      categoriesToSearch.forEach(cat1 => {
                          if(!structuredData[cat1]) return;
                          Object.keys(structuredData[cat1]).forEach(cat2 => {
-                             Object.keys(structuredData[cat1][cat2]).forEach(pName => {
-                                 const info = structuredData[cat1][cat2][pName];
+                             Object.keys(structuredData[cat1][cat2]).forEach(productKey => {
+                                 const info = structuredData[cat1][cat2][productKey];
                                  if (suggestions.length < 3 && info.searchKeywords.includes(searchPrefix.toLowerCase())) {
-                                     suggestions.push(pName); 
+                                     suggestions.push(info.originalUniqueName); 
                                  }
                              });
                          });
@@ -1167,26 +1227,21 @@
             const gapInfo = checkPriceGap(info);
             let gapBadgeHtml = '';
             if (gapInfo.isBigGap) {
-                let badgeText = currentLang === 'en' ? `🔥 Save ${gapInfo.percentage}%` : `🔥 差價 ${gapInfo.percentage}%`;
+                let badgeText = currentLang === 'en' ? `🔥 Save ${gapInfo.percentage}%` : (currentLang === 'zh-Hans' ? `🔥 差价 ${gapInfo.percentage}%` : `🔥 差價 ${gapInfo.percentage}%`);
                 gapBadgeHtml = `<span class="ml-2 px-1.5 py-0.5 bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 font-bold text-[11px] rounded-md shadow-sm border border-red-200 dark:border-red-800 inline-flex items-center" style="white-space: nowrap; transform: translateY(-1px);">${badgeText}</span>`;
             }
 
-            const priceList = info.prices.map(p => {
+            const priceList = info.prices.map((p, pIdx) => {
                 let parsed = parseFloat(p.price);
                 let isLowestBase = (!isNaN(parsed) && parsed === minBasePrice && info.prices.length > 1 && !allSameBasePrice);
-                let cls = 'border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-700/30'; 
-                let textCls = 'text-slate-600 dark:text-slate-300';
-                let displayName = p.supermarket;
+                
                 let code = (p.rawCode || '').toUpperCase();
-
-                if (code === 'WELLCOME' || code === 'LUNGFUNG') { cls = 'border-red-200 bg-red-50/30 dark:border-red-900/50 dark:bg-red-900/20'; textCls = 'text-red-700 dark:text-red-400'; }
-                else if (code === 'PARKNSHOP') { cls = 'border-blue-200 bg-blue-50/30 dark:border-blue-900/50 dark:bg-blue-900/20'; textCls = 'text-blue-700 dark:text-blue-400'; }
-                else if (code === 'WATSONS') { cls = 'border-teal-200 bg-teal-50/30 dark:border-teal-900/50 dark:bg-teal-900/20'; textCls = 'text-teal-700 dark:text-teal-400'; }
-                else if (code === 'HKTVMALL') { cls = 'border-green-200 bg-green-50/30 dark:border-green-900/50 dark:bg-green-900/20'; textCls = 'text-green-700 dark:text-green-400'; }
-                else if (code === 'JASONS') { cls = 'border-emerald-300 bg-emerald-100/40 dark:border-emerald-900/50 dark:bg-emerald-900/20'; textCls = 'text-emerald-800 dark:text-emerald-400'; if (!displayName.includes('Market Place')) displayName += ' (Market Place)'; }
-                else if (code === 'MANNINGS') { cls = 'border-orange-200 bg-orange-50/30 dark:border-orange-900/50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; }
-                else if (code === 'AEON') { cls = 'border-fuchsia-200 bg-fuchsia-50/30 dark:border-fuchsia-900/50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-700 dark:text-fuchsia-400'; }
-
+                let style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[code]) ? supermarketStyleDict[code] : (typeof supermarketStyleDict !== 'undefined' ? supermarketStyleDict['DEFAULT'] : { indexCard: 'border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-700/30', indexText: 'text-slate-600 dark:text-slate-300' });
+                
+                let cls = style.indexCard;
+                let textCls = style.indexText;
+                let displayName = p.supermarket;
+                
                 let avgLabel = '';
                 let fakePromoIcon = ''; 
                 
@@ -1198,12 +1253,133 @@
                         avgLabel = `<span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black shadow-sm ml-1 shrink-0 whitespace-nowrap flex items-center">💰 ${(currentLang === 'en' ? 'Avg' : '折合')} $${avg.toFixed(1)}/${(currentLang === 'en' ? 'ea' : '件')}${starHtml}</span>`;
                     } 
                     else if (avg >= parsed && p.promoDisplay) {
-                        let stampText = (currentLang === 'en') ? 'FAKE<br>OFFER' : '假<br>優惠';
+                        let stampText = (currentLang === 'en') ? 'FAKE<br>OFFER' : (currentLang === 'zh-Hans' ? '假<br>优惠' : '假<br>優惠');
                         fakePromoIcon = `<span class="fake-stamp ml-1 cursor-help shadow-md" title="${currentLang === 'en' ? 'Fake Discount!' : '呢個優惠冇平到呀！'}">${stampText}</span>`;
                     }
                 }
                 
-                return `<div class="flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : ''} transition-all"><div class="flex justify-between items-center w-full"><span class="font-black text-[13px] ${textCls} flex items-center gap-1">${displayName}</span><span class="text-[17px] font-black text-slate-800 dark:text-slate-100">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' 👍' : ''}</span></div>${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-md border border-red-100 dark:border-red-800 break-words w-full sm:w-auto">🏷️ ${p.promoDisplay}</span>${fakePromoIcon}${avgLabel}</div>` : ''}</div>`;
+                let inlineStatusHtml = '';
+                
+                let currentEffPrice = parsed;
+                if (typeof calculateAvgPrice === 'function' && p.promoCalc) {
+                    let res = calculateAvgPrice(p.promoCalc, parsed);
+                    if (res && res.price !== null) currentEffPrice = res.price;
+                }
+                
+                let prevEffPriceNum = parseFloat(p.prevEffPrice);
+
+                let realStatus = 'maintained';
+                if (p.statusKey === 'NEW_ADDED' || p.statusKey === 'new') {
+                    realStatus = 'new';
+                } else if (p.statusKey === 'PRICE_CHANGED' || p.statusKey === 'PRICE_AND_OFFER_CHANGED' || p.statusKey === 'drop' || p.statusKey === 'increase') {
+                    if (!isNaN(prevEffPriceNum) && currentEffPrice < prevEffPriceNum) {
+                        realStatus = 'drop';      
+                    } else if (!isNaN(prevEffPriceNum) && currentEffPrice > prevEffPriceNum) {
+                        realStatus = 'increase';  
+                    } else {
+                        realStatus = 'promo_changed'; 
+                    }
+                } else if (p.statusKey === 'OFFER_CHANGED' || p.statusKey === 'promo_changed') {
+                    realStatus = 'promo_changed';
+                } else if (p.promoDisplay && !isNaN(prevEffPriceNum) && currentEffPrice >= prevEffPriceNum) {
+                    realStatus = 'fake';      
+                } else {
+                    realStatus = 'maintained'; 
+                }
+
+                let statusText = '';
+                let statusColor = 'border-slate-200 text-slate-500 bg-slate-50';
+                
+                if (realStatus === 'drop') {
+                    statusText = currentLang === 'en' ? '📉 Price Drop' : (currentLang === 'zh-Hans' ? '📉 真降价' : '📉 真降價');
+                    statusColor = 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400';
+                } else if (realStatus === 'new') {
+                    statusText = currentLang === 'en' ? '🆕 New' : (currentLang === 'zh-Hans' ? '🆕 首次上架' : '🆕 首次上架');
+                    statusColor = 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
+                } else if (realStatus === 'increase') {
+                    statusText = currentLang === 'en' ? '📈 Price Up' : (currentLang === 'zh-Hans' ? '📈 价格上升' : '📈 價格暗升');
+                    statusColor = 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400';
+                } else if (realStatus === 'fake' || realStatus === 'promo_changed') {
+                    statusText = currentLang === 'en' ? '⚠️ Promo Changed' : (currentLang === 'zh-Hans' ? '⚠️ 优惠变动' : '⚠️ 優惠變動');
+                    statusColor = 'border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+                } else if (realStatus === 'maintained') {
+                    statusText = currentLang === 'en' ? '⏸️ Maintained' : (currentLang === 'zh-Hans' ? '⏸️ 价格维持' : '⏸️ 價格維持');
+                    statusColor = 'border-slate-200 bg-slate-100 text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400';
+                }
+
+                const lblDate = currentLang === 'en' ? 'Last Changed:' : (currentLang === 'zh-Hans' ? '上次变动:' : '上次變動:');
+                const lblBase = currentLang === 'en' ? 'Prev Base:' : (currentLang === 'zh-Hans' ? '上次原价:' : '上次原價:');
+                const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
+                const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
+
+                // 💡 防彈中文日期解析
+                let lastDateText = '-';
+                if (p.lastChangeDate && p.lastChangeDate !== 'null' && p.lastChangeDate !== '') {
+                    let dStr = String(p.lastChangeDate).trim();
+                    if (/^\d{4}-\d{2}-\d{2}/.test(dStr)) {
+                        lastDateText = dStr.substring(0, 10);
+                    } else {
+                        let d = new Date(dStr);
+                        if (!isNaN(d.getTime())) {
+                            lastDateText = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                        } else {
+                            // 保留無法解析的日期字串
+                            lastDateText = dStr.split('T')[0]; 
+                        }
+                    }
+                }
+
+                let prevBaseText = (p.prevBasePrice && parseFloat(p.prevBasePrice) > 0) ? `$${parseFloat(p.prevBasePrice).toFixed(1)}` : '-';
+                let prevEffText = (p.prevEffPrice && parseFloat(p.prevEffPrice) > 0) ? `$${parseFloat(p.prevEffPrice).toFixed(1)}` : '-';
+
+                let prevPriceHtml = (prevEffText !== '-' && realStatus !== 'maintained' && realStatus !== 'new') ? `<span class="${realStatus === 'increase' || realStatus === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span>` : '';
+
+                let prevOfferText = '';
+                if (currentLang === 'en' && p.prevOfferEn) prevOfferText = p.prevOfferEn;
+                else if (currentLang === 'zh-Hans' && p.prevOfferHans) prevOfferText = p.prevOfferHans;
+                else if (p.prevOfferZh) prevOfferText = p.prevOfferZh;
+                if (!prevOfferText || prevOfferText === 'null' || prevOfferText.trim() === '') prevOfferText = currentLang === 'en' ? 'None' : '無';
+
+                // 💡 終極修復：加入商品本身的唯一條碼 (info.originalUniqueName 或 info.searchKeywords 的片段) 確保 ID 全局唯一
+                // 取 searchKeywords 的前 10 個字元來增加唯一性，並清除特殊符號
+                const uniqueProdId = String(info.searchKeywords).replace(/[^a-zA-Z0-9]/g, '').substring(0, 10);
+                const safeSupermarketCode = String(p.rawCode).replace(/[^a-zA-Z0-9]/g, '');
+                // 組合：前綴 - 超市代碼 - 商品指紋 - 價格索引
+                const boxId = `hist-${safeSupermarketCode}-${uniqueProdId}-${pIdx}`;
+                const iconId = `icon-${safeSupermarketCode}-${uniqueProdId}-${pIdx}`;
+
+                inlineStatusHtml = `
+                    <div class="ml-2 flex flex-col items-start relative mt-1 sm:mt-0">
+                        <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="toggleHistoryBox('${boxId}', '${iconId}')">
+                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded border ${statusColor} shadow-sm w-max">
+                                ${prevPriceHtml} ${statusText}
+                            </span>
+                            <div class="bg-slate-100 dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
+                                <svg id="${iconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div id="${boxId}" class="hidden mt-1.5 p-2 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[150px] z-20 absolute top-full left-0 shadow-lg">
+                            <div class="flex justify-between gap-4"><span>${lblDate}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${lastDateText}</span></div>
+                            <div class="flex justify-between gap-4"><span>${lblBase}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${prevBaseText}</span></div>
+                            <div class="flex justify-between gap-4"><span>${lblEff}</span> <span class="font-bold text-slate-700 dark:text-slate-300">${prevEffText}</span></div>
+                            <div class="flex justify-between gap-4 items-start">
+                                <span class="shrink-0">${lblOffer}</span> 
+                                <span class="font-medium text-slate-700 dark:text-slate-300 truncate max-w-[100px] text-right" title="${prevOfferText.replace(/"/g, '&quot;')}">${prevOfferText}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                return `<div class="flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : ''} transition-all">
+                            <div class="flex justify-between items-center w-full">
+                                <div class="flex items-center flex-wrap">
+                                    <span class="font-black text-[13px] ${textCls} mr-1">${displayName}</span>
+                                    ${inlineStatusHtml}
+                                </div>
+                                <span class="text-[17px] font-black text-slate-800 dark:text-slate-100">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' 👍' : ''}</span>
+                            </div>
+                            ${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-md border border-red-100 dark:border-red-800 break-words w-full sm:w-auto">🏷️ ${p.promoDisplay}</span>${fakePromoIcon}${avgLabel}</div>` : ''}
+                        </div>`;
             }).join('');
 
             let alertTitle = (currentLang === 'zh-Hans') ? "设定到价提醒" : (currentLang === 'en') ? "Set Price Alert" : "設定到價提醒";
@@ -1291,35 +1467,6 @@
             
             setTimeout(() => { executeProductSearch(); }, 300);
         }
-        
-        // 🌟 1. 初始化日夜模式 (讀取大腦記憶)
-        function initTheme() {
-            const themeBtn = document.getElementById('themeBtn');
-            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                if (themeBtn) themeBtn.textContent = '🌙';
-            } else {
-                document.documentElement.classList.remove('dark');
-                if (themeBtn) themeBtn.textContent = '☀️';
-            }
-        }
-
-        // 🌟 2. 切換時寫入大腦
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const themeBtn = document.getElementById('themeBtn');
-            if (document.documentElement.classList.contains('dark')) {
-                themeBtn.textContent = '🌙';
-                localStorage.setItem('theme', 'dark'); // 💡 寫入記憶
-            } else {
-                themeBtn.textContent = '☀️';
-                localStorage.setItem('theme', 'light'); // 💡 寫入記憶
-            }
-        }
-
-        // 🌟 3. 確保載入時、或者由其他頁面撳「返回」時，都會強制對齊顏色！
-        initTheme();
-        window.addEventListener('pageshow', initTheme);
         
         function openCameraMenu() {
             const modal = document.getElementById('cameraMenuModal');
