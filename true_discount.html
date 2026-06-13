@@ -16,7 +16,7 @@
 <body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
     <script src="appUtils.js?v=1"></script>
-    <script src="header.js?v=1"></script>
+    <script src="header.js?v=2"></script>
 
     <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
         
@@ -31,7 +31,7 @@
                     <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">踢走假劈價，對比全城平均價</span>
                 </div>
             </div>
-            <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95">返回</button>
+            <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
         </div>
 
         <div class="px-4 md:px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col gap-3">
@@ -76,9 +76,9 @@
                     <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold">
                         <span id="txtBtnPct20">>20% 減幅</span>
                     </button>
-                    <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold">
-                        <span id="txtBtnPct30">>30% 減幅</span>
-                    </button>
+                    <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all">
+    <span id="txtBtnPct30">>30% 減幅</span>
+</button>
                     <button onclick="togglePctFilter(50)" id="btnPct50" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
                         🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
                     </button>
@@ -96,13 +96,10 @@
                 <thead>
                     <tr class="bg-blue-50/50 dark:bg-slate-700/50 select-none border-b border-blue-100 dark:border-slate-700 text-sm">
                         <th id="thRank" onclick="handleSort('displayRank')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 text-center w-12 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thRank">排名</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        
                         <th id="thCat" onclick="handleSort('categoryRaw')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group w-16 md:w-20"><span id="txt-thCat">分類</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        
                         <th id="thSm" onclick="handleSort('smCode')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 text-center w-20 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thSm">超市</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thBrand" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 transition-colors w-20"><span id="txt-thBrand">品牌</span></th>
                         <th id="thName" onclick="handleSort('name')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
-                        
                         <th id="thStatus" onclick="handleSort('statusKey')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thStatus">歷史狀態判定</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thOrig" onclick="handleSort('originalPrice')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thOrig">今日原價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
                         <th id="thEff" onclick="handleSort('effectivePrice')" class="py-4 px-3 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors group"><span id="txt-thEff">今日折實</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300 group-hover:opacity-100"></span></th>
@@ -116,21 +113,45 @@
 
         <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors"></div>
         
-        <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
-            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
-                <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
-                    <h3 id="calcModalTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">ℹ️ 運算機制與聲明</h3>
-                    <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
-                </div>
-                <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
-                    <div id="calcModalContent"></div>
-                </div>
-                <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 shrink-0">
-                    <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-sm active:scale-95 transition">明白</button>
-                </div>
+    </div>
+
+    <div class="text-center pt-2 pb-8 flex-none w-full"> 
+        <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
+                class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
+            關於我們、條款及免責聲明
+        </button>
+        <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
+            <span id="miniFooterCopy">© 2026 慳真D</span> 
+            <span class="mx-1.5">|</span> 
+            <span id="footerDevTeam">開發團隊: </span>
+            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
+        </div>
+    </div>
+
+    <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[200] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh] border dark:border-slate-700 transition-colors duration-300">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-[20px]">🛡️</span>
+                <h2 id="disclaimerTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">免責聲明及服務條款</h2>
+            </div>        
+            <div id="disclaimerBody" class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors"></div>
+            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">我明白及接受</button>
+        </div>
+    </div>
+
+    <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
+            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+                <h3 id="calcModalTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">ℹ️ 運算機制與聲明</h3>
+                <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
+                <div id="calcModalContent"></div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 shrink-0">
+                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-sm active:scale-95 transition">明白</button>
             </div>
         </div>
-
     </div>
 
    <script>
@@ -139,9 +160,34 @@
     let fullDataList = [];
     let lastUpdatedTime = null;
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
-    let currentMinPct = 0; 
+   let currentMinPct = 30; // 💡 修改為預設篩選 >30% 的降價貨品
 
-    // 💡 狀態標籤多語言對照表
+    // 🌟 全新加入：分類名稱智慧翻譯大腦
+    const catTranslations = {
+        "個人護理": { "en": "Personal Care", "zh-Hans": "个人护理" },
+        "糖果 / 餅乾 / 小食": { "en": "Snacks / Candies", "zh-Hans": "糖果 / 饼干 / 小食" },
+        "粉麵 / 煮食用料 / 冷凍加工食品": { "en": "Noodles / Cooking / Frozen Food", "zh-Hans": "粉面 / 烹调 / 冷冻食品" },
+        "飲品": { "en": "Beverages", "zh-Hans": "饮品" },
+        "酒類": { "en": "Alcohol", "zh-Hans": "酒类" },
+        "奶粉 / 嬰兒用品": { "en": "Baby Products", "zh-Hans": "奶粉 / 婴儿用品" },
+        "奶類及乳製品 / 大豆製品 / 蛋類": { "en": "Dairy / Soy / Eggs", "zh-Hans": "奶类 / 豆制品 / 蛋类" },
+        "米 / 食油 / 罐頭 / 蔬果 / 肉類": { "en": "Rice / Oil / Canned / Fresh", "zh-Hans": "米 / 食油 / 罐头 / 生鲜" },
+        "家居用品 / 寵物食品及用品": { "en": "Household / Pet", "zh-Hans": "家居用品 / 宠物" },
+        "麵包蛋糕 / 穀類早餐 / 麵包醬": { "en": "Bakery / Cereal / Spreads", "zh-Hans": "面包 / 谷类 / 酱料" }
+    };
+
+    function getCatName(rawCat, lang) {
+    // 💡 第一時間檢查資料庫物件內是否有該語言 (zh-Hans)，有就直接用！
+    if (typeof rawCat === 'object' && rawCat[lang]) return rawCat[lang];
+    
+    let baseCat = (typeof rawCat === 'object') ? (rawCat['zh-Hant'] || rawCat['en'] || '') : String(rawCat || '');
+    if (lang === 'zh-Hant') return baseCat;
+    if (catTranslations[baseCat] && catTranslations[baseCat][lang]) {
+        return catTranslations[baseCat][lang];
+    }
+    return baseCat;
+}
+
     const statusI18n = {
         'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800' },
         'drop': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
@@ -171,158 +217,102 @@
         if (typeof supermarketDict !== 'undefined' && supermarketDict[lang] && supermarketDict[lang][c]) {
             return supermarketDict[lang][c];
         }
+        if (typeof supermarketDict !== 'undefined' && supermarketDict['zh-Hant'] && supermarketDict['zh-Hant'][c]) {
+            return supermarketDict['zh-Hant'][c];
+        }
         return c;
     }
 
     function getSmBadge(smCode, lang) {
         let code = (smCode || '').toUpperCase();
         let name = getSmName(code, lang);
-        let bgCls = 'bg-slate-100 dark:bg-slate-700', textCls = 'text-slate-600 dark:text-slate-300', borderCls = 'border-slate-200 dark:border-slate-600';
-        if (code === 'WELLCOME' || code === 'LUNGFUNG') { bgCls = 'bg-red-50 dark:bg-red-900/20'; textCls = 'text-red-600 dark:text-red-400'; borderCls = 'border-red-200 dark:border-red-800'; }
-        else if (code === 'PARKNSHOP') { bgCls = 'bg-blue-50 dark:bg-blue-900/20'; textCls = 'text-blue-600 dark:text-blue-400'; borderCls = 'border-blue-200 dark:border-blue-800'; }
-        else if (code === 'WATSONS') { bgCls = 'bg-teal-50 dark:bg-teal-900/20'; textCls = 'text-teal-600 dark:text-teal-400'; borderCls = 'border-teal-200 dark:border-teal-800'; }
-        else if (code === 'HKTVMALL') { bgCls = 'bg-green-50 dark:bg-green-900/20'; textCls = 'text-green-600 dark:text-green-400'; borderCls = 'border-green-200 dark:border-green-800'; }
-        else if (code === 'JASONS' || code === 'MARKETPLACE') { bgCls = 'bg-emerald-50 dark:bg-emerald-900/20'; textCls = 'text-emerald-700 dark:text-emerald-400'; borderCls = 'border-emerald-200 dark:border-emerald-800'; }
-        else if (code === 'MANNINGS') { bgCls = 'bg-orange-50 dark:bg-orange-900/20'; textCls = 'text-orange-600 dark:text-orange-400'; borderCls = 'border-orange-200 dark:border-orange-800'; }
-        else if (code === 'AEON') { bgCls = 'bg-fuchsia-50 dark:bg-fuchsia-900/20'; textCls = 'text-fuchsia-600 dark:text-fuchsia-400'; borderCls = 'border-fuchsia-200 dark:border-fuchsia-800'; }
-        return `<span onclick="setQuickSearch('${name}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${bgCls} ${textCls} ${borderCls} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
+        
+        let style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[code]) 
+            ? supermarketStyleDict[code] 
+            : (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict['DEFAULT'] ? supermarketStyleDict['DEFAULT'] : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' });
+            
+        return `<span onclick="setQuickSearch('${name}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
     }
 
     function goToProductSearch(productName) {
         window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
     }
 
-   // --- 4. 🚀 數據讀取與 Browser-Side JOIN 引擎 ---
+   // --- 4. 🚀 秒速載入 n8n 伺服器端資料 (附多重備援與深度除錯) ---
     async function loadTrueDiscountData() {
         try {
             const tbody = document.getElementById('leaderboardTableBody');
             const mbody = document.getElementById('leaderboardMobile');
             
-            let loadingStr = currentLang === 'en' ? '⏳ Compiling Real-Time Prices & History...' : (currentLang === 'zh-Hans' ? '⏳ 正在组装实时价格与历史快照...' : '⏳ 正在組裝實時價格與歷史快照...');
+            let loadingStr = currentLang === 'en' ? '⏳ Fetching Pre-calculated Data...' : (currentLang === 'zh-Hans' ? '⏳ 正在拉取云端运算数据...' : '⏳ 正在拉取雲端運算數據...');
             const loadingHTML = `<div class="p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px]">${loadingStr}</div>`;
             if (tbody) tbody.innerHTML = `<tr><td colspan="10">${loadingHTML}</td></tr>`;
             if (mbody) mbody.innerHTML = loadingHTML;
 
-            // 🚀 同時下載 3 份檔案 (包含 snapshot.json 歷史記憶)
-            const [timeRes, dataRes, snapRes] = await Promise.all([
-                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt").catch(() => null),
-                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json").catch(() => null),
-                fetch("https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json").catch(() => null)
-            ]);
-            
-            if (timeRes && timeRes.ok) lastUpdatedTime = new Date(await timeRes.text());
-            const items = dataRes && dataRes.ok ? await dataRes.json() : [];
-            
-            // 🧠 建立 O(1) 的大腦快照字典
-            const snapshotMap = new Map();
-            if (snapRes && snapRes.ok) {
+            const nocache = new Date().getTime() + Math.random().toString(36).substring(7);
+            const urlsToTry = [
+                `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/true_discount.json?v=${nocache}`,
+                `https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@main/data/true_discount.json?v=${nocache}`
+            ];
+
+            let rawJson = null;
+            let lastError = null;
+
+            for (const url of urlsToTry) {
                 try {
-                    const snapJson = await snapRes.json();
-                    const snapArray = snapJson.results || snapJson; 
-                    if (Array.isArray(snapArray)) {
-                        snapArray.forEach(row => {
-                            const pCode = row.product_code || row.productCode;
-                            const sCode = (row.supermarket_code || row.supermarketCode || '').toUpperCase();
-                            if (pCode && sCode) snapshotMap.set(`${pCode}_${sCode}`, row);
-                        });
+                    console.log("正在嘗試抓取:", url);
+                    const res = await fetch(url, { cache: 'no-store' });
+                    
+                    if (!res.ok) {
+                        throw new Error(`HTTP 狀態碼: ${res.status}`);
                     }
-                } catch(e) { console.warn("快照字典建立失敗", e); }
+                    
+                    const contentType = res.headers.get("content-type");
+                    if (contentType && contentType.includes("text/plain")) {
+                         const textData = await res.text();
+                         rawJson = JSON.parse(textData);
+                    } else {
+                         rawJson = await res.json();
+                    }
+                    
+                    if (rawJson && (rawJson.results || Array.isArray(rawJson))) {
+                        console.log("✅ 成功從此節點取得 JSON！");
+                        break; 
+                    } else {
+                        throw new Error("JSON 格式不符合預期");
+                    }
+                } catch (e) {
+                    console.warn(`嘗試抓取 ${url} 失敗:`, e);
+                    lastError = e;
+                }
             }
 
-            let processedData = [];
+            if (!rawJson) {
+                throw new Error(`所有的資料節點均無回應。最後錯誤: ${lastError.message} (請確認 GitHub 上是否有最新推送的 true_discount.json)`);
+            }
+
+            fullDataList = rawJson.results || rawJson;
             
-            items.forEach((item) => {
-                if (!item.prices || item.prices.length === 0) return;
-                let validPricesForThisItem = [];
-                
-                item.prices.forEach(p => {
-                    const smCode = (p.supermarketCode || p.supermarket || '').toUpperCase();
-                    if (smCode === 'ZTORE' || !smCode) return; 
-                    
-                    const basePrice = parseFloat(p.price);
-                    if (isNaN(basePrice)) return;
-                    
-                    let effectivePrice = basePrice;
-                    let promoCalcText = "", offerStr_display = "-", offerStr_en = "";
-                    
-                    const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
-                    for (let key of promoKeys) {
-                        if (p[key]) {
-                            promoCalcText = (typeof p[key] === 'object') ? (p[key]['en'] || p[key]['zh-Hant'] || '') : String(p[key]);
-                            offerStr_display = (typeof p[key] === 'object') ? (p[key]['zh-Hant'] || p[key]['zh-Hans'] || p[key]['en'] || '') : String(p[key]);
-                            offerStr_en = (typeof p[key] === 'object') ? (p[key]['en'] || '') : String(p[key]);
-                            break;
-                        } else if (Array.isArray(item[key])) {
-                            let matchOffer = item[key].find(o => (o.supermarketCode || o.supermarket || '').toUpperCase() === smCode);
-                            if (matchOffer) {
-                                promoCalcText = matchOffer.en || matchOffer['zh-Hant'] || '';
-                                offerStr_display = matchOffer['zh-Hant'] || matchOffer['zh-Hans'] || matchOffer.en || '';
-                                offerStr_en = matchOffer.en || '';
-                                break;
-                            }
-                        }
-                    }
+            if (rawJson.generated_at) {
+                lastUpdatedTime = new Date(rawJson.generated_at);
+            }
 
-                    if (typeof calculateAvgPrice === 'function' && promoCalcText) {
-                        let avgPrice = calculateAvgPrice(promoCalcText, basePrice);
-                        if (avgPrice && avgPrice > 0 && avgPrice < basePrice) effectivePrice = avgPrice;
-                    }
-                    
-                    validPricesForThisItem.push({ smCode, basePrice, effectivePrice, offerStr_display, offerStr_en });
-                });
-                
-                if (validPricesForThisItem.length === 0) return;
-                
-                let sum = 0;
-                validPricesForThisItem.forEach(vp => sum += vp.effectivePrice);
-                let marketAvgPrice = sum / validPricesForThisItem.length;
-                if (marketAvgPrice <= 0) return;
-                
-                // 🚀 前端 Browser-Side JOIN 邏輯
-                validPricesForThisItem.forEach(vp => {
-                    const realDiscountPct = ((marketAvgPrice - vp.effectivePrice) / marketAvgPrice) * 100;
-                    if (realDiscountPct <= 0) return; 
-                    
-                    const history = snapshotMap.get(`${item.code}_${vp.smCode}`);
-                    let statusKey = 'maintained';
-                    let prevBasePrice = null, prevEffPrice = null, lastChangeDate = '-', prevOfferText = '-';
-
-                    if (history) {
-                        prevBasePrice = parseFloat(history.previous_base_price || history.price);
-                        prevEffPrice = parseFloat(history.previous_effective_price || history.effective_price || history.price);
-                        lastChangeDate = history.last_changed_date ? history.last_changed_date.split('T')[0] : '-';
-                        prevOfferText = history.previous_offer_zh_hant || history.offer_zh_hant || history.previous_offer_en || '-';
-
-                        const dbStatus = history.change_status || '';
-                        const prevOfferEn = history.previous_offer_en || history.offer_en || '';
-
-                        if (dbStatus === 'NEW_ADDED' || isNaN(prevEffPrice)) statusKey = 'new';
-                        else if (vp.effectivePrice < prevEffPrice) statusKey = 'drop';
-                        else if (vp.offerStr_en && vp.effectivePrice >= prevEffPrice) statusKey = 'fake';
-                        else if (vp.effectivePrice > prevEffPrice) statusKey = 'increase';
-                        else if (vp.offerStr_en && vp.offerStr_en !== prevOfferEn) statusKey = 'promo_changed';
-                        else statusKey = 'maintained';
-                    } else {
-                        statusKey = 'new';
-                    }
-
-                    const otherPricesArr = validPricesForThisItem.filter(other => other.smCode !== vp.smCode).map(other => ({ smCode: other.smCode, price: other.effectivePrice }));
-                        
-                    processedData.push({
-                        smCode: vp.smCode, name: item.name, categoryRaw: item.cat1Name || {'zh-Hant': '其他'},
-                        originalPrice: vp.basePrice, effectivePrice: vp.effectivePrice, realDiscountPct: realDiscountPct,
-                        otherPricesRaw: otherPricesArr, brand: item.brand, currentOffer: vp.offerStr_display,
-                        statusKey: statusKey, prevBasePrice: prevBasePrice, prevEffPrice: prevEffPrice, 
-                        prevOffer: prevOfferText, lastChangeDate: lastChangeDate
-                    });
-                });
-            });
-            
-            fullDataList = processedData.sort((a, b) => b.realDiscountPct - a.realDiscountPct);
-            changeLanguage(currentLang); 
+            if (typeof updateLocalLanguage === 'function') {
+                updateLocalLanguage(currentLang);
+            }
             
         } catch (e) { 
-            console.error("數據載入錯誤:", e); 
+            console.error("數據載入崩潰:", e); 
+            const errorStr = currentLang === 'en' ? 'Failed to load data' : '無法取得最新數據';
+            const errorHTML = `
+                <div class="p-10 text-center flex flex-col items-center justify-center gap-3">
+                    <span class="text-red-500 dark:text-red-400 font-black text-[16px]">${errorStr}</span>
+                    <span class="text-[12px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 max-w-md break-words">${e.message}</span>
+                </div>`;
+            const tbody = document.getElementById('leaderboardTableBody');
+            const mbody = document.getElementById('leaderboardMobile');
+            if(tbody) tbody.innerHTML = `<tr><td colspan="10">${errorHTML}</td></tr>`;
+            if(mbody) mbody.innerHTML = errorHTML;
         }
     }
 
@@ -384,11 +374,16 @@
         let filtered = fullDataList.filter(i => {
             const name = getText(i.name, currentLang).toLowerCase();
             const smNameText = getSmName(i.smCode, currentLang).toLowerCase(); 
-            const categoryText = getText(i.categoryRaw, currentLang); 
-            const matchesKw = name.includes(kw) || smNameText.includes(kw);
+            
+            const rawCatValue = typeof i.categoryRaw === 'object' ? (i.categoryRaw['zh-Hant'] || '') : String(i.categoryRaw || '');
+            // 💡 關鍵修復：這裡要把一整個 categoryRaw 物件傳進去，讓它能讀取 zh-Hans
+            const translatedCatText = getCatName(i.categoryRaw, currentLang).toLowerCase();
+            
+            const matchesKw = name.includes(kw) || smNameText.includes(kw) || translatedCatText.includes(kw);
             const matchesSm = (sm === 'ALL' || i.smCode === sm);
-            const matchesCat = (cat === 'ALL' || categoryText === cat);
+            const matchesCat = (cat === 'ALL' || rawCatValue === cat);
             const matchesPct = currentMinPct > 0 ? (i.realDiscountPct >= currentMinPct) : true;
+            
             return matchesKw && matchesSm && matchesCat && matchesPct;
         });
 
@@ -409,7 +404,6 @@
         renderLeaderboard(filtered);
     }
 
-    // --- 💡 多語言與選單動態更新 ---
     function populateDropdowns() {
         const sm = document.getElementById('smFilter');
         const cat = document.getElementById('catFilter');
@@ -418,19 +412,29 @@
         const smAllText = currentLang === 'en' ? 'All Stores' : (currentLang === 'zh-Hans' ? '推荐超市 (全部)' : '推薦超市 (全部)');
         const catAllText = currentLang === 'en' ? 'All Categories' : (currentLang === 'zh-Hans' ? '所有分类' : '所有分類');
 
+        const currentSmVal = sm.value;
+        const currentCatVal = cat.value;
+
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
         sm.innerHTML = `<option value="ALL">${smAllText}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
         
-        const categories = [...new Set(fullDataList.map(i => getText(i.categoryRaw, currentLang)))];
-        cat.innerHTML = `<option value="ALL">${catAllText}</option>` + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+       // 🌟 下拉選單：使用真實的 rawCatValue 作為 option value
+        const rawCategories = [...new Set(fullDataList.map(i => (typeof i.categoryRaw === 'object' ? i.categoryRaw['zh-Hant'] : i.categoryRaw)))];
+        cat.innerHTML = `<option value="ALL">${catAllText}</option>` + rawCategories.map(c => {
+            // 💡 從原始清單找回帶有多語言屬性的完整 Object
+            let originalObj = fullDataList.find(item => (typeof item.categoryRaw === 'object' ? item.categoryRaw['zh-Hant'] : item.categoryRaw) === c)?.categoryRaw || c;
+            return `<option value="${c}">${getCatName(originalObj, currentLang)}</option>`;
+        }).join('');
+
+        if (smCodes.includes(currentSmVal)) sm.value = currentSmVal;
+        if (rawCategories.includes(currentCatVal)) cat.value = currentCatVal;
     }
 
-    // 💡 核心修復：防彈級的多語言強制覆蓋函數
+    // 🌟 核心修復：防彈級的多語言強制覆蓋函數 (包含 Footer 連動)
     function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
         
-        // 1. 修復左上角 Logo 文字與更新時間
         const appTitle = document.getElementById('appTitle');
         if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : '慳真D';
         
@@ -444,10 +448,8 @@
             }
         }
         
-        // 2. 修復頁面標題與小標籤
         document.title = (lang === 'en' ? "SmartDeal Board | SmartDeal🔎" : (lang === 'zh-Hans' ? "智选真抵榜 | 悭真D🔎" : "智選真抵榜 | 慳真D🔎"));
         
-        // 快速文字置換小幫手
         const setTxt = (id, en, tc, sc) => { const el = document.getElementById(id); if (el) el.innerText = lang === 'en' ? en : (lang === 'zh-Hans' ? sc : tc); };
         
         setTxt('pageTitleText', 'SmartDeal Board', '智選真抵榜', '智选真抵榜');
@@ -457,12 +459,10 @@
         setTxt('listTitle', '🔥 TODAY\'S TOP DISCOUNTS', '🔥 今日 Top 劈價貨品', '🔥 今日 Top 降价商品');
         setTxt('dailyUpdateBadge', 'Daily Update', '每日更新', '每日更新');
         
-        // 3. 修復下拉選單內容
         setTxt('optSortDiff', '📉 Highest True Discount', '📉 真・減幅最高', '📉 真・减幅最高');
         setTxt('optSortMinP', '💰 Lowest Effective Price', '💰 折實價最低', '💰 折实价最低');
         setTxt('optSortCustom', 'Custom Sort', '自訂排序', '自定义排序');
         
-        // 4. 修復電腦版 Table 所有的欄位標題 (包含歷史狀態判定)
         setTxt('txt-thRank', 'Rank', '排名', '排名');
         setTxt('txt-thCat', 'Category', '分類', '分类');
         setTxt('txt-thSm', 'Store', '超市', '超市');
@@ -474,22 +474,38 @@
         setTxt('txt-thDiff', 'True Diff', '真・減幅', '真・减幅');
         setTxt('txt-thOther', 'Other Prices', '其他超市定價', '其他超市定价');
 
-        // 5. 修復熱門搜尋的減幅按鈕
         setTxt('txtBtnPct20', '> 20% Off', '> 20% 減幅', '> 20% 减幅');
         setTxt('txtBtnPct30', '> 30% Off', '> 30% 減幅', '> 30% 减幅');
         setTxt('txtBtnPct50', '🔥 Half Price (>50%)', '🔥 半價以上 (>50%)', '🔥 半价以上 (>50%)');
         
-        // 6. 修復搜尋框的預設字 (Placeholder)
         const filterInput = document.getElementById('filterInput');
         if (filterInput) {
             filterInput.placeholder = lang === 'en' ? 'Search category, brand, product or store...' : (lang === 'zh-Hans' ? '搜索分类、品牌、商品或超市...' : '搜尋分類、品牌、貨品或推薦超市...');
         }
         
+        // 🌟 Footer 翻譯同步
+        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+        const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
+        const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
+
+        if (uiDict) {
+            setElTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
+            setElTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+            setElTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
+            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
+            setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+        }
+
+        const devTeam = document.getElementById('footerDevTeam');
+        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
+
+        const devName = document.getElementById('footerDevName');
+        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
+
         populateDropdowns();
-        applyFilters();
+        if (fullDataList && fullDataList.length > 0) applyFilters();
     }
 
-    // 接收 Header 切換語言的廣播事件
     window.addEventListener('languageChanged', (e) => {
         updateLocalLanguage(e.detail.lang);
     });
@@ -499,7 +515,6 @@
         if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
     };
 
-    // --- 💡 歷史面板摺疊函數 ---
     window.toggleHistoryBox = function(boxId, iconId) {
         const box = document.getElementById(boxId);
         const icon = document.getElementById(iconId);
@@ -507,7 +522,7 @@
         if (icon) icon.classList.toggle('rotate-180');
     };
 
-    // --- 6. 🚀 渲染畫面與注入詳細歷史資訊 ---
+  // --- 6. 🚀 渲染畫面與注入詳細歷史資訊 ---
     function renderLeaderboard(list) {
         const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
         const otherStrText = currentLang === 'en' ? 'Others' : (currentLang === 'zh-Hans' ? '其他' : '其他');
@@ -517,9 +532,7 @@
         const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
         const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
 
-        // ----------------------------------------------------
         // 1. 🖥️ 電腦版 Table 渲染
-        // ----------------------------------------------------
         const body = document.getElementById('leaderboardTableBody');
         if (body) {
             body.innerHTML = list.map((item, i) => {
@@ -529,16 +542,26 @@
                 let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 let otherPricesHTML = '-';
-                if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
-                    otherPricesHTML = item.otherPricesRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
+                let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
+                // 💡 過濾掉自己那間超市的價錢
+                if (opRaw && Array.isArray(opRaw)) {
+                    opRaw = opRaw.filter(op => op.smCode !== item.smCode);
+                }
+                if (opRaw && opRaw.length > 0) {
+                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
                 }
 
                 const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
                 const statusText = stDict[currentLang] || stDict['zh-Hant'];
                 let prevEffText = item.prevEffPrice ? `$${item.prevEffPrice.toFixed(1)}` : '-';
                 let prevBaseText = item.prevBasePrice ? `$${item.prevBasePrice.toFixed(1)}` : '-';
-                let prevOfferText = item.prevOffer && item.prevOffer !== '-' ? item.prevOffer : (currentLang === 'en' ? 'None' : '無');
                 let lastDateText = item.lastChangeDate && item.lastChangeDate !== '-' ? item.lastChangeDate : '-';
+                
+                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : item.currentOfferZh;
+                if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
+
+                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : item.prevOfferZh;
+                if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
                 
                 const deskBoxId = `desk-hist-${i}`;
                 const deskIconId = `desk-icon-${i}`;
@@ -560,33 +583,32 @@
                     </div>
                 `;
                 
+                // 🌟 使用 getCatName 進行翻譯
+                const displayCategory = getCatName(item.categoryRaw, currentLang);
+
                 return `
                 <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/30 transition-colors group">
                     <td class="p-3 align-top text-center font-black ${rankClass} whitespace-nowrap">${rankMedal}</td>
-                    <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[70px]" title="${getText(item.categoryRaw, currentLang)}">${getText(item.categoryRaw, currentLang)}</td>
+                    <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[70px]" title="${displayCategory}">${displayCategory}</td>
                     <td class="p-3 align-top text-center whitespace-nowrap">${getSmBadge(item.smCode, currentLang)}</td>
                     <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px]" title="${getText(item.brand, currentLang)}">${getText(item.brand, currentLang)}</td>
                     <td class="p-3 align-top font-bold text-[14px]">
                         <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">${displayName}</a>
-                        ${item.currentOffer && item.currentOffer !== '-' ? `<div class="text-[11px] text-red-500 mt-1">${item.currentOffer}</div>` : ''}
+                        ${currentOfferText ? `<div class="text-[11px] text-red-500 mt-1">${currentOfferText}</div>` : ''}
                     </td>
                     <td class="p-3 align-top">${statusBadgeHTML}</td>
-                    <td class="p-3 align-top text-right text-slate-400 dark:text-slate-500 line-through text-[12px] whitespace-nowrap">$${item.originalPrice.toFixed(1)}</td>
-                    <td class="p-3 align-top text-right font-black text-blue-600 dark:text-blue-400 text-[16px] whitespace-nowrap">$${item.effectivePrice.toFixed(1)}</td>
+                    <td class="p-3 align-top text-right text-slate-400 dark:text-slate-500 line-through text-[12px] whitespace-nowrap">$${(parseFloat(item.originalPrice) || 0).toFixed(1)}</td>
+                    <td class="p-3 align-top text-right font-black text-blue-600 dark:text-blue-400 text-[16px] whitespace-nowrap">$${(parseFloat(item.effectivePrice) || 0).toFixed(1)}</td>
                     <td class="p-3 align-top text-right whitespace-nowrap">
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 shadow-sm">▼ ${(parseFloat(item.realDiscountPct) || 0).toFixed(1)}%</span>
                     </td>
                     <td class="p-3 align-top text-[11px] text-slate-400 dark:text-slate-500 leading-tight max-w-[150px] truncate hover:whitespace-normal transition-all" title="${otherPricesHTML}">${otherPricesHTML}</td>
                 </tr>
                 `;
             }).join('');
         }
-        
-        // ... (手機版 Mobile 渲染代碼保持原狀，接續於下方) ...
 
-        // ----------------------------------------------------
-        // 2. 📱 手機版 Card 渲染 (保持之前的完美結構)
-        // ----------------------------------------------------
+        // 2. 📱 手機版 Card 渲染
         const mobileContainer = document.getElementById('leaderboardMobile');
         if (mobileContainer) {
             mobileContainer.innerHTML = list.map((item, i) => {
@@ -595,17 +617,27 @@
                 let safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 let otherPricesHTML = '-';
-                if (item.otherPricesRaw && item.otherPricesRaw.length > 0) {
-                    otherPricesHTML = item.otherPricesRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
+                let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
+                // 💡 過濾掉自己那間超市的價錢
+                if (opRaw && Array.isArray(opRaw)) {
+                    opRaw = opRaw.filter(op => op.smCode !== item.smCode);
+                }
+                if (opRaw && opRaw.length > 0) {
+                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
                 }
 
                 const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
                 const statusText = stDict[currentLang] || stDict['zh-Hant'];
                 let prevEffText = item.prevEffPrice ? `$${item.prevEffPrice.toFixed(1)}` : '-';
                 let prevBaseText = item.prevBasePrice ? `$${item.prevBasePrice.toFixed(1)}` : '-';
-                let prevOfferText = item.prevOffer && item.prevOffer !== '-' ? item.prevOffer : (currentLang === 'en' ? 'None' : '無');
                 let lastDateText = item.lastChangeDate && item.lastChangeDate !== '-' ? item.lastChangeDate : '-';
                 
+                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : item.currentOfferZh;
+                if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
+
+                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : item.prevOfferZh;
+                if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
+
                 const mobBoxId = `mob-hist-${i}`;
                 const mobIconId = `mob-icon-${i}`;
 
@@ -631,46 +663,45 @@
                         </div>
                     </div>
                 `;
+                
+                // 🌟 使用 getCatName 進行翻譯
+                const displayCategory = getCatName(item.categoryRaw, currentLang);
 
                 return `
                 <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-1 relative overflow-hidden transition-colors">
-                    
                     <div class="flex justify-between items-start mb-2">
                         <div class="flex items-center gap-2.5">
                             <span class="text-xl font-black text-amber-500 drop-shadow-sm">${rankMedal}</span>
                             ${getSmBadge(item.smCode, currentLang)}
                         </div>
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 text-[12px] shadow-sm">▼ ${item.realDiscountPct.toFixed(1)}%</span>
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 text-[12px] shadow-sm">▼ ${(parseFloat(item.realDiscountPct) || 0).toFixed(1)}%</span>
                     </div>
-                    
                     <div>
                         <span class="text-[12px] font-normal text-slate-500 dark:text-slate-400 block mb-0.5">${getText(item.brand, currentLang)}</span>
                         <h3 class="font-bold text-[15px] leading-snug mb-1">
                             <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">${displayName}</a>
                         </h3>
+                        ${currentOfferText ? `<div class="text-[12px] text-red-500 mt-1">${currentOfferText}</div>` : ''}
                     </div>
-                    
                     <div class="flex justify-between items-end mt-2">
                         <div class="flex flex-col items-start gap-1 w-3/5">
-                            <span class="text-[12px] text-slate-500 dark:text-slate-400">${getText(item.categoryRaw, currentLang)}</span>
+                            <span class="text-[12px] text-slate-500 dark:text-slate-400">${displayCategory}</span>
                             ${statusBadgeHTML}
                             ${microHistoryBox}
                         </div>
-                        
                         <div class="flex flex-col items-end justify-end shrink-0 pb-1">
-                            <span class="text-[14px] text-slate-400 dark:text-slate-500 line-through mb-0.5">$${item.originalPrice.toFixed(1)}</span>
-                            <span class="text-[26px] font-black text-blue-600 dark:text-blue-400 leading-none tracking-tight">$${item.effectivePrice.toFixed(1)}</span>
+                            <span class="text-[14px] text-slate-400 dark:text-slate-500 line-through mb-0.5">$${(parseFloat(item.originalPrice) || 0).toFixed(1)}</span>
+                            <span class="text-[26px] font-black text-blue-600 dark:text-blue-400 leading-none tracking-tight">$${(parseFloat(item.effectivePrice) || 0).toFixed(1)}</span>
                         </div>
                     </div>
-                    
-                    ${item.otherPricesRaw && item.otherPricesRaw.length > 0 ? `<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">${otherStrText}: ${otherPricesHTML}</div>` : ''}
+                    ${item.otherPricesRaw && item.otherPricesRaw.length > 0 && item.otherPricesRaw !== '[]' ? `<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">${otherStrText}: ${otherPricesHTML}</div>` : ''}
                 </div>
                 `;
             }).join('');
         }
     }
 
-    // --- ℹ️ 運算機制與聲明 Modal 邏輯與多語言字庫 ---
+    // --- ℹ️ 運算機制與聲明 Modal ---
     const calcInfoTexts = {
         'zh-Hant': {
             title: "ℹ️ 運算機制與聲明",
@@ -732,7 +763,6 @@
         const modal = document.getElementById('calcInfoModal');
         const box = document.getElementById('calcInfoBox');
         
-        // 載入對應語言的內容
         const langData = calcInfoTexts[currentLang] || calcInfoTexts['zh-Hant'];
         document.getElementById('calcModalTitle').innerHTML = langData.title;
         document.getElementById('calcModalContent').innerHTML = langData.content;
@@ -768,7 +798,6 @@
         }
     });
 
-    // --- 啟動 ---
     loadTrueDiscountData();
 </script>
 </body>
