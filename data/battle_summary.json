@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-13T14:22:45.472Z",
+  "generated_at": "2026-06-13T17:52:55.942Z",
   "report_date": "2026-06-13",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "302",
-      "avg_discount_pct": "7.28",
+      "total_drop_items": "318",
+      "avg_discount_pct": "7.08",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "76",
+      "cat_drop_count": "78",
       "top_3_deals": [
         {
           "name_zh": "粟米筒 (淡鹽味) 68克",
@@ -38,43 +38,43 @@
     {
       "supermarket_code": "PARKNSHOP",
       "total_drop_items": "283",
-      "avg_discount_pct": "9.54",
+      "avg_discount_pct": "9.65",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "65",
+      "cat_drop_count": "67",
       "top_3_deals": [
         {
-          "name_zh": "抑菌清新絲薄 (超特長夜用) 衛生巾 40厘米 10片",
-          "name_zh_hans": "抑菌清新丝薄 (超特长夜用) 卫生巾 40厘米 10片",
-          "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 40cm 10pcs",
-          "price": 19.95,
-          "pct": 33.33
+          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
+          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
+          "name_en": "Hair Fall Rescue Shampoo 680mL",
+          "price": 15,
+          "pct": 47.37
         },
         {
-          "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
-          "name_zh_hans": "抑菌清新丝薄 (特长日用) 卫生巾 25厘米 18片",
-          "name_en": "Anti-bacteria Ultra Slim (Day Use) (Wing) Pad 25cm 18pcs",
-          "price": 17.95,
-          "pct": 33.33
+          "name_zh": "日常修護洗髮乳 680毫升",
+          "name_zh_hans": "日常修护洗发乳 680毫升",
+          "name_en": "Daily Shine Shampoo 680mL",
+          "price": 15,
+          "pct": 47.37
         },
         {
-          "name_zh": "蒸餾水 430毫升",
-          "name_zh_hans": "蒸馏水 430毫升",
-          "name_en": "Pure Distilled Water 430mL",
-          "price": 3.33,
-          "pct": 32.67
+          "name_zh": "超濃縮衣物柔順劑 - 消毒防噏味陽光清香配方 1公升",
+          "name_zh_hans": "超濃縮衣物柔順劑 - 消毒防噏味陽光清香配方 1公升",
+          "name_en": "Ultra Fabric Softener - Anti-Bacterial Deo Fresh 1L",
+          "price": 12.95,
+          "pct": 37.24
         }
       ]
     },
     {
       "supermarket_code": "JASONS",
-      "total_drop_items": "206",
-      "avg_discount_pct": "7.74",
+      "total_drop_items": "224",
+      "avg_discount_pct": "7.47",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "53",
+      "cat_drop_count": "55",
       "top_3_deals": [
         {
           "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
@@ -91,9 +91,9 @@
           "pct": 23.95
         },
         {
-          "name_zh": "螺絲粉 (n.98) 500克",
-          "name_zh_hans": "螺丝粉 (n.98) 500克",
-          "name_en": "Fusilli (n.98) 500g",
+          "name_zh": "直通粉 (n.73) 500克",
+          "name_zh_hans": "直通粉 (n.73) 500克",
+          "name_en": "Penne Rigate (n.73) 500g",
           "price": 13,
           "pct": 23.08
         }
@@ -101,12 +101,12 @@
     },
     {
       "supermarket_code": "AEON",
-      "total_drop_items": "109",
-      "avg_discount_pct": "12.52",
+      "total_drop_items": "107",
+      "avg_discount_pct": "12.66",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "19",
+      "cat_drop_count": "18",
       "top_3_deals": [
         {
           "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
@@ -133,12 +133,12 @@
     },
     {
       "supermarket_code": "WATSONS",
-      "total_drop_items": "88",
-      "avg_discount_pct": "9.85",
+      "total_drop_items": "94",
+      "avg_discount_pct": "10.48",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "72",
+      "cat_drop_count": "77",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -148,25 +148,25 @@
           "pct": 45.63
         },
         {
+          "name_zh": "淨肌呵護纖巧特多流量夜用衛生巾 40厘米 7片",
+          "name_zh_hans": "净肌呵护纤巧特多流量夜用卫生巾 40厘米 7片",
+          "name_en": "F Night Use Slim Extra Heavy Pads 40cm 7pcs",
+          "price": 16.95,
+          "pct": 44.52
+        },
+        {
           "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
           "name_zh_hans": "Always Infinity 液体材质日用卫生巾 24厘米 10片",
           "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
           "price": 17.95,
           "pct": 39.18
-        },
-        {
-          "name_zh": "無痕奢柔褲 (XL碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
-          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
-          "price": 19.95,
-          "pct": 31.96
         }
       ]
     },
     {
       "supermarket_code": "MANNINGS",
       "total_drop_items": "50",
-      "avg_discount_pct": "7.90",
+      "avg_discount_pct": "7.67",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
@@ -192,38 +192,6 @@
           "name_en": "+Extra C (From A to Zinc) Chewable Tablets 60 Tablets",
           "price": 131.18,
           "pct": 18.87
-        }
-      ]
-    },
-    {
-      "supermarket_code": "SASA",
-      "total_drop_items": "5",
-      "avg_discount_pct": "19.98",
-      "top_category_zh": "個人護理",
-      "top_category_zh_hans": "个人护理",
-      "top_category_en": "Personal care",
-      "cat_drop_count": "5",
-      "top_3_deals": [
-        {
-          "name_zh": "腸道益生菌 (300億) 30粒",
-          "name_zh_hans": "肠道益生菌 (300亿) 30粒",
-          "name_en": "Probiotics+ Daily Health 30 capsules",
-          "price": 112,
-          "pct": 47.88
-        },
-        {
-          "name_zh": "SA水楊酸煥膚潔膚露 473毫升",
-          "name_zh_hans": "SA水杨酸焕肤洁肤露 473毫升",
-          "name_en": "SA Smoothing Cleanser 473mL",
-          "price": 116,
-          "pct": 26.11
-        },
-        {
-          "name_zh": "葯水 1.75安士 (50毫升)",
-          "name_zh_hans": "药水 1.75安士 (50毫升)",
-          "name_en": "Alcool de Menthe (Peppermint Cure) 1.75oz (50mL)",
-          "price": 51.5,
-          "pct": 13.32
         }
       ]
     },
@@ -256,6 +224,38 @@
           "name_en": "4 in 1 Anti-Moth Dehumidifying Bag 10pcs",
           "price": 75,
           "pct": 14.71
+        }
+      ]
+    },
+    {
+      "supermarket_code": "SASA",
+      "total_drop_items": "4",
+      "avg_discount_pct": "22.05",
+      "top_category_zh": "個人護理",
+      "top_category_zh_hans": "个人护理",
+      "top_category_en": "Personal care",
+      "cat_drop_count": "4",
+      "top_3_deals": [
+        {
+          "name_zh": "腸道益生菌 (300億) 30粒",
+          "name_zh_hans": "肠道益生菌 (300亿) 30粒",
+          "name_en": "Probiotics+ Daily Health 30 capsules",
+          "price": 112,
+          "pct": 47.88
+        },
+        {
+          "name_zh": "SA水楊酸煥膚潔膚露 473毫升",
+          "name_zh_hans": "SA水杨酸焕肤洁肤露 473毫升",
+          "name_en": "SA Smoothing Cleanser 473mL",
+          "price": 116,
+          "pct": 26.11
+        },
+        {
+          "name_zh": "葯水 1.75安士 (50毫升)",
+          "name_zh_hans": "药水 1.75安士 (50毫升)",
+          "name_en": "Alcool de Menthe (Peppermint Cure) 1.75oz (50mL)",
+          "price": 51.5,
+          "pct": 13.32
         }
       ]
     },
