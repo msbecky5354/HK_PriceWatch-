@@ -471,40 +471,176 @@ const supermarketDict = {
     'zh-Hant': { 
         'WELLCOME': '惠康', 
         'PARKNSHOP': '百佳', 
-        'JASONS': 'Jasons', 
-        'MARKETPLACE': 'Market Place', 
+        'JASONS': 'Market Place (Jasons)', // 🌟 全系統統一
+        'MARKETPLACE': 'Market Place (Jasons)', 
         'AEON': 'AEON', 
         'WATSONS': '屈臣氏', 
         'MANNINGS': '萬寧', 
         'USELECT': 'U購', 
         'LUNGFUNG': '龍豐',
-        'DCHFOOD': '大昌食品',
+        'DCHFOOD': '大昌食品', // 🌟 全系統統一
         'SASA': '莎莎'
     },
     'zh-Hans': { 
         'WELLCOME': '惠康', 
         'PARKNSHOP': '百佳', 
-        'JASONS': 'Jasons', 
-        'MARKETPLACE': 'Market Place', 
+        'JASONS': 'Market Place (Jasons)', // 🌟 全系統統一
+        'MARKETPLACE': 'Market Place (Jasons)', 
         'AEON': 'AEON', 
         'WATSONS': '屈臣氏', 
         'MANNINGS': '万宁', 
         'USELECT': 'U购', 
         'LUNGFUNG': '龙丰',
-        'DCHFOOD': '大昌食品',
+        'DCHFOOD': '大昌食品', // 🌟 全系統統一
         'SASA': '莎莎'
     },
     'en': { 
         'WELLCOME': 'Wellcome', 
         'PARKNSHOP': 'PARKnSHOP', 
-        'JASONS': 'Jasons', 
-        'MARKETPLACE': 'Market Place', 
+        'JASONS': 'Market Place (Jasons)', // 🌟 全系統統一
+        'MARKETPLACE': 'Market Place (Jasons)', 
         'AEON': 'AEON', 
         'WATSONS': 'Watsons', 
         'MANNINGS': 'Mannings', 
         'USELECT': 'U-Select', 
         'LUNGFUNG': 'Lung Fung',
-        'DCHFOOD': 'DCH Food',
-        'SASA': 'Sasa'
+        'DCHFOOD': 'DCH Food Mart', // 🌟 全系統統一 (加上 Mart)
+        'SASA': 'Sa Sa' // 🌟 統一為標準的 Sa Sa
+    }
+};
+
+// --- 🎨 全站中央樣式字典 (徹底消滅 Hard Code) ---
+const supermarketStyleDict = {
+    'WELLCOME': {
+        indexCard: 'border-red-200 bg-red-50/30 dark:border-red-900/50 dark:bg-red-900/20',
+        indexText: 'text-red-700 dark:text-red-400',
+        badgeBg: 'bg-red-50 dark:bg-red-900/20',
+        badgeText: 'text-red-600 dark:text-red-400',
+        badgeBorder: 'border-red-200 dark:border-red-800',
+        battleBg: 'bg-red-50 dark:bg-red-900/20',
+        battleBorder: 'border-red-100 dark:border-red-800/50',
+        battleText: 'text-red-700 dark:text-red-400',
+        battleCountBg: 'bg-red-600 text-white border-transparent'
+    },
+    'LUNGFUNG': {
+        indexCard: 'border-red-200 bg-red-50/30 dark:border-red-900/50 dark:bg-red-900/20',
+        indexText: 'text-red-700 dark:text-red-400',
+        badgeBg: 'bg-red-50 dark:bg-red-900/20',
+        badgeText: 'text-red-600 dark:text-red-400',
+        badgeBorder: 'border-red-200 dark:border-red-800',
+        battleBg: 'bg-red-50 dark:bg-red-900/20',
+        battleBorder: 'border-red-100 dark:border-red-800/50',
+        battleText: 'text-red-700 dark:text-red-400',
+        battleCountBg: 'bg-red-600 text-white border-transparent'
+    },
+    'PARKNSHOP': {
+        indexCard: 'border-blue-200 bg-blue-50/30 dark:border-blue-900/50 dark:bg-blue-900/20',
+        indexText: 'text-blue-700 dark:text-blue-400',
+        badgeBg: 'bg-blue-50 dark:bg-blue-900/20',
+        badgeText: 'text-blue-600 dark:text-blue-400',
+        badgeBorder: 'border-blue-200 dark:border-blue-800',
+        battleBg: 'bg-blue-50 dark:bg-blue-900/20',
+        battleBorder: 'border-blue-100 dark:border-blue-800/50',
+        battleText: 'text-blue-700 dark:text-blue-400',
+        battleCountBg: 'bg-blue-600 text-white border-transparent'
+    },
+    'WATSONS': {
+        indexCard: 'border-teal-200 bg-teal-50/30 dark:border-teal-900/50 dark:bg-teal-900/20',
+        indexText: 'text-teal-700 dark:text-teal-400',
+        badgeBg: 'bg-teal-50 dark:bg-teal-900/20',
+        badgeText: 'text-teal-600 dark:text-teal-400',
+        badgeBorder: 'border-teal-200 dark:border-teal-800',
+        battleBg: 'bg-teal-50 dark:bg-teal-900/20',
+        battleBorder: 'border-teal-100 dark:border-teal-800/50',
+        battleText: 'text-teal-700 dark:text-teal-400',
+        battleCountBg: 'bg-teal-600 text-white border-transparent'
+    },
+    'HKTVMALL': {
+        indexCard: 'border-green-200 bg-green-50/30 dark:border-green-900/50 dark:bg-green-900/20',
+        indexText: 'text-green-700 dark:text-green-400',
+        badgeBg: 'bg-green-50 dark:bg-green-900/20',
+        badgeText: 'text-green-600 dark:text-green-400',
+        badgeBorder: 'border-green-200 dark:border-green-800',
+        battleBg: 'bg-green-50 dark:bg-green-900/20',
+        battleBorder: 'border-green-100 dark:border-green-800/50',
+        battleText: 'text-green-700 dark:text-green-400',
+        battleCountBg: 'bg-green-600 text-white border-transparent'
+    },
+    'JASONS': {
+        indexCard: 'border-emerald-300 bg-emerald-100/40 dark:border-emerald-900/50 dark:bg-emerald-900/20',
+        indexText: 'text-emerald-800 dark:text-emerald-400',
+        badgeBg: 'bg-emerald-50 dark:bg-emerald-900/20',
+        badgeText: 'text-emerald-700 dark:text-emerald-400',
+        badgeBorder: 'border-emerald-200 dark:border-emerald-800',
+        battleBg: 'bg-emerald-50 dark:bg-emerald-900/20',
+        battleBorder: 'border-emerald-100 dark:border-emerald-800/50',
+        battleText: 'text-emerald-700 dark:text-emerald-400',
+        battleCountBg: 'bg-emerald-600 text-white border-transparent'
+    },
+    'MARKETPLACE': {
+        indexCard: 'border-emerald-300 bg-emerald-100/40 dark:border-emerald-900/50 dark:bg-emerald-900/20',
+        indexText: 'text-emerald-800 dark:text-emerald-400',
+        badgeBg: 'bg-emerald-50 dark:bg-emerald-900/20',
+        badgeText: 'text-emerald-700 dark:text-emerald-400',
+        badgeBorder: 'border-emerald-200 dark:border-emerald-800',
+        battleBg: 'bg-emerald-50 dark:bg-emerald-900/20',
+        battleBorder: 'border-emerald-100 dark:border-emerald-800/50',
+        battleText: 'text-emerald-700 dark:text-emerald-400',
+        battleCountBg: 'bg-emerald-600 text-white border-transparent'
+    },
+    'MANNINGS': {
+        indexCard: 'border-orange-300 bg-orange-50/50 dark:border-orange-900/50 dark:bg-orange-900/20',
+        indexText: 'text-orange-500 dark:text-orange-400 drop-shadow-sm',
+        badgeBg: 'bg-orange-100 dark:bg-orange-900/30',
+        badgeText: 'text-orange-500 dark:text-orange-400 drop-shadow-sm',
+        badgeBorder: 'border-orange-400 dark:border-orange-700',
+        battleBg: 'bg-orange-50 dark:bg-orange-900/20',
+        battleBorder: 'border-orange-200 dark:border-orange-800/50',
+        battleText: 'text-orange-500 dark:text-orange-400 drop-shadow-sm',
+        battleCountBg: 'bg-orange-500 text-white border-transparent shadow-sm'
+    },
+    'AEON': {
+        indexCard: 'border-fuchsia-200 bg-fuchsia-50/30 dark:border-fuchsia-900/50 dark:bg-fuchsia-900/20',
+        indexText: 'text-fuchsia-700 dark:text-fuchsia-400',
+        badgeBg: 'bg-fuchsia-50 dark:bg-fuchsia-900/20',
+        badgeText: 'text-fuchsia-600 dark:text-fuchsia-400',
+        badgeBorder: 'border-fuchsia-200 dark:border-fuchsia-800',
+        battleBg: 'bg-fuchsia-50 dark:bg-fuchsia-900/20',
+        battleBorder: 'border-fuchsia-100 dark:border-fuchsia-800/50',
+        battleText: 'text-fuchsia-700 dark:text-fuchsia-400',
+        battleCountBg: 'bg-fuchsia-600 text-white border-transparent'
+    },
+    'SASA': {
+        indexCard: 'border-pink-200 bg-pink-50/30 dark:border-pink-900/50 dark:bg-pink-900/20',
+        indexText: 'text-pink-700 dark:text-pink-400',
+        badgeBg: 'bg-pink-50 dark:bg-pink-900/20',
+        badgeText: 'text-pink-600 dark:text-pink-400',
+        badgeBorder: 'border-pink-200 dark:border-pink-800',
+        battleBg: 'bg-pink-50 dark:bg-pink-900/20',
+        battleBorder: 'border-pink-100 dark:border-pink-800/50',
+        battleText: 'text-pink-700 dark:text-pink-400',
+        battleCountBg: 'bg-pink-600 text-white border-transparent'
+    },
+    'DCHFOOD': {
+        indexCard: 'border-yellow-300 bg-yellow-50/50 dark:border-yellow-900/50 dark:bg-yellow-900/20',
+        indexText: 'text-yellow-500 dark:text-yellow-400 drop-shadow-sm',
+        badgeBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+        badgeText: 'text-yellow-500 dark:text-yellow-400 drop-shadow-sm',
+        badgeBorder: 'border-yellow-400 dark:border-yellow-700',
+        battleBg: 'bg-yellow-50 dark:bg-yellow-900/20',
+        battleBorder: 'border-yellow-200 dark:border-yellow-800/50',
+        battleText: 'text-yellow-500 dark:text-yellow-400 drop-shadow-sm',
+        battleCountBg: 'bg-yellow-400 text-slate-900 border border-yellow-500 shadow-sm'
+    },
+    'DEFAULT': {
+        indexCard: 'border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-700/30',
+        indexText: 'text-slate-600 dark:text-slate-300',
+        badgeBg: 'bg-slate-100 dark:bg-slate-700',
+        badgeText: 'text-slate-600 dark:text-slate-300',
+        badgeBorder: 'border-slate-200 dark:border-slate-600',
+        battleBg: 'bg-slate-50 dark:bg-slate-900/20',
+        battleBorder: 'border-slate-100 dark:border-slate-800/50',
+        battleText: 'text-slate-700 dark:text-slate-400',
+        battleCountBg: 'bg-slate-600 text-white border-transparent'
     }
 };
