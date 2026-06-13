@@ -87,27 +87,17 @@
     let summaryData = [];
     let lastFetchedDate = ''; 
 
-    // --- 🌟 智能翻譯字典 ---
-    const catDict = {
-        "個人護理": { "en": "Personal Care", "zh-Hans": "个人护理" },
-        "粉麵 / 煮食用料 / 冷凍加工食品": { "en": "Noodles / Cooking / Frozen Food", "zh-Hans": "粉面 / 烹调 / 冷冻食品" },
-        "米 / 食油 / 罐頭 / 蔬果 / 肉類": { "en": "Rice / Oil / Canned / Fresh", "zh-Hans": "米 / 食油 / 罐头 / 生鲜" },
-        "零食 / 糖果 / 餅乾": { "en": "Snacks / Candies / Biscuits", "zh-Hans": "零食 / 糖果 / 饼干" },
-        "紙品 / 家居清潔 / 寵物": { "en": "Paper / Cleaning / Pets", "zh-Hans": "纸品 / 家居清洁 / 宠物" },
-        "飲品 / 酒類": { "en": "Beverages / Alcohol", "zh-Hans": "饮品 / 酒类" },
-        "急凍 / 冰鮮 / 鮮肉": { "en": "Frozen / Chilled / Fresh Meat", "zh-Hans": "急冻 / 冰鲜 / 鲜肉" },
-        "牛奶 / 冷凍飲品 / 雞蛋 / 豆腐": { "en": "Dairy / Chilled Drinks / Eggs", "zh-Hans": "牛奶 / 冷冻饮品 / 鸡蛋" },
-        "麵包 / 蛋糕 / 穀類早餐": { "en": "Bakery / Cereal", "zh-Hans": "面包 / 蛋糕 / 谷类早餐" },
-        "嬰兒用品": { "en": "Baby Products", "zh-Hans": "婴儿用品" }
-    };
-
-    function translateCategory(zhHantName, enName, zhHansName, lang) {
-    if (lang === 'en' && enName) return enName; 
-    if (lang === 'zh-Hans' && zhHansName) return zhHansName; // 💡 優先讀取資料庫裡的簡體名
-    if (lang === 'zh-Hant') return zhHantName;
-    if (catDict[zhHantName] && catDict[zhHantName][lang]) return catDict[zhHantName][lang];
-    return zhHantName; 
-}
+    // 🌟 絕對服從官方數據：只讀取 n8n 傳來的政府官方多語言欄位，不再前端自創字典
+    function getOfficialCategory(sm, lang) {
+        if (lang === 'en' && sm.top_category_en && sm.top_category_en.trim() !== '') {
+            return sm.top_category_en;
+        }
+        if (lang === 'zh-Hans' && sm.top_category_zh_hans && sm.top_category_zh_hans.trim() !== '') {
+            return sm.top_category_zh_hans;
+        }
+        // 預設返回官方的繁體中文
+        return sm.top_category_zh || sm.top_category || '-';
+    }
 
     function formatDateTime(date) {
         if (!date || isNaN(date.getTime())) return '';
@@ -201,12 +191,6 @@
                 let safeName = name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 let dealPrice = parseFloat(deal.price) || 0;
                 let dealPct = parseFloat(deal.pct) || 0;
-                let rawCatZh = sm.top_category_zh || sm.top_category; 
-            let rawCatEn = sm.top_category_en || null;
-            let rawCatHans = sm.top_category_zh_hans || null; // 💡 抓取簡體分類
-            let finalCatName = translateCategory(rawCatZh, rawCatEn, rawCatHans, currentLang);
-            let avgPctNum = parseFloat(sm.avg_discount_pct) || 0;
-                // ...下方程式碼保持不變...
 
                 return `
                     <div class="flex justify-between items-start gap-2 py-1.5 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
@@ -222,9 +206,8 @@
                 `;
             }).join('');
 
-            let rawCatZh = sm.top_category_zh || sm.top_category; 
-            let rawCatEn = sm.top_category_en || null;
-            let finalCatName = translateCategory(rawCatZh, rawCatEn, currentLang);
+            // 💡 直接讀取官方數據
+            let finalCatName = getOfficialCategory(sm, currentLang);
             let avgPctNum = parseFloat(sm.avg_discount_pct) || 0;
 
             return `
