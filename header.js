@@ -1,4 +1,30 @@
-// header.js - 共用 Header 組件
+// header.js - 共用 Header 組件與全域日夜模式大腦
+
+// 🌟 1. 全域日夜模式初始化
+window.initGlobalTheme = function() {
+    const themeBtn = document.getElementById('themeBtn');
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        if (themeBtn) themeBtn.textContent = '🌙';
+    } else {
+        document.documentElement.classList.remove('dark');
+        if (themeBtn) themeBtn.textContent = '☀️';
+    }
+};
+
+// 🌟 2. 全域日夜模式切換與記憶
+window.toggleTheme = function() {
+    document.documentElement.classList.toggle('dark');
+    const themeBtn = document.getElementById('themeBtn');
+    if (document.documentElement.classList.contains('dark')) {
+        themeBtn.textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        themeBtn.textContent = '☀️';
+        localStorage.setItem('theme', 'light');
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const isHomePage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
     
@@ -26,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="flex items-center gap-1.5">
                     <button onclick="toggleTheme()" id="themeBtn" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 border border-slate-200 shadow-sm active:scale-95 transition-all dark:bg-slate-800 dark:border-slate-700">☀️</button>
                     <button onclick="openMyAlerts()" class="relative w-7 h-7 flex items-center justify-center rounded-full bg-rose-50 text-rose-600 border border-rose-100 shadow-sm active:scale-95 transition-all dark:bg-rose-900/30 dark:border-rose-800">🔔</button>
-                    <button onclick="openManual()" class="w-7 h-7 flex items-center justify-center rounded-full bg-amber-50 text-amber-600 border border-amber-100 shadow-sm text-[12px] active:scale-95 transition-all dark:bg-amber-900/30 dark:border-amber-800">📖</button>
+                    <button onclick="window.location.href='manual.html'" class="w-7 h-7 flex items-center justify-center rounded-full bg-amber-50 text-amber-600 border border-amber-100 shadow-sm text-[12px] active:scale-95 transition-all dark:bg-amber-900/30 dark:border-amber-800">📖</button>
                     <button onclick="openShareAppModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 border border-blue-100 shadow-sm active:scale-95 transition-all dark:bg-blue-900/30 dark:border-blue-800">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                     </button>
@@ -36,6 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     </header>
     `;
     
-    // 將 header 插入到 body 的最上方
     document.body.insertAdjacentHTML('afterbegin', headerHtml);
+    
+    // 🌟 Header 載入後立刻執行一次日夜模式初始化
+    window.initGlobalTheme();
 });
+
+// 當其他頁面從 Cache 返回時，確保日夜模式一致
+window.addEventListener('pageshow', () => { if (typeof window.initGlobalTheme === 'function') window.initGlobalTheme(); });
