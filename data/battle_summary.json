@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-12T23:49:25.240Z",
-  "report_date": "2026-06-12",
+  "generated_at": "2026-06-13T11:00:51.752Z",
+  "report_date": "2026-06-13",
   "total_items": 9,
   "results": [
     {
@@ -91,11 +91,43 @@
           "pct": 23.95
         },
         {
-          "name_zh": "通心粉 (n.41) 500克",
-          "name_zh_hans": "通心粉 (n.41) 500克",
-          "name_en": "Chifferi (n.41) 500g",
+          "name_zh": "螺絲粉 (n.98) 500克",
+          "name_zh_hans": "螺丝粉 (n.98) 500克",
+          "name_en": "Fusilli (n.98) 500g",
           "price": 13,
           "pct": 23.08
+        }
+      ]
+    },
+    {
+      "supermarket_code": "AEON",
+      "total_drop_items": "109",
+      "avg_discount_pct": "12.52",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
+      "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
+      "cat_drop_count": "19",
+      "top_3_deals": [
+        {
+          "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
+          "name_zh_hans": "好自在甜睡瞬洁护翼极长夜用卫生巾 40厘米 10片",
+          "name_en": "Sweet Sleep Wing Extra Long Night Use Pad 40cm 10pcs",
+          "price": 22,
+          "pct": 46.56
+        },
+        {
+          "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
+          "name_zh_hans": "Always Infinity 液体材质日用卫生巾 24厘米 10片",
+          "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
+          "price": 17.95,
+          "pct": 39.18
+        },
+        {
+          "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
+          "name_zh_hans": "Air-Dry 云枕瞬吸日用卫生巾 24厘米 10片",
+          "name_en": "Air-Dry Pad 24cm 10pcs",
+          "price": 11.95,
+          "pct": 33.98
         }
       ]
     },
@@ -123,43 +155,11 @@
           "pct": 39.18
         },
         {
-          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
-          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
+          "name_zh": "無痕奢柔褲 (XL碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
+          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 31.96
-        }
-      ]
-    },
-    {
-      "supermarket_code": "AEON",
-      "total_drop_items": "88",
-      "avg_discount_pct": "12.96",
-      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
-      "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
-      "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "17",
-      "top_3_deals": [
-        {
-          "name_zh": "好自在甜睡瞬潔護翼極長夜用衛生巾 40厘米 10片",
-          "name_zh_hans": "好自在甜睡瞬洁护翼极长夜用卫生巾 40厘米 10片",
-          "name_en": "Sweet Sleep Wing Extra Long Night Use Pad 40cm 10pcs",
-          "price": 22,
-          "pct": 46.56
-        },
-        {
-          "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
-          "name_zh_hans": "Always Infinity 液体材质日用卫生巾 24厘米 10片",
-          "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
-          "price": 17.95,
-          "pct": 39.18
-        },
-        {
-          "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
-          "name_zh_hans": "Air-Dry 云枕瞬吸日用卫生巾 24厘米 10片",
-          "name_en": "Air-Dry Pad 24cm 10pcs",
-          "price": 11.95,
-          "pct": 33.98
         }
       ]
     },
