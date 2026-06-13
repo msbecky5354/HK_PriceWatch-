@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>超市戰情總結 | 慳真D🔎</title>
+    <script src="lang.js?v=11"></script>
+    <script src="promoEngine.js?v=11"></script>
+    <script src="alertSystem.js?v=2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+    <script src="appUtils.js?v=1"></script>
+    <script src="header.js?v=1"></script>
+
+    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
+        
+        <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl md:text-3xl">📊</span> 
+                <div class="flex flex-col">
+                   <h1 id="pageTitleText" class="text-[18px] md:text-2xl font-black text-slate-800 dark:text-slate-100 leading-tight tracking-wide">今日超市戰情總結</h1>
+                   <span id="subTitleText" class="text-[12px] text-slate-500 dark:text-slate-400 font-medium">資料庫極速運算：真降價貨品分佈與主打戰場</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button id="fullListBtn" onclick="window.location.href='true_discount.html'" class="hidden md:flex px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800/40 border border-blue-200 dark:border-blue-800 rounded-lg text-[13px] font-bold text-blue-600 dark:text-blue-400 transition shadow-sm items-center gap-1">
+                    看完整榜單 ➔
+                </button>
+                <button id="backBtn" onclick="window.location.href='index.html'" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
+            </div>
+        </div>
+
+        <div class="px-4 md:px-5 py-3 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700">
+            <span id="updateTimeText" class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-md shadow-sm border border-slate-200 dark:border-slate-700">載入中...</span>
+            <button id="fullListBtnMob" onclick="window.location.href='true_discount.html'" class="md:hidden text-xs font-bold text-blue-600 dark:text-blue-400 underline">看完整榜單</button>
+        </div>
+
+        <div id="summaryCardsContainer" class="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 bg-slate-50 dark:bg-slate-900/50">
+            <div class="p-10 col-span-full text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse flex flex-col items-center gap-3">
+                <span class="text-3xl">⚡</span>
+                <span id="loadingMsg">正在從伺服器拉取最新戰報...</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center pt-2 pb-8 flex-none w-full"> 
+        <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
+                class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
+            關於我們、條款及免責聲明
+        </button>
+        
+        <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
+            <span id="miniFooterCopy">© 2026 慳真D</span> 
+            <span class="mx-1.5">|</span> 
+            <span id="footerDevTeam">開發團隊: </span>
+            <a id="footerDevName" 
+               href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" 
+               target="_blank" 
+               class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">
+                懶人工具駅
+            </a>
+        </div>
+    </div>
+
+    <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh] border dark:border-slate-700 transition-colors duration-300">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-[20px]">🛡️</span>
+                <h2 id="disclaimerTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">免責聲明及服務條款</h2>
+            </div>        
+            <div id="disclaimerBody" class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors">
+                </div>
+            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">
+                我明白及接受
+            </button>
+        </div>
+    </div>
+
+<script>
+    let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+    let summaryData = [];
+    let lastFetchedDate = ''; 
+
+    // --- 🌟 智能翻譯字典 ---
+    const catDict = {
+        "個人護理": { "en": "Personal Care", "zh-Hans": "个人护理" },
+        "粉麵 / 煮食用料 / 冷凍加工食品": { "en": "Noodles / Cooking / Frozen Food", "zh-Hans": "粉面 / 烹调 / 冷冻食品" },
+        "米 / 食油 / 罐頭 / 蔬果 / 肉類": { "en": "Rice / Oil / Canned / Fresh", "zh-Hans": "米 / 食油 / 罐头 / 生鲜" },
+        "零食 / 糖果 / 餅乾": { "en": "Snacks / Candies / Biscuits", "zh-Hans": "零食 / 糖果 / 饼干" },
+        "紙品 / 家居清潔 / 寵物": { "en": "Paper / Cleaning / Pets", "zh-Hans": "纸品 / 家居清洁 / 宠物" },
+        "飲品 / 酒類": { "en": "Beverages / Alcohol", "zh-Hans": "饮品 / 酒类" },
+        "急凍 / 冰鮮 / 鮮肉": { "en": "Frozen / Chilled / Fresh Meat", "zh-Hans": "急冻 / 冰鲜 / 鲜肉" },
+        "牛奶 / 冷凍飲品 / 雞蛋 / 豆腐": { "en": "Dairy / Chilled Drinks / Eggs", "zh-Hans": "牛奶 / 冷冻饮品 / 鸡蛋" },
+        "麵包 / 蛋糕 / 穀類早餐": { "en": "Bakery / Cereal", "zh-Hans": "面包 / 蛋糕 / 谷类早餐" },
+        "嬰兒用品": { "en": "Baby Products", "zh-Hans": "婴儿用品" }
+    };
+
+    function translateCategory(zhHantName, enName, zhHansName, lang) {
+    if (lang === 'en' && enName) return enName; 
+    if (lang === 'zh-Hans' && zhHansName) return zhHansName; // 💡 優先讀取資料庫裡的簡體名
+    if (lang === 'zh-Hant') return zhHantName;
+    if (catDict[zhHantName] && catDict[zhHantName][lang]) return catDict[zhHantName][lang];
+    return zhHantName; 
+}
+
+    function formatDateTime(date) {
+        if (!date || isNaN(date.getTime())) return '';
+        return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+    }
+
+    // 🌟 徹底拔除 Hardcode，向 lang.js 調用超市名稱
+    function getSmName(code, lang) {
+        let c = (code || '').toUpperCase();
+        if (typeof supermarketDict !== 'undefined' && supermarketDict[lang] && supermarketDict[lang][c]) {
+            return supermarketDict[lang][c];
+        }
+        if (typeof supermarketDict !== 'undefined' && supermarketDict['zh-Hant'] && supermarketDict['zh-Hant'][c]) {
+            return supermarketDict['zh-Hant'][c];
+        }
+        return c;
+    }
+
+    function goToProductSearch(productName) {
+        window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
+    }
+
+    // --- 🚀 保留您的完美極速資料讀取邏輯 ---
+    async function loadPrecalculatedSummary() {
+        try {
+            const nocache = new Date().getTime();
+            const [timeRes, dataRes] = await Promise.all([
+                fetch(`https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt?v=${nocache}`).catch(() => null),
+                fetch(`https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/battle_summary.json?v=${nocache}`).catch(() => null)
+            ]);
+            
+            if (timeRes && timeRes.ok) {
+                const dateText = await timeRes.text();
+                lastFetchedDate = formatDateTime(new Date(dateText));
+                updateDateDisplay(currentLang);
+            }
+            
+            if (dataRes && dataRes.ok) {
+                const rawJson = await dataRes.json();
+                summaryData = rawJson.results || rawJson; // 🌟 避免 Crash 的關鍵防呆
+            }
+
+            renderSummaryCards();
+
+        } catch (e) {
+            console.error("載入錯誤:", e);
+            document.getElementById('summaryCardsContainer').innerHTML = `<div class="col-span-full text-red-500 font-bold p-10 text-center">載入戰報失敗，請確認 n8n 是否已成功推送。<br><span class="text-sm text-slate-400">技術細節: ${e.message}</span></div>`;
+        }
+    }
+
+    function updateDateDisplay(lang) {
+        if (!lastFetchedDate) return;
+        const prefix = lang === 'en' ? 'Data As Of: ' : (lang === 'zh-Hans' ? '数据截至: ' : '數據截至: ');
+        const el = document.getElementById('updateTimeText');
+        if (el) el.innerText = prefix + lastFetchedDate;
+    }
+
+   // --- 🎨 渲染戰情卡片 UI (防彈排版 + 中央字典顏色) ---
+    function renderSummaryCards() {
+        const container = document.getElementById('summaryCardsContainer');
+        if (!container) return;
+        
+        if (!summaryData || summaryData.length === 0) {
+            container.innerHTML = `<div class="col-span-full text-slate-500 font-bold p-10 text-center">今日暫無符合「低於市價」的真降價貨品。</div>`;
+            return;
+        }
+
+        const lblDrops = currentLang === 'en' ? 'Drops' : (currentLang === 'zh-Hans' ? '件真降价' : '件真降價');
+        const lblAvg = currentLang === 'en' ? 'Avg. Drop' : (currentLang === 'zh-Hans' ? '平均低于市价' : '平均低於市價');
+        const lblCat = currentLang === 'en' ? 'Top Category' : (currentLang === 'zh-Hans' ? '主打品类' : '最落力劈價分類');
+        const lblTop3 = currentLang === 'en' ? '🏆 Top 3 Deals' : (currentLang === 'zh-Hans' ? '🏆 必抢 Top 3 推荐' : '🏆 必搶 Top 3 推介');
+
+        container.innerHTML = summaryData.map((sm, i) => {
+            const smName = getSmName(sm.supermarket_code, currentLang);
+            const rankMedal = i === 0 ? '👑' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
+            
+            // 🌟 向中央字典調用報告卡片樣式 (無 Hardcode)
+            const defaultStyle = { battleBg: 'bg-slate-50 dark:bg-slate-900/20', battleBorder: 'border-slate-100 dark:border-slate-800/50', battleText: 'text-slate-700 dark:text-slate-400', battleCountBg: 'bg-slate-600 text-white border-transparent' };
+            const style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[sm.supermarket_code]) 
+                          ? supermarketStyleDict[sm.supermarket_code] 
+                          : (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict['DEFAULT'] ? supermarketStyleDict['DEFAULT'] : defaultStyle);
+
+            let top3Array = typeof sm.top_3_deals === 'string' ? JSON.parse(sm.top_3_deals) : sm.top_3_deals;
+            
+            const top3HTML = top3Array.map((deal, idx) => {
+                // 💡 根據 currentLang 動態切換：英文、簡體、繁體
+                let name = deal.name_zh;
+                if (currentLang === 'en' && deal.name_en) name = deal.name_en;
+                else if (currentLang === 'zh-Hans' && deal.name_zh_hans) name = deal.name_zh_hans;
+
+                let safeName = name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                let dealPrice = parseFloat(deal.price) || 0;
+                let dealPct = parseFloat(deal.pct) || 0;
+                let rawCatZh = sm.top_category_zh || sm.top_category; 
+            let rawCatEn = sm.top_category_en || null;
+            let rawCatHans = sm.top_category_zh_hans || null; // 💡 抓取簡體分類
+            let finalCatName = translateCategory(rawCatZh, rawCatEn, rawCatHans, currentLang);
+            let avgPctNum = parseFloat(sm.avg_discount_pct) || 0;
+                // ...下方程式碼保持不變...
+
+                return `
+                    <div class="flex justify-between items-start gap-2 py-1.5 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
+                        <div class="flex items-start gap-1.5 overflow-hidden">
+                            <span class="text-slate-400 dark:text-slate-500 font-bold text-[11px] shrink-0 mt-0.5">${idx+1}.</span>
+                            <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-[13px] font-bold text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:underline truncate" title="${name}">${name}</a>
+                        </div>
+                        <div class="flex flex-col items-end shrink-0 leading-tight">
+                            <span class="text-[14px] font-black ${style.battleText}">$${dealPrice.toFixed(1)}</span>
+                            <span class="text-[10px] font-bold text-red-500">▼ ${dealPct.toFixed(1)}%</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            let rawCatZh = sm.top_category_zh || sm.top_category; 
+            let rawCatEn = sm.top_category_en || null;
+            let finalCatName = translateCategory(rawCatZh, rawCatEn, currentLang);
+            let avgPctNum = parseFloat(sm.avg_discount_pct) || 0;
+
+            return `
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+                    
+                    <div class="px-4 py-3.5 sm:px-5 sm:py-4 ${style.battleBg} border-b ${style.battleBorder} flex justify-between items-start gap-2 sm:gap-3">
+                        <div class="flex items-start gap-1.5 sm:gap-2 min-w-0 pt-0.5">
+                            <span class="text-[16px] sm:text-[18px] shrink-0 leading-none mt-[2px] sm:mt-[3px]">${rankMedal}</span>
+                            <h2 class="text-[15px] sm:text-[17px] font-black ${style.battleText} tracking-tight leading-snug break-words">${smName}</h2>
+                        </div>
+                        <span class="${style.battleCountBg} text-[11px] sm:text-[12px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow-sm whitespace-nowrap shrink-0 text-center mt-0.5">${sm.total_drop_items} ${lblDrops}</span>
+                    </div>
+                    
+                    <div class="px-4 sm:px-5 py-3 sm:py-4 grid grid-cols-2 gap-3 sm:gap-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase mb-0.5">${lblAvg}</span>
+                            <div class="flex items-end gap-1 text-red-500">
+                                <span class="text-[22px] sm:text-2xl font-black leading-none tracking-tighter">▼${avgPctNum.toFixed(1)}</span>
+                                <span class="text-xs sm:text-sm font-bold leading-snug">%</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col border-l border-slate-100 dark:border-slate-700 pl-3 sm:pl-4">
+                            <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase mb-0.5">${lblCat}</span>
+                            <span class="text-[13px] sm:text-[14px] font-bold text-slate-700 dark:text-slate-200 truncate leading-tight mt-0.5 sm:mt-1" title="${finalCatName}">${finalCatName}</span>
+                            <span class="text-[10px] text-slate-400 mt-0.5">(${sm.cat_drop_count} ${lblDrops})</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 sm:p-5 bg-slate-50/50 dark:bg-slate-800/30 flex-1 flex flex-col">
+                        <h3 class="text-[11px] sm:text-[12px] font-black text-slate-800 dark:text-slate-100 mb-2 flex items-center gap-1.5 opacity-80">${lblTop3}</h3>
+                        <div class="flex flex-col">
+                            ${top3HTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // --- 🌐 全局語言切換與 Footer 翻譯 ---
+    function updateLocalLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('appLang', lang);
+        
+        document.title = lang === 'en' ? "Battle Summary | SmartDeal🔎" : (lang === 'zh-Hans' ? "超市战情总结 | 悭真D🔎" : "超市戰情總結 | 慳真D🔎");
+        
+        const logoTitle = document.querySelector('.text-brand-600.font-black') || document.getElementById('appTitle');
+        if (logoTitle) logoTitle.innerText = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
+        
+        updateDateDisplay(lang);
+
+        const setTxt = (id, en, tc, sc) => { const el = document.getElementById(id); if (el) el.innerText = lang === 'en' ? en : (lang === 'zh-Hans' ? sc : tc); };
+        
+        setTxt('pageTitleText', 'Today\'s Battle Summary', '今日超市戰情總結', '今日超市战情总结');
+        setTxt('subTitleText', 'Pre-calculated by Server: True Drops & Main Battlegrounds', '資料庫極速運算：真降價貨品分佈與主打戰場', '数据库极速运算：真降价商品分布与主打战场');
+        setTxt('backBtn', 'Back', '返回', '返回');
+        setTxt('fullListBtn', 'View Full List ➔', '看完整榜單 ➔', '看完整榜单 ➔');
+        setTxt('fullListBtnMob', 'View Full List', '看完整榜單', '看完整榜单');
+        setTxt('loadingMsg', 'Fetching the latest battle report from server...', '正在從伺服器拉取最新戰報...', '正在从服务器拉取最新战报...');
+
+        // 🌟 Footer 翻譯同步
+        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+        const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
+        const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
+
+        if (uiDict) {
+            setElTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
+            setElTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+            setElTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
+            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
+            setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+        }
+
+        const devTeam = document.getElementById('footerDevTeam');
+        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
+
+        const devName = document.getElementById('footerDevName');
+        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
+        
+        if (summaryData && summaryData.length > 0) renderSummaryCards();
+    }
+
+    // 🌟 保留您的 window.changeLanguage 觸發機制
+    window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
+    window.changeLanguage = function(lang) { 
+        if (typeof globalChangeLang === 'function') globalChangeLang(lang); 
+        if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof window.currentLang !== 'undefined') updateLocalLanguage(window.currentLang);
+        else updateLocalLanguage(currentLang);
+    });
+
+    loadPrecalculatedSummary();
+
+</script>
+</body>
+</html>
