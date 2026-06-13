@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="docTitle">用戶手冊 | 慳真D</title>
+    <script src="lang.js?v=11"></script>
+    <script src="promoEngine.js?v=11"></script>
+    <script src="alertSystem.js?v=2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+    <script src="appUtils.js?v=1"></script>
+    <script src="header.js?v=1"></script>
+
+    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
+        
+        <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl md:text-3xl">📖</span> 
+                <h1 id="txt-pageTitle" class="text-[18px] md:text-2xl font-black text-slate-800 dark:text-slate-100 leading-tight tracking-wide">用戶手冊</h1>
+            </div>
+            <button onclick="window.history.back()" id="txt-backBtn" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">← 返回</button>
+        </div>
+        
+        <div class="p-5 md:p-8 text-sm leading-relaxed text-slate-600 dark:text-slate-300 bg-slate-50/50 dark:bg-slate-900/30">
+            <p id="txt-intro" class="mb-5 text-[15px] font-medium text-slate-700 dark:text-slate-200"></p>
+            
+            <h3 id="txt-sec1Title" class="font-bold text-slate-900 dark:text-slate-100 text-[16px] mb-3"></h3>
+            <ul id="txt-sec1Content" class="list-disc pl-5 space-y-2.5 mb-6"></ul>
+
+            <div class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl p-4 mb-6 shadow-sm transition-colors">
+                <h3 id="txt-sec2Title" class="text-[15px] font-black text-indigo-800 dark:text-indigo-400 mb-2 flex items-center gap-2"></h3>
+                <p id="txt-sec2Desc" class="text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed mb-2"></p>
+                <p id="txt-sec2Note" class="text-[12px] text-slate-500 dark:text-slate-400 italic"></p>
+            </div>
+
+            <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-2xl p-4 mb-6 shadow-sm transition-colors">
+                <h3 id="txt-sec3Title" class="text-[15px] font-black text-amber-800 dark:text-amber-400 mb-2 flex items-center gap-2"></h3>
+                <p id="txt-sec3Desc" class="text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed mb-1"></p>
+            </div>
+
+            <div class="border-t border-slate-200 dark:border-slate-700 pt-6 mt-2">
+                <h3 id="txt-sec4Title" class="font-bold text-slate-900 dark:text-slate-100 text-[16px] mb-3 flex items-center gap-2"></h3>
+                <div id="txt-sec4Content" class="text-[12px] text-slate-600 dark:text-slate-400 space-y-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl shadow-sm"></div>
+            </div>
+            
+            <h3 id="txt-sec5Title" class="font-bold text-slate-900 dark:text-slate-100 text-[16px] mb-2 mt-6"></h3>
+            <p id="txt-sec5Content" class="text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed"></p>
+        </div>
+    </div>
+
+    <div class="text-center pt-2 pb-8 flex-none w-full"> 
+        <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
+                class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
+            關於我們、條款及免責聲明
+        </button>
+        
+        <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
+            <span id="miniFooterCopy">© 2026 慳真D</span> 
+            <span class="mx-1.5">|</span> 
+            <span id="footerDevTeam">開發團隊: </span>
+            <a id="footerDevName" 
+               href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" 
+               target="_blank" 
+               class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">
+                懶人工具駅
+            </a>
+        </div>
+    </div>
+
+    <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh] border dark:border-slate-700 transition-colors duration-300">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-[20px]">🛡️</span>
+                <h2 id="disclaimerTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">免責聲明及服務條款</h2>
+            </div>        
+            <div id="disclaimerBody" class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors">
+                </div>
+            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">
+                我明白及接受
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+
+        const manualDict = {
+            'zh-Hant': {
+                docTitle: "用戶手冊 | 慳真D",
+                pageTitle: "用戶手冊", backBtn: "← 返回",
+                intro: "歡迎使用「慳真D」！本系統每日自動同步政府「網上價格一覽通」數據，助你輕鬆對比全港各大連鎖超市的最新價格。",
+                sec1Title: "🔍 核心功能與搜尋技巧",
+                sec1Content: `
+                    <li><strong>對話式快捷搜尋：</strong> 於首頁輸入「品牌」或「貨品名稱」，即時為你展示官方數據中嘅超市定價及折扣詳情。</li>
+                    <li><strong>一鍵篩選優惠：</strong> 善用首頁的「最新劈價精選」按鈕，過濾並只顯示有促銷活動的貨品。</li>
+                    <li><strong>🔥 捕捉超大差價：</strong> 點擊 <b class="text-red-500 dark:text-red-400">「🔥 今日超大差價」</b> 快捷鍵，系統會幫你找出商戶間<b>價格相差超過 10%</b> 的貨品。</li>
+                    <li><strong>智能換算單價：</strong> 系統會自動為你計算「買兩件」、「第二件半價」等複雜優惠的折合單價，並標示 💰。</li>
+                    <li><strong>文字式快速導航：</strong> 想返主頁揀其他分類？直接喺對話框打<b>「返主目錄」</b>或<b>「主頁」</b>即可。</li>
+                `,
+                sec2Title: "📸 AI 視覺辨識搜尋",
+                sec2Desc: `影張相，AI 專業大腦會即刻幫你辨識產品並自動填入搜尋框。只要輸入 Gemini API Key，準確度即刻提升！`,
+                sec2Note: "註：如未輸入 Key，系統會自動退守使用輕量級離線辨識模式。",
+                sec3Title: "🔔 智能到價提示功能",
+                sec3Desc: `見到心水貨品想等減價？點擊產品卡片上的 <b class="text-amber-600 dark:text-amber-400">橙色鐘仔 🔔</b>，輸入你的目標價即可追蹤。當貨品跌穿目標價，畫面頂部的 🔔 就會亮起紅點！`,
+                sec4Title: "🛡️ 免責聲明及私隱保障",
+                sec4Content: `
+                    <p><strong>1. 私隱安全：</strong> 本 App 不設任何個人帳戶系統，所有「到價提示」及「搜尋紀錄」均<b>僅儲存於閣下的手機瀏覽器內</b>。我們無法取得、監控或售賣您的個人數據。</p>
+                    <p><strong>2. 數據來源：</strong> 價格數據均取自香港政府「資料一線通 (Data.gov.hk)」的「網上價格一覽通」數據集，版權歸消費者委員會及相關商戶所有。</p>
+                    <p><strong>3. 免責聲明：</strong> 本 App 為開源免費工具，資訊僅供參考。超市實際價格及優惠可能隨時變更，購買前請以超市現場標籤為準。對於因資訊誤差引致的損失，本開發團隊概不負責。</p>
+                `,
+                sec5Title: "📱 如何將 App 加入手機主畫面",
+                sec5Content: `<strong>Android：</strong> 用 Chrome 開啟 ➔ 點擊右上角「⋮」 ➔ 選擇「加至主畫面」。<br><strong class="mt-1 inline-block">iOS：</strong> 用 Safari 開啟 ➔ 點擊底部「分享」圖示 ➔ 選擇「加入主畫面」。`
+            },
+            'zh-Hans': {
+                docTitle: "用户手册 | 悭真D",
+                pageTitle: "用户手册", backBtn: "← 返回",
+                intro: "欢迎使用「悭真D」！本系统每日自动同步政府「网上价格一览通」数据，助你轻松对比全港各大连锁超市的最新价格。",
+                sec1Title: "🔍 核心功能与搜索技巧",
+                sec1Content: `
+                    <li><strong>对话式快捷搜索：</strong> 于首页输入「品牌」或「货品名称」，即时为你展示官方数据中的超市定价及折扣详情。</li>
+                    <li><strong>一键筛选优惠：</strong> 善用首页的「最新降价精选」按钮，过滤并只显示有促销活动的货品。</li>
+                    <li><strong>🔥 捕捉超大价差：</strong> 点击 <b class="text-red-500 dark:text-red-400">「🔥 今日超大差价」</b> 快捷键，系统会帮你找出商户间<b>价格相差超过 10%</b> 的货品。</li>
+                    <li><strong>智能换算单价：</strong> 系统会自动帮你计算「买两件」、「第二件半价」等复杂优惠的折合单价，并标示 💰。</li>
+                    <li><strong>文字式快速导航：</strong> 想回主页选其他分类？直接在对话框输入<b>「返主目录」</b>或<b>「主页」</b>即可。</li>
+                `,
+                sec2Title: "📸 AI 视觉识别搜索",
+                sec2Desc: `对着包装拍张照，AI 专业大脑会立即帮你识别产品并自动填入搜索框。输入 Gemini API Key，准确度即刻提升！`,
+                sec2Note: "注：如未输入 Key，系统会自动退守使用轻量级离线识别模式。",
+                sec3Title: "🔔 智能到价提醒功能",
+                sec3Desc: `看到心水货品想等减价？点击产品卡片上的 <b class="text-amber-600 dark:text-amber-400">橙色小铃铛 🔔</b>，输入你的目标价即可追踪。当货品跌破目标价，画面顶部的 🔔 就会亮起红点！`,
+                sec4Title: "🛡️ 免责声明及隐私保障",
+                sec4Content: `
+                    <p><strong>1. 隐私安全：</strong> 本 App 不设任何个人账户系统，所有「到价提醒」及「搜索记录」均<b>仅储存于阁下的手机浏览器内</b>。我们无法取得、监控或售卖您的个人数据。</p>
+                    <p><strong>2. 数据来源：</strong> 价格数据均取自香港政府「资料一线通 (Data.gov.hk)」的「网上价格一览通」数据集，版权归消费者委员会及相关商户所有。</p>
+                    <p><strong>3. 免责声明：</strong> 本 App 为开源免费工具，信息仅供参考。超市实际价格及优惠可能随时变更，购买前请以超市现场标签为准。对于因信息误差引致的损失，本开发团队概不负责。</p>
+                `,
+                sec5Title: "📱 如何将 App 加入手机主屏幕",
+                sec5Content: `<strong>Android：</strong> 用 Chrome 打开 ➔ 点击右上角「⋮」 ➔ 选择「加至主屏幕」。<br><strong class="mt-1 inline-block">iOS：</strong> 用 Safari 打开 ➔ 点击底部「分享」图标 ➔ 选择「加入主屏幕」。`
+            },
+            'en': {
+                docTitle: "User Manual | SmartDeal",
+                pageTitle: "User Manual", backBtn: "← Back",
+                intro: "Welcome to \"SmartDeal\"! Our system automatically syncs with the government's \"Price Watch\" data to help you easily compare the latest prices across major HK supermarket chains.",
+                sec1Title: "🔍 Core Features & Search Tips",
+                sec1Content: `
+                    <li><strong>Conversational Search:</strong> Type any "brand" or "product name" on the homepage for instant pricing and promotional details.</li>
+                    <li><strong>One-Click Deals:</strong> Use the "Latest Deals" button to filter and show only discounted items.</li>
+                    <li><strong>🔥 Big Price Gaps:</strong> Click <b class="text-red-500 dark:text-red-400">"🔥 Big Price Gap"</b> to find items with over 10% price differences between supermarkets.</li>
+                    <li><strong>Unit Price Calculation:</strong> System automatically calculates "buy 2" or "half-price" deals for you, marked with 💰.</li>
+                    <li><strong>Quick Navigation:</strong> Want to go home? Just type <b>"Back to menu"</b> or <b>"Home"</b> in the chat box to navigate back instantly.</li>
+                `,
+                sec2Title: "📸 AI Visual Search",
+                sec2Desc: `Snap a photo of the product, and our AI will identify it and fill in the search box for you. Input your Gemini API Key for higher accuracy!`,
+                sec2Note: "Note: Without an API Key, the system defaults to a lightweight offline recognition mode.",
+                sec3Title: "🔔 Price Alert Feature",
+                sec3Desc: `Waiting for a sale? Tap the <b class="text-amber-600 dark:text-amber-400">orange bell icon 🔔</b> on any product card, set your target price, and track it. When the price drops below your target, the 🔔 at the top of the app will glow red!`,
+                sec4Title: "🛡️ Disclaimer & Privacy Policy",
+                sec4Content: `
+                    <p><strong>1. Privacy:</strong> This App has no user accounts. All "Price Alerts" and "Search History" are <b>stored locally in your device's browser only</b>. We do not track, monitor, or sell your personal data.</p>
+                    <p><strong>2. Data Source:</strong> Price data is sourced from the "Price Watch" dataset by Data.gov.hk. Copyright belongs to the Consumer Council and respective merchants.</p>
+                    <p><strong>3. Disclaimer:</strong> This is a free open-source tool. Information is for reference only. Actual prices may vary; please verify with store tags. We are not liable for any losses due to pricing inaccuracies.</p>
+                `,
+                sec5Title: "📱 Add to Home Screen",
+                sec5Content: `<strong>Android:</strong> Open in Chrome ➔ Tap "⋮" ➔ Select "Add to Home Screen".<br><strong class="mt-1 inline-block">iOS:</strong> Open in Safari ➔ Tap the "Share" icon at the bottom ➔ Select "Add to Home Screen".`
+            }
+        };
+
+        // --- 🌐 全局語言切換與 Footer 連動 ---
+        function updateLocalLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('appLang', lang);
+            document.documentElement.lang = lang === 'en' ? 'en' : (lang === 'zh-Hans' ? 'zh-Hans' : 'zh-HK');
+            
+            // 1. 渲染手冊內容
+            const dict = manualDict[lang] || manualDict['zh-Hant'];
+            document.title = dict.docTitle;
+            document.getElementById('txt-pageTitle').innerHTML = dict.pageTitle;
+            document.getElementById('txt-backBtn').innerHTML = dict.backBtn;
+            document.getElementById('txt-intro').innerHTML = dict.intro;
+            document.getElementById('txt-sec1Title').innerHTML = dict.sec1Title;
+            document.getElementById('txt-sec1Content').innerHTML = dict.sec1Content;
+            document.getElementById('txt-sec2Title').innerHTML = dict.sec2Title;
+            document.getElementById('txt-sec2Desc').innerHTML = dict.sec2Desc;
+            document.getElementById('txt-sec2Note').innerHTML = dict.sec2Note;
+            document.getElementById('txt-sec3Title').innerHTML = dict.sec3Title;
+            document.getElementById('txt-sec3Desc').innerHTML = dict.sec3Desc;
+            document.getElementById('txt-sec4Title').innerHTML = dict.sec4Title;
+            document.getElementById('txt-sec4Content').innerHTML = dict.sec4Content;
+            document.getElementById('txt-sec5Title').innerHTML = dict.sec5Title;
+            document.getElementById('txt-sec5Content').innerHTML = dict.sec5Content;
+
+            // 2. 渲染 Header / Footer 共用語系
+            const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+            const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
+            const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
+
+            if (uiDict) {
+                setElTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
+                setElTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+                setElTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
+                setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
+                setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+            }
+
+            const devTeam = document.getElementById('footerDevTeam');
+            if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
+
+            const devName = document.getElementById('footerDevName');
+            if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
+        }
+
+        // 🌟 接收由 header.js 發出的語言切換指令
+        window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
+        window.changeLanguage = function(lang) { 
+            if (typeof globalChangeLang === 'function') globalChangeLang(lang); 
+            if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
+        };
+
+        // 啟動
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLocalLanguage(currentLang);
+        });
+    </script>
+</body>
+</html>
