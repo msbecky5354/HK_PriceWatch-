@@ -77,8 +77,8 @@
                         <span id="txtBtnPct20">>20% 減幅</span>
                     </button>
                     <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all">
-    <span id="txtBtnPct30">>30% 減幅</span>
-</button>
+                        <span id="txtBtnPct30">>30% 減幅</span>
+                    </button>
                     <button onclick="togglePctFilter(50)" id="btnPct50" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
                         🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
                     </button>
@@ -160,13 +160,13 @@
     let fullDataList = [];
     let lastUpdatedTime = null;
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
-   let currentMinPct = 30; // 💡 修改為預設篩選 >30% 的降價貨品
+    let currentMinPct = 30; // 💡 預設篩選 >30% 的降價貨品
 
-    // 🌟 全新加入：分類名稱智慧翻譯大腦
+    // 🌟 分類名稱智慧翻譯大腦
     const catTranslations = {
         "個人護理": { "en": "Personal Care", "zh-Hans": "个人护理" },
         "糖果 / 餅乾 / 小食": { "en": "Snacks / Candies", "zh-Hans": "糖果 / 饼干 / 小食" },
-        "粉麵 / 煮食用料 / 冷凍加工食品": { "en": "Noodles / Cooking / Frozen Food", "zh-Hans": "粉面 / 烹调 / 冷冻食品" },
+        "粉麵 / 煮食用料 / 冷凍加工食品": { "en": "Noodles / Frozen Food", "zh-Hans": "粉面 / 冷冻食品" },
         "飲品": { "en": "Beverages", "zh-Hans": "饮品" },
         "酒類": { "en": "Alcohol", "zh-Hans": "酒类" },
         "奶粉 / 嬰兒用品": { "en": "Baby Products", "zh-Hans": "奶粉 / 婴儿用品" },
@@ -177,16 +177,14 @@
     };
 
     function getCatName(rawCat, lang) {
-    // 💡 第一時間檢查資料庫物件內是否有該語言 (zh-Hans)，有就直接用！
-    if (typeof rawCat === 'object' && rawCat[lang]) return rawCat[lang];
-    
-    let baseCat = (typeof rawCat === 'object') ? (rawCat['zh-Hant'] || rawCat['en'] || '') : String(rawCat || '');
-    if (lang === 'zh-Hant') return baseCat;
-    if (catTranslations[baseCat] && catTranslations[baseCat][lang]) {
-        return catTranslations[baseCat][lang];
+        if (typeof rawCat === 'object' && rawCat[lang]) return rawCat[lang];
+        let baseCat = (typeof rawCat === 'object') ? (rawCat['zh-Hant'] || rawCat['en'] || '') : String(rawCat || '');
+        if (lang === 'zh-Hant') return baseCat;
+        if (catTranslations[baseCat] && catTranslations[baseCat][lang]) {
+            return catTranslations[baseCat][lang];
+        }
+        return baseCat;
     }
-    return baseCat;
-}
 
     const statusI18n = {
         'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800' },
@@ -194,6 +192,9 @@
         'fake': { 'en': '⚠️ Fake Promo', 'zh-Hant': '⚠️ 假促銷(無平到)', 'zh-Hans': '⚠️ 假促销(无降价)', 'color': 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800' },
         'increase': { 'en': '📈 Hidden Increase', 'zh-Hant': '📈 價格暗升', 'zh-Hans': '📈 价格暗升', 'color': 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800' },
         'promo_changed': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
+        'PRICE_CHANGED': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
+        'OFFER_CHANGED': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
+        'PRICE_AND_OFFER_CHANGED': { 'en': '📉+🏷️ Price & Promo Drop', 'zh-Hant': '📉+🏷️ 真降價+換優惠', 'zh-Hans': '📉+🏷️ 真降价+换优惠', 'color': 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800' },
         'maintained': { 'en': '⏸️ Maintained', 'zh-Hant': '⏸️ 價格維持', 'zh-Hans': '⏸️ 价格维持', 'color': 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' }
     };
 
@@ -291,7 +292,8 @@
                 throw new Error(`所有的資料節點均無回應。最後錯誤: ${lastError.message} (請確認 GitHub 上是否有最新推送的 true_discount.json)`);
             }
 
-            fullDataList = rawJson.results || rawJson;
+            // 💡 終極防呆：確保我們拿到的是乾淨的 Array，並且只由 n8n 負責資料過濾
+            fullDataList = Array.isArray(rawJson.results) ? rawJson.results : (Array.isArray(rawJson) ? rawJson : []);
             
             if (rawJson.generated_at) {
                 lastUpdatedTime = new Date(rawJson.generated_at);
@@ -371,29 +373,31 @@
         const clearBtn = document.getElementById('clearSearchBtn');
         if (clearBtn) clearBtn.classList.toggle('hidden', kw.length === 0);
 
+        // 💡 終極手術：前端只負責呈現和篩選，絕不自己算減幅或判定狀態！
         let filtered = fullDataList.filter(i => {
             const name = getText(i.name, currentLang).toLowerCase();
             const smNameText = getSmName(i.smCode, currentLang).toLowerCase(); 
-            
             const rawCatValue = typeof i.categoryRaw === 'object' ? (i.categoryRaw['zh-Hant'] || '') : String(i.categoryRaw || '');
-            // 💡 關鍵修復：這裡要把一整個 categoryRaw 物件傳進去，讓它能讀取 zh-Hans
             const translatedCatText = getCatName(i.categoryRaw, currentLang).toLowerCase();
             
             const matchesKw = name.includes(kw) || smNameText.includes(kw) || translatedCatText.includes(kw);
             const matchesSm = (sm === 'ALL' || i.smCode === sm);
             const matchesCat = (cat === 'ALL' || rawCatValue === cat);
-            const matchesPct = currentMinPct > 0 ? (i.realDiscountPct >= currentMinPct) : true;
+            const matchesPct = currentMinPct > 0 ? (parseFloat(i.realDiscountPct) >= currentMinPct) : true;
             
             return matchesKw && matchesSm && matchesCat && matchesPct;
         });
 
         filtered.sort((a, b) => {
             let valA = a[currentSort.column], valB = b[currentSort.column];
-            if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
+            
+            if (currentSort.column === 'realDiscountPct' || currentSort.column === 'effectivePrice' || currentSort.column === 'originalPrice') {
+                 valA = parseFloat(valA) || 0;
+                 valB = parseFloat(valB) || 0;
+            } else if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
                  valA = getText(a[currentSort.column], currentLang); valB = getText(b[currentSort.column], currentLang);
                  return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-            }
-            if (currentSort.column === 'smCode' || currentSort.column === 'statusKey') {
+            } else {
                 valA = String(valA || ''); valB = String(valB || '');
                 return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
             }
@@ -418,10 +422,8 @@
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
         sm.innerHTML = `<option value="ALL">${smAllText}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
         
-       // 🌟 下拉選單：使用真實的 rawCatValue 作為 option value
         const rawCategories = [...new Set(fullDataList.map(i => (typeof i.categoryRaw === 'object' ? i.categoryRaw['zh-Hant'] : i.categoryRaw)))];
         cat.innerHTML = `<option value="ALL">${catAllText}</option>` + rawCategories.map(c => {
-            // 💡 從原始清單找回帶有多語言屬性的完整 Object
             let originalObj = fullDataList.find(item => (typeof item.categoryRaw === 'object' ? item.categoryRaw['zh-Hant'] : item.categoryRaw) === c)?.categoryRaw || c;
             return `<option value="${c}">${getCatName(originalObj, currentLang)}</option>`;
         }).join('');
@@ -430,7 +432,6 @@
         if (rawCategories.includes(currentCatVal)) cat.value = currentCatVal;
     }
 
-    // 🌟 核心修復：防彈級的多語言強制覆蓋函數 (包含 Footer 連動)
     function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
@@ -483,7 +484,6 @@
             filterInput.placeholder = lang === 'en' ? 'Search category, brand, product or store...' : (lang === 'zh-Hans' ? '搜索分类、品牌、商品或超市...' : '搜尋分類、品牌、貨品或推薦超市...');
         }
         
-        // 🌟 Footer 翻譯同步
         const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
         const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
         const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
@@ -543,19 +543,35 @@
                 
                 let otherPricesHTML = '-';
                 let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
-                // 💡 過濾掉自己那間超市的價錢
                 if (opRaw && Array.isArray(opRaw)) {
                     opRaw = opRaw.filter(op => op.smCode !== item.smCode);
                 }
                 if (opRaw && opRaw.length > 0) {
-                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
+                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${parseFloat(op.price).toFixed(1)}`).join(' | ');
                 }
 
+                // 💡 絕對信賴 n8n 傳來的 statusKey
                 const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
                 const statusText = stDict[currentLang] || stDict['zh-Hant'];
-                let prevEffText = item.prevEffPrice ? `$${item.prevEffPrice.toFixed(1)}` : '-';
-                let prevBaseText = item.prevBasePrice ? `$${item.prevBasePrice.toFixed(1)}` : '-';
-                let lastDateText = item.lastChangeDate && item.lastChangeDate !== '-' ? item.lastChangeDate : '-';
+                
+                let prevEffText = item.prevEffPrice && parseFloat(item.prevEffPrice) > 0 ? `$${parseFloat(item.prevEffPrice).toFixed(1)}` : '-';
+                let prevBaseText = item.prevBasePrice && parseFloat(item.prevBasePrice) > 0 ? `$${parseFloat(item.prevBasePrice).toFixed(1)}` : '-';
+                
+                // 💡 防彈中文日期解析
+                let lastDateText = '-';
+                if (item.lastChangeDate && item.lastChangeDate !== 'null' && item.lastChangeDate !== '') {
+                    let dStr = String(item.lastChangeDate).trim();
+                    if (/^\d{4}-\d{2}-\d{2}/.test(dStr)) {
+                        lastDateText = dStr.substring(0, 10);
+                    } else {
+                        let d = new Date(dStr);
+                        if (!isNaN(d.getTime())) {
+                            lastDateText = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                        } else {
+                            lastDateText = dStr.split('T')[0]; 
+                        }
+                    }
+                }
                 
                 let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : item.currentOfferZh;
                 if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
@@ -575,7 +591,7 @@
                             <svg id="${deskIconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                     </div>
-                    <div id="${deskBoxId}" class="hidden mt-1.5 p-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[10px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[145px]">
+                    <div id="${deskBoxId}" class="hidden mt-1.5 p-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[10px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[145px] z-10 relative">
                         <div class="flex justify-between gap-3"><span>${lblDate}</span> <span class="font-medium text-slate-600 dark:text-slate-300">${lastDateText}</span></div>
                         <div class="flex justify-between gap-3"><span>${lblBase}</span> <span class="font-medium text-slate-600 dark:text-slate-300">${prevBaseText}</span></div>
                         <div class="flex justify-between gap-3"><span>${lblEff}</span> <span class="font-bold text-slate-600 dark:text-slate-300">${prevEffText}</span></div>
@@ -583,7 +599,6 @@
                     </div>
                 `;
                 
-                // 🌟 使用 getCatName 進行翻譯
                 const displayCategory = getCatName(item.categoryRaw, currentLang);
 
                 return `
@@ -618,19 +633,34 @@
                 
                 let otherPricesHTML = '-';
                 let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
-                // 💡 過濾掉自己那間超市的價錢
                 if (opRaw && Array.isArray(opRaw)) {
                     opRaw = opRaw.filter(op => op.smCode !== item.smCode);
                 }
                 if (opRaw && opRaw.length > 0) {
-                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${op.price.toFixed(1)}`).join(' | ');
+                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${parseFloat(op.price).toFixed(1)}`).join(' | ');
                 }
 
+                // 💡 絕對信賴 n8n 傳來的 statusKey
                 const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
                 const statusText = stDict[currentLang] || stDict['zh-Hant'];
-                let prevEffText = item.prevEffPrice ? `$${item.prevEffPrice.toFixed(1)}` : '-';
-                let prevBaseText = item.prevBasePrice ? `$${item.prevBasePrice.toFixed(1)}` : '-';
-                let lastDateText = item.lastChangeDate && item.lastChangeDate !== '-' ? item.lastChangeDate : '-';
+                
+                let prevEffText = item.prevEffPrice && parseFloat(item.prevEffPrice) > 0 ? `$${parseFloat(item.prevEffPrice).toFixed(1)}` : '-';
+                let prevBaseText = item.prevBasePrice && parseFloat(item.prevBasePrice) > 0 ? `$${parseFloat(item.prevBasePrice).toFixed(1)}` : '-';
+                
+                let lastDateText = '-';
+                if (item.lastChangeDate && item.lastChangeDate !== 'null' && item.lastChangeDate !== '') {
+                    let dStr = String(item.lastChangeDate).trim();
+                    if (/^\d{4}-\d{2}-\d{2}/.test(dStr)) {
+                        lastDateText = dStr.substring(0, 10);
+                    } else {
+                        let d = new Date(dStr);
+                        if (!isNaN(d.getTime())) {
+                            lastDateText = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                        } else {
+                            lastDateText = dStr.split('T')[0]; 
+                        }
+                    }
+                }
                 
                 let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : item.currentOfferZh;
                 if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
@@ -664,7 +694,6 @@
                     </div>
                 `;
                 
-                // 🌟 使用 getCatName 進行翻譯
                 const displayCategory = getCatName(item.categoryRaw, currentLang);
 
                 return `
