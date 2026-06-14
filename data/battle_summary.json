@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-14T23:03:11.318Z",
+  "generated_at": "2026-06-14T23:17:15.553Z",
   "report_date": "2026-06-14",
   "total_items": 9,
   "results": [
@@ -45,16 +45,16 @@
       "cat_drop_count": "87",
       "top_3_deals": [
         {
-          "name_zh": "日常修護洗髮乳 680毫升",
-          "name_zh_hans": "日常修护洗发乳 680毫升",
-          "name_en": "Daily Shine Shampoo 680mL",
+          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
+          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
+          "name_en": "Hair Fall Rescue Shampoo 680mL",
           "price": 15,
           "pct": 47.37
         },
         {
-          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
-          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
-          "name_en": "Hair Fall Rescue Shampoo 680mL",
+          "name_zh": "日常修護洗髮乳 680毫升",
+          "name_zh_hans": "日常修护洗发乳 680毫升",
+          "name_en": "Daily Shine Shampoo 680mL",
           "price": 15,
           "pct": 47.37
         },
@@ -180,16 +180,16 @@
           "pct": 33.33
         },
         {
-          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
-          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
+          "name_zh": "無痕奢柔褲 (XL碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
+          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 31.96
         },
         {
-          "name_zh": "無痕奢柔褲 (XL碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
-          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
+          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
+          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
           "price": 19.95,
           "pct": 31.96
         }
