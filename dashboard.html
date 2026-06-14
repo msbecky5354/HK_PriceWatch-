@@ -3,126 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>戰力分佈樹狀圖 (動態抓取版) | 慳真D🔎</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>戰力版圖 | 慳真D🔎</title>
+    
+    <script src="lang.js?v=11"></script>
+    <script src="appUtils.js?v=1"></script>
+    <script src="alertSystem.js?v=2"></script> <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 p-4 md:p-8 min-h-screen flex flex-col items-center">
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
-    <div class="max-w-5xl w-full bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
+    <script src="header.js?v=2"></script>
+
+    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
         
-        <div class="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50">
-            <h1 class="text-2xl md:text-3xl font-black text-slate-800 flex items-center gap-3">
-                <span>🔲</span> 慳真D：全城降價戰力版圖
-            </h1>
-            <p class="text-slate-500 mt-2 text-sm font-medium">
-                數據來源：香港消委會 | 方塊面積代表「真實降價商品總數」。
-            </p>
+        <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-xl md:text-2xl">🔲</span> 
+                <div class="flex flex-col">
+                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全城降價戰力版圖</h1>
+                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">面積代表「真實降價商品總數」</span>
+                </div>
+            </div>
+            <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
         </div>
 
-        <div class="p-4 flex justify-center items-center">
+        <div class="p-4 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
             <div id="treemapChart" class="w-full h-[600px] md:h-[700px]"></div>
         </div>
         
     </div>
 
+    <script src="footer.js?v=1"></script>
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. 初始化 ECharts 實體
-    const chartDom = document.getElementById('treemapChart');
-    const myChart = echarts.init(chartDom);
+    // --- 全域變數與語言包 ---
+    let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+    let chartData = [];
+    let totalItemsCount = 0;
+    let myChart = null;
+    let lastUpdatedTime = null; // 用於記錄 JSON 的更新時間，連動 Header
 
-    // 2. 顯示高質感的加載動畫，等待網路請求
-    myChart.showLoading({
-        text: '情報雷達掃描中...',
-        color: '#3b82f6',
-        textColor: '#64748b',
-        maskColor: 'rgba(255, 255, 255, 0.8)'
-    });
+    // 專屬此圖表的多語系字典 (Chart-specific i18n)
+    const chartI18n = {
+        'zh-Hant': { title: '全城降價戰力版圖', sub: '面積代表「真實降價商品總數」', back: '返回', itemUnit: '件', ttDrop: '真實降價件數：', ttShare: '全城火力佔比：', loading: '情報雷達掃描中...', err: '無法載入戰情報告，請稍後再試。' },
+        'zh-Hans': { title: '全城降价战力版图', sub: '面积代表「真实降价商品总数」', back: '返回', itemUnit: '件', ttDrop: '真实降价件数：', ttShare: '全城火力占比：', loading: '情报雷达扫描中...', err: '无法载入战情报告，请稍后再试。' },
+        'en': { title: 'Citywide Discount Treemap', sub: 'Area represents "Total Real Discount Items"', back: 'Back', itemUnit: 'items', ttDrop: 'Real Drop Items:', ttShare: 'Market Share:', loading: 'Scanning Radar...', err: 'Failed to load report. Please try again.' }
+    };
 
-    // ==========================================
-    // 🚨 總指揮請注意：請將下方網址替換為您的真實 GitHub Raw URL
-    // ==========================================
-    const jsonUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_treemap.json';
+    // 時間格式化工具 (供 Header 顯示最後更新時間使用)
+    function formatDateTime(date) {
+        if (!date || isNaN(date.getTime())) return '';
+        return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+    }
 
-    // 3. 執行「前端絕對服從」條款：透過 Fetch API 動態抓取 GitHub JSON
-    fetch(jsonUrl)
-        .then(response => {
-            if (!response.ok) throw new Error('網路回應不成功');
-            return response.json();
-        })
-        .then(payload => {
-            myChart.hideLoading(); // 隱藏加載動畫
-            
-            // 算出全城降價總件數 (供 Tooltip 顯示市場佔比使用)
-            const totalItems = payload.data.reduce((sum, item) => sum + item.value, 0);
+    // --- 多語系切換邏輯 (與 lang.js 連動) ---
+    function updateLocalLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('appLang', lang);
+        const t = chartI18n[lang] || chartI18n['zh-Hant'];
 
-            // 4. 設定 ECharts 渲染參數
-            const option = {
-                tooltip: {
-                    formatter: function (info) {
-                        const percent = ((info.value / totalItems) * 100).toFixed(1);
-                        return `<div class="font-bold text-slate-800 text-lg mb-1">${info.name}</div>
-                                <div class="text-sm text-slate-500">真實降價件數：<span class="text-blue-600 font-black">${info.value} 件</span></div>
-                                <div class="text-sm text-slate-500">全城火力佔比：<span class="font-black">${percent}%</span></div>`;
-                    },
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    borderColor: '#e2e8f0',
-                    textStyle: { color: '#1e293b' }
+        // 1. 更新此頁面的專屬標題
+        document.title = `${t.title} | SmartDeal🔎`;
+        const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
+        setTxt('pageTitleText', t.title);
+        setTxt('subTitleText', t.sub);
+        setTxt('backBtn', t.back);
+
+        // 2. 聯動 header.js：更新 Logo 標題與「最後更新時間」
+        const appTitle = document.getElementById('appTitle');
+        if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
+
+        const statusLabel = document.getElementById('todayStatusLabel');
+        if (statusLabel) {
+            if (lastUpdatedTime) {
+                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
+                statusLabel.innerText = prefix + formatDateTime(lastUpdatedTime);
+            } else {
+                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
+            }
+        }
+
+        // 3. footer.js 本身有封裝部分邏輯，但為了確保此頁面完美翻譯，調用一次 uiText
+        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+        if (uiDict) {
+            setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
+            setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+            setTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
+            setTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+            const dBody = document.getElementById('disclaimerBody');
+            if (dBody) dBody.innerHTML = uiDict.disclaimerText || '請參閱首頁免責聲明內容。';
+        }
+        setTxt('footerDevTeam', lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: '));
+        setTxt('footerDevName', lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅'));
+
+        // 4. 重新渲染 ECharts 以更新語言
+        if (chartData.length > 0) renderChart();
+    }
+
+    // 監聽來自 header.js 的語言切換事件
+    window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
+    window.changeLanguage = function(lang) {
+        if (typeof globalChangeLang === 'function') globalChangeLang(lang);
+        if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
+    };
+
+   // --- 圖表渲染核心邏輯 ---
+    function renderChart() {
+        if (!myChart) return;
+        const t = chartI18n[currentLang] || chartI18n['zh-Hant'];
+
+        // 🌟 空間優化：直接過濾掉被 n8n 判定為不顯示標籤的「灰色無效方塊」
+        // 這樣可以把寶貴的螢幕空間釋放給屈臣氏、AEON 等主力超市，讓方塊更寬廣！
+        const cleanData = chartData.filter(item => !(item.label && item.label.show === false));
+
+        const option = {
+            tooltip: {
+                formatter: function (info) {
+                    const percent = ((info.value / totalItemsCount) * 100).toFixed(1);
+                    return `<div class="font-bold text-slate-800 text-lg mb-1">${info.name}</div>
+                            <div class="text-sm text-slate-500">${t.ttDrop}<span class="text-blue-600 font-black ml-1">${info.value} ${t.itemUnit}</span></div>
+                            <div class="text-sm text-slate-500">${t.ttShare}<span class="font-black ml-1">${percent}%</span></div>`;
                 },
-                series: [{
-                    type: 'treemap',
-                    width: '100%', 
-                    height: '100%', 
-                    roam: false, // 關閉拖曳與縮放，保持版面乾淨
-                    nodeClick: false, // 關閉點擊下鑽
-                    breadcrumb: { show: false }, // 隱藏頂部導航
-                    itemStyle: { 
-                        borderColor: '#ffffff', 
-                        borderWidth: 4, 
-                        gapWidth: 2, 
-                        borderRadius: 8 
-                    },
-                    // 🌟 將抓取到的真實數據餵給圖表
-                    data: payload.data, 
-                    label: {
-                        show: true,
-                        position: 'inside',
-                        formatter: function(params) {
-                            // n8n 已處理極小值，這裡加上雙重保險防破版
-                            if (params.value < 10) return '';
-                            return `{logo|}\n\n{name|${params.name}}\n{count|${params.value} 件}`;
-                        },
-                        rich: {
-                            // 文字與數字的排版樣式
-                            name: { 
-                                fontSize: 16, fontWeight: 'bold', color: '#ffffff', 
-                                textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, 
-                                align: 'center', lineHeight: 25 
-                            },
-                            count: { 
-                                fontSize: 22, fontWeight: 'black', color: '#ffffff', 
-                                textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, 
-                                align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', 
-                                padding: [4, 8], borderRadius: 6 
-                            }
+                backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#e2e8f0', textStyle: { color: '#1e293b' }
+            },
+            series: [{
+                type: 'treemap', width: '100%', height: '100%', roam: false, nodeClick: false, breadcrumb: { show: false },
+                itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
+                data: cleanData, // 使用過濾後的乾淨數據
+                label: {
+                    show: true, position: 'inside',
+                    formatter: function(params) {
+                        if (params.value < 10) return '';
+                        
+                        // 🌟 文字優化：將「中文 (英文)」自動拆成兩行
+                        // 遇到 " (" 就替換成換行符號 "\n("，完美解決窄方塊文字被截斷的問題！
+                        let displayName = params.name;
+                        if (displayName.includes(' (')) {
+                            displayName = displayName.replace(' (', '\n(');
                         }
+                        
+                        return `{logo|}\n\n{name|${displayName}}\n{count|${params.value} ${t.itemUnit}}`; 
+                    },
+                    rich: {
+                        // 將 lineHeight 從 25 微調至 20，讓換行後的中英文靠得更緊湊、更好看
+                        name: { fontSize: 16, fontWeight: 'bold', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', lineHeight: 20 },
+                        count: { fontSize: 22, fontWeight: 'black', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', padding: [4, 8], borderRadius: 6 }
                     }
-                }]
-            };
+                }
+            }]
+        };
+        myChart.setOption(option);
+    }
 
-            // 5. 繪製圖表
-            myChart.setOption(option);
-        })
-        .catch(error => {
-            console.error('抓取資料失敗:', error);
-            myChart.hideLoading();
-            chartDom.innerHTML = '<div class="text-red-500 text-center mt-20 font-bold">無法載入戰情報告，請稍後再試。請確認 GitHub Raw URL 是否正確。</div>';
-        });
+    // --- 啟動初始化與資料抓取 ---
+    document.addEventListener("DOMContentLoaded", () => {
+        const chartDom = document.getElementById('treemapChart');
+        myChart = echarts.init(chartDom);
+        
+        // 初始語言設定
+        updateLocalLanguage(currentLang);
+        const t = chartI18n[currentLang] || chartI18n['zh-Hant'];
+        myChart.showLoading({ text: t.loading, color: '#3b82f6', textColor: '#64748b', maskColor: 'rgba(255, 255, 255, 0.8)' });
 
-    // 讓圖表隨視窗縮放自動調整大小
-    window.addEventListener('resize', () => { myChart.resize(); });
-});
+        // 🚨 抓取 n8n 產出的最新 GitHub JSON
+        const jsonUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_treemap.json';
+
+        // 加上時間戳記防止快取
+        fetch(`${jsonUrl}?v=${new Date().getTime()}`, { cache: 'no-store' })
+            .then(res => { if (!res.ok) throw new Error('HTTP Error'); return res.json(); })
+            .then(payload => {
+                myChart.hideLoading();
+                chartData = payload.data;
+                totalItemsCount = chartData.reduce((sum, item) => sum + item.value, 0);
+                
+                // 記錄 JSON 產生時間並更新 Header
+                if (payload.generated_at) {
+                    lastUpdatedTime = new Date(payload.generated_at);
+                }
+                updateLocalLanguage(currentLang); // 再次呼叫以刷新 Header 時間
+                
+                renderChart();
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                myChart.hideLoading();
+                chartDom.innerHTML = `<div class="text-red-500 text-center mt-20 font-bold">${t.err}</div>`;
+            });
+
+        // 讓圖表隨視窗縮放
+        window.addEventListener('resize', () => { myChart.resize(); });
+    });
 </script>
 </body>
 </html>
