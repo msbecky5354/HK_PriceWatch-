@@ -1,24 +1,38 @@
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>戰力分佈樹狀圖 (動態抓取版) | 慳真D🔎</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 p-4 md:p-8 min-h-screen flex flex-col items-center">
 
-<div class="bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden w-full max-w-5xl mx-auto my-8">
-    <div class="p-6 border-b border-slate-100 bg-slate-50/50">
-        <h2 class="text-2xl font-black text-slate-800 flex items-center gap-3">
-            <span>🔲</span> 慳真D：全城降價戰力版圖
-        </h2>
-        <p class="text-slate-500 mt-2 text-sm">數據來源：香港消委會 | 面積代表真實降價商品總數</p>
+    <div class="max-w-5xl w-full bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
+        
+        <div class="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50">
+            <h1 class="text-2xl md:text-3xl font-black text-slate-800 flex items-center gap-3">
+                <span>🔲</span> 慳真D：全城降價戰力版圖
+            </h1>
+            <p class="text-slate-500 mt-2 text-sm font-medium">
+                數據來源：香港消委會 | 方塊面積代表「真實降價商品總數」。
+            </p>
+        </div>
+
+        <div class="p-4 flex justify-center items-center">
+            <div id="treemapChart" class="w-full h-[600px] md:h-[700px]"></div>
+        </div>
+        
     </div>
-    <div class="p-4 flex justify-center items-center">
-        <div id="treemapChart" class="w-full h-[600px] md:h-[700px]"></div>
-    </div>
-</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. 初始化 ECharts 實體
     const chartDom = document.getElementById('treemapChart');
     const myChart = echarts.init(chartDom);
 
-    // 顯示高質感的加載動畫
+    // 2. 顯示高質感的加載動畫，等待網路請求
     myChart.showLoading({
         text: '情報雷達掃描中...',
         color: '#3b82f6',
@@ -26,17 +40,24 @@ document.addEventListener("DOMContentLoaded", () => {
         maskColor: 'rgba(255, 255, 255, 0.8)'
     });
 
-    // ⚠️ 請將此 URL 替換為您 GitHub / Server 真實託管 bi_treemap.json 的網址
-    const jsonUrl = 'https://your-github-pages-url/data/bi_treemap.json';
+    // ==========================================
+    // 🚨 總指揮請注意：請將下方網址替換為您的真實 GitHub Raw URL
+    // ==========================================
+    const jsonUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_treemap.json';
 
+    // 3. 執行「前端絕對服從」條款：透過 Fetch API 動態抓取 GitHub JSON
     fetch(jsonUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('網路回應不成功');
+            return response.json();
+        })
         .then(payload => {
-            myChart.hideLoading();
-
-            // 算出全城降價總件數 (供 Tooltip 計算百分比使用)
+            myChart.hideLoading(); // 隱藏加載動畫
+            
+            // 算出全城降價總件數 (供 Tooltip 顯示市場佔比使用)
             const totalItems = payload.data.reduce((sum, item) => sum + item.value, 0);
 
+            // 4. 設定 ECharts 渲染參數
             const option = {
                 tooltip: {
                     formatter: function (info) {
@@ -51,35 +72,57 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 series: [{
                     type: 'treemap',
-                    width: '100%', height: '100%',
-                    roam: false, nodeClick: false, breadcrumb: { show: false },
-                    itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
-                    // 🌟 絕對服從：直接吃 n8n 算好的 data 陣列
+                    width: '100%', 
+                    height: '100%', 
+                    roam: false, // 關閉拖曳與縮放，保持版面乾淨
+                    nodeClick: false, // 關閉點擊下鑽
+                    breadcrumb: { show: false }, // 隱藏頂部導航
+                    itemStyle: { 
+                        borderColor: '#ffffff', 
+                        borderWidth: 4, 
+                        gapWidth: 2, 
+                        borderRadius: 8 
+                    },
+                    // 🌟 將抓取到的真實數據餵給圖表
                     data: payload.data, 
                     label: {
                         show: true,
                         position: 'inside',
                         formatter: function(params) {
-                            // n8n 已經幫我們把太小的標籤設為 show: false，這裡只需專心排版大方塊
+                            // n8n 已處理極小值，這裡加上雙重保險防破版
+                            if (params.value < 10) return '';
                             return `{logo|}\n\n{name|${params.name}}\n{count|${params.value} 件}`;
                         },
                         rich: {
-                            name: { fontSize: 16, fontWeight: 'bold', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', lineHeight: 25 },
-                            count: { fontSize: 22, fontWeight: 'black', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', padding: [4, 8], borderRadius: 6 }
+                            // 文字與數字的排版樣式
+                            name: { 
+                                fontSize: 16, fontWeight: 'bold', color: '#ffffff', 
+                                textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, 
+                                align: 'center', lineHeight: 25 
+                            },
+                            count: { 
+                                fontSize: 22, fontWeight: 'black', color: '#ffffff', 
+                                textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, 
+                                align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', 
+                                padding: [4, 8], borderRadius: 6 
+                            }
                         }
                     }
                 }]
             };
 
+            // 5. 繪製圖表
             myChart.setOption(option);
-            
-            // 讓圖表隨視窗縮放
-            window.addEventListener('resize', () => { myChart.resize(); });
         })
         .catch(error => {
-            console.error('戰力版圖載入失敗:', error);
+            console.error('抓取資料失敗:', error);
             myChart.hideLoading();
-            chartDom.innerHTML = '<div class="text-red-500 text-center mt-20 font-bold">無法載入戰情報告，請稍後再試。</div>';
+            chartDom.innerHTML = '<div class="text-red-500 text-center mt-20 font-bold">無法載入戰情報告，請稍後再試。請確認 GitHub Raw URL 是否正確。</div>';
         });
+
+    // 讓圖表隨視窗縮放自動調整大小
+    window.addEventListener('resize', () => { myChart.resize(); });
 });
 </script>
+</body>
+</html>
