@@ -1,0 +1,150 @@
+{
+  "generated_at": "2026-06-14T20:54:27.283Z",
+  "report_date": "2026-06-14",
+  "data": [
+    {
+      "name": "百佳 (PARKNSHOP)",
+      "value": 797,
+      "itemStyle": {
+        "color": "#3b82f6"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://your-domain.com/logos/pns.png"
+            },
+            "width": 50,
+            "height": 50,
+            "borderRadius": 25
+          }
+        }
+      }
+    },
+    {
+      "name": "惠康 (WELLCOME)",
+      "value": 718,
+      "itemStyle": {
+        "color": "#ef4444"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://your-domain.com/logos/wellcome.png"
+            },
+            "width": 50,
+            "height": 50,
+            "borderRadius": 25
+          }
+        }
+      }
+    },
+    {
+      "name": "JASONS",
+      "value": 655,
+      "itemStyle": {
+        "color": "#84cc16"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://your-domain.com/logos/jasons.png"
+            },
+            "width": 50,
+            "height": 50,
+            "borderRadius": 25
+          }
+        }
+      }
+    },
+    {
+      "name": "屈臣氏 (WATSONS)",
+      "value": 208,
+      "itemStyle": {
+        "color": "#14b8a6"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://your-domain.com/logos/watsons.png"
+            },
+            "width": 50,
+            "height": 50,
+            "borderRadius": 25
+          }
+        }
+      }
+    },
+    {
+      "name": "AEON",
+      "value": 183,
+      "itemStyle": {
+        "color": "#f472b6"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://your-domain.com/logos/aeon.png"
+            },
+            "width": 50,
+            "height": 50,
+            "borderRadius": 25
+          }
+        }
+      }
+    },
+    {
+      "name": "萬寧 (MANNINGS)",
+      "value": 132,
+      "itemStyle": {
+        "color": "#f59e0b"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://your-domain.com/logos/mannings.png"
+            },
+            "width": 50,
+            "height": 50,
+            "borderRadius": 25
+          }
+        }
+      }
+    },
+    {
+      "name": "SASA",
+      "value": 12,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
+      }
+    },
+    {
+      "name": "LUNGFUNG",
+      "value": 9,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
+      }
+    },
+    {
+      "name": "DCHFOOD",
+      "value": 6,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
+      }
+    }
+  ]
+}
