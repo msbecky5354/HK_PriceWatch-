@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-14T21:32:22.450Z",
+  "generated_at": "2026-06-14T21:48:42.273Z",
   "report_date": "2026-06-14",
   "data": [
     {
@@ -12,7 +12,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/PNS.png"
+              "image": "https://hk-price-watch.vercel.app/pns.png"
             },
             "width": 50,
             "height": 50,
@@ -88,7 +88,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/Aeon.png"
+              "image": "https://hk-price-watch.vercel.app/aeon.png"
             },
             "width": 50,
             "height": 50,
