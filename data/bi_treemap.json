@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-14T20:54:27.283Z",
+  "generated_at": "2026-06-14T21:32:22.450Z",
   "report_date": "2026-06-14",
   "data": [
     {
@@ -12,7 +12,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://your-domain.com/logos/pns.png"
+              "image": "https://hk-price-watch.vercel.app/PNS.png"
             },
             "width": 50,
             "height": 50,
@@ -31,7 +31,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://your-domain.com/logos/wellcome.png"
+              "image": "https://hk-price-watch.vercel.app/wellcome.png"
             },
             "width": 50,
             "height": 50,
@@ -50,7 +50,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://your-domain.com/logos/jasons.png"
+              "image": "https://hk-price-watch.vercel.app/jasons.png"
             },
             "width": 50,
             "height": 50,
@@ -69,7 +69,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://your-domain.com/logos/watsons.png"
+              "image": "https://hk-price-watch.vercel.app/watsons.png"
             },
             "width": 50,
             "height": 50,
@@ -88,7 +88,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://your-domain.com/logos/aeon.png"
+              "image": "https://hk-price-watch.vercel.app/Aeon.png"
             },
             "width": 50,
             "height": 50,
@@ -107,7 +107,7 @@
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://your-domain.com/logos/mannings.png"
+              "image": "https://hk-price-watch.vercel.app/mannings.png"
             },
             "width": 50,
             "height": 50,
