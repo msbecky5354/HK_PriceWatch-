@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-06-14T23:17:20.413Z",
+  "generated_at": "2026-06-14T23:43:13.902Z",
   "report_date": "2026-06-14",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
       "value": 797,
-      "bgImageUrl": "https://hk-price-watch.vercel.app/pns.png",
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -25,7 +24,6 @@
     {
       "name": "惠康 (WELLCOME)",
       "value": 718,
-      "bgImageUrl": "https://hk-price-watch.vercel.app/wellcome.png",
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -45,9 +43,8 @@
     {
       "name": "Market Place (Jasons)",
       "value": 655,
-      "bgImageUrl": "https://hk-price-watch.vercel.app/marketplace.png",
       "itemStyle": {
-        "color": "#dc2626"
+        "color": "#334155"
       },
       "label": {
         "rich": {
@@ -65,7 +62,6 @@
     {
       "name": "屈臣氏 (WATSONS)",
       "value": 208,
-      "bgImageUrl": "https://hk-price-watch.vercel.app/watsons.png",
       "itemStyle": {
         "color": "#14b8a6"
       },
@@ -85,7 +81,6 @@
     {
       "name": "AEON",
       "value": 183,
-      "bgImageUrl": "https://hk-price-watch.vercel.app/aeon.png",
       "itemStyle": {
         "color": "#f472b6"
       },
@@ -105,7 +100,6 @@
     {
       "name": "萬寧 (MANNINGS)",
       "value": 132,
-      "bgImageUrl": "https://hk-price-watch.vercel.app/mannings.png",
       "itemStyle": {
         "color": "#f59e0b"
       },
@@ -125,7 +119,6 @@
     {
       "name": "SASA",
       "value": 12,
-      "bgImageUrl": "",
       "itemStyle": {
         "color": "#cbd5e1"
       },
@@ -136,7 +129,6 @@
     {
       "name": "LUNGFUNG",
       "value": 9,
-      "bgImageUrl": "",
       "itemStyle": {
         "color": "#cbd5e1"
       },
@@ -147,7 +139,6 @@
     {
       "name": "DCHFOOD",
       "value": 6,
-      "bgImageUrl": "",
       "itemStyle": {
         "color": "#cbd5e1"
       },
