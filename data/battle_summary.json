@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-14T11:00:54.404Z",
+  "generated_at": "2026-06-14T19:41:37.068Z",
   "report_date": "2026-06-14",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
       "total_drop_items": "406",
-      "avg_discount_pct": "6.60",
+      "avg_discount_pct": "6.59",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -38,23 +38,23 @@
     {
       "supermarket_code": "PARKNSHOP",
       "total_drop_items": "398",
-      "avg_discount_pct": "9.46",
+      "avg_discount_pct": "9.45",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
       "cat_drop_count": "87",
       "top_3_deals": [
         {
-          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
-          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
-          "name_en": "Hair Fall Rescue Shampoo 680mL",
+          "name_zh": "日常修護洗髮乳 680毫升",
+          "name_zh_hans": "日常修护洗发乳 680毫升",
+          "name_en": "Daily Shine Shampoo 680mL",
           "price": 15,
           "pct": 47.37
         },
         {
-          "name_zh": "日常修護洗髮乳 680毫升",
-          "name_zh_hans": "日常修护洗发乳 680毫升",
-          "name_en": "Daily Shine Shampoo 680mL",
+          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
+          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
+          "name_en": "Hair Fall Rescue Shampoo 680mL",
           "price": 15,
           "pct": 47.37
         },
@@ -70,7 +70,7 @@
     {
       "supermarket_code": "JASONS",
       "total_drop_items": "274",
-      "avg_discount_pct": "6.85",
+      "avg_discount_pct": "6.83",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -133,12 +133,12 @@
     },
     {
       "supermarket_code": "WATSONS",
-      "total_drop_items": "101",
-      "avg_discount_pct": "9.31",
+      "total_drop_items": "99",
+      "avg_discount_pct": "8.87",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "76",
+      "cat_drop_count": "74",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -166,7 +166,7 @@
     {
       "supermarket_code": "MANNINGS",
       "total_drop_items": "78",
-      "avg_discount_pct": "7.73",
+      "avg_discount_pct": "7.69",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
