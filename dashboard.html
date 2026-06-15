@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>戰力版圖 | 慳真D🔎</title>
+    <title>全局戰情室 | 慳真D🔎</title>
     
     <script src="lang.js?v=11"></script>
     <script src="appUtils.js?v=1"></script>
-    <script src="alertSystem.js?v=2"></script> <script src="https://cdn.tailwindcss.com"></script>
+    <script src="alertSystem.js?v=2"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
     </script>
@@ -18,107 +20,111 @@
 
     <script src="header.js?v=2"></script>
 
-    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
+    <div class="max-w-[1400px] mx-auto md:mt-6 md:mb-8 bg-transparent min-h-screen flex flex-col">
         
-        <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+        <div class="p-4 md:p-5 mb-4 flex items-center justify-between bg-white dark:bg-slate-800 md:rounded-2xl shadow-sm border-b md:border border-slate-200 dark:border-slate-700">
             <div class="flex items-center gap-3">
-                <span class="text-xl md:text-2xl">🔲</span> 
+                <span class="text-xl md:text-2xl">🌐</span> 
                 <div class="flex flex-col">
-                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全城降價戰力版圖</h1>
-                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">面積代表「真實降價商品總數」</span>
+                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全局戰情室 (Command Center)</h1>
+                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">實時監控各大超市降價分佈與火力</span>
                 </div>
             </div>
             <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
         </div>
 
-        <div class="p-4 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
-            <div id="treemapChart" class="w-full h-[600px] md:h-[700px]"></div>
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6 px-2 md:px-0 mb-8">
+            
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    <span>🔲</span> <span id="titleTreemap">全城降價戰力版圖</span>
+                </div>
+                <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
+                    <div id="treemapChart" class="w-full h-[500px]"></div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    <span>🔥</span> <span id="titleHeatmap">全城戰火熱力矩陣</span>
+                </div>
+                <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
+                    <div id="heatmapChart" class="w-full h-[500px]"></div>
+                </div>
+            </div>
+
         </div>
-        
     </div>
 
     <script src="footer.js?v=1"></script>
 
 <script>
-    // --- 全域變數與語言包 ---
     let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
-    let chartData = [];
-    let totalItemsCount = 0;
-    let myChart = null;
-    let lastUpdatedTime = null; // 用於記錄 JSON 的更新時間，連動 Header
+    
+    let treemapChart = null;
+    let heatmapChart = null;
 
-    // 專屬此圖表的多語系字典 (Chart-specific i18n)
-    const chartI18n = {
-        'zh-Hant': { title: '全城降價戰力版圖', sub: '面積代表「真實降價商品總數」', back: '返回', itemUnit: '件', ttDrop: '真實降價件數：', ttShare: '全城火力佔比：', loading: '情報雷達掃描中...', err: '無法載入戰情報告，請稍後再試。' },
-        'zh-Hans': { title: '全城降价战力版图', sub: '面积代表「真实降价商品总数」', back: '返回', itemUnit: '件', ttDrop: '真实降价件数：', ttShare: '全城火力占比：', loading: '情报雷达扫描中...', err: '无法载入战情报告，请稍后再试。' },
-        'en': { title: 'Citywide Discount Treemap', sub: 'Area represents "Total Real Discount Items"', back: 'Back', itemUnit: 'items', ttDrop: 'Real Drop Items:', ttShare: 'Market Share:', loading: 'Scanning Radar...', err: 'Failed to load report. Please try again.' }
+    let treemapData = [];
+    let totalItemsCount = 0;
+    let heatmapData = []; 
+
+    const i18n = {
+        'zh-Hant': { 
+            title: '全局戰情室', sub: '實時監控各大超市降價分佈與火力', back: '返回', 
+            treeTitle: '全城降價戰力版圖', heatTitle: '全城戰火熱力矩陣', loading: '情報匯入中...',
+            ttDrop: '真實降價件數：', ttShare: '火力佔比：', itemUnit: '件', ttAvgDrop: '平均真降幅:'
+        },
+        'zh-Hans': { 
+            title: '全局战情室', sub: '实时监控各大超市降价分布与火力', back: '返回', 
+            treeTitle: '全城降价战力版图', heatTitle: '全城战火热力矩阵', loading: '情报汇入中...',
+            ttDrop: '真实降价件数：', ttShare: '火力占比：', itemUnit: '件', ttAvgDrop: '平均真降幅:'
+        },
+        'en': { 
+            title: 'Command Center', sub: 'Real-time monitoring of discount distribution', back: 'Back', 
+            treeTitle: 'Discount Treemap', heatTitle: 'Warfare Heatmap', loading: 'Loading Data...',
+            ttDrop: 'Real Drop Items:', ttShare: 'Market Share:', itemUnit: 'items', ttAvgDrop: 'Avg. True Drop:'
+        }
     };
 
-    // 時間格式化工具 (供 Header 顯示最後更新時間使用)
     function formatDateTime(date) {
         if (!date || isNaN(date.getTime())) return '';
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
     }
 
-    // --- 多語系切換邏輯 (與 lang.js 連動) ---
     function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
-        const t = chartI18n[lang] || chartI18n['zh-Hant'];
+        const t = i18n[lang] || i18n['zh-Hant'];
 
-        // 1. 更新此頁面的專屬標題
-        document.title = `${t.title} | SmartDeal🔎`;
+        // 🌟 完美修復 Windows Tab 標籤名稱：確保英文環境只出現英文，中文環境只出現中文！
+        const appName = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
+        document.title = `${t.title} | ${appName}🔎`;
+
         const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
+        
         setTxt('pageTitleText', t.title);
         setTxt('subTitleText', t.sub);
         setTxt('backBtn', t.back);
+        setTxt('titleTreemap', t.treeTitle);
+        setTxt('titleHeatmap', t.heatTitle);
 
-        // 2. 聯動 header.js：更新 Logo 標題與「最後更新時間」
-        const appTitle = document.getElementById('appTitle');
-        if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
+        const appTitleEl = document.getElementById('appTitle');
+        if (appTitleEl) appTitleEl.innerText = appName;
 
-        const statusLabel = document.getElementById('todayStatusLabel');
-        if (statusLabel) {
-            if (lastUpdatedTime) {
-                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
-                statusLabel.innerText = prefix + formatDateTime(lastUpdatedTime);
-            } else {
-                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
-            }
-        }
-
-        // 3. footer.js 本身有封裝部分邏輯，但為了確保此頁面完美翻譯，調用一次 uiText
-        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
-        if (uiDict) {
-            setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
-            setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
-            setTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
-            setTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
-            const dBody = document.getElementById('disclaimerBody');
-            if (dBody) dBody.innerHTML = uiDict.disclaimerText || '請參閱首頁免責聲明內容。';
-        }
-        setTxt('footerDevTeam', lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: '));
-        setTxt('footerDevName', lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅'));
-
-        // 4. 重新渲染 ECharts 以更新語言
-        if (chartData.length > 0) renderChart();
+        if (treemapData.length > 0) renderTreemap();
+        if (heatmapData.length > 0) renderHeatmap();
     }
 
-    // 監聽來自 header.js 的語言切換事件
     window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
     window.changeLanguage = function(lang) {
         if (typeof globalChangeLang === 'function') globalChangeLang(lang);
         if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
     };
 
-   // --- 圖表渲染核心邏輯 ---
-    function renderChart() {
-        if (!myChart) return;
-        const t = chartI18n[currentLang] || chartI18n['zh-Hant'];
-
-        // 🌟 空間優化：直接過濾掉被 n8n 判定為不顯示標籤的「灰色無效方塊」
-        // 這樣可以把寶貴的螢幕空間釋放給屈臣氏、AEON 等主力超市，讓方塊更寬廣！
-        const cleanData = chartData.filter(item => !(item.label && item.label.show === false));
+    function renderTreemap() {
+        if (!treemapChart) return;
+        const cleanData = treemapData.filter(item => !(item.label && item.label.show === false));
+        const t = i18n[currentLang] || i18n['zh-Hant'];
 
         const option = {
             tooltip: {
@@ -133,69 +139,161 @@
             series: [{
                 type: 'treemap', width: '100%', height: '100%', roam: false, nodeClick: false, breadcrumb: { show: false },
                 itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
-                data: cleanData, // 使用過濾後的乾淨數據
+                data: cleanData, 
                 label: {
                     show: true, position: 'inside',
                     formatter: function(params) {
                         if (params.value < 10) return '';
-                        
-                        // 🌟 文字優化：將「中文 (英文)」自動拆成兩行
-                        // 遇到 " (" 就替換成換行符號 "\n("，完美解決窄方塊文字被截斷的問題！
-                        let displayName = params.name;
-                        if (displayName.includes(' (')) {
-                            displayName = displayName.replace(' (', '\n(');
+                        let dName = params.name;
+                        dName = dName.replace(' ', '\n');
+                        if (dName.includes(' (')) {
+                            let parts = dName.split(' (');
+                            return `{logo|}\n\n{name|${parts[0]}}\n{subName|(${parts[1]}}\n{count|${params.value} ${t.itemUnit}}`;
+                        } else if (dName.includes('\n(')) { 
+                            let parts = dName.split('\n(');
+                             return `{logo|}\n\n{name|${parts[0]}}\n{subName|(${parts[1]}}\n{count|${params.value} ${t.itemUnit}}`;
                         }
-                        
-                        return `{logo|}\n\n{name|${displayName}}\n{count|${params.value} ${t.itemUnit}}`; 
+                        return `{logo|}\n\n{name|${dName}}\n{count|${params.value} ${t.itemUnit}}`; 
                     },
                     rich: {
-                        // 將 lineHeight 從 25 微調至 20，讓換行後的中英文靠得更緊湊、更好看
-                        name: { fontSize: 16, fontWeight: 'bold', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', lineHeight: 20 },
-                        count: { fontSize: 22, fontWeight: 'black', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', padding: [4, 8], borderRadius: 6 }
+                        name: { fontSize: 15, fontWeight: 'bold', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', lineHeight: 18 },
+                        subName: { fontSize: 11, fontWeight: 'bold', color: 'rgba(255,255,255,0.85)', align: 'center', lineHeight: 14, padding: [0, 0, 4, 0] },
+                        count: { fontSize: 18, fontWeight: 'black', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', padding: [2, 6], borderRadius: 4, marginTop: 2 }
                     }
                 }
             }]
         };
-        myChart.setOption(option);
+        treemapChart.setOption(option);
     }
 
-    // --- 啟動初始化與資料抓取 ---
-    document.addEventListener("DOMContentLoaded", () => {
-        const chartDom = document.getElementById('treemapChart');
-        myChart = echarts.init(chartDom);
+    function renderHeatmap() {
+        if (!heatmapChart) return;
+        const t = i18n[currentLang] || i18n['zh-Hant'];
         
-        // 初始語言設定
+        const xDataRaw = [...new Set(heatmapData.map(item => item.smCode))];
+        const xData = xDataRaw.map(code => {
+            return (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][code]) 
+                   ? supermarketDict[currentLang][code] 
+                   : code;
+        });
+
+        let catKey = 'cat_zh';
+        if (currentLang === 'en') catKey = 'cat_en';
+        if (currentLang === 'zh-Hans') catKey = 'cat_hans';
+        const yData = [...new Set(heatmapData.map(item => item[catKey]))];
+
+        const seriesData = heatmapData.map(item => {
+            const xIndex = xDataRaw.indexOf(item.smCode);
+            const yIndex = yData.indexOf(item[catKey]);
+            return [xIndex, yIndex, parseFloat(item.avg_drop_pct) || 0];
+        });
+
+        const option = {
+            tooltip: {
+                position: 'top',
+                formatter: function (params) {
+                    const smName = xData[params.value[0]];
+                    const catName = yData[params.value[1]];
+                    const val = params.value[2];
+                    return `<div class="font-bold text-slate-800 text-sm mb-1">${smName} - ${catName}</div>
+                            <div class="text-xs text-slate-500">${t.ttAvgDrop} <span class="text-red-500 font-black">▼ ${val}%</span></div>`;
+                },
+                backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#e2e8f0'
+            },
+           // 🌟 1. 加大 bottom 到 22%，給底部的 AEON 標籤與圖例留下足夠的呼吸空間
+            grid: { top: '5%', right: '5%', bottom: '22%', left: '2%', containLabel: true }, 
+            xAxis: { type: 'category', data: xData, splitArea: { show: true }, axisLabel: { fontWeight: 'bold' } },
+            yAxis: { 
+                type: 'category', 
+                data: yData, 
+                splitArea: { show: true }, 
+                axisLabel: { 
+                    fontWeight: 'bold', 
+                    interval: 0,
+                    // 🌟 2. 終極換行魔法：設定最大寬度，超過自動換行！
+                    width: 160, 
+                    overflow: 'break' 
+                } 
+            },
+            visualMap: {
+                min: 0,
+                max: 50, 
+                calculable: true,
+                orient: 'horizontal',
+                left: 'center',
+                // 🌟 3. 將圖例貼齊最底部，徹底與 X 軸文字分開
+                bottom: '0%', 
+                inRange: { color: ['#fef08a', '#f97316', '#b91c1c'] }, 
+                text: currentLang === 'en' ? ['High', 'Low'] : ['激減 (高)', '微減 (低)'],
+                textStyle: { color: '#64748b', fontWeight: 'bold', fontSize: 11 }
+            },
+            series: [{
+                name: '平均真降幅',
+                type: 'heatmap',
+                data: seriesData,
+                label: {
+                    show: true,
+                    formatter: function(params) { return params.value[2] + '%'; },
+                    color: '#ffffff',
+                    fontWeight: 'black',
+                    fontSize: 13,
+                    textShadowColor: 'rgba(0,0,0,0.3)',
+                    textShadowBlur: 2
+                },
+                itemStyle: { borderColor: '#ffffff', borderWidth: 3, borderRadius: 6 } 
+            }]
+        };
+        heatmapChart.setOption(option);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        treemapChart = echarts.init(document.getElementById('treemapChart'));
+        heatmapChart = echarts.init(document.getElementById('heatmapChart'));
+        
+        const t = i18n[currentLang] || i18n['zh-Hant'];
         updateLocalLanguage(currentLang);
-        const t = chartI18n[currentLang] || chartI18n['zh-Hant'];
-        myChart.showLoading({ text: t.loading, color: '#3b82f6', textColor: '#64748b', maskColor: 'rgba(255, 255, 255, 0.8)' });
+        
+        treemapChart.showLoading({ text: t.loading, color: '#3b82f6', maskColor: 'rgba(255, 255, 255, 0.8)' });
+        heatmapChart.showLoading({ text: t.loading, color: '#ef4444', maskColor: 'rgba(255, 255, 255, 0.8)' });
 
-        // 🚨 抓取 n8n 產出的最新 GitHub JSON
-        const jsonUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_treemap.json';
-
-        // 加上時間戳記防止快取
-        fetch(`${jsonUrl}?v=${new Date().getTime()}`, { cache: 'no-store' })
-            .then(res => { if (!res.ok) throw new Error('HTTP Error'); return res.json(); })
+        const treemapUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_treemap.json';
+        fetch(`${treemapUrl}?v=${new Date().getTime()}`, { cache: 'no-store' })
+            .then(res => res.json())
             .then(payload => {
-                myChart.hideLoading();
-                chartData = payload.data;
-                totalItemsCount = chartData.reduce((sum, item) => sum + item.value, 0);
+                treemapChart.hideLoading();
+                treemapData = payload.data;
+                totalItemsCount = treemapData.reduce((sum, item) => sum + item.value, 0);
                 
-                // 記錄 JSON 產生時間並更新 Header
                 if (payload.generated_at) {
-                    lastUpdatedTime = new Date(payload.generated_at);
+                    const statusLabel = document.getElementById('todayStatusLabel');
+                    if (statusLabel) {
+                        const dDate = new Date(payload.generated_at);
+                        const prefix = currentLang === 'en' ? 'Updated: ' : '更新於: ';
+                        statusLabel.innerText = prefix + formatDateTime(dDate);
+                    }
                 }
-                updateLocalLanguage(currentLang); // 再次呼叫以刷新 Header 時間
-                
-                renderChart();
+                renderTreemap();
             })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                myChart.hideLoading();
-                chartDom.innerHTML = `<div class="text-red-500 text-center mt-20 font-bold">${t.err}</div>`;
+            .catch(e => { treemapChart.hideLoading(); console.error(e); });
+
+        const heatmapUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_heatmap.json';
+        fetch(`${heatmapUrl}?v=${new Date().getTime()}`, { cache: 'no-store' })
+            .then(res => res.json())
+            .then(payload => {
+                heatmapChart.hideLoading();
+                heatmapData = payload.data;
+                renderHeatmap();
+            })
+            .catch(e => { 
+                heatmapChart.hideLoading(); 
+                console.error(e);
+                document.getElementById('heatmapChart').innerHTML = `<div class="text-red-500 font-bold text-center mt-20">無法載入熱力圖數據。</div>`;
             });
 
-        // 讓圖表隨視窗縮放
-        window.addEventListener('resize', () => { myChart.resize(); });
+        window.addEventListener('resize', () => { 
+            if(treemapChart) treemapChart.resize(); 
+            if(heatmapChart) heatmapChart.resize(); 
+        });
     });
 </script>
 </body>
