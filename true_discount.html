@@ -162,28 +162,13 @@
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
     let currentMinPct = 30; // 💡 預設篩選 >30% 的降價貨品
 
-    // 🌟 分類名稱智慧翻譯大腦
-    const catTranslations = {
-        "個人護理": { "en": "Personal Care", "zh-Hans": "个人护理" },
-        "糖果 / 餅乾 / 小食": { "en": "Snacks / Candies", "zh-Hans": "糖果 / 饼干 / 小食" },
-        "粉麵 / 煮食用料 / 冷凍加工食品": { "en": "Noodles / Frozen Food", "zh-Hans": "粉面 / 冷冻食品" },
-        "飲品": { "en": "Beverages", "zh-Hans": "饮品" },
-        "酒類": { "en": "Alcohol", "zh-Hans": "酒类" },
-        "奶粉 / 嬰兒用品": { "en": "Baby Products", "zh-Hans": "奶粉 / 婴儿用品" },
-        "奶類及乳製品 / 大豆製品 / 蛋類": { "en": "Dairy / Soy / Eggs", "zh-Hans": "奶类 / 豆制品 / 蛋类" },
-        "米 / 食油 / 罐頭 / 蔬果 / 肉類": { "en": "Rice / Oil / Canned / Fresh", "zh-Hans": "米 / 食油 / 罐头 / 生鲜" },
-        "家居用品 / 寵物食品及用品": { "en": "Household / Pet", "zh-Hans": "家居用品 / 宠物" },
-        "麵包蛋糕 / 穀類早餐 / 麵包醬": { "en": "Bakery / Cereal / Spreads", "zh-Hans": "面包 / 谷类 / 酱料" }
-    };
-
-    function getCatName(rawCat, lang) {
-        if (typeof rawCat === 'object' && rawCat[lang]) return rawCat[lang];
-        let baseCat = (typeof rawCat === 'object') ? (rawCat['zh-Hant'] || rawCat['en'] || '') : String(rawCat || '');
-        if (lang === 'zh-Hant') return baseCat;
-        if (catTranslations[baseCat] && catTranslations[baseCat][lang]) {
-            return catTranslations[baseCat][lang];
+    function getText(content, lang) {
+        if (!content) return '-';
+        if (typeof content === 'string') return content;
+        if (typeof content === 'object') {
+            return content[lang] || content['zh-Hant'] || Object.values(content)[0] || '-';
         }
-        return baseCat;
+        return String(content);
     }
 
     const statusI18n = {
@@ -202,15 +187,6 @@
     function formatDateTime(date) {
         if (!date || isNaN(date.getTime())) return '';
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
-    }
-
-    function getText(content, lang) {
-        if (!content) return '-';
-        if (typeof content === 'string') return content;
-        if (typeof content === 'object') {
-            return content[lang] || content['zh-Hant'] || Object.values(content)[0] || '-';
-        }
-        return String(content);
     }
 
     function getSmName(code, lang) {
@@ -292,7 +268,6 @@
                 throw new Error(`所有的資料節點均無回應。最後錯誤: ${lastError.message} (請確認 GitHub 上是否有最新推送的 true_discount.json)`);
             }
 
-            // 💡 終極防呆：確保我們拿到的是乾淨的 Array，並且只由 n8n 負責資料過濾
             fullDataList = Array.isArray(rawJson.results) ? rawJson.results : (Array.isArray(rawJson) ? rawJson : []);
             
             if (rawJson.generated_at) {
@@ -373,12 +348,11 @@
         const clearBtn = document.getElementById('clearSearchBtn');
         if (clearBtn) clearBtn.classList.toggle('hidden', kw.length === 0);
 
-        // 💡 終極手術：前端只負責呈現和篩選，絕不自己算減幅或判定狀態！
         let filtered = fullDataList.filter(i => {
             const name = getText(i.name, currentLang).toLowerCase();
             const smNameText = getSmName(i.smCode, currentLang).toLowerCase(); 
             const rawCatValue = typeof i.categoryRaw === 'object' ? (i.categoryRaw['zh-Hant'] || '') : String(i.categoryRaw || '');
-            const translatedCatText = getCatName(i.categoryRaw, currentLang).toLowerCase();
+            const translatedCatText = getText(i.categoryRaw, currentLang).toLowerCase();
             
             const matchesKw = name.includes(kw) || smNameText.includes(kw) || translatedCatText.includes(kw);
             const matchesSm = (sm === 'ALL' || i.smCode === sm);
@@ -425,7 +399,7 @@
         const rawCategories = [...new Set(fullDataList.map(i => (typeof i.categoryRaw === 'object' ? i.categoryRaw['zh-Hant'] : i.categoryRaw)))];
         cat.innerHTML = `<option value="ALL">${catAllText}</option>` + rawCategories.map(c => {
             let originalObj = fullDataList.find(item => (typeof item.categoryRaw === 'object' ? item.categoryRaw['zh-Hant'] : item.categoryRaw) === c)?.categoryRaw || c;
-            return `<option value="${c}">${getCatName(originalObj, currentLang)}</option>`;
+            return `<option value="${c}">${getText(originalObj, currentLang)}</option>`;
         }).join('');
 
         if (smCodes.includes(currentSmVal)) sm.value = currentSmVal;
@@ -550,14 +524,12 @@
                     otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${parseFloat(op.price).toFixed(1)}`).join(' | ');
                 }
 
-                // 💡 絕對信賴 n8n 傳來的 statusKey
                 const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
                 const statusText = stDict[currentLang] || stDict['zh-Hant'];
                 
                 let prevEffText = item.prevEffPrice && parseFloat(item.prevEffPrice) > 0 ? `$${parseFloat(item.prevEffPrice).toFixed(1)}` : '-';
                 let prevBaseText = item.prevBasePrice && parseFloat(item.prevBasePrice) > 0 ? `$${parseFloat(item.prevBasePrice).toFixed(1)}` : '-';
                 
-                // 💡 防彈中文日期解析
                 let lastDateText = '-';
                 if (item.lastChangeDate && item.lastChangeDate !== 'null' && item.lastChangeDate !== '') {
                     let dStr = String(item.lastChangeDate).trim();
@@ -599,7 +571,7 @@
                     </div>
                 `;
                 
-                const displayCategory = getCatName(item.categoryRaw, currentLang);
+                const displayCategory = getText(item.categoryRaw, currentLang);
 
                 return `
                 <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/30 transition-colors group">
@@ -640,7 +612,6 @@
                     otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${parseFloat(op.price).toFixed(1)}`).join(' | ');
                 }
 
-                // 💡 絕對信賴 n8n 傳來的 statusKey
                 const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
                 const statusText = stDict[currentLang] || stDict['zh-Hant'];
                 
@@ -694,7 +665,7 @@
                     </div>
                 `;
                 
-                const displayCategory = getCatName(item.categoryRaw, currentLang);
+                const displayCategory = getText(item.categoryRaw, currentLang);
 
                 return `
                 <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-1 relative overflow-hidden transition-colors">
@@ -730,7 +701,7 @@
         }
     }
 
-    // --- ℹ️ 運算機制與聲明 Modal ---
+   // --- 🌟 ℹ️ 運算機制與聲明 Modal (絕對中立零推託版) 🌟 ---
     const calcInfoTexts = {
         'zh-Hant': {
             title: "ℹ️ 運算機制與聲明",
@@ -739,13 +710,25 @@
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 數據運算機制大解密</h4>
                 <p class="mb-2">本榜單採用純數學公式進行客觀對比，絕無人工干預：</p>
                 <ul class="list-disc pl-5 space-y-1 mb-3">
-                    <li><b>1. 鎖定數據：</b>每日同步政府「網上價格一覽通」數據。</li>
-                    <li><b>2. 還原折實價：</b>AI 引擎自動拆解「買X件$Y」等綑綁促銷，計算單件真實折合價。</li>
-                    <li><b>3. 確立基準線：</b>將同款貨品在全港超市的折實價加總求平均，得出最公允的「全城市場平均價」，拒絕超市自稱的虛高原價。</li>
+                    <li><b>1. 鎖定數據：</b>每日同步政府「網上價格一覽通」最新數據，防堵缺貨商品歷史殘影。</li>
+                    <li><b>2. 還原折實價：</b>AI 引擎自動拆解「買X件$Y」等綑綁促銷，精算單件真實折合價。</li>
+                    <li><b>3. 確立基準線：</b>將同款貨品在全港超市的有效折實價加總求平均，得出最公允的「全城市場平均價」，拒絕超市自稱的虛高原價。</li>
                     <li><b>4. 計算真減幅：</b>公式為 <code>((市場平均價 - 該超市折實價) / 市場平均價) x 100%</code>。只有減幅 > 0% 的貨品才會上榜。</li>
                 </ul>
+
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 歷史狀態判定基準</h4>
+                <p class="mb-2 text-[12px]">系統每日將即時價格與 <b>2025年12月31日以來</b> 的最新歷史紀錄進行比對，標籤定義如下：</p>
+                <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>低於</b> 上次紀錄之折實價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 換新優惠</span> <span class="text-slate-600 dark:text-slate-400">折實價不變，但超市更換了促銷手段 (如送贈品或改變件數)。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ 假促銷</span> <span class="text-slate-600 dark:text-slate-400">超市掛上促銷標籤，但計算後發現單件折實價 <b>大於或等於</b> 先前的常規價，毫無實質優惠。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 價格暗升</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>高於</b> 上次紀錄之折實價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 價格維持</span> <span class="text-slate-600 dark:text-slate-400">價格與促銷活動與上次紀錄完全相同。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以來，系統首次記錄到該貨品於此超市之報價。</span></div>
+                </div>
+
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免責聲明</h4>
-                <p class="mb-2"><b>1. 資訊僅供參考：</b>所有價格均由電腦基於公開數據自動運算得出。數據可能因同步延遲或分店差異而有別，絕不構成購買建議。結帳前請自行核實實體店標價。</p>
+                <p class="mb-2"><b>1. 資訊僅供參考：</b>所有價格均由電腦基於公開數據自動運算得出。數據可能因分店差異而有別，絕不構成購買建議。結帳前請自行核實實體店標價。</p>
                 <p class="mb-2"><b>2. 數據中立性：</b>本程式不隸屬任何超市，絕不人工干預價格數據，排名純依數學差異客觀排列。</p>
                 <p><b>3. 責任限制：</b>本程式以「現況」提供。對於因數據落差引致之任何損失，本程式及開發團隊概不承擔法律責任。</p>
             `
@@ -757,13 +740,25 @@
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 数据运算机制大解密</h4>
                 <p class="mb-2">本榜单采用纯数学公式进行客观对比，绝无人工干预：</p>
                 <ul class="list-disc pl-5 space-y-1 mb-3">
-                    <li><b>1. 锁定数据：</b>每日同步政府「网上价格一览通」数据。</li>
-                    <li><b>2. 还原折实价：</b>AI 引擎自动拆解「买X件$Y」等捆绑促销，计算单件真实折合价。</li>
-                    <li><b>3. 确立基准线：</b>将同款商品在全港超市的折实价加总求平均，得出最公允的「全城市场平均价」，拒绝超市自称的虚高原价。</li>
+                    <li><b>1. 锁定数据：</b>每日同步政府「网上价格一览通」最新数据，防堵缺货商品历史残影。</li>
+                    <li><b>2. 还原折实价：</b>AI 引擎自动拆解「买X件$Y」等捆绑促销，精算单件真实折合价。</li>
+                    <li><b>3. 确立基准线：</b>将同款商品在全港超市的有效折实价加总求平均，得出最公允的「全城市场平均价」，拒绝超市自称的虚高原价。</li>
                     <li><b>4. 计算真减幅：</b>公式为 <code>((市场平均价 - 该超市折实价) / 市场平均价) x 100%</code>。只有减幅 > 0% 的商品才会上榜。</li>
                 </ul>
+
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 历史状态判定基准</h4>
+                <p class="mb-2 text-[12px]">系统每日将即时价格与 <b>2025年12月31日以来</b> 的最新历史纪录进行比对，标签定义如下：</p>
+                <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>低于</b> 上次纪录之折实价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 换新优惠</span> <span class="text-slate-600 dark:text-slate-400">折实价不变，但超市更换了促销手段 (如送赠品或改变件数)。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ 假促销</span> <span class="text-slate-600 dark:text-slate-400">超市挂上促销标签，但计算后发现单件折实价 <b>大于或等于</b> 先前的常规价，毫无实质优惠。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 价格暗升</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>高于</b> 上次纪录之折实价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 价格维持</span> <span class="text-slate-600 dark:text-slate-400">价格与促销活动与上次纪录完全相同。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以来，系统首次记录到该商品于此超市之报价。</span></div>
+                </div>
+
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免责声明</h4>
-                <p class="mb-2"><b>1. 资讯仅供参考：</b>所有价格均由电脑基于公开数据自动运算得出。数据可能因同步延迟或分店差异而有别，绝不构成购买建议。结帐前请自行核实实体店标价。</p>
+                <p class="mb-2"><b>1. 资讯仅供参考：</b>所有价格均由电脑基于公开数据自动运算得出。数据可能因分店差异而有别，绝不构成购买建议。结帐前请自行核实实体店标价。</p>
                 <p class="mb-2"><b>2. 数据中立性：</b>本程式不隶属任何超市，绝不人工干预价格数据，排名纯依数学差异客观排列。</p>
                 <p><b>3. 责任限制：</b>本程式以「现况」提供。对于因数据落差引致之任何损失，本程式及开发团队概不承担法律责任。</p>
             `
@@ -775,13 +770,25 @@
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 How is it calculated?</h4>
                 <p class="mb-2">Our board uses pure math for objective comparisons, with no manual intervention:</p>
                 <ul class="list-disc pl-5 space-y-1 mb-3">
-                    <li><b>1. Official Data:</b> Synced daily with the government's "Online Price Watch".</li>
+                    <li><b>1. Official Data:</b> Synced daily with the government's latest data to avoid "ghost prices" of out-of-stock items.</li>
                     <li><b>2. True Effective Price:</b> Our AI breaks down promos (e.g., "Buy 2 for $Y") to calculate the true price per item.</li>
                     <li><b>3. Market Benchmark:</b> We average the effective prices across all supermarkets to find the fair "Market Average Price", ignoring inflated "original prices".</li>
                     <li><b>4. True Discount:</b> Formula: <code>((Average - Effective Price) / Average) x 100%</code>. Only products with > 0% savings are listed.</li>
                 </ul>
+
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 History Status Definitions</h4>
+                <p class="mb-2 text-[12px]">The system compares today's live price with the <b>latest historical record since Dec 31, 2025</b>. Definitions:</p>
+                <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>lower</b> than the last recorded price.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ Promo Changed</span> <span class="text-slate-600 dark:text-slate-400">Price remains the same, but the supermarket changed the promotion terms.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ Fake Promo</span> <span class="text-slate-600 dark:text-slate-400">A promo tag is displayed, but the calculated effective price is <b>greater than or equal to</b> the regular price. No real savings.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 Hidden Increase</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>higher</b> than the last recorded price.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ Maintained</span> <span class="text-slate-600 dark:text-slate-400">Price and promotions are identical to the last record.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since late 2025.</span></div>
+                </div>
+
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ Legal Disclaimer</h4>
-                <p class="mb-2"><b>1. For Reference Only:</b> Prices are auto-calculated from public data. Discrepancies may occur due to delays or branch variations. Always verify at the physical store before purchasing.</p>
+                <p class="mb-2"><b>1. For Reference Only:</b> Prices are auto-calculated from public data. Discrepancies may occur due to branch variations. Always verify at the physical store before purchasing.</p>
                 <p class="mb-2"><b>2. Neutrality:</b> We are not affiliated with any supermarkets. Rankings are strictly based on math.</p>
                 <p><b>3. Liability:</b> Provided "AS IS". The developers accept no liability for any losses caused by data discrepancies.</p>
             `
