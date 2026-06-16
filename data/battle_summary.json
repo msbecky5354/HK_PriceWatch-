@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-15T11:55:54.997Z",
-  "report_date": "2026-06-15",
+  "generated_at": "2026-06-16T11:00:56.767Z",
+  "report_date": "2026-06-16",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "420",
-      "avg_discount_pct": "6.55",
+      "total_drop_items": "421",
+      "avg_discount_pct": "6.51",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -37,24 +37,24 @@
     },
     {
       "supermarket_code": "PARKNSHOP",
-      "total_drop_items": "397",
-      "avg_discount_pct": "9.47",
+      "total_drop_items": "393",
+      "avg_discount_pct": "9.54",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "87",
+      "cat_drop_count": "86",
       "top_3_deals": [
-        {
-          "name_zh": "日常修護洗髮乳 680毫升",
-          "name_zh_hans": "日常修护洗发乳 680毫升",
-          "name_en": "Daily Shine Shampoo 680mL",
-          "price": 15,
-          "pct": 47.37
-        },
         {
           "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
           "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
           "name_en": "Hair Fall Rescue Shampoo 680mL",
+          "price": 15,
+          "pct": 47.37
+        },
+        {
+          "name_zh": "日常修護洗髮乳 680毫升",
+          "name_zh_hans": "日常修护洗发乳 680毫升",
+          "name_en": "Daily Shine Shampoo 680mL",
           "price": 15,
           "pct": 47.37
         },
@@ -69,8 +69,8 @@
     },
     {
       "supermarket_code": "JASONS",
-      "total_drop_items": "285",
-      "avg_discount_pct": "6.79",
+      "total_drop_items": "289",
+      "avg_discount_pct": "6.68",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -101,8 +101,8 @@
     },
     {
       "supermarket_code": "AEON",
-      "total_drop_items": "101",
-      "avg_discount_pct": "11.79",
+      "total_drop_items": "99",
+      "avg_discount_pct": "11.97",
       "top_category_zh": "飲品",
       "top_category_zh_hans": "饮品",
       "top_category_en": "Drinks",
@@ -134,11 +134,11 @@
     {
       "supermarket_code": "WATSONS",
       "total_drop_items": "96",
-      "avg_discount_pct": "8.50",
+      "avg_discount_pct": "8.46",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "72",
+      "cat_drop_count": "74",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -155,9 +155,9 @@
           "pct": 39.18
         },
         {
-          "name_zh": "無痕奢柔褲 (XL碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
-          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
+          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
+          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
           "price": 19.95,
           "pct": 31.96
         }
@@ -165,12 +165,12 @@
     },
     {
       "supermarket_code": "MANNINGS",
-      "total_drop_items": "83",
-      "avg_discount_pct": "7.65",
+      "total_drop_items": "79",
+      "avg_discount_pct": "7.78",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "67",
+      "cat_drop_count": "65",
       "top_3_deals": [
         {
           "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
@@ -198,7 +198,7 @@
     {
       "supermarket_code": "SASA",
       "total_drop_items": "6",
-      "avg_discount_pct": "19.78",
+      "avg_discount_pct": "18.75",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
@@ -223,7 +223,7 @@
           "name_zh_hans": "Hydro Boost 水活保湿凝露 50克",
           "name_en": "Hydro Boost Water Gel 50g",
           "price": 88,
-          "pct": 23.01
+          "pct": 16.82
         }
       ]
     },
