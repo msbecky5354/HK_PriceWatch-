@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-16T11:00:56.767Z",
-  "report_date": "2026-06-16",
+  "generated_at": "2026-06-17T11:00:59.253Z",
+  "report_date": "2026-06-17",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "421",
-      "avg_discount_pct": "6.51",
+      "total_drop_items": "414",
+      "avg_discount_pct": "6.45",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "91",
+      "cat_drop_count": "92",
       "top_3_deals": [
         {
           "name_zh": "粟米筒 (淡鹽味) 68克",
@@ -37,20 +37,13 @@
     },
     {
       "supermarket_code": "PARKNSHOP",
-      "total_drop_items": "393",
-      "avg_discount_pct": "9.54",
+      "total_drop_items": "391",
+      "avg_discount_pct": "9.45",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "86",
+      "cat_drop_count": "85",
       "top_3_deals": [
-        {
-          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
-          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
-          "name_en": "Hair Fall Rescue Shampoo 680mL",
-          "price": 15,
-          "pct": 47.37
-        },
         {
           "name_zh": "日常修護洗髮乳 680毫升",
           "name_zh_hans": "日常修护洗发乳 680毫升",
@@ -59,22 +52,29 @@
           "pct": 47.37
         },
         {
-          "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
-          "name_zh_hans": "抑菌清新丝薄 (特长日用) 卫生巾 25厘米 18片",
-          "name_en": "Anti-bacteria Ultra Slim (Day Use) (Wing) Pad 25cm 18pcs",
-          "price": 17.95,
-          "pct": 33.33
+          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
+          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
+          "name_en": "Hair Fall Rescue Shampoo 680mL",
+          "price": 15,
+          "pct": 47.37
+        },
+        {
+          "name_zh": "蒸餾水 430毫升",
+          "name_zh_hans": "蒸馏水 430毫升",
+          "name_en": "Pure Distilled Water 430mL",
+          "price": 3.33,
+          "pct": 32.67
         }
       ]
     },
     {
       "supermarket_code": "JASONS",
-      "total_drop_items": "289",
-      "avg_discount_pct": "6.68",
+      "total_drop_items": "282",
+      "avg_discount_pct": "6.63",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "61",
+      "cat_drop_count": "62",
       "top_3_deals": [
         {
           "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
@@ -91,9 +91,9 @@
           "pct": 23.95
         },
         {
-          "name_zh": "螺絲粉 (n.98) 500克",
-          "name_zh_hans": "螺丝粉 (n.98) 500克",
-          "name_en": "Fusilli (n.98) 500g",
+          "name_zh": "直通粉 (n.73) 500克",
+          "name_zh_hans": "直通粉 (n.73) 500克",
+          "name_en": "Penne Rigate (n.73) 500g",
           "price": 13,
           "pct": 23.08
         }
@@ -101,11 +101,11 @@
     },
     {
       "supermarket_code": "AEON",
-      "total_drop_items": "99",
-      "avg_discount_pct": "11.97",
-      "top_category_zh": "飲品",
-      "top_category_zh_hans": "饮品",
-      "top_category_en": "Drinks",
+      "total_drop_items": "104",
+      "avg_discount_pct": "11.63",
+      "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
+      "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
+      "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_drop_count": "18",
       "top_3_deals": [
         {
@@ -133,12 +133,12 @@
     },
     {
       "supermarket_code": "WATSONS",
-      "total_drop_items": "96",
-      "avg_discount_pct": "8.46",
+      "total_drop_items": "97",
+      "avg_discount_pct": "8.35",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "74",
+      "cat_drop_count": "73",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -155,9 +155,9 @@
           "pct": 39.18
         },
         {
-          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
-          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
+          "name_zh": "無痕奢柔褲 (XL碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
+          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 31.96
         }
@@ -165,20 +165,13 @@
     },
     {
       "supermarket_code": "MANNINGS",
-      "total_drop_items": "79",
-      "avg_discount_pct": "7.78",
+      "total_drop_items": "82",
+      "avg_discount_pct": "7.43",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
       "cat_drop_count": "65",
       "top_3_deals": [
-        {
-          "name_zh": "抑菌清新絲薄 (特長日用) 衛生巾 25厘米 18片",
-          "name_zh_hans": "抑菌清新丝薄 (特长日用) 卫生巾 25厘米 18片",
-          "name_en": "Anti-bacteria Ultra Slim (Day Use) (Wing) Pad 25cm 18pcs",
-          "price": 17.95,
-          "pct": 33.33
-        },
         {
           "name_zh": "無痕奢柔褲 (M-L碼) 3片",
           "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
@@ -192,6 +185,13 @@
           "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 31.96
+        },
+        {
+          "name_zh": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
+          "name_zh_hans": "抑菌清新丝薄 (夜用) 卫生巾 30厘米 14片",
+          "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 30cm 14pcs",
+          "price": 15.95,
+          "pct": 25
         }
       ]
     },
@@ -229,12 +229,12 @@
     },
     {
       "supermarket_code": "LUNGFUNG",
-      "total_drop_items": "5",
-      "avg_discount_pct": "17.48",
+      "total_drop_items": "4",
+      "avg_discount_pct": "19.21",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "4",
+      "cat_drop_count": "3",
       "top_3_deals": [
         {
           "name_zh": "兒童益生菌咀嚼片 30粒",
