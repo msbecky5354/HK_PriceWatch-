@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T21:12:25.498Z",
+  "generated_at": "2026-06-17T22:55:24.802Z",
   "report_date": "2026-06-17",
   "data": [
     {
@@ -7,7 +7,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "23.0"
+      "avg_drop_pct": "23.9"
     },
     {
       "smCode": "AEON",
@@ -21,7 +21,7 @@
       "cat_zh": "家居用品 / 寵物食品及用品",
       "cat_en": "Household / Pet food and care",
       "cat_hans": "家居用品 / 宠物食品及用品",
-      "avg_drop_pct": "6.9"
+      "avg_drop_pct": "5.6"
     },
     {
       "smCode": "AEON",
@@ -43,13 +43,6 @@
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
       "avg_drop_pct": "12.5"
-    },
-    {
-      "smCode": "AEON",
-      "cat_zh": "酒類",
-      "cat_en": "Beer / Wines / Spirits",
-      "cat_hans": "酒类",
-      "avg_drop_pct": "7.8"
     },
     {
       "smCode": "AEON",
@@ -84,14 +77,14 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "4.7"
+      "avg_drop_pct": "5.9"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "3.4"
+      "avg_drop_pct": "3.3"
     },
     {
       "smCode": "JASONS",
@@ -133,7 +126,7 @@
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "5.1"
+      "avg_drop_pct": "5.4"
     },
     {
       "smCode": "JASONS",
@@ -168,14 +161,14 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "8.8"
+      "avg_drop_pct": "9.4"
     },
     {
       "smCode": "MANNINGS",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "6.6"
+      "avg_drop_pct": "6.7"
     },
     {
       "smCode": "MANNINGS",
@@ -189,7 +182,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "9.2"
+      "avg_drop_pct": "9.5"
     },
     {
       "smCode": "PARKNSHOP",
@@ -238,7 +231,7 @@
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "9.7"
+      "avg_drop_pct": "8.9"
     },
     {
       "smCode": "PARKNSHOP",
@@ -259,14 +252,14 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "19.1"
+      "avg_drop_pct": "20.1"
     },
     {
       "smCode": "WATSONS",
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "10.9"
+      "avg_drop_pct": "10.2"
     },
     {
       "smCode": "WATSONS",
@@ -301,14 +294,14 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "5.2"
+      "avg_drop_pct": "5.9"
     },
     {
       "smCode": "WELLCOME",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "4.1"
+      "avg_drop_pct": "4.2"
     },
     {
       "smCode": "WELLCOME",
@@ -350,7 +343,7 @@
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "6.1"
+      "avg_drop_pct": "6.3"
     },
     {
       "smCode": "WELLCOME",
