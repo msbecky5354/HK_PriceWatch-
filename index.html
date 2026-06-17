@@ -80,74 +80,89 @@
         @keyframes star-blink { 0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 3px #fde047); } 50% { opacity: 0.5; transform: scale(1.3) rotate(15deg); filter: drop-shadow(0 0 8px #eab308); } }
         .star-blink { animation: star-blink 1.5s infinite ease-in-out; display: inline-block; }
 
-        @keyframes stamp-appear { 0% { transform: scale(2) rotate(-15deg); opacity: 0; } 100% { transform: scale(1) rotate(-15deg); opacity: 1; } }
-        .fake-stamp { display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; border: 3px solid #ef4444; border-radius: 50%; color: #ef4444; font-weight: 900; font-size: 10px; text-align: center; line-height: 1.1; animation: stamp-appear 0.3s ease-out; background: rgba(254, 226, 226, 0.5); }
+        @keyframes stamp-appear { 0% { transform: scale(1.5) rotate(-5deg); opacity: 0; } 100% { transform: scale(1) rotate(-5deg); opacity: 1; } }
+        .fake-stamp { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 2px solid #ef4444; border-radius: 4px; color: #ef4444; font-weight: 800; font-size: 10px; text-align: center; line-height: 1.1; animation: stamp-appear 0.3s ease-out; background: rgba(254, 226, 226, 0.3); }
     </style>
 </head>
 
-<body class="bg-slate-50 h-[100dvh] flex flex-col font-sans text-slate-900 overflow-hidden w-full text-[15px] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+<body class="bg-[#E8F0F8] h-[100dvh] flex flex-col font-sans text-slate-800 overflow-hidden w-full text-[15px] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
 
   <script src="header.js?v=2"></script>
 
-<main class="flex-1 overflow-hidden w-full max-w-2xl mx-auto relative flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
-    <section id="level1Section" class="absolute inset-0 flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-y-auto no-scrollbar">
-        <div class="flex flex-col flex-1 p-5 max-w-2xl mx-auto w-full min-h-full">
+<main class="flex-1 overflow-hidden w-full max-w-2xl mx-auto relative flex flex-col bg-[#E8F0F8] dark:bg-slate-900 transition-colors duration-300">
+    <section id="level1Section" class="absolute inset-0 flex flex-col bg-[#E8F0F8] dark:bg-slate-900 transition-colors duration-300 overflow-y-auto no-scrollbar">
+        <div class="flex flex-col flex-1 p-4 sm:p-5 max-w-2xl mx-auto w-full min-h-full">
 
-            <div class="flex flex-col items-center justify-center mt-6 mb-8">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center text-3xl shadow-[0_4px_15px_-3px_rgba(59,130,246,0.2)] dark:shadow-none border border-blue-200 dark:border-slate-600 mb-4 transform hover:scale-105 transition-transform">🤖</div>
-                <h2 id="homeTitle" class="text-[18px] sm:text-[20px] font-black text-slate-800 dark:text-slate-100 mb-6 tracking-tight transition-colors">想搵咩平嘢？直接話我知</h2>
+            <div class="flex flex-col items-center justify-center mt-4 mb-6">
+                <div class="w-14 h-14 rounded-2xl bg-[#345B8C] dark:bg-[#2A4B75] flex items-center justify-center text-white shadow-md mb-4 transform hover:scale-105 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                </div>
+                <h2 id="homeTitle" class="text-[18px] sm:text-[20px] font-bold text-slate-800 dark:text-slate-100 mb-5 tracking-tight transition-colors">物價情報分析中樞</h2>
                 
             <input type="file" id="ocrFileInput" accept="image/*" class="hidden" onchange="handleOcrUpload(event); closeCameraMenu();">
                 
-<form onsubmit="event.preventDefault(); triggerGlobalSearch();" class="w-full relative shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.5)] rounded-[2rem]">
-    <input type="text" id="globalSearchInput" placeholder="例如: 可口可樂、出前一丁..." class="w-full pl-6 pr-[110px] py-4 sm:py-4.5 bg-white dark:bg-slate-800 border-2 border-transparent focus:border-blue-500 dark:focus:border-blue-400 rounded-[2rem] outline-none transition-all text-[15px] sm:text-[16px] font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500">
+<form onsubmit="event.preventDefault(); triggerGlobalSearch();" class="w-full relative shadow-sm dark:shadow-none rounded-[2rem] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+    <input type="text" id="globalSearchInput" placeholder="輸入資料源關鍵字 (例: 可口可樂)..." class="w-full pl-6 pr-[110px] py-4 sm:py-4.5 bg-transparent border-none rounded-[2rem] outline-none transition-all text-[15px] sm:text-[16px] font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-[#345B8C]/30 dark:focus:ring-[#345B8C]">
     
-    <button type="button" onclick="openCameraMenu()" class="absolute right-[65px] top-1/2 -translate-y-1/2 p-2.5 text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-90 transition-all rounded-full" title="AI 視覺辨識設定">
+    <button type="button" onclick="openCameraMenu()" class="absolute right-[65px] top-1/2 -translate-y-1/2 p-2.5 text-slate-400 dark:text-slate-500 hover:text-[#345B8C] dark:hover:text-[#608BC1] hover:bg-[#F8F8F8] dark:hover:bg-slate-700 active:scale-90 transition-all rounded-full" title="AI 視覺辨識設定">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
     </button>
 
-    <button type="submit" class="absolute right-2 top-2 bottom-2 w-[52px] bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center shadow-sm active:scale-95 transition-transform hover:bg-blue-700 dark:hover:bg-blue-600">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    <button type="submit" class="absolute right-2 top-2 bottom-2 w-[52px] bg-[#345B8C] text-white rounded-full flex items-center justify-center shadow-sm active:scale-95 transition-opacity hover:opacity-90">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
     </button>
 </form>
             </div>
 
             <div class="w-full mb-auto pb-4">
                 <div class="flex items-center justify-between mb-3 px-1">
-                    <span id="quickTitle" class="text-[12px] font-black text-slate-400 dark:text-slate-500 tracking-wider uppercase transition-colors">✨ 快捷尋寶</span>
+                    <span id="quickTitle" class="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wide transition-colors flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                        情報捷徑
+                    </span>
                 </div>
                 <div id="quickBtnGroup" class="grid grid-cols-2 gap-2.5 pb-2"></div>
             </div>
 
             <div id="cameraMenuModal" class="fixed inset-0 bg-slate-900/60 z-[200] hidden flex-col justify-end sm:justify-center items-center p-4 backdrop-blur-sm transition-opacity">
-                <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-transform pb-safe">
-                    <div class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-700">
-                        <h3 id="cameraModalTitle" class="font-bold text-lg text-slate-800 dark:text-white">📸 AI 視覺辨識</h3>
-                        <button onclick="closeCameraMenu()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-2xl font-bold leading-none">&times;</button>
+                <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden transform transition-transform pb-safe border border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between items-center p-5 border-b border-[#E8F0F8] dark:border-slate-700 bg-[#F8F8F8] dark:bg-slate-900/50">
+                        <h3 id="cameraModalTitle" class="font-black text-[16px] text-[#345B8C] dark:text-slate-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+                            AI 視覺辨識
+                        </h3>
+                        <button onclick="closeCameraMenu()" class="text-slate-400 hover:text-[#345B8C] dark:hover:text-slate-300 text-2xl font-bold leading-none">&times;</button>
                     </div>
-                    <div class="p-4 space-y-4">
-                        <button id="cameraBtnText" onclick="document.getElementById('ocrFileInput').click()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg shadow-md">
-                            📷 拍照 或 選擇圖片
+                    <div class="p-5 space-y-4">
+                        <button id="cameraBtnText" onclick="document.getElementById('ocrFileInput').click()" class="w-full py-4 bg-[#345B8C] text-white font-bold rounded-2xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-[15px] shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            拍照 或 選擇圖片
                         </button>
-                        <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+                        <div class="bg-[#F8F8F8] dark:bg-slate-900/50 border border-[#E8F0F8] dark:border-slate-700 rounded-2xl p-5">
                             <div class="flex items-center gap-2 mb-3">
-                                <span id="geminiTitleText" class="text-sm font-bold text-amber-600 dark:text-amber-500">⚙️ 連接 Gemini 專業大腦</span>
+                                <span id="geminiTitleText" class="text-[14px] font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                    連接 Gemini 專業大腦
+                                </span>
                             </div>
-                            <div class="text-[12px] text-slate-500 mb-4 leading-relaxed space-y-2">
+                            <div class="text-[12px] text-slate-500 dark:text-slate-400 mb-4 leading-relaxed space-y-2">
                                 <p class="flex items-start gap-1">
                                     <span class="shrink-0">🛡️</span>
                                     <span id="geminiDescText">預設使用離線基礎辨識。輸入 Google Gemini API Key 可大幅提升辨識準確率。(僅安全儲存於本機)</span>
                                 </p>
-                                <div class="mt-2 p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
-                                    <a id="geminiGuideText" href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-bold inline-block py-1">👉 按此前往 Google 免費領取 API Key</a>
+                                <div class="mt-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-[#E8F0F8] dark:border-slate-700 text-center">
+                                    <a id="geminiGuideText" href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[#345B8C] dark:text-[#608BC1] hover:underline font-bold inline-flex items-center gap-1 py-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                        取得 Google 免費 API Key
+                                    </a>
                                 </div>
                             </div>
                             <div class="flex gap-2">
-                                <input type="password" id="geminiKeyInput" placeholder="API Key (AIzaSy...)" class="flex-1 px-3 py-2 text-sm border rounded-lg bg-white dark:bg-slate-800 dark:border-slate-600 outline-none focus:border-amber-400">
-                                <button id="saveKeyBtn" class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-lg transition-colors">儲存</button>
-                                <button id="clearKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-bold rounded-lg dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 transition-colors">清除</button>
+                                <input type="password" id="geminiKeyInput" placeholder="API Key (AIzaSy...)" class="flex-1 px-3 py-2 text-[13px] border rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 outline-none focus:border-[#345B8C]">
+                                <button id="saveKeyBtn" class="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white text-[13px] font-bold rounded-xl transition-colors dark:bg-slate-600 dark:hover:bg-slate-500">儲存</button>
+                                <button id="clearKeyBtn" class="px-4 py-2 bg-white border border-slate-200 hover:bg-[#F8F8F8] text-slate-600 text-[13px] font-bold rounded-xl dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">清除</button>
                             </div>
-                            <p id="keyStatus" class="text-xs font-bold mt-2 text-slate-500">🐢 目前使用基礎離線引擎</p>
+                            <p id="keyStatus" class="text-[12px] font-bold mt-3 text-slate-500">🐢 目前使用基礎離線引擎</p>
                         </div>
                     </div>
                 </div>
@@ -156,68 +171,35 @@
             <div class="w-full mt-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex-none transition-colors duration-300">
                 <button onclick="toggleCategories()" class="w-full px-5 py-4.5 flex items-center justify-between bg-white dark:bg-slate-800 active:bg-slate-50 dark:active:bg-slate-700 transition outline-none">
                     <span id="catTitle" class="font-bold text-slate-700 dark:text-slate-200 text-[14px] sm:text-[15px] flex items-center gap-2.5 transition-colors">
-                        <span class="text-lg">🛒</span> 或者按主分類慢慢行
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#345B8C] dark:text-[#608BC1]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        分類目錄瀏覽
                     </span>
-                    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors">
-                        <svg id="catToggleIcon" class="transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <div class="w-8 h-8 rounded-full bg-[#F8F8F8] dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" id="catToggleIcon" class="transition-transform duration-300 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
                 </button>
                 
-                <div id="collapsibleCatContainer" class="hidden px-4 pb-5 pt-1 border-t border-slate-100 dark:border-slate-700 bg-slate-50/30 dark:bg-slate-800/50 transition-colors">
+                <div id="collapsibleCatContainer" class="hidden px-4 pb-5 pt-1 border-t border-slate-100 dark:border-slate-700 bg-[#F8F8F8] dark:bg-slate-900/30 transition-colors">
                     <div id="level1Container" class="grid grid-cols-2 gap-3 mt-3">
                         <div id="loadingText" class="text-center p-4 text-slate-400 dark:text-slate-500 text-sm col-span-2 transition-colors">正在同步最新行情...</div>
                     </div>
                 </div>
             </div>
-
-            <div class="text-center pt-8 pb-4 flex-none w-full"> 
-                <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
-                        class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
-                    關於我們、條款及免責聲明
-                </button>
-                
-                <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 mb-8 tracking-wide flex items-center justify-center transition-colors">
-                    <span id="miniFooterCopy">© 2026 慳真D</span> 
-                    <span class="mx-1.5">|</span> 
-                    <span id="footerDevTeam">開發團隊: </span>
-                    <a id="footerDevName" 
-                       href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" 
-                       target="_blank" 
-                       class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">
-                        懶人工具駅
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
-            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh] border dark:border-slate-700 transition-colors duration-300">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="text-[20px]">🛡️</span>
-                    <h2 id="disclaimerTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">免責聲明及服務條款</h2>
-                </div>        
-                <div id="disclaimerBody" class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors">
-                    <p><strong class="text-slate-800 dark:text-slate-200 text-[14px]">1. 數據來源及知識產權：</strong><br>本程式之價格及優惠數據均源自「資料一線通」(Data.gov.hk) 的「網上價格一覽通」數據集。所有相關知識產權均歸<strong>消費者委員會</strong>及各相關商戶所有。</p>
-                    <p><strong class="text-slate-800 dark:text-slate-200 text-[14px]">2. 數據覆蓋範圍：</strong><br>數據集主要涵蓋消費者委員會挑選的數千款熱門日常必需品，並不包括超市所有庫存（例如獨家或冷門貨品）。</p>
-                    <p><strong class="text-slate-800 dark:text-slate-200 text-[14px]">3. 自動化運算：</strong><br>顯示的折合平均價格由<strong>系統自動運算得出</strong>。所有資訊均基於政府最新發佈的實時數據及實體店最終價格標籤為準。資料僅供參考，建議用戶購買前自行核實價格。</p>
-                    <p><strong class="text-slate-800 dark:text-slate-200 text-[14px]">4. 責任限制：</strong><br>本程式按「現狀」(AS IS) 提供，用戶需自行承擔使用風險。本程式及其開發者對任何因使用或依賴本程式資訊而導致的損失或損害，概不承擔任何法律責任。</p>
-                </div>
-                <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">
-                    我明白及接受
-                </button>
-            </div>
+            
+            <script src="footer.js?v=2"></script>
         </div>
     </section>
 
-    <section id="chatSection" class="hidden absolute inset-0 flex flex-col bg-slate-50 dark:bg-slate-900 z-20 transition-colors duration-300">
+    <section id="chatSection" class="hidden absolute inset-0 flex flex-col bg-[#E8F0F8] dark:bg-slate-900 z-20 transition-colors duration-300">
         <div class="bg-white dark:bg-slate-800 border-b dark:border-slate-700 px-4 py-3 flex items-center shadow-sm dark:shadow-none flex-none z-10 transition-colors">
-            <button onclick="showLevel1()" class="text-blue-600 dark:text-blue-400 font-medium flex items-center bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-xl mr-3 active:scale-95 transition">
-                ← <span id="backBtnText" class="ml-1">返回</span>
+            <button onclick="showLevel1()" class="text-[#345B8C] dark:text-[#608BC1] font-bold flex items-center px-2 py-1.5 rounded-lg mr-2 hover:bg-[#F8F8F8] dark:hover:bg-slate-700 active:scale-95 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span id="backBtnText" class="ml-1 text-[14px]">返回</span>
             </button>
             <h2 id="chatTitle" class="font-bold text-slate-800 dark:text-slate-100 truncate text-[15px] flex items-center transition-colors"></h2>
         </div>
         
-        <div id="chatMessages" class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-5">
+        <div id="chatMessages" class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-5 relative">
             <div id="results-top"></div> 
         </div>
         
@@ -225,8 +207,8 @@
             <div id="quickActionChips" class="flex gap-2 overflow-x-auto no-scrollbar max-w-2xl mx-auto w-full px-1"></div>
 
             <form id="chatForm" class="flex gap-2 max-w-2xl mx-auto w-full" onsubmit="event.preventDefault(); submitChat();">
-                <input type="text" id="chatInput" class="flex-1 px-4 py-3.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 outline-none transition-all text-[15px] text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500" autocomplete="off">
-                <button type="submit" class="bg-blue-600 dark:bg-blue-500 text-white px-5 rounded-2xl font-bold shadow-sm active:scale-95 transition flex items-center justify-center shrink-0">
+                <input type="text" id="chatInput" class="flex-1 px-4 py-3.5 bg-[#F8F8F8] dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-[#345B8C]/50 dark:focus:ring-blue-400 outline-none transition-all text-[15px] text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 shadow-sm" autocomplete="off">
+                <button type="submit" class="bg-[#345B8C] hover:opacity-90 dark:bg-blue-500 text-white px-5 rounded-2xl font-bold shadow-sm active:scale-95 transition flex items-center justify-center shrink-0">
                     <span id="sendBtnText">搜尋</span>
                 </button>
             </form>
@@ -236,42 +218,45 @@
     
     <div id="infoModal" class="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">        
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-md overflow-hidden transform scale-95 transition-transform duration-300 border dark:border-slate-700" id="modalBox">
-            <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
-                <h3 id="modalTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100">標題</h3>
-                <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            <div class="px-6 py-5 border-b border-[#E8F0F8] dark:border-slate-700 flex justify-between items-center bg-[#F8F8F8] dark:bg-slate-900/50">
+                <h3 id="modalTitle" class="text-[17px] font-black text-[#345B8C] dark:text-slate-100">標題</h3>
+                <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#E8F0F8] dark:bg-slate-700 text-[#345B8C] dark:text-slate-400 active:scale-90 transition">✕</button>
             </div>
             <div class="p-6">
                 <p id="modalContent" class="text-[14px] text-slate-600 dark:text-slate-300 leading-relaxed"></p>
             </div>
             <div class="px-6 pb-6 pt-2">
-                <button onclick="closeModal()" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition">關閉</button>
+                <button onclick="closeModal()" class="w-full bg-[#345B8C] hover:opacity-90 dark:bg-blue-500 text-white font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition">關閉</button>
             </div>
         </div>
     </div>
 
     <div id="shareAppModal" class="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700" id="shareAppBox">
-            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                <h3 id="shareAppTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100">分享 App</h3>
-                <button onclick="closeShareAppModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            <div class="px-5 py-4 border-b border-[#E8F0F8] dark:border-slate-700 flex justify-between items-center bg-[#F8F8F8] dark:bg-slate-900/50">
+                <h3 id="shareAppTitle" class="text-[16px] font-bold text-[#345B8C] dark:text-slate-100 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    分享情報
+                </h3>
+                <button onclick="closeShareAppModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#E8F0F8] dark:bg-slate-700 text-[#345B8C] dark:text-slate-400 active:scale-90 transition">✕</button>
             </div>
             <div class="p-5 flex flex-col items-center text-center">
                 <p id="shareAppDesc" class="text-[13px] text-slate-500 dark:text-slate-400 mb-4"></p>
-                <div class="p-2 bg-white border-2 border-slate-100 dark:border-slate-700 rounded-2xl shadow-sm mb-5">
+                <div class="p-2 bg-white border border-[#E8F0F8] dark:border-slate-700 rounded-2xl shadow-sm mb-5">
                     <img id="qrCodeImg" src="" alt="QR Code" class="w-40 h-40 object-contain rounded-xl">
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3 w-full">
-                    <button onclick="copyAppUrl()" class="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 active:bg-slate-100 dark:active:bg-slate-700 transition">
-                        <span class="text-lg">🔗</span>
+                    <button onclick="copyAppUrl()" class="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-[#F8F8F8] dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 active:bg-slate-100 dark:active:bg-slate-700 transition shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="text-slate-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
                         <span id="shareBtnCopy" class="text-[12px] font-bold text-slate-700 dark:text-slate-200">複製連結</span>
                     </button>
-                    <button onclick="shareToWhatsApp()" class="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 active:bg-green-100 dark:active:bg-green-900/50 transition">
-                        <span class="text-lg">💬</span>
-                        <span id="shareBtnWhatsApp" class="text-[12px] font-bold text-green-700 dark:text-green-400">WhatsApp</span>
+                    <button onclick="shareToWhatsApp()" class="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-[#E8F0F8] dark:bg-green-900/30 border border-[#345B8C]/10 dark:border-green-800 active:bg-green-100 dark:active:bg-green-900/50 transition shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="text-[#345B8C] dark:text-[#25D366]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        <span id="shareBtnWhatsApp" class="text-[12px] font-bold text-[#345B8C] dark:text-green-400">WhatsApp</span>
                     </button>
                 </div>
-                <button onclick="shareNative()" class="mt-3 w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-[13px] border border-blue-100 dark:border-blue-800 active:scale-95 transition">
+                <button onclick="shareNative()" class="mt-3 w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-[#F8F8F8] dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[13px] border border-slate-200 dark:border-slate-700 active:scale-95 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                     <span id="shareBtnMore">更多選項</span>
                 </button>
@@ -279,7 +264,7 @@
         </div>
     </div>
 
-    <div id="toastMsg" class="fixed top-14 left-1/2 transform -translate-x-1/2 bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-2 rounded-full shadow-lg text-[13px] font-bold z-[70] transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
+    <div id="toastMsg" class="fixed top-14 left-1/2 transform -translate-x-1/2 bg-[#345B8C] dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-2 rounded-lg shadow-md text-[13px] font-bold z-[70] transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
         ✅ 連結已複製！
     </div>
 
@@ -287,7 +272,94 @@
     <script src="ocrEngine.js"></script>
 
     <script>
-      // 🌟 修復 1：補回消失的分類選單 Toggle
+        // 🌟 修復 1：重新綁定 toggleHistoryBox，強制提升 z-index 防止被遮擋 🌟
+        window.toggleHistoryBox = function(boxId, iconId, event) {
+            if (event) event.stopPropagation(); // 阻止點擊事件冒泡
+            const box = document.getElementById(boxId);
+            const icon = document.getElementById(iconId);
+            
+            if (box) {
+                const isHidden = box.classList.contains('hidden');
+                
+                // 1. 先關閉全站其他已經展開的歷史選單
+                document.querySelectorAll('.history-dropdown').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.history-icon').forEach(el => el.classList.remove('rotate-180'));
+                document.querySelectorAll('.price-row').forEach(el => el.style.zIndex = '');
+                document.querySelectorAll('.product-card').forEach(el => el.style.zIndex = '');
+
+                // 2. 如果原本是隱藏的，現在就展開它，並強勢提升所有相關父層的 z-index
+                if (isHidden) {
+                    box.classList.remove('hidden');
+                    if (icon) icon.classList.add('rotate-180');
+                    
+                    const priceRow = box.closest('.price-row');
+                    if (priceRow) priceRow.style.zIndex = '50';
+                    const productCard = box.closest('.product-card');
+                    if (productCard) productCard.style.zIndex = '40';
+                }
+            }
+        };
+
+        // 🌟 修復 2：點擊畫面其他空白處時，自動關閉已展開的歷史選單 🌟
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.price-row')) {
+                document.querySelectorAll('.history-dropdown').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.history-icon').forEach(el => el.classList.remove('rotate-180'));
+                document.querySelectorAll('.price-row').forEach(el => el.style.zIndex = '');
+                document.querySelectorAll('.product-card').forEach(el => el.style.zIndex = '');
+            }
+        });
+
+        const catStyles = [
+            { keywords: ['奶粉', '嬰兒', 'baby'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>' },
+            { keywords: ['麵包', '面包', '糕', 'bakery'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>' },
+            { keywords: ['米', '油', '罐', 'rice', 'oil'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>' },
+            { keywords: ['奶', '蛋', 'dairy', 'egg'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="8 6 12 2 16 6"/></svg>' },
+            { keywords: ['粉', '麵', '面', '冷', 'noodle'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 17 22 12"/></svg>' },
+            { keywords: ['居', '寵', 'pet'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
+            { keywords: ['護理', '护理', 'personal'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
+            { keywords: ['糖', '餅', '饼', '食', 'snack'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
+            { keywords: ['飲', 'drink'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>' },
+            { keywords: ['酒', 'wine', 'beer'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>' }
+        ];
+
+        function formatDateTime(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            const h = String(date.getHours()).padStart(2, '0');
+            const min = String(date.getMinutes()).padStart(2, '0');
+            return `${y}-${m}-${d} ${h}:${min}`;
+        }
+
+        window.triggerHomeQuickAction = function(mode, label, kw = '') {
+            selectedCat1 = 'GLOBAL'; 
+            const chatSection = document.getElementById('chatSection');
+            const level1Section = document.getElementById('level1Section');
+            const chatTitle = document.getElementById('chatTitle');
+            const chatMessages = document.getElementById('chatMessages');
+
+            if (chatSection) chatSection.classList.remove('hidden'); 
+            if (level1Section) level1Section.classList.add('hidden');
+            
+            let titleStr = currentLang === 'en' ? 'Global Search' : (currentLang === 'zh-Hans' ? '全局搜索' : '全局搜尋');
+            if (chatTitle) {
+                chatTitle.innerHTML = `<span class="mr-1.5 text-[#345B8C] dark:text-[#608BC1]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span> ${titleStr}`;
+            }
+            if (chatMessages) chatMessages.innerHTML = '';
+            
+            isBigGapMode = (mode === 'bigGap');
+            isDiscountMode = (mode === 'discount');
+            currentKeyword = kw;
+            
+            addUserMessage(label);
+            
+            let startMsgText = currentLang === 'en' ? `Activating mode: ${label}...` : (currentLang === 'zh-Hans' ? `启动「${label}」模式，正在为您查找...` : `啟動「${label}」模式，正在為您查找...`);
+            addBotMessage(startMsgText);
+            
+            setTimeout(() => { executeProductSearch(); }, 300);
+        };
+
         window.toggleCategories = function() {
             const container = document.getElementById('collapsibleCatContainer');
             const icon = document.getElementById('catToggleIcon');
@@ -302,7 +374,6 @@
             }
         };
 
-        // 🌟 修復 2：補回消失的卡片中/英切換函數
         window.toggleCardLang = function(btn) {
             const nameSpan = btn.closest('.flex-1').querySelector('.product-name');
             const brandSpan = btn.closest('.flex-1').querySelector('.product-brand');
@@ -320,14 +391,6 @@
                 nameSpan.innerText = zhName;
                 brandSpan.innerText = zhBrand;
             }
-        };
-
-        // 🌟 修復 3：補回負責展開/收合歷史狀態面板的函數
-        window.toggleHistoryBox = function(boxId, iconId) {
-            const box = document.getElementById(boxId);
-            const icon = document.getElementById(iconId);
-            if (box) box.classList.toggle('hidden');
-            if (icon) icon.classList.toggle('rotate-180');
         };
 
         window.normalizeStr = window.normalizeStr || function(str) {
@@ -359,26 +422,10 @@
         let isDiscountMode = false;
         let lastUpdatedTime = null; 
 
-        const catStyles = [
-            { keywords: ['奶粉', '嬰兒', 'baby'], icon: '🍼', bg: 'from-pink-100 to-rose-100', text: 'text-rose-900', border: 'border-rose-200' },
-            { keywords: ['麵包', '面包', '糕', 'bakery'], icon: '🍞', bg: 'from-orange-100 to-amber-200', text: 'text-orange-900', border: 'border-orange-300' },
-            { keywords: ['米', '油', '罐', 'rice', 'oil'], icon: '🍚', bg: 'from-amber-100 to-orange-100', text: 'text-orange-900', border: 'border-orange-200' },
-            { keywords: ['奶', '蛋', 'dairy', 'egg'], icon: '🥚', bg: 'from-yellow-100 to-amber-100', text: 'text-amber-900', border: 'border-yellow-300' },
-            { keywords: ['粉', '麵', '面', '冷', 'noodle'], icon: '🍜', bg: 'from-sky-100 to-indigo-100', text: 'text-indigo-900', border: 'border-indigo-200' },
-            { keywords: ['居', '寵', 'pet'], icon: '🧻', bg: 'from-purple-100 to-fuchsia-100', text: 'text-fuchsia-900', border: 'border-fuchsia-200' },
-            { keywords: ['護理', '护理', 'personal'], icon: '🧴', bg: 'from-teal-100 to-emerald-100', text: 'text-teal-900', border: 'border-teal-200' },
-            { keywords: ['糖', '餅', '饼', '食', 'snack'], icon: '🍫', bg: 'from-rose-100 to-pink-200', text: 'text-rose-900', border: 'border-rose-300' },
-            { keywords: ['飲', 'drink'], icon: '🧃', bg: 'from-cyan-100 to-blue-100', text: 'text-blue-900', border: 'border-blue-200' },
-            { keywords: ['酒', 'wine', 'beer'], icon: '🍷', bg: 'from-fuchsia-100 to-purple-200', text: 'text-purple-900', border: 'border-purple-300' }
-        ];
-
-        function formatDateTime(date) {
-            const y = date.getFullYear();
-            const m = String(date.getMonth() + 1).padStart(2, '0');
-            const d = String(date.getDate()).padStart(2, '0');
-            const h = String(date.getHours()).padStart(2, '0');
-            const min = String(date.getMinutes()).padStart(2, '0');
-            return `${y}-${m}-${d} ${h}:${min}`;
+        function getCatStyle(catName) {
+            const lowerName = catName.toLowerCase();
+            for (let style of catStyles) { if (style.keywords.some(kw => lowerName.includes(kw.toLowerCase()))) return style; }
+            return { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>` };
         }
 
         let snapshotData = [];
@@ -387,13 +434,13 @@
             try {
                 let commitSha = '';
                 try {
-                    const apiRes = await fetch('https://api.github.com/repos/msbecky5354/HK_PriceWatch-/commits/main');
+                    const apiRes = await fetch('https://api.github.com/repos/msbecky5354/HK_PriceWatch-/commits/main', { cache: 'no-store' });
                     if (apiRes.ok) {
                         const commitData = await apiRes.json();
                         commitSha = commitData.sha; 
                     }
                 } catch (e) {
-                    console.warn("GitHub API 限制，將啟用保險方案");
+                    console.warn("GitHub API 限制或連線錯誤，將啟用保險方案", e);
                 }
 
                 let dataUrl, logUrl, snapshotUrl;
@@ -402,58 +449,70 @@
                     logUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/update_log.txt";
                     snapshotUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/snapshot.json";
                 } else {
-                    dataUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json";
-                    logUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt";
-                    snapshotUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json";
+                    const cb = new Date().getTime();
+                    dataUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json?v=${cb}`;
+                    logUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt?v=${cb}`;
+                    snapshotUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json?v=${cb}`;
                 }
 
-                const [timeRes, dataRes, snapRes] = await Promise.all([
-                    fetch(logUrl),
-                    fetch(dataUrl),
-                    fetch(snapshotUrl).catch(e => null) 
-                ]);
+                try {
+                    const timeRes = await fetch(logUrl);
+                    if (timeRes.ok) {
+                        const timeText = await timeRes.text();
+                        lastUpdatedTime = new Date(timeText.trim());
+                    }
+                } catch(e) { console.warn("時間紀錄載入失敗", e); }
 
-                if (timeRes.ok) {
-                    const timeText = await timeRes.text();
-                    lastUpdatedTime = new Date(timeText.trim());
-                }
-
-                if (snapRes && snapRes.ok) {
-                    try {
+                try {
+                    const snapRes = await fetch(snapshotUrl);
+                    if (snapRes.ok) {
                         const snapJson = await snapRes.json();
                         snapshotData = Array.isArray(snapJson) ? snapJson : (snapJson.results || []);
-                    } catch(e) { console.error("解析 Snapshot 失敗", e); }
-                }
-
-                if (dataRes.ok) {
-                    rawApiData = await dataRes.json();
-                }
-
-                changeLanguage(currentLang);
-                let langSel = document.getElementById('langSelector');
-                if (langSel) langSel.value = currentLang;
-                
-                const urlParams = new URLSearchParams(window.location.search);
-                const sharedQuery = urlParams.get('q');
-                
-                if (sharedQuery) {
-                    const input = document.getElementById('globalSearchInput');
-                    if (input) {
-                        input.value = sharedQuery;
-                        
-                        const checkInterval = setInterval(() => {
-                            if (typeof rawApiData !== 'undefined' && rawApiData.length > 0 && typeof triggerGlobalSearch === 'function') {
-                                clearInterval(checkInterval);
-                                triggerGlobalSearch();
-                            }
-                        }, 200); 
                     }
-                }
-                
-                if (typeof updateAlertBadge === 'function') updateAlertBadge();
+                } catch(e) { console.warn("Snapshot 載入失敗", e); }
+
+                try {
+                    const dataRes = await fetch(dataUrl);
+                    if (dataRes.ok) {
+                        rawApiData = await dataRes.json();
+                    } else {
+                        console.error("主要數據庫請求失敗，狀態碼:", dataRes.status);
+                    }
+                } catch(e) { console.error("物價數據載入發生異常", e); }
 
             } catch (e) {
-                console.error("系統初始化錯誤:", e);
+                console.error("系統初始化嚴重錯誤:", e);
+            } finally {
+                try {
+                    changeLanguage(currentLang);
+                    let langSel = document.getElementById('langSelector');
+                    if (langSel) langSel.value = currentLang;
+                    
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const sharedQuery = urlParams.get('q');
+                    
+                    if (sharedQuery) {
+                        const input = document.getElementById('globalSearchInput');
+                        if (input) {
+                            input.value = sharedQuery;
+                            
+                            let checkAttempts = 0;
+                            const checkInterval = setInterval(() => {
+                                checkAttempts++;
+                                if (typeof rawApiData !== 'undefined' && rawApiData.length > 0 && typeof triggerGlobalSearch === 'function') {
+                                    clearInterval(checkInterval);
+                                    triggerGlobalSearch();
+                                } else if (checkAttempts > 25) { 
+                                    clearInterval(checkInterval);
+                                }
+                            }, 200); 
+                        }
+                    }
+                    
+                    if (typeof updateAlertBadge === 'function') updateAlertBadge();
+                } catch (uiErr) {
+                    console.error("渲染 UI 時發生錯誤:", uiErr);
+                }
             }
         }
 
@@ -494,7 +553,7 @@
             } catch (err) { console.log('Share error:', err); }
         }
 
-        function changeLanguage(lang) {
+        window.changeLanguage = function(lang) {
             try {
                 currentLang = lang;
                 document.documentElement.lang = lang;
@@ -506,69 +565,42 @@
 
                 const updateText = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).innerText = text; };
                 const updatePlaceholder = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).placeholder = text; };
+                const updateHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
-                updateText('appTitle', dict.title || '慳真D');
                 document.title = dict.title || '慳真D';
                 
-                if (document.getElementById('ogTitle')) document.getElementById('ogTitle').setAttribute("content", dict.title || '慳真D');
-                if (document.getElementById('ogDesc')) document.getElementById('ogDesc').setAttribute("content", dict.ogDesc || '香港超市格價神器，秒速幫你搵出最平貨品！');
-                
-                updateText('dataSourceBadge', dict.badge || '政府數據連線');
-                
+                updateText('appTitle', dict.title);
                 if (lastUpdatedTime) {
-                    updateText('todayStatusLabel', (dict.lastUpdated || '最後更新: ') + formatDateTime(lastUpdatedTime));
+                    updateText('todayStatusLabel', (dict.lastUpdated || '更新: ') + formatDateTime(lastUpdatedTime));
                 } else {
                     updateText('todayStatusLabel', dict.subLabel || '載入中...');
                 }
 
-                updateText('mainCatLabel', dict.mainCat);
-                updateText('sortTip', dict.sortTip);
+                updateText('miniFooterLinks', dict.miniFooterLinks);
+                updateText('miniFooterCopy', dict.miniFooterCopy);
+                updateText('footerDevTeam', dict.footerDevTeam);
+                updateText('footerDevName', dict.footerDevName);
+                
+                updateText('disclaimerTitle', dict.disclaimerTitle);
+                updateHtml('disclaimerBody', dict.disclaimerText);
+                updateText('modalCloseBtn', dict.modalBtn);
+
                 updateText('backBtnText', dict.back);
                 updateText('sendBtnText', dict.send);
                 updatePlaceholder('chatInput', dict.placeholder);
 
-                updateText('shareAppTitle', dict.shareAppTitle);
-                updateText('shareAppDesc', dict.shareAppDesc);
-                updateText('shareBtnCopy', dict.shareBtnCopy);
-                updateText('shareBtnWhatsApp', dict.shareBtnWhatsApp);
-                updateText('shareBtnMore', dict.shareBtnMore);
-                updateText('toastMsg', dict.copiedToast);
-
-                if (document.getElementById('miniFooterLinks')) {
-                    document.getElementById('miniFooterLinks').innerText = dict.miniFooterLinks || '關於我們、條款及免責聲明';
-                    document.getElementById('miniFooterCopy').innerText = dict.miniFooterCopy || '© 2026 慳真D';
-                }
-
-                if (document.getElementById('footerDevTeam')) {
-                    document.getElementById('footerDevTeam').innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
-                }
-                if (document.getElementById('footerDevName')) {
-                    document.getElementById('footerDevName').innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
-                }
-
-                updateText('cameraModalTitle', dict.cameraModalTitle);
-                updateText('cameraBtnText', dict.cameraBtn);
-                updateText('geminiTitleText', dict.geminiTitle);
-                updateText('geminiDescText', dict.geminiDesc);
-                updateText('geminiGuideText', dict.geminiGuide);
-                updatePlaceholder('geminiKeyInput', dict.geminiPlaceholder);
-                updateText('saveKeyBtn', dict.saveBtn);
-                updateText('clearKeyBtn', dict.clearBtn);
-                
-                if (typeof window.checkGeminiKey === 'function') window.checkGeminiKey();
-
                 const homeUI = {
-                    'zh-Hant': { title: "想搵咩平嘢？直接話我知", placeholder: "例如: 可口可樂、出前一丁...", quickTitle: "✨ 快捷尋寶", catTitle: "或者按主分類慢慢行", b1: "🔥 今日超大差價", b2: "🏷️ 最新劈價精選", b3: "🥤 網民熱搜可樂", b4: "🍞 早餐平價推介", trueDiscountBtn: "📉 智選真抵榜", battleSummaryBtn: "📊 戰情總結" },
-                    'zh-Hans': { title: "想找什么便宜货？直接告诉我", placeholder: "例如: 可口可乐、出前一丁...", quickTitle: "✨ 快捷寻宝", catTitle: "或者按主分类慢慢逛", b1: "🔥 今日超大差价", b2: "🏷️ 最新降价精选", b3: "🥤 网友热搜可乐", b4: "🍞 早餐平价推荐", trueDiscountBtn: "📉 智选真抵榜", battleSummaryBtn: "📊 战情总结" },
-                    'en': { title: "What are you looking for? Tell me!", placeholder: "e.g., Coca Cola, Noodles...", quickTitle: "✨ Quick Search", catTitle: "Or browse by categories", b1: "🔥 Big Price Gap", b2: "🏷️ Latest Deals", b3: "🥤 Cola Deals", b4: "🍞 Breakfast Deals", trueDiscountBtn: "📉 Smart Deals", battleSummaryBtn: "📊 Battle Summary" }
+                    'zh-Hant': { title: "物價情報分析中樞", placeholder: "輸入資料源關鍵字 (例: 可口可樂)...", quickTitle: "情報捷徑", catTitle: "分類目錄瀏覽", b1: "極端差價分析", b2: "最新優惠", b3: "熱搜飲品", b4: "糧食雜貨", trueDiscountBtn: "智選真抵榜", battleSummaryBtn: "戰情總結", commandCenterBtn: "全局戰情室" },
+                    'zh-Hans': { title: "物价情报分析中枢", placeholder: "输入数据源关键字 (例: 可口可乐)...", quickTitle: "情报捷径", catTitle: "分类目录浏览", b1: "极端差价分析", b2: "最新优惠", b3: "热搜饮品", b4: "粮食杂货", trueDiscountBtn: "智选真抵榜", battleSummaryBtn: "战情总结", commandCenterBtn: "全局战情室" },
+                    'en': { title: "Price Intelligence Center", placeholder: "Search data source (e.g., Cola)...", quickTitle: "Quick Insights", catTitle: "Browse Categories", b1: "Extreme Gap", b2: "Latest Deals", b3: "Trending Drinks", b4: "Pantry Goods", trueDiscountBtn: "Smart Deals", battleSummaryBtn: "Battle Summary", commandCenterBtn: "Command Center" }
                 };
 
                 let activeLang = homeUI[lang] ? lang : 'zh-Hant';
 
                 updateText('homeTitle', homeUI[activeLang].title);
                 updatePlaceholder('globalSearchInput', homeUI[activeLang].placeholder);
-                updateText('quickTitle', homeUI[activeLang].quickTitle);
-                if(document.getElementById('catTitle')) document.getElementById('catTitle').innerHTML = `<span class="text-lg">🛒</span> ${homeUI[activeLang].catTitle}`;
+                if(document.getElementById('quickTitle')) document.getElementById('quickTitle').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> ${homeUI[activeLang].quickTitle}`;
+                if(document.getElementById('catTitle')) document.getElementById('catTitle').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2.5 text-[#345B8C] dark:text-[#608BC1]"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> ${homeUI[activeLang].catTitle}`;
 
                 let kwCola = '可口可樂';
                 let kwBread = '麵包';
@@ -577,26 +609,42 @@
 
                 if(document.getElementById('quickBtnGroup')) {
                     document.getElementById('quickBtnGroup').innerHTML = `
-                        <button onclick="triggerHomeQuickAction('bigGap', '${homeUI[activeLang].b1}')" class="w-full flex flex-col items-center justify-center text-center bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-red-100 dark:hover:bg-red-900/50 leading-tight min-h-[55px] break-words">
-                            ${homeUI[activeLang].b1.replace(' ', '<br>')}
-                        </button>
-                        <button onclick="triggerHomeQuickAction('discount', '${homeUI[activeLang].b2}')" class="w-full flex flex-col items-center justify-center text-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-blue-100 dark:hover:bg-blue-900/50 leading-tight min-h-[55px] break-words">
-                            ${homeUI[activeLang].b2.replace(' ', '<br>')}
-                        </button>
-                        <button onclick="triggerHomeQuickAction('search', '${homeUI[activeLang].b3}', '${kwCola}')" class="w-full flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-slate-200 dark:hover:bg-slate-700 leading-tight min-h-[55px] break-words">
-                            ${homeUI[activeLang].b3.replace(' ', '<br>')}
-                        </button>
-                        <button onclick="triggerHomeQuickAction('search', '${homeUI[activeLang].b4}', '${kwBread}')" class="w-full flex flex-col items-center justify-center text-center bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800 p-2 rounded-xl text-[11px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm dark:shadow-none hover:bg-amber-100 dark:hover:bg-amber-900/50 leading-tight min-h-[55px] break-words">
-                            ${homeUI[activeLang].b4.replace(' ', '<br>')}
+                        <button onclick="window.triggerHomeQuickAction('bigGap', '${homeUI[activeLang].b1}')" class="w-full flex items-center justify-start gap-2.5 bg-[#8BC34A] text-white px-3 py-2.5 rounded-xl active:scale-95 transition hover:opacity-90 shadow-sm leading-tight h-[48px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span class="truncate font-bold">${homeUI[activeLang].b1}</span>
                         </button>
                         
-                        <div class="col-span-2 grid grid-cols-2 gap-3 mt-3 mb-1">
-                            <button onclick="window.location.href='true_discount.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-gradient-to-br from-emerald-400 to-teal-600 hover:from-emerald-500 hover:to-teal-700 text-white border border-emerald-400/30 p-3.5 rounded-2xl text-[13px] sm:text-[14px] font-black active:scale-95 transition shadow-[0_4px_15px_-3px_rgba(16,185,129,0.4)]">
-                                ${homeUI[activeLang].trueDiscountBtn}
-                            </button>
+                        <button onclick="window.triggerHomeQuickAction('discount', '${homeUI[activeLang].b2}')" class="w-full flex items-center justify-start gap-2.5 bg-[#FFB74D] text-white px-3 py-2.5 rounded-xl active:scale-95 transition hover:opacity-90 shadow-sm leading-tight h-[48px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01"></path></svg>
+                            <span class="truncate font-bold">${homeUI[activeLang].b2}</span>
+                        </button>
+                        
+                        <button onclick="window.triggerHomeQuickAction('search', '${homeUI[activeLang].b3}', '${kwCola}')" class="w-full flex items-center justify-start gap-2.5 bg-[#F8F8F8] text-[#345B8C] border border-slate-200/60 px-3 py-2.5 rounded-xl active:scale-95 transition hover:bg-white shadow-sm leading-tight h-[48px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#345B8C] dark:text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <span class="truncate font-medium">${homeUI[activeLang].b3}</span>
+                        </button>
+                        
+                        <button onclick="window.triggerHomeQuickAction('search', '${homeUI[activeLang].b4}', '${kwBread}')" class="w-full flex items-center justify-start gap-2.5 bg-[#F8F8F8] text-[#345B8C] border border-slate-200/60 px-3 py-2.5 rounded-xl active:scale-95 transition hover:bg-white shadow-sm leading-tight h-[48px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#345B8C] dark:text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <span class="truncate font-medium">${homeUI[activeLang].b4}</span>
+                        </button>
+                        
+                        <div class="col-span-2 flex flex-col gap-2.5 mt-3 mb-1">
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <button onclick="window.location.href='true_discount.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#345B8C] hover:opacity-90 text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#4a76b0]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                    ${homeUI[activeLang].trueDiscountBtn}
+                                </button>
+                                
+                                <button onclick="window.location.href='battle_summary.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#F8F8F8] hover:bg-white text-[#345B8C] border border-[#345B8C]/20 p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm dark:bg-slate-800 dark:text-[#608BC1] dark:border-slate-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
+                                    ${homeUI[activeLang].battleSummaryBtn}
+                                </button>
+                            </div>
                             
-                            <button onclick="window.location.href='battle_summary.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-gradient-to-br from-yellow-300 via-amber-400 to-orange-500 hover:from-yellow-400 hover:to-orange-600 text-[#431407] border border-yellow-300/50 p-3.5 rounded-2xl text-[13px] sm:text-[14px] font-black active:scale-95 transition shadow-[0_4px_15px_-3px_rgba(245,158,11,0.5)]">
-                                ${homeUI[activeLang].battleSummaryBtn}
+                            <button onclick="window.location.href='dashboard.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#D4AF37] hover:bg-[#C5A030] text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-md border border-[#B8942E]/50 dark:bg-[#C5A030] dark:hover:bg-[#B8942E]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                                <span class="drop-shadow-sm tracking-wide">${homeUI[activeLang].commandCenterBtn}</span>
                             </button>
                         </div>
                     `;
@@ -616,7 +664,7 @@
             }
         }
         
-        function openModal(titleKey, contentKey) {
+        window.openModal = function(titleKey, contentKey) {
             document.getElementById('modalTitle').innerText = uiText[currentLang][titleKey];
             document.getElementById('modalContent').innerHTML = uiText[currentLang][contentKey];
             infoModal.classList.remove('hidden');
@@ -625,16 +673,16 @@
                 modalBox.classList.remove('scale-95');
                 modalBox.classList.add('scale-100');
             }, 10);
-        }
+        };
 
-        function closeModal() {
+        window.closeModal = function() {
             infoModal.classList.add('opacity-0');
             modalBox.classList.remove('scale-100');
             modalBox.classList.add('scale-95');
             setTimeout(() => { infoModal.classList.add('hidden'); }, 300);
-        }
+        };
 
-        function openShareAppModal() {
+        window.openShareAppModal = function() {
             const currentUrl = window.location.origin + window.location.pathname;
             qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}&margin=10`;
             shareAppModal.classList.remove('hidden');
@@ -643,29 +691,29 @@
                 shareAppBox.classList.remove('scale-95');
                 shareAppBox.classList.add('scale-100');
             }, 10);
-        }
+        };
 
-        function closeShareAppModal() {
+        window.closeShareAppModal = function() {
             shareAppModal.classList.add('opacity-0');
             shareAppBox.classList.remove('scale-100');
             shareAppBox.classList.add('scale-95');
             setTimeout(() => { shareAppModal.classList.add('hidden'); }, 300);
-        }
+        };
 
-        function showToast() {
+        window.showToast = function() {
             toastMsg.classList.remove('opacity-0', 'translate-y-[-20px]');
             setTimeout(() => { toastMsg.classList.add('opacity-0', 'translate-y-[-20px]'); }, 2000);
-        }
+        };
 
-        function copyAppUrl() {
+        window.copyAppUrl = function() {
             const currentUrl = window.location.origin + window.location.pathname;
             navigator.clipboard.writeText(currentUrl).then(() => {
                 showToast();
                 setTimeout(closeShareAppModal, 1000);
             });
-        }
+        };
 
-        function shareToWhatsApp() {
+        window.shareToWhatsApp = function() {
             const currentUrl = window.location.origin + window.location.pathname;
             const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
             const msgText = (typeof uiText !== 'undefined' && uiText[currentLang] && uiText[currentLang].shareMessage) 
@@ -673,9 +721,9 @@
                             : defaultMsg;
             const msg = encodeURIComponent(msgText + currentUrl);
             window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
-        }
+        };
 
-        function shareNative() {
+        window.shareNative = function() {
             const currentUrl = window.location.origin + window.location.pathname;
             const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
             const msgText = (typeof uiText !== 'undefined' && uiText[currentLang] && uiText[currentLang].shareMessage) 
@@ -691,30 +739,29 @@
             } else {
                 copyAppUrl(); 
             }
-        }
+        };
 
         function renderQuickActions() {
             const container = document.getElementById('quickActionChips');
-            let bigGapText = '🔥 超大差價';
-            if (currentLang === 'zh-Hans') bigGapText = '🔥 超大差价';
-            if (currentLang === 'en') bigGapText = '🔥 Big Gap';
+            let bigGapText = '極端差價';
+            if (currentLang === 'zh-Hans') bigGapText = '极端差价';
+            if (currentLang === 'en') bigGapText = 'Big Gap';
 
             const chips = [
-                { text: uiText[currentLang].quickAll, action: "showAll" },
-                { text: uiText[currentLang].quickDiscount, action: "filterDiscount" },
+                { text: (uiText[currentLang].quickAll || '所有').replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim(), action: "showAll" },
+                { text: (uiText[currentLang].quickDiscount || '優惠').replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim(), action: "filterDiscount" },
                 { text: bigGapText, action: "filterBigGap" },
-                { text: uiText[currentLang].quickHome, action: "goHome" },
-                { text: uiText[currentLang].quickBye, action: "sayBye" }
+                { text: (uiText[currentLang].quickHome || '首頁').replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim(), action: "goHome" }
             ];
             container.innerHTML = chips.map(c => 
-                `<button type="button" onclick="handleQuickAction('${c.action}', '${c.text}')" 
-                    class="whitespace-nowrap bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-800 px-3 py-1.5 rounded-full text-[13px] font-bold active:scale-95 transition-transform shadow-sm dark:shadow-none flex-none">
+                `<button type="button" onclick="window.handleQuickAction('${c.action}', '${c.text}')" 
+                    class="whitespace-nowrap bg-[#F8F8F8] dark:bg-slate-800 text-[#345B8C] dark:text-[#608BC1] border border-slate-200/50 dark:border-slate-700 px-3 py-1.5 rounded-xl text-[13px] font-medium hover:bg-white dark:hover:bg-slate-700 active:scale-95 transition-transform shadow-sm flex-none">
                     ${c.text}
                 </button>`
             ).join('');
         }
 
-        function handleQuickAction(action, text) {
+        window.handleQuickAction = function(action, text) {
             if (action === 'goHome') { showLevel1(); return; }
             if (action === 'sayBye') {
                 addUserMessage(text);
@@ -741,9 +788,11 @@
        function buildStructuredData() {
             structuredData = {};
 
-            if (!rawApiData || rawApiData.length === 0) return;
+            let dataArray = Array.isArray(rawApiData) ? rawApiData : (rawApiData.results || []);
 
-            rawApiData.forEach(item => {
+            if (!dataArray || dataArray.length === 0) return;
+
+            dataArray.forEach(item => {
                 let cat1 = item.cat1Name?.[currentLang] || item.cat1Name?.['zh-Hant'];
                 if (!cat1) return;
                 
@@ -781,6 +830,9 @@
                 if (Array.isArray(item.prices)) {
                     item.prices.forEach(p => {
                         let codeUpper = (p.supermarketCode || '').toUpperCase();
+                        
+                        if (codeUpper === 'ZTORE') return;
+
                         let smName = p.supermarketCode;
 
                         if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][codeUpper]) {
@@ -815,7 +867,6 @@
                             }
                         }
                         
-                        let hasSnapshotRecord = false;
                         let historyStatus = null;
                         let prevPrice = null;
                         let prevBase = null;
@@ -824,10 +875,9 @@
                         let prevOffZh = null;
                         let prevOffHans = null;
                         
-                        if (snapshotData.length > 0) {
+                        if (snapshotData && snapshotData.length > 0) {
                             const snapRecord = snapshotData.find(s => String(s.product_code) === String(item.code) && String(s.supermarket_code) === String(p.supermarketCode));
                             if (snapRecord) {
-                                hasSnapshotRecord = true;
                                 historyStatus = snapRecord.change_status;
                                 prevPrice = snapRecord.previous_effective_price;
                                 prevBase = snapRecord.previous_base_price;   
@@ -837,12 +887,7 @@
                                 prevOffHans = snapRecord.previous_offer_zh_hans;
                             }
                         }
-                        
-                        // 🛡️ 終極防禦：嚴格確認！只要不在大腦歷史快照裡的髒數據，絕對不准顯示！
-                        if (!hasSnapshotRecord) {
-                            return; 
-                        }
-                        
+
                         const newPriceObj = { 
                             rawCode: p.supermarketCode, 
                             supermarket: smName, 
@@ -872,7 +917,6 @@
                     });
                 }
                 
-                // 🧹 清道夫：如果過濾後這項商品已經沒有任何合法的超市價格了，就整張卡片刪除
                 if (structuredData[cat1][cat2][productKey].prices.length === 0) {
                     delete structuredData[cat1][cat2][productKey];
                 }
@@ -884,25 +928,23 @@
             level1Container.innerHTML = '';
             const history = JSON.parse(localStorage.getItem('cat_usage_history') || '{}');
             const sorted = Object.keys(structuredData).sort((a, b) => (history[b]||0) - (history[a]||0) || a.localeCompare(b));
+            
             sorted.forEach(cat1 => {
                 const style = getCatStyle(cat1);
+                const iconStr = style ? style.icon : '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-slate-400 group-hover:text-[#345B8C] transition-colors" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>';
                 const card = document.createElement('div');
-                card.className = `clickable-card bg-gradient-to-br ${style.bg} px-2 py-3 rounded-2xl shadow-sm border ${style.border} cursor-pointer transition-all flex flex-col items-center justify-center text-center h-[90px] overflow-hidden relative`;
-                card.innerHTML = `<div class="text-[28px] mb-1 leading-none transform group-active:scale-95 transition-transform">${style.icon}</div><span class="font-bold ${style.text} text-[12px] leading-tight line-clamp-2 px-1 w-full">${cat1}</span>`;
+                
+                card.className = `clickable-card group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-[#F8F8F8] dark:hover:bg-slate-700 hover:border-[#E8F0F8] dark:hover:border-slate-500 px-2 py-3 rounded-2xl shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center h-[90px] overflow-hidden relative`;
+                card.innerHTML = `<div class="transform group-active:scale-95 transition-transform flex justify-center w-full">${iconStr}</div><span class="font-bold text-slate-700 dark:text-slate-300 text-[12px] leading-tight line-clamp-2 px-1 w-full group-hover:text-[#345B8C] dark:group-hover:text-blue-400 transition-colors">${cat1}</span>`;
+                
                 card.onclick = () => { history[cat1] = (history[cat1]||0)+1; localStorage.setItem('cat_usage_history', JSON.stringify(history)); startChat(cat1); };
                 level1Container.appendChild(card);
             });
         }
 
-        function getCatStyle(catName) {
-            const lowerName = catName.toLowerCase();
-            for (let style of catStyles) { if (style.keywords.some(kw => lowerName.includes(kw.toLowerCase()))) return style; }
-            return { icon: '📦', bg: 'from-slate-100 to-slate-200', text: 'text-slate-800', border: 'border-slate-300' };
-        }
-
-        function showLevel1() { 
+        window.showLevel1 = function() { 
             chatSection.classList.add('hidden'); level1Section.classList.remove('hidden'); renderLevel1(); 
-        }
+        };
 
         function startChat(cat1) {
             selectedCat1 = cat1; 
@@ -910,14 +952,16 @@
             level1Section.classList.add('hidden');
             
             const style = getCatStyle(cat1);
-            chatTitle.innerHTML = `<span class="mr-1.5">${style.icon}</span> ${cat1}`;
+            chatTitle.innerHTML = `<span class="flex items-center gap-1.5"><span class="w-4 h-4">${style.icon.replace('w-6 h-6 mb-2 text-[#345B8C]', 'w-4 h-4 mb-0 inline-block text-[#345B8C]')}</span> ${cat1}</span>`;
             chatMessages.innerHTML = '';
             
             isBigGapMode = false;
             isDiscountMode = false;
             currentKeyword = ""; 
             
-            addBotMessage(`${uiText[currentLang].chatWelcome} <strong class="text-blue-600 dark:text-blue-400">${style.icon} ${cat1}</strong>。<br>${uiText[currentLang].chatAsk}`);
+            let welcomeMsg = currentLang === 'en' ? 'Welcome to' : (currentLang === 'zh-Hans' ? '进入' : '進入');
+            let askMsg = currentLang === 'en' ? 'What product are you looking for?' : (currentLang === 'zh-Hans' ? '请问想查找什么产品？' : '請問想查找什麼產品？');
+            addBotMessage(`${welcomeMsg} <strong>${cat1}</strong>。<br>${askMsg}`);
             executeProductSearch(); 
         }
 
@@ -929,7 +973,7 @@
             return kw.trim();
         }
 
-        function triggerGlobalSearch() {
+        window.triggerGlobalSearch = function() {
             const inputEl = document.getElementById('globalSearchInput');
             const originalQ = inputEl.value.trim();
             if (!originalQ) return;
@@ -938,32 +982,38 @@
             selectedCat1 = 'GLOBAL'; 
             chatSection.classList.remove('hidden'); 
             level1Section.classList.add('hidden');
-            chatTitle.innerHTML = `<span class="mr-1.5">🌍</span> ${uiText[currentLang].globalTitle || '全港超市搜尋'}`;
+            let titleStr = currentLang === 'en' ? 'Global Search' : (currentLang === 'zh-Hans' ? '全局搜索' : '全局搜尋');
+            chatTitle.innerHTML = `<span class="mr-1.5 text-[#345B8C] dark:text-[#608BC1]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span> ${titleStr}`;
             chatMessages.innerHTML = '';
             isBigGapMode = false;
             isDiscountMode = false;
             
-            addBotMessage(uiText[currentLang].globalStart || `收到！啟動「全港搜尋」模式 🌍<br>等我幫你搵吓。`);
+            let startMsgText = currentLang === 'en' ? `Activating global search...` : (currentLang === 'zh-Hans' ? `启动全域搜索模式。<br>正在为您查找...` : `啟動全域搜尋模式。<br>正在為您查找...`);
+            addBotMessage(startMsgText);
             addUserMessage(originalQ); 
             setTimeout(() => {
                 const talk = checkSmallTalk(originalQ);
                 if (talk) { addBotMessage(talk); return; }
                 const cleanQ = cleanUserInput(originalQ);
                 currentKeyword = normalizeStr(cleanQ).trim();
-                if (!currentKeyword) { addBotMessage(uiText[currentLang].askKeyword || '請問你想搵咩貨品呢？可以試下打「可樂」或者「公仔麵」。'); return; }
+                if (!currentKeyword) { 
+                    let noKwMsg = currentLang === 'en' ? `Please enter a valid keyword.` : (currentLang === 'zh-Hans' ? `请输入有效的关键字。` : `請輸入有效的關鍵字。`);
+                    addBotMessage(noKwMsg); 
+                    return; 
+                }
                 executeProductSearch(); 
             }, 300);
-        }
+        };
 
         function getBotReply(key) {
             if (window.botResponses && window.botResponses[currentLang] && window.botResponses[currentLang][key]) {
-                return window.botResponses[currentLang][key];
+                return window.botResponses[currentLang][key].replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
             }
-            console.warn("⚠️ 搵唔到對答 Key:", key);
-            return "🤖 系統連線中..."; 
+            return "系統連線中..."; 
         }
 
-        function submitChat() {
+        window.submitChat = function() {
+            const chatInput = document.getElementById('chatInput');
             const originalQ = chatInput.value.trim();
             if (!originalQ) return;
 
@@ -988,12 +1038,13 @@
                 
                 currentKeyword = normalizeStr(cleanText).trim();
                 if (!currentKeyword) { 
-                    addBotMessage(uiText[currentLang].askKeyword || '請問你想搵咩貨品呢？'); 
+                    let noKwMsg = currentLang === 'en' ? `Please enter a valid keyword.` : (currentLang === 'zh-Hans' ? `请输入有效的关键字。` : `請輸入有效的關鍵字。`);
+                    addBotMessage(noKwMsg); 
                     return; 
                 }
                 executeProductSearch(); 
             }, 300);
-        }
+        };
 
         function getFilteredProductsHTML(keywordToTest) {
             const isAll = ['所有', '全部', 'all', 'list', '*'].includes(keywordToTest) || !keywordToTest;
@@ -1056,36 +1107,36 @@
                     });
 
                     let fallbackMsg = (currentLang === 'en') 
-                        ? `Cannot find the exact match for "${currentKeyword}", but here are the most relevant products:` 
+                        ? `Exact match not found for "${currentKeyword}", displaying relevant data:` 
                         : (currentLang === 'zh-Hans') 
-                        ? `找不到「${currentKeyword}」的完全匹配，但我为您找到最相关的产品：` 
-                        : `搵唔到「${currentKeyword}」嘅完全匹配喎，但我幫你搵到最相關嘅產品：`;
+                        ? `数据库中未找到「${currentKeyword}」的完全匹配，为您展示最相关的数据：` 
+                        : `資料庫中未找到「${currentKeyword}」的完全匹配，為您展示最相關的數據：`;
                     
                     addBotMessage(fallbackMsg, rescueHtml);
                     return true;
                 }
 
-                let noResultMsg = uiText[currentLang].chatNoResult;
+                let noResultMsg = '查無結果';
                 if (isDiscountMode) {
                     const langMsgs = {
-                        'zh-Hant': (currentKeyword && !isAll) ? `「${currentKeyword}」結果入面暫時未有優惠貨品喎！🤷‍♂️` : "呢個分類暫時未有優惠貨品喎！🤷‍♂️",
-                        'zh-Hans': (currentKeyword && !isAll) ? `「${currentKeyword}」结果中暂时没有优惠商品哦！🤷‍♂️` : "该分类下暂时没有优惠商品哦！🤷‍♂️",
-                        'en': (currentKeyword && !isAll) ? `No discounts for "${currentKeyword}" found! 🤷‍♂️` : "No discounted products found in this category! 🤷‍♂️"
+                        'zh-Hant': (currentKeyword && !isAll) ? `「${currentKeyword}」資料集中暫無符合優惠條件的項目。` : "此維度暫無符合優惠條件的資料。",
+                        'zh-Hans': (currentKeyword && !isAll) ? `「${currentKeyword}」数据集中暂无符合优惠条件的项目。` : "此维度暂无符合优惠条件的数据。",
+                        'en': (currentKeyword && !isAll) ? `No promotional items found in data set "${currentKeyword}".` : "No promotional items found in this dimension."
                     };
                     noResultMsg = langMsgs[currentLang];
                 } else if (isBigGapMode) {
-                    const showWord = (currentKeyword && !isAll) ? `喺「${currentKeyword}」結果入面` : "呢個分類暫時";
+                    const showWord = (currentKeyword && !isAll) ? `於「${currentKeyword}」資料集中` : "此維度";
                     const langMsgs = {
-                        'zh-Hant': `${showWord}未有相差超過 10% 嘅貨品喎！🤷‍♂️`,
-                        'zh-Hans': (currentKeyword && !isAll) ? `在「${currentKeyword}」中暂时没有相差超过 10% 的商品哦！🤷‍♂️` : "该分类下暂时没有相差超过 10% 的商品哦！🤷‍♂️",
-                        'en': (currentKeyword && !isAll) ? `No products with >10% price gap found in "${currentKeyword}"! 🤷‍♂️` : "No products with >10% price gap found in this category! 🤷‍♂️"
+                        'zh-Hant': `${showWord}未發現價格落差超過 10% 的項目。`,
+                        'zh-Hans': (currentKeyword && !isAll) ? `于「${currentKeyword}」数据集中未发现价格落差超过 10% 的项目。` : "此维度未发现价格落差超过 10% 的项目。",
+                        'en': (currentKeyword && !isAll) ? `No significant price gap (>10%) found in "${currentKeyword}".` : "No significant price gap (>10%) found in this dimension."
                     };
                     noResultMsg = langMsgs[currentLang];
                 } else if (currentKeyword && !isAll) {
                     const langMsgs = {
-                        'zh-Hant': `搵唔到「${currentKeyword}」喎，試下其他字眼？🤷‍♂️`,
-                        'zh-Hans': `找不到「${currentKeyword}」哦，试试其他关键字？🤷‍♂️`,
-                        'en': `Cannot find "${currentKeyword}", try another keyword? 🤷‍♂️`
+                        'zh-Hant': `資料庫查無「${currentKeyword}」的相關紀錄，請嘗試其他關鍵字。`,
+                        'zh-Hans': `数据库查无「${currentKeyword}」的相关纪录，请尝试其他关键字。`,
+                        'en': `No records found for "${currentKeyword}" in the database. Please try another keyword.`
                     };
                     noResultMsg = langMsgs[currentLang];
                 }
@@ -1121,26 +1172,25 @@
                 if (suggestions.length > 0) {
                      noResultMsg += "<br><br>";
                      suggestions.forEach(s => {
-                         noResultMsg += `<button onclick="this.closest('.flex-col').remove(); currentKeyword='${s.replace(/'/g, "\\'")}'; executeProductSearch();" style="display:inline-block; background-color:#eff6ff; color:#1e40af; border:1px solid #bfdbfe; padding:6px 14px; margin:4px; border-radius:99px; font-size:13px; font-weight:bold; cursor:pointer;">${s}</button> `;
+                         noResultMsg += `<button onclick="this.closest('.flex-col').remove(); currentKeyword='${s.replace(/'/g, "\\'")}'; executeProductSearch();" style="display:inline-block; background-color:#F8F8F8; color:#345B8C; border:1px solid #E8F0F8; padding:6px 14px; margin:4px; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer;">${s}</button> `;
                      });
                 }
 
                 addBotMessage(noResultMsg);
             } else {
-                let botTip = uiText[currentLang].chatFound;
-
+                let botTip = '';
                 if (isBigGapMode) {
                     botTip = (currentKeyword && !isAll) 
-                        ? uiText[currentLang].foundBigGapKw.replace('{keyword}', currentKeyword) 
-                        : uiText[currentLang].foundBigGapCat;
+                        ? (currentLang === 'en' ? `Found items with >10% gap for "${currentKeyword}":` : (currentLang === 'zh-Hans' ? `为您找到包含「${currentKeyword}」且差价 >10% 的商品：` : `為您找到包含「${currentKeyword}」且差價 >10% 的貨品：`)) 
+                        : (currentLang === 'en' ? `Here are items with extreme price gaps in this category:` : (currentLang === 'zh-Hans' ? `此分类下存在极端差价的商品如下：` : `此分類下存在極端差價的貨品如下：`));
                 } else if (isDiscountMode) {
                     botTip = (currentKeyword && !isAll) 
-                        ? uiText[currentLang].foundDiscountKw.replace('{keyword}', currentKeyword) 
-                        : uiText[currentLang].foundDiscountCat;
+                        ? (currentLang === 'en' ? `Found promotional items for "${currentKeyword}":` : (currentLang === 'zh-Hans' ? `为您找到包含「${currentKeyword}」的优惠商品：` : `為您找到包含「${currentKeyword}」的優惠貨品：`)) 
+                        : (currentLang === 'en' ? `Here are the latest deals in this category:` : (currentLang === 'zh-Hans' ? `此分类下的最新优惠商品：` : `此分類下的最新優惠貨品：`));
                 } else if (isAll) {
-                    botTip = uiText[currentLang].chatShowAll;
+                    botTip = currentLang === 'en' ? 'Displaying all items in this category:' : (currentLang === 'zh-Hans' ? '正在展示此分类下的所有商品：' : '正在展示此分類下的所有貨品：');
                 } else {
-                    botTip = uiText[currentLang].foundKw.replace('{keyword}', currentKeyword);
+                    botTip = currentLang === 'en' ? `Found results for "${currentKeyword}":` : (currentLang === 'zh-Hans' ? `为您找到「${currentKeyword}」的匹配结果：` : `為您找到「${currentKeyword}」的匹配結果：`);
                 }
 
                 let finalHtml = html;
@@ -1148,8 +1198,8 @@
                     const sortText = currentLang === 'en' ? 'Sort by Price Gap' : (currentLang === 'zh-Hans' ? '按差价排序' : '按差價排序');
                     const sortBtnHtml = `
                     <div class="flex justify-end w-full mb-3 pr-1">
-                        <button onclick="handleQuickAction('filterBigGap', '🔥 ${sortText}')" class="flex items-center gap-1.5 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 px-3 py-1.5 rounded-full text-[12px] font-bold active:scale-95 transition-transform shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5h10"></path><path d="M11 9h7"></path><path d="M11 13h4"></path><path d="M3 17l3 3 3-3"></path><path d="M6 18V4"></path></svg>
+                        <button onclick="window.handleQuickAction('filterBigGap', '${sortText}')" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg text-[12px] font-medium hover:bg-[#F8F8F8] dark:hover:bg-slate-700 active:scale-95 transition-transform shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#345B8C]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
                             ${sortText}
                         </button>
                     </div>`;
@@ -1161,16 +1211,19 @@
             }
         }
 
+        // 🎨 專業版 Bot 訊息介面 (柔和深藍 #345B8C 頭像)
         function addBotMessage(text, cardsHTML = null) {
             const wrapper = document.createElement('div');
             wrapper.className = 'flex flex-col items-start w-full bot-response-block';
             
             wrapper.innerHTML = `
                 <div class="flex items-end gap-2 max-w-[90%]">
-                    <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-slate-700 flex items-center justify-center text-lg shadow-sm border border-blue-200 dark:border-slate-600 shrink-0">🤖</div>
-                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm dark:shadow-none text-[15px] transition-colors">${text}</div>
+                    <div class="w-8 h-8 rounded-lg bg-[#345B8C] dark:bg-slate-700 flex items-center justify-center text-white dark:text-slate-300 shadow-sm border border-transparent dark:border-slate-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                    </div>
+                    <div class="bg-[#F8F8F8] dark:bg-slate-800 border border-[#E8F0F8] dark:border-slate-700 text-slate-700 dark:text-slate-200 px-4 py-3.5 rounded-2xl rounded-bl-sm shadow-sm dark:shadow-none text-[14px] transition-colors leading-relaxed">${text}</div>
                 </div>
-                ${cardsHTML ? `<div class="w-full mt-4 space-y-5">${cardsHTML}</div>` : ''}
+                ${cardsHTML ? `<div class="w-full mt-4 space-y-4">${cardsHTML}</div>` : ''}
             `;
             
             chatMessages.appendChild(wrapper);
@@ -1187,7 +1240,7 @@
         function addUserMessage(text) {
             const wrapper = document.createElement('div');
             wrapper.className = 'flex flex-col items-end w-full';
-            wrapper.innerHTML = `<div class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-3 rounded-2xl rounded-br-sm shadow-md dark:shadow-none max-w-[85%] text-[15px] transition-colors">${text}</div>`;
+            wrapper.innerHTML = `<div class="bg-[#345B8C] text-white px-4 py-3.5 rounded-2xl rounded-br-sm shadow-sm max-w-[85%] text-[14px] font-medium transition-colors">${text}</div>`;
             chatMessages.appendChild(wrapper);
             chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
         }
@@ -1227,8 +1280,9 @@
             const gapInfo = checkPriceGap(info);
             let gapBadgeHtml = '';
             if (gapInfo.isBigGap) {
-                let badgeText = currentLang === 'en' ? `🔥 Save ${gapInfo.percentage}%` : (currentLang === 'zh-Hans' ? `🔥 差价 ${gapInfo.percentage}%` : `🔥 差價 ${gapInfo.percentage}%`);
-                gapBadgeHtml = `<span class="ml-2 px-1.5 py-0.5 bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 font-bold text-[11px] rounded-md shadow-sm border border-red-200 dark:border-red-800 inline-flex items-center" style="white-space: nowrap; transform: translateY(-1px);">${badgeText}</span>`;
+                let badgeText = currentLang === 'en' ? `Gap ${gapInfo.percentage}%` : (currentLang === 'zh-Hans' ? `差价 ${gapInfo.percentage}%` : `差價 ${gapInfo.percentage}%`);
+                // 🎨 柔和綠色 #8BC34A 代表節省與增長
+                gapBadgeHtml = `<span class="ml-2 px-2 py-0.5 bg-[#8BC34A]/10 text-[#558B2F] font-bold text-[10px] rounded-md border border-[#8BC34A]/30 inline-flex items-center shadow-sm dark:bg-[#8BC34A]/20 dark:text-[#AEEA00]" style="white-space: nowrap; transform: translateY(-1px);"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>${badgeText}</span>`;
             }
 
             const priceList = info.prices.map((p, pIdx) => {
@@ -1249,12 +1303,13 @@
                     let avg = calculateAvgPrice(p.promoCalc, parsed);
                     if (avg && avg > 0 && avg < parsed) {
                         let isAbsoluteLowest = (minEffectivePrice !== null && Math.abs(avg - minEffectivePrice) < 0.01 && validPrices.length > 1 && !allSameEffectivePrice);
-                        let starHtml = isAbsoluteLowest ? `<span class="star-blink ml-1 text-[13px]">⭐</span>` : '';
-                        avgLabel = `<span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black shadow-sm ml-1 shrink-0 whitespace-nowrap flex items-center">💰 ${(currentLang === 'en' ? 'Avg' : '折合')} $${avg.toFixed(1)}/${(currentLang === 'en' ? 'ea' : '件')}${starHtml}</span>`;
+                        let starHtml = isAbsoluteLowest ? `<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 ml-1 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>` : '';
+                        // 🎨 淺橙色 #FFB74D 代表抵買優惠
+                        avgLabel = `<span class="bg-[#FFB74D] text-white text-[10px] px-1.5 py-0.5 rounded-md font-bold shadow-sm ml-1 shrink-0 whitespace-nowrap flex items-center">${(currentLang === 'en' ? 'Avg' : '折合')} $${avg.toFixed(1)}/${(currentLang === 'en' ? 'ea' : '件')}${starHtml}</span>`;
                     } 
                     else if (avg >= parsed && p.promoDisplay) {
-                        let stampText = (currentLang === 'en') ? 'FAKE<br>OFFER' : (currentLang === 'zh-Hans' ? '假<br>优惠' : '假<br>優惠');
-                        fakePromoIcon = `<span class="fake-stamp ml-1 cursor-help shadow-md" title="${currentLang === 'en' ? 'Fake Discount!' : '呢個優惠冇平到呀！'}">${stampText}</span>`;
+                        let stampText = (currentLang === 'en') ? 'NO OFFER' : (currentLang === 'zh-Hans' ? '无实质降价' : '無實質降價');
+                        fakePromoIcon = `<span class="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-[#FFF9F2] text-[#E65100] rounded-md border border-[#FFB74D]/30 shadow-sm cursor-help dark:bg-orange-900/30 dark:border-orange-800 dark:text-orange-400" title="${currentLang === 'en' ? 'Fake Discount!' : '此促銷無實質折扣'}">${stampText}</span>`;
                     }
                 }
                 
@@ -1288,23 +1343,30 @@
                 }
 
                 let statusText = '';
-                let statusColor = 'border-slate-200 text-slate-500 bg-slate-50';
+                let statusColor = '';
+                let statusIcon = '';
                 
+                // 🎨 專業化無 Emoji 歷史標籤 (對應專家推薦色彩)
                 if (realStatus === 'drop') {
-                    statusText = currentLang === 'en' ? '📉 Price Drop' : (currentLang === 'zh-Hans' ? '📉 真降价' : '📉 真降價');
-                    statusColor = 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400';
+                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>';
+                    statusText = currentLang === 'en' ? 'Price Drop' : (currentLang === 'zh-Hans' ? '真降价' : '真降價');
+                    statusColor = 'border-[#8BC34A]/30 bg-[#8BC34A]/10 text-[#558B2F] dark:border-[#8BC34A]/30 dark:bg-green-900/30 dark:text-[#AEEA00]';
                 } else if (realStatus === 'new') {
-                    statusText = currentLang === 'en' ? '🆕 New' : (currentLang === 'zh-Hans' ? '🆕 首次上架' : '🆕 首次上架');
-                    statusColor = 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
+                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>';
+                    statusText = currentLang === 'en' ? 'New' : (currentLang === 'zh-Hans' ? '首次上架' : '首次上架');
+                    statusColor = 'border-[#345B8C]/20 bg-[#E8F0F8] text-[#345B8C] dark:border-[#6A95CC]/30 dark:bg-slate-700 dark:text-[#6A95CC]';
                 } else if (realStatus === 'increase') {
-                    statusText = currentLang === 'en' ? '📈 Price Up' : (currentLang === 'zh-Hans' ? '📈 价格上升' : '📈 價格暗升');
-                    statusColor = 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400';
+                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>';
+                    statusText = currentLang === 'en' ? 'Price Up' : (currentLang === 'zh-Hans' ? '价格上升' : '價格暗升');
+                    statusColor = 'border-red-200 bg-red-50 text-red-600 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400';
                 } else if (realStatus === 'fake' || realStatus === 'promo_changed') {
-                    statusText = currentLang === 'en' ? '⚠️ Promo Changed' : (currentLang === 'zh-Hans' ? '⚠️ 优惠变动' : '⚠️ 優惠變動');
-                    statusColor = 'border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+                    statusText = currentLang === 'en' ? 'Promo Changed' : (currentLang === 'zh-Hans' ? '优惠变动' : '優惠變動');
+                    statusColor = 'border-[#FFB74D]/30 bg-[#FFF9F2] text-[#E65100] dark:border-orange-800 dark:bg-orange-900/30 dark:text-[#FFCC80]';
                 } else if (realStatus === 'maintained') {
-                    statusText = currentLang === 'en' ? '⏸️ Maintained' : (currentLang === 'zh-Hans' ? '⏸️ 价格维持' : '⏸️ 價格維持');
-                    statusColor = 'border-slate-200 bg-slate-100 text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400';
+                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+                    statusText = currentLang === 'en' ? 'Maintained' : (currentLang === 'zh-Hans' ? '价格维持' : '價格維持');
+                    statusColor = 'border-slate-200 bg-[#F8F8F8] text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400';
                 }
 
                 const lblDate = currentLang === 'en' ? 'Last Changed:' : (currentLang === 'zh-Hans' ? '上次变动:' : '上次變動:');
@@ -1312,7 +1374,6 @@
                 const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
                 const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
 
-                // 💡 防彈中文日期解析
                 let lastDateText = '-';
                 if (p.lastChangeDate && p.lastChangeDate !== 'null' && p.lastChangeDate !== '') {
                     let dStr = String(p.lastChangeDate).trim();
@@ -1323,7 +1384,6 @@
                         if (!isNaN(d.getTime())) {
                             lastDateText = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                         } else {
-                            // 保留無法解析的日期字串
                             lastDateText = dStr.split('T')[0]; 
                         }
                     }
@@ -1332,7 +1392,7 @@
                 let prevBaseText = (p.prevBasePrice && parseFloat(p.prevBasePrice) > 0) ? `$${parseFloat(p.prevBasePrice).toFixed(1)}` : '-';
                 let prevEffText = (p.prevEffPrice && parseFloat(p.prevEffPrice) > 0) ? `$${parseFloat(p.prevEffPrice).toFixed(1)}` : '-';
 
-                let prevPriceHtml = (prevEffText !== '-' && realStatus !== 'maintained' && realStatus !== 'new') ? `<span class="${realStatus === 'increase' || realStatus === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span>` : '';
+                let prevPriceHtml = (prevEffText !== '-' && realStatus !== 'maintained' && realStatus !== 'new') ? `<span class="${realStatus === 'increase' || realStatus === 'fake' ? 'text-red-500 dark:text-red-400 font-medium' : 'opacity-75 font-medium'}">${prevEffText} &rarr;&nbsp;</span>` : '';
 
                 let prevOfferText = '';
                 if (currentLang === 'en' && p.prevOfferEn) prevOfferText = p.prevOfferEn;
@@ -1340,45 +1400,42 @@
                 else if (p.prevOfferZh) prevOfferText = p.prevOfferZh;
                 if (!prevOfferText || prevOfferText === 'null' || prevOfferText.trim() === '') prevOfferText = currentLang === 'en' ? 'None' : '無';
 
-                // 💡 終極修復：加入商品本身的唯一條碼 (info.originalUniqueName 或 info.searchKeywords 的片段) 確保 ID 全局唯一
-                // 取 searchKeywords 的前 10 個字元來增加唯一性，並清除特殊符號
                 const uniqueProdId = String(info.searchKeywords).replace(/[^a-zA-Z0-9]/g, '').substring(0, 10);
                 const safeSupermarketCode = String(p.rawCode).replace(/[^a-zA-Z0-9]/g, '');
-                // 組合：前綴 - 超市代碼 - 商品指紋 - 價格索引
                 const boxId = `hist-${safeSupermarketCode}-${uniqueProdId}-${pIdx}`;
                 const iconId = `icon-${safeSupermarketCode}-${uniqueProdId}-${pIdx}`;
 
                 inlineStatusHtml = `
-                    <div class="ml-2 flex flex-col items-start relative mt-1 sm:mt-0">
-                        <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="toggleHistoryBox('${boxId}', '${iconId}')">
-                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded border ${statusColor} shadow-sm w-max">
+                    <div class="ml-2 flex flex-col items-start relative mt-1 sm:mt-0 z-20">
+                        <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="window.toggleHistoryBox('${boxId}', '${iconId}', event)">
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold rounded-md border ${statusColor} shadow-sm w-max">
                                 ${prevPriceHtml} ${statusText}
                             </span>
-                            <div class="bg-slate-100 dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
-                                <svg id="${iconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <div class="bg-[#F8F8F8] dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" id="${iconId}" class="history-icon w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                             </div>
                         </div>
-                        <div id="${boxId}" class="hidden mt-1.5 p-2 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[150px] z-20 absolute top-full left-0 shadow-lg">
-                            <div class="flex justify-between gap-4"><span>${lblDate}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${lastDateText}</span></div>
-                            <div class="flex justify-between gap-4"><span>${lblBase}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${prevBaseText}</span></div>
-                            <div class="flex justify-between gap-4"><span>${lblEff}</span> <span class="font-bold text-slate-700 dark:text-slate-300">${prevEffText}</span></div>
-                            <div class="flex justify-between gap-4 items-start">
-                                <span class="shrink-0">${lblOffer}</span> 
-                                <span class="font-medium text-slate-700 dark:text-slate-300 truncate max-w-[100px] text-right" title="${prevOfferText.replace(/"/g, '&quot;')}">${prevOfferText}</span>
+                        <div id="${boxId}" class="history-dropdown hidden mt-1.5 p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-600 text-[11px] text-slate-500 dark:text-slate-400 space-y-2 w-max min-w-[160px] absolute top-full left-0 shadow-lg z-50">
+                            <div class="flex justify-between gap-4"><span>${lblDate}</span> <span class="font-bold text-slate-800 dark:text-slate-100">${lastDateText}</span></div>
+                            <div class="flex justify-between gap-4"><span>${lblBase}</span> <span class="font-bold text-slate-800 dark:text-slate-100">${prevBaseText}</span></div>
+                            <div class="flex justify-between gap-4"><span>${lblEff}</span> <span class="font-black text-[#345B8C] dark:text-[#6A95CC]">${prevEffText}</span></div>
+                            <div class="flex justify-between gap-4 items-start pt-1.5 border-t border-[#E8F0F8] dark:border-slate-700">
+                                <span class="shrink-0 text-slate-500">${lblOffer}</span> 
+                                <span class="font-bold text-slate-700 dark:text-slate-300 truncate max-w-[120px] text-right" title="${prevOfferText.replace(/"/g, '&quot;')}">${prevOfferText}</span>
                             </div>
                         </div>
                     </div>
                 `;
 
-                return `<div class="flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : ''} transition-all">
+                return `<div class="price-row flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : 'hover:border-[#345B8C]/30'} relative transition-all">
                             <div class="flex justify-between items-center w-full">
                                 <div class="flex items-center flex-wrap">
                                     <span class="font-black text-[13px] ${textCls} mr-1">${displayName}</span>
                                     ${inlineStatusHtml}
                                 </div>
-                                <span class="text-[17px] font-black text-slate-800 dark:text-slate-100">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' 👍' : ''}</span>
+                                <span class="text-[17px] font-black text-[#345B8C] dark:text-[#608BC1] tracking-tight">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-0.5 text-green-500 mb-1 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>' : ''}</span>
                             </div>
-                            ${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-md border border-red-100 dark:border-red-800 break-words w-full sm:w-auto">🏷️ ${p.promoDisplay}</span>${fakePromoIcon}${avgLabel}</div>` : ''}
+                            ${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-[#E65100] dark:text-[#FFCC80] bg-[#FFF9F2] dark:bg-orange-900/30 px-2 py-0.5 rounded-md border border-[#FFB74D]/30 break-words w-full sm:w-auto flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#FFB74D]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg> ${p.promoDisplay}</span><div class="flex items-center">${fakePromoIcon}${avgLabel}</div></div>` : ''}
                         </div>`;
             }).join('');
 
@@ -1402,28 +1459,29 @@
             let defaultDisplayName = currentLang === 'en' ? displayEnName : displayZhName;
 
             const langSwitchBtn = (currentLang === 'en') ? '' : `
-                <button onclick="toggleCardLang(this)" 
+                <button onclick="window.toggleCardLang(this)" 
                         data-zh="${displayZhName.replace(/"/g, '&quot;')}" 
                         data-en="${displayEnName.replace(/"/g, '&quot;')}" 
                         data-brand-zh="${brandZh.replace(/"/g, '&quot;')}"
                         data-brand-en="${brandEn.replace(/"/g, '&quot;')}"
-                        class="px-1.5 py-0.5 text-[10px] bg-slate-200 dark:bg-slate-700 rounded-md font-bold hover:bg-blue-200 transition-colors ml-1">
-                    中/EN
+                        class="px-1.5 py-0.5 text-[10px] bg-[#F8F8F8] dark:bg-slate-700 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-600 rounded font-medium hover:bg-[#E8F0F8] transition-colors ml-1 shadow-sm">
+                    EN
                 </button>`;
 
             let fullSearchQuery = pName.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+            
             const searchBtn = `
                 <button onclick="window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent('${fullSearchQuery}'), '_blank')" 
-                        class="w-6 h-6 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 rounded-md hover:bg-blue-200 transition-colors ml-1" 
+                        class="w-6 h-6 flex items-center justify-center bg-[#F8F8F8] dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded hover:bg-[#E8F0F8] transition-colors ml-1 shadow-sm" 
                         title="Google 搜尋/Search"> 
-                    <img src="Images_Search.png" alt="Search" class="w-4 h-4 object-contain">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="text-[#345B8C] dark:text-slate-400"><circle cx="5" cy="5" r="4"/><line x1="11" y1="11" x2="8" y2="8"/></svg>
                 </button>`;
 
-            return `<div class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-sm dark:shadow-none border border-slate-200 dark:border-slate-700 flex flex-col gap-3 relative overflow-hidden transition-colors">
+            return `<div class="product-card bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-4 relative transition-colors">
                         <div class="flex justify-between items-start gap-3">
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <div class="product-brand text-[12px] text-blue-500 dark:text-blue-400 font-black tracking-widest uppercase" 
+                                    <div class="product-brand text-[12px] text-[#345B8C] dark:text-[#6A95CC] font-black tracking-widest uppercase" 
                                          data-brand-zh="${brandZh.replace(/"/g, '&quot;')}" 
                                          data-brand-en="${brandEn.replace(/"/g, '&quot;')}">
                                          ${brandZh}
@@ -1439,11 +1497,11 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
-                                <button onclick="openAlertModal('${fullSearchQuery}', '${minBasePrice}')" class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-50 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-200 dark:border-amber-800 text-amber-500 dark:text-amber-400 active:scale-90 transition-all shadow-sm" title="${alertTitle}">
+                                <button onclick="window.openAlertModal('${fullSearchQuery}', '${minBasePrice}')" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#F8F8F8] dark:bg-slate-800 hover:bg-[#E8F0F8] border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300 active:scale-95 transition-all shadow-sm" title="${alertTitle}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                                 </button>
-                                <button onclick="shareProduct('${displayZhName.replace(/'/g, "\\'")}', '${info.brand}', '${minBasePrice}')" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#1877F2] dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 active:scale-90 transition-all shadow-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                                <button onclick="window.shareProduct('${displayZhName.replace(/'/g, "\\'")}', '${info.brand}', '${minBasePrice}')" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#345B8C] dark:bg-blue-600 hover:bg-[#284973] dark:hover:bg-blue-500 text-white active:scale-95 transition-opacity shadow-sm border border-transparent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                                 </button>
                             </div>
                         </div>
@@ -1451,33 +1509,7 @@
                     </div>`;
         }
 
-        function triggerHomeQuickAction(mode, label, kw = '') {
-            selectedCat1 = 'GLOBAL'; 
-            chatSection.classList.remove('hidden'); 
-            level1Section.classList.add('hidden');
-            chatTitle.innerHTML = `<span class="mr-1.5">🌍</span> ${uiText[currentLang].globalTitle || '全港超市搜尋'}`;
-            chatMessages.innerHTML = '';
-            isBigGapMode = (mode === 'bigGap');
-            isDiscountMode = (mode === 'discount');
-            currentKeyword = kw;
-            addUserMessage(label);
-            
-            const reply = (uiText[currentLang].modeStart || `為你啟動「{label}」模式 🌍<br>馬上為你搜尋...`).replace('{label}', label);
-            addBotMessage(reply);
-            
-            setTimeout(() => { executeProductSearch(); }, 300);
-        }
-        
-        function openCameraMenu() {
-            const modal = document.getElementById('cameraMenuModal');
-            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
-        }
-        function closeCameraMenu() {
-            const modal = document.getElementById('cameraMenuModal');
-            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-        }
-
-        window.checkGeminiKey = function() {
+        function checkGeminiKey() {
             const keyInput = document.getElementById('geminiKeyInput');
             const keyStatus = document.getElementById('keyStatus');
             if (!keyInput || !keyStatus) return; 
@@ -1494,25 +1526,31 @@
                 keyStatus.innerText = dict.statusOffline || '🐢 目前使用基礎離線引擎';
                 keyStatus.className = 'text-xs font-bold mt-2 text-slate-500 dark:text-slate-400';
             }
-        };
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('saveKeyBtn')?.addEventListener('click', () => {
-                const key = document.getElementById('geminiKeyInput').value.trim();
-                if(key && key !== '********') { 
-                    localStorage.setItem('gemini_api_key', key); 
+            const saveBtn = document.getElementById('saveKeyBtn');
+            const clearBtn = document.getElementById('clearKeyBtn');
+            if (saveBtn) {
+                saveBtn.addEventListener('click', () => {
+                    const key = document.getElementById('geminiKeyInput').value.trim();
+                    if(key && key !== '********') { 
+                        localStorage.setItem('gemini_api_key', key); 
+                        const dict = (typeof uiText !== 'undefined' && typeof currentLang !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : {};
+                        alert(dict.alertKeySaved || '✅ 鎖匙已安全儲存！'); 
+                        checkGeminiKey(); 
+                    }
+                });
+            }
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    localStorage.removeItem('gemini_api_key'); 
                     const dict = (typeof uiText !== 'undefined' && typeof currentLang !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : {};
-                    alert(dict.alertKeySaved || '✅ 鎖匙已安全儲存！'); 
-                    window.checkGeminiKey(); 
-                }
-            });
-            document.getElementById('clearKeyBtn')?.addEventListener('click', () => {
-                localStorage.removeItem('gemini_api_key'); 
-                const dict = (typeof uiText !== 'undefined' && typeof currentLang !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : {};
-                alert(dict.alertKeyCleared || '🗑️ 鎖匙已清除，回復基礎模式。'); 
-                window.checkGeminiKey(); 
-            });
-            window.checkGeminiKey();
+                    alert(dict.alertKeyCleared || '🗑️ 鎖匙已清除，回復基礎模式。'); 
+                    checkGeminiKey(); 
+                });
+            }
+            checkGeminiKey();
         });
 
         function scrollToResults() {
@@ -1527,7 +1565,6 @@
             }
         }
 
-        // 啟動主程式
         init();
     </script>
 </body>
