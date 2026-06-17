@@ -1,24 +1,17 @@
 {
-  "generated_at": "2026-06-17T11:00:59.253Z",
+  "generated_at": "2026-06-17T21:12:17.978Z",
   "report_date": "2026-06-17",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "414",
-      "avg_discount_pct": "6.45",
+      "total_drop_items": "405",
+      "avg_discount_pct": "6.34",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
-      "cat_drop_count": "92",
+      "cat_drop_count": "91",
       "top_3_deals": [
-        {
-          "name_zh": "粟米筒 (淡鹽味) 68克",
-          "name_zh_hans": "粟米筒 (淡盐味) 68克",
-          "name_en": "Corn (Salt) 68g",
-          "price": 10,
-          "pct": 26.34
-        },
         {
           "name_zh": "維他命香橙及檸檬夾心果汁糖 50克",
           "name_zh_hans": "维他命香橙及柠檬夹心果汁糖 50克",
@@ -32,17 +25,24 @@
           "name_en": "Original Chocolate Biscuits 200g",
           "price": 20,
           "pct": 23.95
+        },
+        {
+          "name_zh": "脆紫菜 (辣香味) 32克",
+          "name_zh_hans": "脆紫菜 (辣香味) 32克",
+          "name_en": "Crispy Seaweed (Hot & Spicy Flavor) 32g",
+          "price": 10,
+          "pct": 23.66
         }
       ]
     },
     {
       "supermarket_code": "PARKNSHOP",
-      "total_drop_items": "391",
-      "avg_discount_pct": "9.45",
+      "total_drop_items": "385",
+      "avg_discount_pct": "9.47",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "85",
+      "cat_drop_count": "80",
       "top_3_deals": [
         {
           "name_zh": "日常修護洗髮乳 680毫升",
@@ -69,8 +69,8 @@
     },
     {
       "supermarket_code": "JASONS",
-      "total_drop_items": "282",
-      "avg_discount_pct": "6.63",
+      "total_drop_items": "276",
+      "avg_discount_pct": "6.52",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -102,7 +102,7 @@
     {
       "supermarket_code": "AEON",
       "total_drop_items": "104",
-      "avg_discount_pct": "11.63",
+      "avg_discount_pct": "11.68",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -134,11 +134,11 @@
     {
       "supermarket_code": "WATSONS",
       "total_drop_items": "97",
-      "avg_discount_pct": "8.35",
+      "avg_discount_pct": "9.52",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "73",
+      "cat_drop_count": "72",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -155,34 +155,34 @@
           "pct": 39.18
         },
         {
-          "name_zh": "無痕奢柔褲 (XL碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
-          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
-          "price": 19.95,
-          "pct": 31.96
+          "name_zh": "Air-Dry Fresh 草本健康日用量大加長衛生巾 32厘米 8片",
+          "name_zh_hans": "Air-Dry Fresh 草本健康日用量大加长卫生巾 32厘米 8片",
+          "name_en": "Air-Dry Fresh Pad 32cm 8pcs",
+          "price": 10.1,
+          "pct": 36.08
         }
       ]
     },
     {
       "supermarket_code": "MANNINGS",
-      "total_drop_items": "82",
-      "avg_discount_pct": "7.43",
+      "total_drop_items": "83",
+      "avg_discount_pct": "8.40",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "65",
+      "cat_drop_count": "63",
       "top_3_deals": [
-        {
-          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
-          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
-          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
-          "price": 19.95,
-          "pct": 31.96
-        },
         {
           "name_zh": "無痕奢柔褲 (XL碼) 3片",
           "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
           "name_en": "Koala Super Premium Pants (XL size) 3PCS",
+          "price": 19.95,
+          "pct": 31.96
+        },
+        {
+          "name_zh": "無痕奢柔褲 (M-L碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
+          "name_en": "Koala Super Premium Pants (M-L size) 3PCS",
           "price": 19.95,
           "pct": 31.96
         },
@@ -197,12 +197,12 @@
     },
     {
       "supermarket_code": "SASA",
-      "total_drop_items": "6",
-      "avg_discount_pct": "18.75",
+      "total_drop_items": "7",
+      "avg_discount_pct": "19.12",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "6",
+      "cat_drop_count": "7",
       "top_3_deals": [
         {
           "name_zh": "腸道益生菌 (300億) 30粒",
@@ -216,25 +216,25 @@
           "name_zh_hans": "SA水杨酸焕肤洁肤露 473毫升",
           "name_en": "SA Smoothing Cleanser 473mL",
           "price": 116,
-          "pct": 26.11
+          "pct": 38.36
         },
         {
           "name_zh": "Hydro Boost 水活保濕凝露 50克",
           "name_zh_hans": "Hydro Boost 水活保湿凝露 50克",
           "name_en": "Hydro Boost Water Gel 50g",
           "price": 88,
-          "pct": 16.82
+          "pct": 22.5
         }
       ]
     },
     {
       "supermarket_code": "LUNGFUNG",
-      "total_drop_items": "4",
-      "avg_discount_pct": "19.21",
+      "total_drop_items": "5",
+      "avg_discount_pct": "17.48",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "3",
+      "cat_drop_count": "4",
       "top_3_deals": [
         {
           "name_zh": "兒童益生菌咀嚼片 30粒",
