@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-17T21:12:17.978Z",
+  "generated_at": "2026-06-17T23:23:50.589Z",
   "report_date": "2026-06-17",
   "total_items": 9,
   "results": [
     {
       "supermarket_code": "WELLCOME",
-      "total_drop_items": "405",
-      "avg_discount_pct": "6.34",
+      "total_drop_items": "410",
+      "avg_discount_pct": "6.47",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -37,40 +37,40 @@
     },
     {
       "supermarket_code": "PARKNSHOP",
-      "total_drop_items": "385",
-      "avg_discount_pct": "9.47",
+      "total_drop_items": "382",
+      "avg_discount_pct": "9.51",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "80",
+      "cat_drop_count": "76",
       "top_3_deals": [
-        {
-          "name_zh": "日常修護洗髮乳 680毫升",
-          "name_zh_hans": "日常修护洗发乳 680毫升",
-          "name_en": "Daily Shine Shampoo 680mL",
-          "price": 15,
-          "pct": 47.37
-        },
-        {
-          "name_zh": "髮源強韌防斷髮洗髮乳 680毫升",
-          "name_zh_hans": "发源强韧防断发洗发乳 680毫升",
-          "name_en": "Hair Fall Rescue Shampoo 680mL",
-          "price": 15,
-          "pct": 47.37
-        },
         {
           "name_zh": "蒸餾水 430毫升",
           "name_zh_hans": "蒸馏水 430毫升",
           "name_en": "Pure Distilled Water 430mL",
           "price": 3.33,
           "pct": 32.67
+        },
+        {
+          "name_zh": "Shiraz Cabernet 羅列施赫卡貝納 (切拉子赤霞珠) 紅酒 750毫升",
+          "name_zh_hans": "Shiraz Cabernet 罗列施赫卡贝纳 (切拉子赤霞珠) 红酒 750毫升",
+          "name_en": "Shiraz Cabernet 750mL",
+          "price": 50,
+          "pct": 31.29
+        },
+        {
+          "name_zh": "Dairy Milk 朱古力 - 牛奶 180克",
+          "name_zh_hans": "Dairy Milk 朱古力 - 牛奶 180克",
+          "name_en": "Dairy Milk Chocolate - Milk Chocolate 180g",
+          "price": 29.9,
+          "pct": 29.15
         }
       ]
     },
     {
       "supermarket_code": "JASONS",
-      "total_drop_items": "276",
-      "avg_discount_pct": "6.52",
+      "total_drop_items": "280",
+      "avg_discount_pct": "6.68",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -91,9 +91,9 @@
           "pct": 23.95
         },
         {
-          "name_zh": "直通粉 (n.73) 500克",
-          "name_zh_hans": "直通粉 (n.73) 500克",
-          "name_en": "Penne Rigate (n.73) 500g",
+          "name_zh": "通心粉 (n.41) 500克",
+          "name_zh_hans": "通心粉 (n.41) 500克",
+          "name_en": "Chifferi (n.41) 500g",
           "price": 13,
           "pct": 23.08
         }
@@ -101,8 +101,8 @@
     },
     {
       "supermarket_code": "AEON",
-      "total_drop_items": "104",
-      "avg_discount_pct": "11.68",
+      "total_drop_items": "98",
+      "avg_discount_pct": "12.16",
       "top_category_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "top_category_zh_hans": "粉面 / 煮食用料 / 冷冻加工食品",
       "top_category_en": "Noodles / Cooking needs / Processed food (cold)",
@@ -120,25 +120,25 @@
           "name_zh_hans": "Always Infinity 液体材质日用卫生巾 24厘米 10片",
           "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
           "price": 17.95,
-          "pct": 39.18
+          "pct": 44.04
         },
         {
-          "name_zh": "Air-Dry 雲枕瞬吸日用衛生巾 24厘米 10片",
-          "name_zh_hans": "Air-Dry 云枕瞬吸日用卫生巾 24厘米 10片",
-          "name_en": "Air-Dry Pad 24cm 10pcs",
-          "price": 11.95,
-          "pct": 33.98
+          "name_zh": "纖柔備長炭牙刷 (超級軟毛) 3支裝",
+          "name_zh_hans": "纤柔备长炭牙刷 (超级软毛) 3支装",
+          "name_en": "Slim Soft Charcoal Toothbrush (Ultra Soft) 3pcs",
+          "price": 14.5,
+          "pct": 41.7
         }
       ]
     },
     {
       "supermarket_code": "WATSONS",
-      "total_drop_items": "97",
-      "avg_discount_pct": "9.52",
+      "total_drop_items": "82",
+      "avg_discount_pct": "8.82",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "72",
+      "cat_drop_count": "57",
       "top_3_deals": [
         {
           "name_zh": "超滑牙線 Satin Floss (薄荷口味) 50米",
@@ -148,37 +148,30 @@
           "pct": 45.63
         },
         {
-          "name_zh": "Always Infinity 液體材質日用衛生巾 24厘米 10片",
-          "name_zh_hans": "Always Infinity 液体材质日用卫生巾 24厘米 10片",
-          "name_en": "Always Infinity Flex Foam Day Use Pads 24cm 10pcs",
-          "price": 17.95,
-          "pct": 39.18
-        },
-        {
           "name_zh": "Air-Dry Fresh 草本健康日用量大加長衛生巾 32厘米 8片",
           "name_zh_hans": "Air-Dry Fresh 草本健康日用量大加长卫生巾 32厘米 8片",
           "name_en": "Air-Dry Fresh Pad 32cm 8pcs",
           "price": 10.1,
           "pct": 36.08
-        }
-      ]
-    },
-    {
-      "supermarket_code": "MANNINGS",
-      "total_drop_items": "83",
-      "avg_discount_pct": "8.40",
-      "top_category_zh": "個人護理",
-      "top_category_zh_hans": "个人护理",
-      "top_category_en": "Personal care",
-      "cat_drop_count": "63",
-      "top_3_deals": [
+        },
         {
           "name_zh": "無痕奢柔褲 (XL碼) 3片",
           "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
           "name_en": "Koala Super Premium Pants (XL size) 3PCS",
           "price": 19.95,
           "pct": 31.96
-        },
+        }
+      ]
+    },
+    {
+      "supermarket_code": "MANNINGS",
+      "total_drop_items": "81",
+      "avg_discount_pct": "8.87",
+      "top_category_zh": "個人護理",
+      "top_category_zh_hans": "个人护理",
+      "top_category_en": "Personal care",
+      "cat_drop_count": "61",
+      "top_3_deals": [
         {
           "name_zh": "無痕奢柔褲 (M-L碼) 3片",
           "name_zh_hans": "无痕奢柔裤 (M-L码) 3片",
@@ -187,22 +180,29 @@
           "pct": 31.96
         },
         {
-          "name_zh": "抑菌清新絲薄 (夜用) 衛生巾 30厘米 14片",
-          "name_zh_hans": "抑菌清新丝薄 (夜用) 卫生巾 30厘米 14片",
-          "name_en": "Anti-bacteria Ultra Slim (Night Use) (Wing) Pad 30cm 14pcs",
-          "price": 15.95,
-          "pct": 25
+          "name_zh": "無痕奢柔褲 (XL碼) 3片",
+          "name_zh_hans": "无痕奢柔裤 (XL码) 3片",
+          "name_en": "Koala Super Premium Pants (XL size) 3PCS",
+          "price": 19.95,
+          "pct": 31.96
+        },
+        {
+          "name_zh": "鑽.耀白牙刷 1支",
+          "name_zh_hans": "钻.耀白牙刷 1支",
+          "name_en": "Diamond Shine Toothbrush 1PC",
+          "price": 14.95,
+          "pct": 25.6
         }
       ]
     },
     {
       "supermarket_code": "SASA",
-      "total_drop_items": "7",
-      "avg_discount_pct": "19.12",
+      "total_drop_items": "6",
+      "avg_discount_pct": "20.08",
       "top_category_zh": "個人護理",
       "top_category_zh_hans": "个人护理",
       "top_category_en": "Personal care",
-      "cat_drop_count": "7",
+      "cat_drop_count": "6",
       "top_3_deals": [
         {
           "name_zh": "腸道益生菌 (300億) 30粒",
