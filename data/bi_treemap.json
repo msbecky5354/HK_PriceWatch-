@@ -1,10 +1,20 @@
 {
-  "generated_at": "2026-06-18T03:37:31.269Z",
+  "generated_at": "2026-06-18T03:51:12.275Z",
   "report_date": "2026-06-18",
   "data": [
     {
+      "name": "DCHFOOD",
+      "value": 2,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
+      }
+    },
+    {
       "name": "Market Place (Jasons)",
-      "value": 121,
+      "value": 1,
       "itemStyle": {
         "color": "#334155"
       },
@@ -22,27 +32,8 @@
       }
     },
     {
-      "name": "惠康 (WELLCOME)",
-      "value": 73,
-      "itemStyle": {
-        "color": "#ef4444"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/wellcome.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
       "name": "百佳 (PARKNSHOP)",
-      "value": 39,
+      "value": 1,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -60,54 +51,16 @@
       }
     },
     {
-      "name": "屈臣氏 (WATSONS)",
-      "value": 24,
+      "name": "惠康 (WELLCOME)",
+      "value": 1,
       "itemStyle": {
-        "color": "#14b8a6"
+        "color": "#ef4444"
       },
       "label": {
         "rich": {
           "logo": {
             "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/watsons.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
-      "name": "萬寧 (MANNINGS)",
-      "value": 13,
-      "itemStyle": {
-        "color": "#f59e0b"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/mannings.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
-      "name": "AEON",
-      "value": 10,
-      "itemStyle": {
-        "color": "#f472b6"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/aeon.png"
+              "image": "https://hk-price-watch.vercel.app/wellcome.png"
             },
             "width": 60,
             "height": 60,
