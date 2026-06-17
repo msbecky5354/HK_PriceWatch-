@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T03:51:12.275Z",
+  "generated_at": "2026-06-18T04:01:40.759Z",
   "report_date": "2026-06-18",
   "data": [
     {
@@ -32,25 +32,6 @@
       }
     },
     {
-      "name": "百佳 (PARKNSHOP)",
-      "value": 1,
-      "itemStyle": {
-        "color": "#3b82f6"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/pns.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
       "name": "惠康 (WELLCOME)",
       "value": 1,
       "itemStyle": {
@@ -61,6 +42,25 @@
           "logo": {
             "backgroundColor": {
               "image": "https://hk-price-watch.vercel.app/wellcome.png"
+            },
+            "width": 60,
+            "height": 60,
+            "borderRadius": 4
+          }
+        }
+      }
+    },
+    {
+      "name": "百佳 (PARKNSHOP)",
+      "value": 1,
+      "itemStyle": {
+        "color": "#3b82f6"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://hk-price-watch.vercel.app/pns.png"
             },
             "width": 60,
             "height": 60,
