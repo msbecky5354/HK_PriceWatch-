@@ -6,19 +6,19 @@
     <title>智選真抵榜 | 慳真D🔎</title>
     <script src="lang.js?v=11"></script>
     <script src="promoEngine.js?v=11"></script>
-    <script src="alertSystem.js?v=2"></script>
+    <script src="alertSystem.js?v=3"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
     </script>
     <style> th { white-space: nowrap; } </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-[100dvh] flex flex-col">
 
     <script src="appUtils.js?v=1"></script>
     <script src="header.js?v=2"></script>
 
-    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
+    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 flex-1">
         
         <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
             <div class="flex items-center gap-3">
@@ -117,39 +117,42 @@
 
     <div class="text-center pt-2 pb-8 flex-none w-full"> 
         <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
-                class="text-[11px] text-blue-500 dark:text-white hover:text-blue-600 dark:hover:text-slate-300 underline decoration-slate-200 dark:decoration-slate-700 transition">
+                class="text-[11px] text-[#345B8C] dark:text-[#608BC1] hover:underline decoration-slate-300 dark:decoration-slate-600 transition">
             關於我們、條款及免責聲明
         </button>
-        <div class="text-[10px] text-slate-500 dark:text-slate-100 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
             <span id="miniFooterCopy">© 2026 慳真D</span> 
             <span class="mx-1.5">|</span> 
             <span id="footerDevTeam">開發團隊: </span>
-            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
+            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="hover:text-slate-700 dark:hover:text-slate-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
         </div>
     </div>
 
     <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[200] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh] border dark:border-slate-700 transition-colors duration-300">
-            <div class="flex items-center gap-2 mb-4">
-                <span class="text-[20px]">🛡️</span>
+            <div class="flex items-center gap-2 mb-4 border-b border-[#E8F0F8] dark:border-slate-700 pb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#345B8C] dark:text-slate-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 <h2 id="disclaimerTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">免責聲明及服務條款</h2>
             </div>        
             <div id="disclaimerBody" class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors"></div>
-            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">我明白及接受</button>
+            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-[#345B8C] hover:opacity-90 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-sm">我明白及接受</button>
         </div>
     </div>
 
     <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
-            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
-                <h3 id="calcModalTitle" class="text-[16px] font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">ℹ️ 運算機制與聲明</h3>
+            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-[#F8F8F8] dark:bg-slate-900/50 shrink-0">
+                <h3 id="calcModalTitle" class="text-[16px] font-black text-[#345B8C] dark:text-slate-100 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    運算機制與聲明
+                </h3>
                 <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
             </div>
             <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
                 <div id="calcModalContent"></div>
             </div>
-            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 shrink-0">
-                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-sm active:scale-95 transition">明白</button>
+            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
+                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-[#345B8C] hover:opacity-90 text-white font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition">我明白</button>
             </div>
         </div>
     </div>
@@ -160,7 +163,7 @@
     let fullDataList = [];
     let lastUpdatedTime = null;
     let currentSort = { column: 'realDiscountPct', dir: 'desc' };
-    let currentMinPct = 30; // 💡 預設篩選 >30% 的降價貨品
+    let currentMinPct = 30;
 
     function getText(content, lang) {
         if (!content) return '-';
@@ -172,18 +175,14 @@
     }
 
     const statusI18n = {
-        'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800' },
         'drop': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
         'fake': { 'en': '⚠️ Fake Promo', 'zh-Hant': '⚠️ 假促銷(無平到)', 'zh-Hans': '⚠️ 假促销(无降价)', 'color': 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800' },
         'increase': { 'en': '📈 Hidden Increase', 'zh-Hant': '📈 價格暗升', 'zh-Hans': '📈 价格暗升', 'color': 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800' },
         'promo_changed': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
-        'PRICE_CHANGED': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
-        'OFFER_CHANGED': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
-        'PRICE_AND_OFFER_CHANGED': { 'en': '📉+🏷️ Price & Promo Drop', 'zh-Hant': '📉+🏷️ 真降價+換優惠', 'zh-Hans': '📉+🏷️ 真降价+换优惠', 'color': 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800' },
-        'maintained': { 'en': '⏸️ Maintained', 'zh-Hant': '⏸️ 價格維持', 'zh-Hans': '⏸️ 价格维持', 'color': 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' }
+        'maintained': { 'en': '⏸️ Maintained', 'zh-Hant': '⏸️ 價格維持', 'zh-Hans': '⏸️ 价格维持', 'color': 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' },
+        'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-[#345B8C] dark:text-[#6A95CC] bg-[#E8F0F8] dark:bg-slate-700 border-[#345B8C]/20 dark:border-[#6A95CC]/30' }
     };
 
-    // --- 2. 核心工具函數 ---
     function formatDateTime(date) {
         if (!date || isNaN(date.getTime())) return '';
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
@@ -191,22 +190,17 @@
 
     function getSmName(code, lang) {
         let c = (code || '').toUpperCase();
-        if (typeof supermarketDict !== 'undefined' && supermarketDict[lang] && supermarketDict[lang][c]) {
-            return supermarketDict[lang][c];
-        }
-        if (typeof supermarketDict !== 'undefined' && supermarketDict['zh-Hant'] && supermarketDict['zh-Hant'][c]) {
-            return supermarketDict['zh-Hant'][c];
-        }
+        if (typeof supermarketDict !== 'undefined' && supermarketDict[lang] && supermarketDict[lang][c]) return supermarketDict[lang][c];
+        if (typeof supermarketDict !== 'undefined' && supermarketDict['zh-Hant'] && supermarketDict['zh-Hant'][c]) return supermarketDict['zh-Hant'][c];
         return c;
     }
 
     function getSmBadge(smCode, lang) {
         let code = (smCode || '').toUpperCase();
         let name = getSmName(code, lang);
-        
         let style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[code]) 
             ? supermarketStyleDict[code] 
-            : (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict['DEFAULT'] ? supermarketStyleDict['DEFAULT'] : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' });
+            : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' };
             
         return `<span onclick="setQuickSearch('${name}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
     }
@@ -215,72 +209,179 @@
         window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
     }
 
-   // --- 4. 🚀 秒速載入 n8n 伺服器端資料 (附多重備援與深度除錯) ---
+   // --- 🚀 V12.0 實時雙軌直連：前端大腦實時運算 (廢除 true_discount.json) ---
     async function loadTrueDiscountData() {
         try {
             const tbody = document.getElementById('leaderboardTableBody');
             const mbody = document.getElementById('leaderboardMobile');
             
-            let loadingStr = currentLang === 'en' ? '⏳ Fetching Pre-calculated Data...' : (currentLang === 'zh-Hans' ? '⏳ 正在拉取云端运算数据...' : '⏳ 正在拉取雲端運算數據...');
-            const loadingHTML = `<div class="p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px]">${loadingStr}</div>`;
+            let loadingStr = currentLang === 'en' ? '⏳ Calculating Live Discount Data...' : (currentLang === 'zh-Hans' ? '⏳ 正在实时运算真抵榜数据...' : '⏳ 正在即時運算真抵榜數據...');
+            const loadingHTML = `<div class="p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px] flex flex-col items-center justify-center gap-3"><div class="w-8 h-8 border-4 border-slate-200 border-t-[#345B8C] rounded-full animate-spin"></div>${loadingStr}</div>`;
             if (tbody) tbody.innerHTML = `<tr><td colspan="10">${loadingHTML}</td></tr>`;
             if (mbody) mbody.innerHTML = loadingHTML;
 
-            const nocache = new Date().getTime() + Math.random().toString(36).substring(7);
-            const urlsToTry = [
-                `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/true_discount.json?v=${nocache}`,
-                `https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@main/data/true_discount.json?v=${nocache}`
-            ];
+            const nocache = new Date().getTime();
+            const pwUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json?v=${nocache}`;
+            const snapUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json?v=${nocache}`;
+            const logUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt?v=${nocache}`;
 
-            let rawJson = null;
-            let lastError = null;
+            const [pwRes, snapRes, logRes] = await Promise.all([
+                fetch(pwUrl, { cache: 'no-store' }),
+                fetch(snapUrl, { cache: 'no-store' }).catch(e => null),
+                fetch(logUrl, { cache: 'no-store' }).catch(e => null)
+            ]);
 
-            for (const url of urlsToTry) {
-                try {
-                    console.log("正在嘗試抓取:", url);
-                    const res = await fetch(url, { cache: 'no-store' });
-                    
-                    if (!res.ok) {
-                        throw new Error(`HTTP 狀態碼: ${res.status}`);
-                    }
-                    
-                    const contentType = res.headers.get("content-type");
-                    if (contentType && contentType.includes("text/plain")) {
-                         const textData = await res.text();
-                         rawJson = JSON.parse(textData);
-                    } else {
-                         rawJson = await res.json();
-                    }
-                    
-                    if (rawJson && (rawJson.results || Array.isArray(rawJson))) {
-                        console.log("✅ 成功從此節點取得 JSON！");
-                        break; 
-                    } else {
-                        throw new Error("JSON 格式不符合預期");
-                    }
-                } catch (e) {
-                    console.warn(`嘗試抓取 ${url} 失敗:`, e);
-                    lastError = e;
-                }
-            }
-
-            if (!rawJson) {
-                throw new Error(`所有的資料節點均無回應。最後錯誤: ${lastError.message} (請確認 GitHub 上是否有最新推送的 true_discount.json)`);
-            }
-
-            fullDataList = Array.isArray(rawJson.results) ? rawJson.results : (Array.isArray(rawJson) ? rawJson : []);
+            if (!pwRes.ok) throw new Error("無法取得最新官方即時數據");
+            const rawApiData = await pwRes.json();
             
-            if (rawJson.generated_at) {
-                lastUpdatedTime = new Date(rawJson.generated_at);
+            let snapshotData = [];
+            if (snapRes && snapRes.ok) {
+                const snapJson = await snapRes.json();
+                snapshotData = Array.isArray(snapJson) ? snapJson : (snapJson.results || []);
             }
 
+            if (logRes && logRes.ok) lastUpdatedTime = new Date((await logRes.text()).trim());
+            else lastUpdatedTime = new Date();
+
+            let leaderboard = [];
+
+            // 🧠 前端實時大腦：遍歷所有商品並運算
+            rawApiData.forEach(item => {
+                if (!item.prices || !Array.isArray(item.prices)) return;
+                
+                let validPrices = [];
+                item.prices.forEach(p => {
+                    let codeUpper = (p.supermarketCode || '').toUpperCase();
+                    if (codeUpper === 'ZTORE') return; 
+
+                    let basePrice = parseFloat(p.price);
+                    if (isNaN(basePrice)) return;
+                    
+                    let effPrice = basePrice;
+                    let promoCalcEn = '';
+                    let promoDisplayZh = '';
+                    let promoDisplayHans = '';
+                    
+                    // 攔截促銷字串
+                    const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
+                    for (let key of promoKeys) {
+                        if (Array.isArray(item[key])) {
+                            let matchingOffer = item[key].find(o => String(o.supermarketCode) === String(p.supermarketCode) || String(o.supermarket) === String(p.supermarketCode));
+                            if (matchingOffer) {
+                                let exEn = typeof extractDeepPromoText === 'function' ? extractDeepPromoText(matchingOffer, 'en') : '';
+                                if (exEn && exEn !== "[object Object]") {
+                                    promoCalcEn = exEn;
+                                    promoDisplayZh = extractDeepPromoText(matchingOffer, 'zh-Hant');
+                                    promoDisplayHans = extractDeepPromoText(matchingOffer, 'zh-Hans');
+                                    break; 
+                                }
+                            }
+                        } else if (p[key]) {
+                            let exEn = typeof extractDeepPromoText === 'function' ? extractDeepPromoText(p[key], 'en') : '';
+                            if (exEn && exEn !== "[object Object]") {
+                                promoCalcEn = exEn;
+                                promoDisplayZh = extractDeepPromoText(p[key], 'zh-Hant');
+                                promoDisplayHans = extractDeepPromoText(p[key], 'zh-Hans');
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // 呼叫 promoEngine.js 實時計算單件折實價
+                    if (typeof calculateAvgPrice === 'function' && promoCalcEn) {
+                        let avg = calculateAvgPrice(promoCalcEn, basePrice);
+                        if (avg && avg > 0 && avg < basePrice) effPrice = avg;
+                        else if (avg && avg.price !== undefined && avg.price !== null) effPrice = avg.price;
+                    }
+                    
+                    validPrices.push({ smCode: codeUpper, basePrice: basePrice, effPrice: effPrice, promoEn: promoCalcEn, promoZh: promoDisplayZh, promoHans: promoDisplayHans });
+                });
+                
+                // 必須要在兩間以上超市有售，才能計算全城平均價
+                if (validPrices.length < 2) return; 
+                
+                let marketAvgPrice = validPrices.reduce((acc, curr) => acc + curr.effPrice, 0) / validPrices.length;
+                let winner = validPrices.reduce((prev, curr) => prev.effPrice < curr.effPrice ? prev : curr);
+                
+                // 如果最低價並沒有低於全城平均，就沒有上榜資格
+                if (winner.effPrice >= marketAvgPrice) return; 
+                
+                let discountPct = ((marketAvgPrice - winner.effPrice) / marketAvgPrice) * 100;
+                if (discountPct <= 0) return;
+
+                // 🕰️ 即時對碰 Snapshot 歷史大腦
+                let historyStatus = 'maintained';
+                let prevEffPrice = null;
+                let prevBasePrice = null;
+                let lastChangeDate = null;
+                let prevOfferEn = null;
+                let prevOfferZh = null;
+                let prevOfferHans = null;
+
+                const snapRecord = snapshotData.find(s => String(s.product_code) === String(item.code) && String(s.supermarket_code) === winner.smCode);
+                if (snapRecord) {
+                    let rawStatus = snapRecord.change_status || 'maintained';
+                    let prevEffNum = parseFloat(snapRecord.previous_effective_price);
+                    
+                    // V12.0 狀態翻譯：依據實質數字推導終極狀態
+                    if (rawStatus === 'NEW_ADDED') {
+                        historyStatus = 'new';
+                    } else if (rawStatus.includes('PRICE_CHANGED') || rawStatus === 'drop' || rawStatus === 'increase') {
+                        if (!isNaN(prevEffNum) && winner.effPrice < prevEffNum) historyStatus = 'drop';
+                        else if (!isNaN(prevEffNum) && winner.effPrice > prevEffNum) historyStatus = 'increase';
+                        else historyStatus = 'promo_changed';
+                    } else if (rawStatus.includes('OFFER_CHANGED') || rawStatus === 'promo_changed') {
+                        historyStatus = 'promo_changed';
+                    }
+                    
+                    // 假促銷捕捉
+                    if (winner.promoEn && !isNaN(prevEffNum) && winner.effPrice >= prevEffNum && historyStatus !== 'increase') {
+                        historyStatus = 'fake';
+                    }
+
+                    prevEffPrice = snapRecord.previous_effective_price;
+                    prevBasePrice = snapRecord.previous_base_price;
+                    lastChangeDate = snapRecord.last_changed_date;
+                    prevOfferEn = snapRecord.previous_offer_en;
+                    prevOfferZh = snapRecord.previous_offer_zh_hant;
+                    prevOfferHans = snapRecord.previous_offer_zh_hans;
+                } else {
+                    historyStatus = 'new';
+                }
+
+                let otherPrices = validPrices.filter(v => v.smCode !== winner.smCode).map(v => ({ smCode: v.smCode, price: v.effPrice }));
+
+                leaderboard.push({
+                    name: item.name || {'zh-Hant': 'Unknown'},
+                    brand: item.brand || item.brandName || '',
+                    categoryRaw: item.cat1Name || item.categoryRaw || '',
+                    smCode: winner.smCode,
+                    originalPrice: winner.basePrice,
+                    effectivePrice: winner.effPrice,
+                    currentOfferEn: winner.promoEn,
+                    currentOfferZh: winner.promoZh,
+                    currentOfferHans: winner.promoHans,
+                    realDiscountPct: discountPct,
+                    statusKey: historyStatus,
+                    prevEffPrice: prevEffPrice,
+                    prevBasePrice: prevBasePrice,
+                    lastChangeDate: lastChangeDate,
+                    prevOfferEn: prevOfferEn,
+                    prevOfferZh: prevOfferZh,
+                    prevOfferHans: prevOfferHans,
+                    otherPricesRaw: JSON.stringify(otherPrices)
+                });
+            });
+
+            fullDataList = leaderboard;
+            
             if (typeof updateLocalLanguage === 'function') {
                 updateLocalLanguage(currentLang);
             }
             
         } catch (e) { 
             console.error("數據載入崩潰:", e); 
-            const errorStr = currentLang === 'en' ? 'Failed to load data' : '無法取得最新數據';
+            const errorStr = currentLang === 'en' ? 'Failed to load live data' : '無法取得最新即時數據';
             const errorHTML = `
                 <div class="p-10 text-center flex flex-col items-center justify-center gap-3">
                     <span class="text-red-500 dark:text-red-400 font-black text-[16px]">${errorStr}</span>
@@ -498,7 +599,6 @@
 
   // --- 6. 🚀 渲染畫面與注入詳細歷史資訊 ---
     function renderLeaderboard(list) {
-        const d = (typeof uiText !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : uiText['zh-Hant'];
         const otherStrText = currentLang === 'en' ? 'Others' : (currentLang === 'zh-Hans' ? '其他' : '其他');
         
         const lblDate = currentLang === 'en' ? 'Last Changed:' : (currentLang === 'zh-Hans' ? '上次变动:' : '上次變動:');
@@ -545,10 +645,10 @@
                     }
                 }
                 
-                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : item.currentOfferZh;
+                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : (currentLang === 'zh-Hans' ? item.currentOfferHans : item.currentOfferZh);
                 if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
 
-                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : item.prevOfferZh;
+                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : (currentLang === 'zh-Hans' ? item.prevOfferHans : item.prevOfferZh);
                 if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
                 
                 const deskBoxId = `desk-hist-${i}`;
@@ -580,9 +680,9 @@
                     <td class="p-3 align-top text-center whitespace-nowrap">${getSmBadge(item.smCode, currentLang)}</td>
                     <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px]" title="${getText(item.brand, currentLang)}">${getText(item.brand, currentLang)}</td>
                     <td class="p-3 align-top font-bold text-[14px]">
-                        <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">${displayName}</a>
-                        ${currentOfferText ? `<div class="text-[11px] text-red-500 mt-1">${currentOfferText}</div>` : ''}
-                    </td>
+    <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${displayName.replace(/"/g, '&quot;')} ${item.smCode}" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">${displayName}</a>
+    ${currentOfferText ? `<div class="text-[11px] text-red-500 mt-1 flex gap-1 items-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FFB74D] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg>${currentOfferText}</div>` : ''}
+</td>
                     <td class="p-3 align-top">${statusBadgeHTML}</td>
                     <td class="p-3 align-top text-right text-slate-400 dark:text-slate-500 line-through text-[12px] whitespace-nowrap">$${(parseFloat(item.originalPrice) || 0).toFixed(1)}</td>
                     <td class="p-3 align-top text-right font-black text-blue-600 dark:text-blue-400 text-[16px] whitespace-nowrap">$${(parseFloat(item.effectivePrice) || 0).toFixed(1)}</td>
@@ -633,10 +733,10 @@
                     }
                 }
                 
-                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : item.currentOfferZh;
+                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : (currentLang === 'zh-Hans' ? item.currentOfferHans : item.currentOfferZh);
                 if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
 
-                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : item.prevOfferZh;
+                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : (currentLang === 'zh-Hans' ? item.prevOfferHans : item.prevOfferZh);
                 if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
 
                 const mobBoxId = `mob-hist-${i}`;
@@ -678,10 +778,10 @@
                     </div>
                     <div>
                         <span class="text-[12px] font-normal text-slate-500 dark:text-slate-400 block mb-0.5">${getText(item.brand, currentLang)}</span>
-                        <h3 class="font-bold text-[15px] leading-snug mb-1">
-                            <a href="javascript:void(0)" onclick="goToProductSearch('${safeName}')" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">${displayName}</a>
-                        </h3>
-                        ${currentOfferText ? `<div class="text-[12px] text-red-500 mt-1">${currentOfferText}</div>` : ''}
+                       <h3 class="font-bold text-[15px] leading-snug mb-1">
+    <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${displayName.replace(/"/g, '&quot;')} ${item.smCode}" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">${displayName}</a>
+</h3>
+                        ${currentOfferText ? `<div class="text-[12px] text-red-500 mt-1 flex gap-1 items-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#FFB74D] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg>${currentOfferText}</div>` : ''}
                     </div>
                     <div class="flex justify-between items-end mt-2">
                         <div class="flex flex-col items-start gap-1 w-3/5">
@@ -701,7 +801,7 @@
         }
     }
 
-   // --- 🌟 ℹ️ 運算機制與聲明 Modal (絕對中立零推託版) 🌟 ---
+   // --- 🌟 ℹ️ 運算機制與聲明 Modal 🌟 ---
     const calcInfoTexts = {
         'zh-Hant': {
             title: "ℹ️ 運算機制與聲明",
@@ -724,7 +824,7 @@
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ 假促銷</span> <span class="text-slate-600 dark:text-slate-400">超市掛上促銷標籤，但計算後發現單件折實價 <b>大於或等於</b> 先前的常規價，毫無實質優惠。</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 價格暗升</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>高於</b> 上次紀錄之折實價。</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 價格維持</span> <span class="text-slate-600 dark:text-slate-400">價格與促銷活動與上次紀錄完全相同。</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以來，系統首次記錄到該貨品於此超市之報價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以來，系統首次記錄到該貨品於此超市之報價。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免責聲明</h4>
@@ -754,7 +854,7 @@
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ 假促销</span> <span class="text-slate-600 dark:text-slate-400">超市挂上促销标签，但计算后发现单件折实价 <b>大于或等于</b> 先前的常规价，毫无实质优惠。</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 价格暗升</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>高于</b> 上次纪录之折实价。</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 价格维持</span> <span class="text-slate-600 dark:text-slate-400">价格与促销活动与上次纪录完全相同。</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以来，系统首次记录到该商品于此超市之报价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以来，系统首次记录到该商品于此超市之报价。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免责声明</h4>
@@ -784,7 +884,7 @@
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ Fake Promo</span> <span class="text-slate-600 dark:text-slate-400">A promo tag is displayed, but the calculated effective price is <b>greater than or equal to</b> the regular price. No real savings.</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 Hidden Increase</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>higher</b> than the last recorded price.</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ Maintained</span> <span class="text-slate-600 dark:text-slate-400">Price and promotions are identical to the last record.</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since late 2025.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since late 2025.</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ Legal Disclaimer</h4>
