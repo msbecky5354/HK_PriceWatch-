@@ -1,48 +1,10 @@
 {
-  "generated_at": "2026-06-17T23:23:53.446Z",
+  "generated_at": "2026-06-17T23:34:38.140Z",
   "report_date": "2026-06-17",
   "data": [
     {
-      "name": "Market Place (Jasons)",
-      "value": 109,
-      "itemStyle": {
-        "color": "#334155"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/marketplace.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
-      "name": "惠康 (WELLCOME)",
-      "value": 61,
-      "itemStyle": {
-        "color": "#ef4444"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/wellcome.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
       "name": "百佳 (PARKNSHOP)",
-      "value": 37,
+      "value": 796,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -60,8 +22,46 @@
       }
     },
     {
+      "name": "惠康 (WELLCOME)",
+      "value": 753,
+      "itemStyle": {
+        "color": "#ef4444"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://hk-price-watch.vercel.app/wellcome.png"
+            },
+            "width": 60,
+            "height": 60,
+            "borderRadius": 4
+          }
+        }
+      }
+    },
+    {
+      "name": "Market Place (Jasons)",
+      "value": 690,
+      "itemStyle": {
+        "color": "#334155"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://hk-price-watch.vercel.app/marketplace.png"
+            },
+            "width": 60,
+            "height": 60,
+            "borderRadius": 4
+          }
+        }
+      }
+    },
+    {
       "name": "屈臣氏 (WATSONS)",
-      "value": 23,
+      "value": 207,
       "itemStyle": {
         "color": "#14b8a6"
       },
@@ -79,8 +79,27 @@
       }
     },
     {
+      "name": "AEON",
+      "value": 167,
+      "itemStyle": {
+        "color": "#f472b6"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://hk-price-watch.vercel.app/aeon.png"
+            },
+            "width": 60,
+            "height": 60,
+            "borderRadius": 4
+          }
+        }
+      }
+    },
+    {
       "name": "萬寧 (MANNINGS)",
-      "value": 12,
+      "value": 136,
       "itemStyle": {
         "color": "#f59e0b"
       },
@@ -98,22 +117,33 @@
       }
     },
     {
-      "name": "AEON",
-      "value": 1,
+      "name": "SASA",
+      "value": 14,
       "itemStyle": {
-        "color": "#f472b6"
+        "color": "#cbd5e1"
       },
       "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/aeon.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
+        "show": false
+      }
+    },
+    {
+      "name": "LUNGFUNG",
+      "value": 9,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
+      }
+    },
+    {
+      "name": "DCHFOOD",
+      "value": 6,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
       }
     }
   ]
