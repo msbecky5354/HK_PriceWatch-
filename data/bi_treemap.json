@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-18T11:00:42.281Z",
-  "report_date": "2026-06-18",
+  "generated_at": "2026-06-19T03:25:42.291Z",
+  "report_date": "2026-06-19",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
-      "value": 758,
+      "value": 757,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 681,
+      "value": 680,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 570,
+      "value": 571,
       "itemStyle": {
         "color": "#334155"
       },
@@ -60,27 +60,8 @@
       }
     },
     {
-      "name": "屈臣氏 (WATSONS)",
-      "value": 182,
-      "itemStyle": {
-        "color": "#14b8a6"
-      },
-      "label": {
-        "rich": {
-          "logo": {
-            "backgroundColor": {
-              "image": "https://hk-price-watch.vercel.app/watsons.png"
-            },
-            "width": 60,
-            "height": 60,
-            "borderRadius": 4
-          }
-        }
-      }
-    },
-    {
       "name": "AEON",
-      "value": 166,
+      "value": 179,
       "itemStyle": {
         "color": "#f472b6"
       },
@@ -98,8 +79,27 @@
       }
     },
     {
+      "name": "屈臣氏 (WATSONS)",
+      "value": 167,
+      "itemStyle": {
+        "color": "#14b8a6"
+      },
+      "label": {
+        "rich": {
+          "logo": {
+            "backgroundColor": {
+              "image": "https://hk-price-watch.vercel.app/watsons.png"
+            },
+            "width": 60,
+            "height": 60,
+            "borderRadius": 4
+          }
+        }
+      }
+    },
+    {
       "name": "萬寧 (MANNINGS)",
-      "value": 124,
+      "value": 121,
       "itemStyle": {
         "color": "#f59e0b"
       },
@@ -118,17 +118,7 @@
     },
     {
       "name": "SASA",
-      "value": 14,
-      "itemStyle": {
-        "color": "#cbd5e1"
-      },
-      "label": {
-        "show": false
-      }
-    },
-    {
-      "name": "DCHFOOD",
-      "value": 8,
+      "value": 13,
       "itemStyle": {
         "color": "#cbd5e1"
       },
@@ -138,6 +128,16 @@
     },
     {
       "name": "LUNGFUNG",
+      "value": 9,
+      "itemStyle": {
+        "color": "#cbd5e1"
+      },
+      "label": {
+        "show": false
+      }
+    },
+    {
+      "name": "DCHFOOD",
       "value": 6,
       "itemStyle": {
         "color": "#cbd5e1"
