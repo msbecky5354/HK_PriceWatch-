@@ -1,62 +1,69 @@
 {
-  "generated_at": "2026-06-18T11:00:43.731Z",
-  "report_date": "2026-06-18",
+  "generated_at": "2026-06-19T03:25:43.551Z",
+  "report_date": "2026-06-19",
   "data": [
     {
       "smCode": "AEON",
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "23.9"
+      "avg_drop_pct": "12.7"
     },
     {
       "smCode": "AEON",
       "cat_zh": "奶類及乳製品 / 大豆製品 / 蛋類",
       "cat_en": "Dairy / Soy products / Eggs",
       "cat_hans": "奶类及乳制品 / 大豆制品 / 蛋类",
-      "avg_drop_pct": "8.3"
+      "avg_drop_pct": "9.8"
     },
     {
       "smCode": "AEON",
       "cat_zh": "家居用品 / 寵物食品及用品",
       "cat_en": "Household / Pet food and care",
       "cat_hans": "家居用品 / 宠物食品及用品",
-      "avg_drop_pct": "5.6"
+      "avg_drop_pct": "5.9"
     },
     {
       "smCode": "AEON",
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "7.3"
+      "avg_drop_pct": "9.3"
     },
     {
       "smCode": "AEON",
       "cat_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "cat_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_hans": "粉面 / 煮食用料 / 冷冻加工食品",
-      "avg_drop_pct": "12.8"
+      "avg_drop_pct": "13.1"
     },
     {
       "smCode": "AEON",
       "cat_zh": "糖果 / 餅乾 / 小食",
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
-      "avg_drop_pct": "12.5"
+      "avg_drop_pct": "13.2"
+    },
+    {
+      "smCode": "AEON",
+      "cat_zh": "酒類",
+      "cat_en": "Beer / Wines / Spirits",
+      "cat_hans": "酒类",
+      "avg_drop_pct": "1.2"
     },
     {
       "smCode": "AEON",
       "cat_zh": "飲品",
       "cat_en": "Drinks",
       "cat_hans": "饮品",
-      "avg_drop_pct": "9.3"
+      "avg_drop_pct": "9.8"
     },
     {
       "smCode": "AEON",
       "cat_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "cat_en": "Bakery / Cereals / Spreads",
       "cat_hans": "面包蛋糕 / 谷类早餐 / 面包酱",
-      "avg_drop_pct": "8.0"
+      "avg_drop_pct": "9.4"
     },
     {
       "smCode": "DCHFOOD",
@@ -77,7 +84,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "5.9"
+      "avg_drop_pct": "6.6"
     },
     {
       "smCode": "JASONS",
@@ -91,63 +98,63 @@
       "cat_zh": "奶類及乳製品 / 大豆製品 / 蛋類",
       "cat_en": "Dairy / Soy products / Eggs",
       "cat_hans": "奶类及乳制品 / 大豆制品 / 蛋类",
-      "avg_drop_pct": "6.0"
+      "avg_drop_pct": "7.3"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "家居用品 / 寵物食品及用品",
       "cat_en": "Household / Pet food and care",
       "cat_hans": "家居用品 / 宠物食品及用品",
-      "avg_drop_pct": "6.1"
+      "avg_drop_pct": "6.0"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "7.2"
+      "avg_drop_pct": "7.0"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "cat_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_hans": "粉面 / 煮食用料 / 冷冻加工食品",
-      "avg_drop_pct": "8.2"
+      "avg_drop_pct": "8.0"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "糖果 / 餅乾 / 小食",
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
-      "avg_drop_pct": "7.8"
+      "avg_drop_pct": "8.3"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "5.6"
+      "avg_drop_pct": "4.6"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "飲品",
       "cat_en": "Drinks",
       "cat_hans": "饮品",
-      "avg_drop_pct": "7.3"
+      "avg_drop_pct": "7.0"
     },
     {
       "smCode": "JASONS",
       "cat_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "cat_en": "Bakery / Cereals / Spreads",
       "cat_hans": "面包蛋糕 / 谷类早餐 / 面包酱",
-      "avg_drop_pct": "5.1"
+      "avg_drop_pct": "4.8"
     },
     {
       "smCode": "LUNGFUNG",
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "20.7"
+      "avg_drop_pct": "18.2"
     },
     {
       "smCode": "LUNGFUNG",
@@ -161,14 +168,14 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "9.4"
+      "avg_drop_pct": "9.5"
     },
     {
       "smCode": "MANNINGS",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "6.7"
+      "avg_drop_pct": "4.4"
     },
     {
       "smCode": "MANNINGS",
@@ -182,21 +189,21 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "9.5"
+      "avg_drop_pct": "10.7"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "7.1"
+      "avg_drop_pct": "7.0"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "奶類及乳製品 / 大豆製品 / 蛋類",
       "cat_en": "Dairy / Soy products / Eggs",
       "cat_hans": "奶类及乳制品 / 大豆制品 / 蛋类",
-      "avg_drop_pct": "11.4"
+      "avg_drop_pct": "11.8"
     },
     {
       "smCode": "PARKNSHOP",
@@ -210,28 +217,28 @@
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "7.3"
+      "avg_drop_pct": "7.4"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "cat_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_hans": "粉面 / 煮食用料 / 冷冻加工食品",
-      "avg_drop_pct": "9.2"
+      "avg_drop_pct": "8.1"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "糖果 / 餅乾 / 小食",
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
-      "avg_drop_pct": "17.3"
+      "avg_drop_pct": "17.1"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "8.9"
+      "avg_drop_pct": "9.7"
     },
     {
       "smCode": "PARKNSHOP",
@@ -245,7 +252,7 @@
       "cat_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "cat_en": "Bakery / Cereals / Spreads",
       "cat_hans": "面包蛋糕 / 谷类早餐 / 面包酱",
-      "avg_drop_pct": "5.0"
+      "avg_drop_pct": "4.9"
     },
     {
       "smCode": "SASA",
@@ -259,7 +266,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "10.2"
+      "avg_drop_pct": "10.4"
     },
     {
       "smCode": "WATSONS",
@@ -294,7 +301,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "5.9"
+      "avg_drop_pct": "6.7"
     },
     {
       "smCode": "WELLCOME",
@@ -308,7 +315,7 @@
       "cat_zh": "奶類及乳製品 / 大豆製品 / 蛋類",
       "cat_en": "Dairy / Soy products / Eggs",
       "cat_hans": "奶类及乳制品 / 大豆制品 / 蛋类",
-      "avg_drop_pct": "6.3"
+      "avg_drop_pct": "7.1"
     },
     {
       "smCode": "WELLCOME",
@@ -322,42 +329,42 @@
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "5.8"
+      "avg_drop_pct": "5.9"
     },
     {
       "smCode": "WELLCOME",
       "cat_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "cat_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_hans": "粉面 / 煮食用料 / 冷冻加工食品",
-      "avg_drop_pct": "7.4"
+      "avg_drop_pct": "7.3"
     },
     {
       "smCode": "WELLCOME",
       "cat_zh": "糖果 / 餅乾 / 小食",
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
-      "avg_drop_pct": "7.6"
+      "avg_drop_pct": "7.4"
     },
     {
       "smCode": "WELLCOME",
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "6.3"
+      "avg_drop_pct": "5.6"
     },
     {
       "smCode": "WELLCOME",
       "cat_zh": "飲品",
       "cat_en": "Drinks",
       "cat_hans": "饮品",
-      "avg_drop_pct": "7.5"
+      "avg_drop_pct": "7.3"
     },
     {
       "smCode": "WELLCOME",
       "cat_zh": "麵包蛋糕 / 穀類早餐 / 麵包醬",
       "cat_en": "Bakery / Cereals / Spreads",
       "cat_hans": "面包蛋糕 / 谷类早餐 / 面包酱",
-      "avg_drop_pct": "4.9"
+      "avg_drop_pct": "4.8"
     }
   ]
 }
