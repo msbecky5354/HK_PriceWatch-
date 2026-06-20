@@ -23,16 +23,20 @@
             <div class="flex items-center gap-3">
                 <span class="text-xl md:text-2xl">📊</span> 
                 <div class="flex flex-col">
-                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">戰情總結 (Battle Summary)</h1>
+                    <div class="flex items-center gap-2">
+                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">戰情總結 (Battle Summary)</h1>
+                        <button onclick="openMechanismModal()" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition active:scale-95" title="了解運算機制">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </button>
+                    </div>
                     <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">各大超市即時 Top 3 劈價排行榜</span>
                 </div>
             </div>
             <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
         </div>
 
-        <div class="px-4 md:px-5 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+        <div class="px-4 md:px-5 py-4 flex items-center border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
             <h2 id="listTitle" class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">🏆 各大超市戰況</h2>
-            <span id="todayStatusLabel" class="text-xs font-bold text-slate-500 dark:text-slate-400">載入中...</span>
         </div>
 
         <div id="battleSummaryContainer" class="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 bg-slate-50/50 dark:bg-slate-900/30">
@@ -64,10 +68,45 @@
         </div>
     </div>
 
+    <div id="mechanismModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[210] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl flex flex-col max-h-[85vh] border dark:border-slate-700 transition-colors duration-300">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-[20px]">📊</span>
+                <h2 id="mechTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">戰情總結運算與聲明</h2>
+            </div>        
+            <div class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors">
+                <p id="mechDesc" class="font-bold text-slate-500 dark:text-slate-400 mb-2 leading-relaxed"></p>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div id="mechR1T" class="font-black text-slate-800 dark:text-slate-100 mb-1"></div>
+                        <div id="mechR1D" class="text-slate-500 dark:text-slate-400 text-[12px]"></div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div id="mechR2T" class="font-black text-slate-800 dark:text-slate-100 mb-1"></div>
+                        <div id="mechR2D" class="text-slate-500 dark:text-slate-400 text-[12px]"><span id="mechR2DSpan"></span></div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div id="mechR3T" class="font-black text-slate-800 dark:text-slate-100 mb-1"></div>
+                        <div id="mechR3D" class="text-slate-500 dark:text-slate-400 text-[12px]"><span id="mechR3DSpan"></span></div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div id="mechR4T" class="font-black text-slate-800 dark:text-slate-100 mb-1"></div>
+                        <div id="mechR4D" class="text-slate-500 dark:text-slate-400 text-[12px]"></div>
+                    </div>
+                    <div class="bg-blue-50/50 dark:bg-slate-900/50 p-3 rounded-xl border border-blue-100 dark:border-slate-700 mt-2">
+                        <div id="mechR5T" class="font-black text-slate-800 dark:text-slate-100 mb-2"></div>
+                        <div id="mechR5D" class="text-slate-500 dark:text-slate-400 text-[11px] space-y-1.5"></div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeMechanismModal()" id="mechCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">我明白及接受</button>
+        </div>
+    </div>
+
 <script>
     let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
     let lastUpdatedTime = null;
-    let globalLeaderboardData = []; // 🌟 2. 儲存全局資料供語言切換時重新渲染卡片
+    let globalLeaderboardData = []; 
 
     function getText(content, lang) {
         if (!content) return '-';
@@ -93,6 +132,9 @@
     function goToProductSearch(productName) {
         window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productName);
     }
+
+    function openMechanismModal() { document.getElementById('mechanismModal').classList.remove('hidden'); }
+    function closeMechanismModal() { document.getElementById('mechanismModal').classList.add('hidden'); }
 
     async function loadBattleSummaryData() {
         try {
@@ -124,12 +166,15 @@
             if (!dataRes.ok) throw new Error("無法取得最新官方價格數據");
             const rawApiData = await dataRes.json();
             
-            if (logRes && logRes.ok) lastUpdatedTime = new Date((await logRes.text()).trim());
-            else lastUpdatedTime = new Date();
+            if (logRes && logRes.ok) {
+                let text = await logRes.text();
+                lastUpdatedTime = new Date(text.trim());
+            } else {
+                lastUpdatedTime = new Date();
+            }
 
             let leaderboard = [];
 
-            // --- 核心運算：找出每項商品的最低價超市與減幅 ---
             rawApiData.forEach(item => {
                 if (!item.prices || !Array.isArray(item.prices)) return;
                 
@@ -187,7 +232,6 @@
 
             globalLeaderboardData = leaderboard; 
             
-            // 初始化完成後呼叫語言更新，並同時渲染畫面
             if (typeof updateLocalLanguage === 'function') {
                 updateLocalLanguage(currentLang);
             }
@@ -198,12 +242,10 @@
         }
     }
 
-    // 🌟 3. 將渲染邏輯獨立，方便切換語言時重複呼叫 🌟
     function renderBattleSummary() {
         const container = document.getElementById('battleSummaryContainer');
         if (!container || !globalLeaderboardData || globalLeaderboardData.length === 0) return;
 
-        // --- 依照超市進行分組 (Group by Supermarket) ---
         const smGroups = {};
         globalLeaderboardData.forEach(item => {
             if (!smGroups[item.smCode]) smGroups[item.smCode] = [];
@@ -212,7 +254,6 @@
 
         container.innerHTML = '';
         
-        // 定義超市顯示順序
         const smOrder = ['PARKNSHOP', 'WELLCOME', 'MARKETPLACE', 'WATSONS', 'MANNINGS', 'AEON'];
         const availableSms = Object.keys(smGroups).sort((a, b) => {
             let idxA = smOrder.indexOf(a); let idxB = smOrder.indexOf(b);
@@ -231,8 +272,8 @@
 
         availableSms.forEach(smCode => {
             const items = smGroups[smCode];
-            items.sort((a, b) => b.realDiscountPct - a.realDiscountPct); // 排序減幅
-            const top3 = items.slice(0, 3); // 🔪 精準抓出 Top 3！
+            items.sort((a, b) => b.realDiscountPct - a.realDiscountPct); 
+            const top3 = items.slice(0, 3); 
 
             let style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[smCode]) ? supermarketStyleDict[smCode] : (typeof supermarketStyleDict !== 'undefined' ? supermarketStyleDict['DEFAULT'] : { badgeBg: '', badgeText: '', badgeBorder: ''});
             
@@ -271,13 +312,22 @@
         });
     }
 
-    // 🌟 4. 完全抄寫 true_discount.html 的 Header/Footer 翻譯連動邏輯 🌟
     function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
 
         const appTitle = document.getElementById('appTitle');
         if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : '慳真D';
+
+        const statusLabel = document.getElementById('todayStatusLabel');
+        if (statusLabel) {
+            if (lastUpdatedTime && !isNaN(lastUpdatedTime.getTime())) {
+                const prefix = lang === 'en' ? 'Live Data: ' : (lang === 'zh-Hans' ? '即时数据: ' : '即時數據: ');
+                statusLabel.innerText = prefix + formatDateTime(lastUpdatedTime);
+            } else {
+                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
+            }
+        }
         
         const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
         const isEn = lang === 'en';
@@ -285,23 +335,14 @@
 
         document.title = isEn ? "Battle Summary | SmartDeal" : (isSc ? "战情总结 | 悭真D" : "戰情總結 | 慳真D");
         setTxt('pageTitleText', isEn ? 'Battle Summary' : (isSc ? '战情总结' : '戰情總結'));
-        setTxt('subTitleText', isEn ? 'Top 3 Price Drops by Supermarket' : (isSc ? '各大超市即时 Top 3 降价排行榜' : '各大超市即時 Top 3 劈價排行榜'));
+        setTxt('subTitleText', isEn ? 'Top 3 Price Drops by Supermarket' : (isSc ? '各大超市即时 Top 3 劈价排行榜' : '各大超市即時 Top 3 劈價排行榜'));
         setTxt('backBtn', isEn ? 'Back' : '返回');
         setTxt('listTitle', isEn ? '🏆 Supermarket Leaderboard' : (isSc ? '🏆 各大超市战况' : '🏆 各大超市戰況'));
-
-        const statusLabel = document.getElementById('todayStatusLabel');
-        if (statusLabel && lastUpdatedTime) {
-            const prefix = isEn ? 'Live Data: ' : (isSc ? '即时数据: ' : '即時數據: ');
-            statusLabel.innerText = prefix + formatDateTime(lastUpdatedTime);
-        } else if (statusLabel) {
-            statusLabel.innerText = isEn ? 'Loading...' : (isSc ? '载入中...' : '載入中...');
-        }
 
         const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
         const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
         const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
-        // 徹底補上 Footer 翻譯程式碼
         if (uiDict) {
             setElTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
             setElTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
@@ -316,13 +357,53 @@
         const devName = document.getElementById('footerDevName');
         if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
 
-        // 重新渲染卡片，確保超市名稱、商品名稱跟著語言更新
+        const mechText = {
+            'zh-Hant': {
+                title: '📊 戰情總結運算與聲明',
+                desc: '本面板專注於 <b>「全城橫向對比」</b>，數據基於 <b>香港政府「網上價格一覽通」的即時開放數據</b>。系統即時運算各大超市的當下差價，為確保上榜貨品皆為今日真正的「全城最平」，每一件戰績均已完美通過以下 4 重嚴苛淘汰機制：',
+                r1t: '1️⃣ 排除獨市生意', r1d: '系統自動剔除單一超市獨家發售之貨品（必須有競爭對手）。',
+                r2t: '2️⃣ 鎖定全城均價', r2d: '即時對比所有對手<b>今日</b>的折實價，計算出「全城平均基準線」。',
+                r3t: '3️⃣ 最低價霸主', r3d: '該超市必須為<b>今日</b>全港眾多競爭者中，定價最平之絕對勝出者。',
+                r4t: '4️⃣ 擊穿市場均價', r4d: '即使今日定價最低，若其售價高於或等於全城均價（即集體加價），亦將被系統無情剔除。',
+                r5t: '⚖️ 重要免責聲明 (Legal Compliance)', r5d: '<p><b>1. 按原樣提供 (As-Is)</b>：本面板數據基於第三方公開資料實時抓取及電腦運算，本程式不保證數據絕對無延遲或零誤差。</p><p><b>2. 第三方數據免責</b>：因零售商隨時更改定價或第三方接口延遲導致之價格落差，本平台概不負責。所有資訊僅供參考，請以實體店最終標價為準。</p>',
+                btn: '我明白及接受'
+            },
+            'zh-Hans': {
+                title: '📊 战情总结运算与声明',
+                desc: '本面板专注于 <b>「全城横向对比」</b>，数据基于 <b>香港政府「网上价格一览通」的即时开放数据</b>。系统即时运算各大超市的当下差价，为确保上榜货品皆为今日真正的「全城最平」，每一件战绩均已完美通过以下 4 重严苛淘汰机制：',
+                r1t: '1️⃣ 排除独市生意', r1d: '系统自动剔除单一超市独家发售之货品（必须有竞争对手）。',
+                r2t: '2️⃣ 锁定全城均价', r2d: '即时对比所有对手<b>今日</b>的折实价，计算出「全城平均基准线」。',
+                r3t: '3️⃣ 最低价霸主', r3d: '该超市必须为<b>今日</b>全港众多竞争者中，定价最平之绝对胜出者。',
+                r4t: '4️⃣ 击穿市场均价', r4d: '即使今日定价最低，若其售价高于或等于全城均价（即集体加价），亦将被系统无情剔除。',
+                r5t: '⚖️ 重要免责声明 (Legal Compliance)', r5d: '<p><b>1. 按原样提供 (As-Is)</b>：本面板数据基于第三方公开资料实时抓取及电脑运算，本程式不保证数据绝对无延迟或零误差。</p><p><b>2. 第三方数据免责</b>：因零售商随时更改定价或第三方接口延迟导致之价格落差，本平台概不负责。所有资讯仅供参考，请以实体店最终标价为准。</p>',
+                btn: '我明白及接受'
+            },
+            'en': {
+                title: '📊 Battle Summary Algorithm & Disclaimer',
+                desc: 'This dashboard focuses strictly on a <b>"Cross-Sectional Comparison"</b>, utilizing <b>real-time open data from the HK Government\'s "Online Price Watch"</b>. We calculate live price differences across supermarkets. To guarantee that every listed item is truly today\'s "City\'s Lowest", it must pass our rigorous 4-layer elimination system:',
+                r1t: '1️⃣ Exclude Monopoly', r1d: 'Items sold exclusively by a single supermarket are automatically excluded.',
+                r2t: '2️⃣ City Average Baseline', r2d: 'Calculates the average effective price across all available competitors <b>today</b>.',
+                r3t: '3️⃣ Absolute Winner', r3d: 'The supermarket must offer the absolute lowest price among all competitors <b>today</b>.',
+                r4t: '4️⃣ True Drop Validation', r4d: 'Eliminated if the lowest price equals or exceeds the City Average Baseline.',
+                r5t: '⚖️ Legal Disclaimer (As-Is)', r5d: '<p><b>1. As-Is Basis</b>: Data is auto-calculated from public sources. We do not guarantee absolute real-time accuracy.</p><p><b>2. Third-Party Exemption</b>: We are not liable for discrepancies caused by retailer changes or API delays. All information is for reference only and does not constitute purchasing advice. Verify at the store.</p>',
+                btn: 'I Understand & Accept'
+            }
+        };
+        const mt = mechText[lang] || mechText['zh-Hant'];
+        setTxt('mechTitle', mt.title);
+        setElHtml('mechDesc', mt.desc);
+        setTxt('mechR1T', mt.r1t); setTxt('mechR1D', mt.r1d);
+        setTxt('mechR2T', mt.r2t); setElHtml('mechR2DSpan', mt.r2d);
+        setTxt('mechR3T', mt.r3t); setElHtml('mechR3DSpan', mt.r3d);
+        setTxt('mechR4T', mt.r4t); setTxt('mechR4D', mt.r4d);
+        setTxt('mechR5T', mt.r5t); setElHtml('mechR5D', mt.r5d);
+        setTxt('mechCloseBtn', mt.btn);
+
         if (globalLeaderboardData && globalLeaderboardData.length > 0) {
             renderBattleSummary();
         }
     }
 
-    // 🌟 5. 補回最核心的 changeLanguage 函數 (這就是您按了沒反應的元兇) 🌟
     window.addEventListener('languageChanged', (e) => {
         updateLocalLanguage(e.detail.lang);
     });
