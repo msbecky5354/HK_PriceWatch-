@@ -15,7 +15,7 @@
 <body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
     <script src="appUtils.js?v=1"></script>
-    <script src="header.js?v=1"></script>
+    <script src="header.js?v=2"></script>
 
     <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
         
@@ -32,6 +32,11 @@
             
             <h3 id="txt-sec1Title" class="font-bold text-slate-900 dark:text-slate-100 text-[16px] mb-3"></h3>
             <ul id="txt-sec1Content" class="list-disc pl-5 space-y-2.5 mb-6"></ul>
+
+            <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-2xl p-4 mb-6 shadow-sm transition-colors">
+                <h3 id="txt-secDashTitle" class="text-[15px] font-black text-emerald-800 dark:text-emerald-400 mb-2 flex items-center gap-2"></h3>
+                <ul id="txt-secDashContent" class="list-disc pl-5 space-y-2 text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed mb-1"></ul>
+            </div>
 
             <div class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl p-4 mb-6 shadow-sm transition-colors">
                 <h3 id="txt-sec2Title" class="text-[15px] font-black text-indigo-800 dark:text-indigo-400 mb-2 flex items-center gap-2"></h3>
@@ -89,6 +94,45 @@
 
     <script>
         let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+        let lastUpdatedTime = null;
+
+        function formatDateTime(date) {
+            if (!date || isNaN(date.getTime())) return '';
+            return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+        }
+
+        async function fetchUpdateLog() {
+            try {
+                let commitSha = '';
+                try {
+                    const apiRes = await fetch('https://api.github.com/repos/msbecky5354/HK_PriceWatch-/commits/main', { cache: 'no-store' });
+                    if (apiRes.ok) commitSha = (await apiRes.json()).sha;
+                } catch (e) {}
+
+                let logUrl;
+                if (commitSha) {
+                    logUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/update_log.txt";
+                } else {
+                    let nocache = new Date().getTime();
+                    logUrl = "https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt?v=" + nocache;
+                }
+
+                const res = await fetch(logUrl, { cache: 'no-store' });
+                if (res.ok) {
+                    let text = await res.text();
+                    lastUpdatedTime = new Date(text.trim());
+                } else {
+                    lastUpdatedTime = new Date();
+                }
+            } catch (e) {
+                console.warn("無法載入最後更新時間", e);
+            } finally {
+                updateLocalLanguage(currentLang);
+            }
+        }
+
+        const iconBell = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#F8F8F8] dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300 mx-1 align-middle shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></span>`;
+        const iconShare = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#345B8C] dark:bg-blue-600 text-white mx-1 align-middle shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></span>`;
 
         const manualDict = {
             'zh-Hant': {
@@ -98,21 +142,27 @@
                 sec1Title: "🔍 核心功能與搜尋技巧",
                 sec1Content: `
                     <li><strong>對話式快捷搜尋：</strong> 於首頁輸入「品牌」或「貨品名稱」，即時為你展示官方數據中嘅超市定價及折扣詳情。</li>
-                    <li><strong>一鍵篩選優惠：</strong> 善用首頁的「最新劈價精選」按鈕，過濾並只顯示有促銷活動的貨品。</li>
-                    <li><strong>🔥 捕捉超大差價：</strong> 點擊 <b class="text-red-500 dark:text-red-400">「🔥 今日超大差價」</b> 快捷鍵，系統會幫你找出商戶間<b>價格相差超過 10%</b> 的貨品。</li>
-                    <li><strong>智能換算單價：</strong> 系統會自動為你計算「買兩件」、「第二件半價」等複雜優惠的折合單價，並標示 💰。</li>
+                    <li><strong>一鍵篩選優惠：</strong> 善用首頁的「最新優惠」或對話底部的「優惠」快捷鍵，過濾並只顯示有促銷活動的貨品。</li>
+                    <li><strong>🔥 捕捉極端差價：</strong> 點擊 <b class="text-red-500 dark:text-red-400">「極端差價」</b> 快捷鍵，系統會幫你找出商戶間<b>價格相差超過 10%</b> 的貨品。</li>
+                    <li><strong>智能換算單價：</strong> 系統會自動為你計算「買兩件」、「第二件半價」等複雜優惠的折合單價，並以<b class="text-[#FFB74D]">橙色標籤標示「折合」</b>。</li>
                     <li><strong>文字式快速導航：</strong> 想返主頁揀其他分類？直接喺對話框打<b>「返主目錄」</b>或<b>「主頁」</b>即可。</li>
                 `,
+                secDashTitle: "📊 三大實時戰情面板",
+                secDashContent: `
+                    <li><strong>智選真抵榜：</strong> 嚴格對比 2025 年底以來的歷史價格，為你找出全城真正的「真・降價」貨品，無情過濾假促銷。</li>
+                    <li><strong>戰情總結：</strong> 橫向對比各大超市今日定價，經過 4 重系統淘汰機制，為你選出拋離對手的 Top 3「全城最低價霸主」。</li>
+                    <li><strong>全局戰情室：</strong> 上帝視角！以戰力版圖 (Treemap) 及熱力矩陣 (Heatmap) 高階圖表，一秒洞悉各大超市的降價分佈。</li>
+                `,
                 sec2Title: "📸 AI 視覺辨識搜尋",
-                sec2Desc: `影張相，AI 專業大腦會即刻幫你辨識產品並自動填入搜尋框。只要輸入 Gemini API Key，準確度即刻提升！`,
+                sec2Desc: `影張相，AI 專業大腦會即刻幫你辨識產品並自動填入搜尋框。只要輸入 Gemini API Key，準確度即刻提升！<br><br><span class="inline-block mt-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400">🛡️ <b>安全機制：</b> 所有 API 密鑰僅加密儲存於本地瀏覽器 <code>LocalStorage</code>，絕不上傳至任何伺服器。</span>`,
                 sec2Note: "註：如未輸入 Key，系統會自動退守使用輕量級離線辨識模式。",
-                sec3Title: "🔔 智能到價提示功能",
-                sec3Desc: `見到心水貨品想等減價？點擊產品卡片上的 <b class="text-amber-600 dark:text-amber-400">橙色鐘仔 🔔</b>，輸入你的目標價即可追蹤。當貨品跌穿目標價，畫面頂部的 🔔 就會亮起紅點！`,
+                sec3Title: "🔔 智能到價提示與分享功能",
+                sec3Desc: `見到心水貨品想等減價？點擊產品卡片右上角的 ${iconBell}，輸入你的目標價即可追蹤。當貨品跌穿目標價，畫面頂部導航列的鈴鐺就會亮起紅點！<br><br>另外，點擊旁邊的 ${iconShare} 即可一鍵分享情報。<br><br><span class="inline-block mt-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400">🔗 <b>擴散機制：</b> 系統優先調用裝置原生 Web Share API；若環境不支援，將無縫降級為剪貼簿複製及 WhatsApp 快捷通道。</span>`,
                 sec4Title: "🛡️ 免責聲明及私隱保障",
                 sec4Content: `
                     <p><strong>1. 私隱安全：</strong> 本 App 不設任何個人帳戶系統，所有「到價提示」及「搜尋紀錄」均<b>僅儲存於閣下的手機瀏覽器內</b>。我們無法取得、監控或售賣您的個人數據。</p>
-                    <p><strong>2. 數據來源：</strong> 價格數據均取自香港政府「資料一線通 (Data.gov.hk)」的「網上價格一覽通」數據集，版權歸消費者委員會及相關商戶所有。</p>
-                    <p><strong>3. 免責聲明：</strong> 本 App 為開源免費工具，資訊僅供參考。超市實際價格及優惠可能隨時變更，購買前請以超市現場標籤為準。對於因資訊誤差引致的損失，本開發團隊概不負責。</p>
+                    <p><strong>2. 數據來源與歷史快照：</strong> 價格數據均取自香港政府「資料一線通」數據集。系統內所有極端差價與排行榜，均基於「歷史數據快照 (Historical Data Snapshot)」之客觀演算得出，僅作市場趨勢參考，絕不構成任何主觀評價。</p>
+                    <p><strong>3. 免責聲明：</strong> 本 App 為開源免費工具。超市實際價格、優惠條款及庫存狀態可能隨時變更，必須以各商戶現場或官方公佈為準。對於因數據延遲、錯漏或市場價格劇烈波動所引起之任何交易損失，本開發團隊概不負責。</p>
                 `,
                 sec5Title: "📱 如何將 App 加入手機主畫面",
                 sec5Content: `<strong>Android：</strong> 用 Chrome 開啟 ➔ 點擊右上角「⋮」 ➔ 選擇「加至主畫面」。<br><strong class="mt-1 inline-block">iOS：</strong> 用 Safari 開啟 ➔ 點擊底部「分享」圖示 ➔ 選擇「加入主畫面」。`
@@ -124,21 +174,27 @@
                 sec1Title: "🔍 核心功能与搜索技巧",
                 sec1Content: `
                     <li><strong>对话式快捷搜索：</strong> 于首页输入「品牌」或「货品名称」，即时为你展示官方数据中的超市定价及折扣详情。</li>
-                    <li><strong>一键筛选优惠：</strong> 善用首页的「最新降价精选」按钮，过滤并只显示有促销活动的货品。</li>
-                    <li><strong>🔥 捕捉超大价差：</strong> 点击 <b class="text-red-500 dark:text-red-400">「🔥 今日超大差价」</b> 快捷键，系统会帮你找出商户间<b>价格相差超过 10%</b> 的货品。</li>
-                    <li><strong>智能换算单价：</strong> 系统会自动帮你计算「买两件」、「第二件半价」等复杂优惠的折合单价，并标示 💰。</li>
+                    <li><strong>一键筛选优惠：</strong> 善用首页的「最新优惠」或对话底部的「优惠」快捷键，过滤并只显示有促销活动的货品。</li>
+                    <li><strong>🔥 捕捉极端差价：</strong> 点击 <b class="text-red-500 dark:text-red-400">「极端差价」</b> 快捷键，系统会帮你找出商户间<b>价格相差超过 10%</b> 的货品。</li>
+                    <li><strong>智能换算单价：</strong> 系统会自动帮你计算「买两件」、「第二件半价」等复杂优惠的折合单价，并以<b class="text-[#FFB74D]">橙色标签标示「折合」</b>。</li>
                     <li><strong>文字式快速导航：</strong> 想回主页选其他分类？直接在对话框输入<b>「返主目录」</b>或<b>「主页」</b>即可。</li>
                 `,
+                secDashTitle: "📊 三大实时战情面板",
+                secDashContent: `
+                    <li><strong>智选真抵榜：</strong> 严格对比历史价格，找出全城真正的「真・降价」货品，无情过滤假促销。</li>
+                    <li><strong>战情总结：</strong> 横向对比各大超市今日定价，经过 4 重系统淘汰机制，为你选出抛离对手的 Top 3「全城最低价霸主」。</li>
+                    <li><strong>全局战情室：</strong> 上帝视角！以战力版图 (Treemap) 及热力矩阵 (Heatmap) 高阶图表，一秒洞悉各大超市的降价分布。</li>
+                `,
                 sec2Title: "📸 AI 视觉识别搜索",
-                sec2Desc: `对着包装拍张照，AI 专业大脑会立即帮你识别产品并自动填入搜索框。输入 Gemini API Key，准确度即刻提升！`,
+                sec2Desc: `对着包装拍张照，AI 专业大脑会立即帮你识别产品并自动填入搜索框。输入 Gemini API Key，准确度即刻提升！<br><br><span class="inline-block mt-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400">🛡️ <b>安全机制：</b> 所有 API 密钥仅加密储存于本地浏览器 <code>LocalStorage</code>，绝不上传至任何服务器。</span>`,
                 sec2Note: "注：如未输入 Key，系统会自动退守使用轻量级离线识别模式。",
-                sec3Title: "🔔 智能到价提醒功能",
-                sec3Desc: `看到心水货品想等减价？点击产品卡片上的 <b class="text-amber-600 dark:text-amber-400">橙色小铃铛 🔔</b>，输入你的目标价即可追踪。当货品跌破目标价，画面顶部的 🔔 就会亮起红点！`,
+                sec3Title: "🔔 智能到价提醒与分享功能",
+                sec3Desc: `看到心水货品想等减价？点击产品卡片右上角的 ${iconBell}，输入你的目标价即可追踪。当货品跌破目标价，画面顶部导航列的铃铛就会亮起红点！<br><br>另外，点击旁边的 ${iconShare} 即可一键分享情报。<br><br><span class="inline-block mt-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400">🔗 <b>扩散机制：</b> 系统优先调用设备原生 Web Share API；若环境不支持，将无缝降级为剪贴板复制及 WhatsApp 快捷通道。</span>`,
                 sec4Title: "🛡️ 免责声明及隐私保障",
                 sec4Content: `
                     <p><strong>1. 隐私安全：</strong> 本 App 不设任何个人账户系统，所有「到价提醒」及「搜索记录」均<b>仅储存于阁下的手机浏览器内</b>。我们无法取得、监控或售卖您的个人数据。</p>
-                    <p><strong>2. 数据来源：</strong> 价格数据均取自香港政府「资料一线通 (Data.gov.hk)」的「网上价格一览通」数据集，版权归消费者委员会及相关商户所有。</p>
-                    <p><strong>3. 免责声明：</strong> 本 App 为开源免费工具，信息仅供参考。超市实际价格及优惠可能随时变更，购买前请以超市现场标签为准。对于因信息误差引致的损失，本开发团队概不负责。</p>
+                    <p><strong>2. 数据来源与历史快照：</strong> 价格数据均取自香港政府「资料一线通」数据集。系统内所有极端差价与排行榜，均基于「历史数据快照 (Historical Data Snapshot)」之客观演算得出，仅作市场趋势参考，绝不构成任何主观评价。</p>
+                    <p><strong>3. 免责声明：</strong> 本 App 为开源免费工具。超市实际价格、优惠条款及库存状态可能随时变更，必须以各商户现场或官方公布为准。对于因数据延迟、错漏或市场价格剧烈波动所引起之任何交易损失，本开发团队概不负责。</p>
                 `,
                 sec5Title: "📱 如何将 App 加入手机主屏幕",
                 sec5Content: `<strong>Android：</strong> 用 Chrome 打开 ➔ 点击右上角「⋮」 ➔ 选择「加至主屏幕」。<br><strong class="mt-1 inline-block">iOS：</strong> 用 Safari 打开 ➔ 点击底部「分享」图标 ➔ 选择「加入主屏幕」。`
@@ -150,57 +206,55 @@
                 sec1Title: "🔍 Core Features & Search Tips",
                 sec1Content: `
                     <li><strong>Conversational Search:</strong> Type any "brand" or "product name" on the homepage for instant pricing and promotional details.</li>
-                    <li><strong>One-Click Deals:</strong> Use the "Latest Deals" button to filter and show only discounted items.</li>
-                    <li><strong>🔥 Big Price Gaps:</strong> Click <b class="text-red-500 dark:text-red-400">"🔥 Big Price Gap"</b> to find items with over 10% price differences between supermarkets.</li>
-                    <li><strong>Unit Price Calculation:</strong> System automatically calculates "buy 2" or "half-price" deals for you, marked with 💰.</li>
+                    <li><strong>One-Click Deals:</strong> Use the "Latest Deals" or "Deals" quick button to filter and show only discounted items.</li>
+                    <li><strong>🔥 Extreme Price Gaps:</strong> Click <b class="text-red-500 dark:text-red-400">"Big Gap"</b> to find items with over 10% price differences between supermarkets.</li>
+                    <li><strong>Unit Price Calculation:</strong> System automatically calculates "buy 2" or "half-price" deals for you, highlighted with an <b class="text-[#FFB74D]">orange "Avg" badge</b>.</li>
                     <li><strong>Quick Navigation:</strong> Want to go home? Just type <b>"Back to menu"</b> or <b>"Home"</b> in the chat box to navigate back instantly.</li>
                 `,
+                secDashTitle: "📊 Three Real-time Dashboards",
+                secDashContent: `
+                    <li><strong>Smart Deals:</strong> Strictly compares historical prices to identify genuine "True Price Drops" and filter out fake promotions.</li>
+                    <li><strong>Battle Summary:</strong> Cross-sectional comparison of today's prices across supermarkets to find the Top 3 absolute lowest prices.</li>
+                    <li><strong>Command Center:</strong> God's-eye view! Uses Treemaps and Heatmaps to instantly visualize price drop distributions across all supermarkets.</li>
+                `,
                 sec2Title: "📸 AI Visual Search",
-                sec2Desc: `Snap a photo of the product, and our AI will identify it and fill in the search box for you. Input your Gemini API Key for higher accuracy!`,
+                sec2Desc: `Snap a photo of the product, and our AI will identify it and fill in the search box for you. Input your Gemini API Key for higher accuracy!<br><br><span class="inline-block mt-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400">🛡️ <b>Security Protocol:</b> All API Keys are exclusively encrypted and stored in your local browser's <code>LocalStorage</code>, completely isolated from any external servers.</span>`,
                 sec2Note: "Note: Without an API Key, the system defaults to a lightweight offline recognition mode.",
-                sec3Title: "🔔 Price Alert Feature",
-                sec3Desc: `Waiting for a sale? Tap the <b class="text-amber-600 dark:text-amber-400">orange bell icon 🔔</b> on any product card, set your target price, and track it. When the price drops below your target, the 🔔 at the top of the app will glow red!`,
+                sec3Title: "🔔 Price Alert & Share Features",
+                sec3Desc: `Waiting for a sale? Tap the ${iconBell} on the top right of any product card, set your target price, and track it. When the price drops below your target, the bell in the top navigation bar will glow red!<br><br>Additionally, tap the ${iconShare} next to it to easily share intel.<br><br><span class="inline-block mt-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400">🔗 <b>Sharing Engine:</b> System prioritizes the Native Web Share API. If unsupported, it gracefully degrades to a clipboard copy and WhatsApp quick link.</span>`,
                 sec4Title: "🛡️ Disclaimer & Privacy Policy",
                 sec4Content: `
                     <p><strong>1. Privacy:</strong> This App has no user accounts. All "Price Alerts" and "Search History" are <b>stored locally in your device's browser only</b>. We do not track, monitor, or sell your personal data.</p>
-                    <p><strong>2. Data Source:</strong> Price data is sourced from the "Price Watch" dataset by Data.gov.hk. Copyright belongs to the Consumer Council and respective merchants.</p>
-                    <p><strong>3. Disclaimer:</strong> This is a free open-source tool. Information is for reference only. Actual prices may vary; please verify with store tags. We are not liable for any losses due to pricing inaccuracies.</p>
+                    <p><strong>2. Data Source & Historical Snapshot:</strong> Price data is sourced from the "Price Watch" dataset by Data.gov.hk. All extreme price gaps and rankings are calculated objectively via our "Historical Data Snapshot" algorithm. They serve purely as market trend references and do not constitute any subjective evaluations.</p>
+                    <p><strong>3. Disclaimer:</strong> This is a free open-source tool. Actual prices, terms, and inventory may vary; please verify with store tags or official announcements. The development team is not liable for any transaction losses caused by data latency, omissions, or extreme market price fluctuations.</p>
                 `,
                 sec5Title: "📱 Add to Home Screen",
                 sec5Content: `<strong>Android:</strong> Open in Chrome ➔ Tap "⋮" ➔ Select "Add to Home Screen".<br><strong class="mt-1 inline-block">iOS:</strong> Open in Safari ➔ Tap the "Share" icon at the bottom ➔ Select "Add to Home Screen".`
             }
         };
 
-        // --- 🌐 全局語言切換與 Footer 連動 ---
         function updateLocalLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('appLang', lang);
             document.documentElement.lang = lang === 'en' ? 'en' : (lang === 'zh-Hans' ? 'zh-Hans' : 'zh-HK');
             
-            // 1. 渲染手冊內容
-            const dict = manualDict[lang] || manualDict['zh-Hant'];
-            document.title = dict.docTitle;
-            document.getElementById('txt-pageTitle').innerHTML = dict.pageTitle;
-            document.getElementById('txt-backBtn').innerHTML = dict.backBtn;
-            document.getElementById('txt-intro').innerHTML = dict.intro;
-            document.getElementById('txt-sec1Title').innerHTML = dict.sec1Title;
-            document.getElementById('txt-sec1Content').innerHTML = dict.sec1Content;
-            document.getElementById('txt-sec2Title').innerHTML = dict.sec2Title;
-            document.getElementById('txt-sec2Desc').innerHTML = dict.sec2Desc;
-            document.getElementById('txt-sec2Note').innerHTML = dict.sec2Note;
-            document.getElementById('txt-sec3Title').innerHTML = dict.sec3Title;
-            document.getElementById('txt-sec3Desc').innerHTML = dict.sec3Desc;
-            document.getElementById('txt-sec4Title').innerHTML = dict.sec4Title;
-            document.getElementById('txt-sec4Content').innerHTML = dict.sec4Content;
-            document.getElementById('txt-sec5Title').innerHTML = dict.sec5Title;
-            document.getElementById('txt-sec5Content').innerHTML = dict.sec5Content;
-
-            // 2. 渲染 Header / Footer 共用語系
-            const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
             const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
             const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
+            const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
             if (uiDict) {
+                setElTxt('appTitle', uiDict.title || '慳真D');
+                
+                const statusLabel = document.getElementById('todayStatusLabel');
+                if (statusLabel) {
+                    if (lastUpdatedTime && !isNaN(lastUpdatedTime.getTime())) {
+                        const prefix = (uiDict.lastUpdated || (lang === 'en' ? 'Updated: ' : '更新於: '));
+                        statusLabel.innerText = prefix + formatDateTime(lastUpdatedTime);
+                    } else {
+                        statusLabel.innerText = uiDict.subLabel || (lang === 'en' ? 'Loading...' : '載入中...');
+                    }
+                }
+                
                 setElTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
                 setElTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
                 setElTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
@@ -208,23 +262,48 @@
                 setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
             }
 
+            const dict = manualDict[lang] || manualDict['zh-Hant'];
+            document.title = dict.docTitle;
+            setElHtml('txt-pageTitle', dict.pageTitle);
+            setElHtml('txt-backBtn', dict.backBtn);
+            setElHtml('txt-intro', dict.intro);
+            setElHtml('txt-sec1Title', dict.sec1Title);
+            setElHtml('txt-sec1Content', dict.sec1Content);
+            
+            setElHtml('txt-secDashTitle', dict.secDashTitle);
+            setElHtml('txt-secDashContent', dict.secDashContent);
+            
+            setElHtml('txt-sec2Title', dict.sec2Title);
+            setElHtml('txt-sec2Desc', dict.sec2Desc);
+            setElHtml('txt-sec2Note', dict.sec2Note);
+            setElHtml('txt-sec3Title', dict.sec3Title);
+            setElHtml('txt-sec3Desc', dict.sec3Desc);
+            setElHtml('txt-sec4Title', dict.sec4Title);
+            setElHtml('txt-sec4Content', dict.sec4Content);
+            setElHtml('txt-sec5Title', dict.sec5Title);
+            setElHtml('txt-sec5Content', dict.sec5Content);
+
             const devTeam = document.getElementById('footerDevTeam');
             if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
 
             const devName = document.getElementById('footerDevName');
             if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
+
+            let langSel = document.getElementById('langSelector');
+            if (langSel) langSel.value = lang;
+            
+            if (typeof updateAlertBadge === 'function') updateAlertBadge();
         }
 
-        // 🌟 接收由 header.js 發出的語言切換指令
         window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
         window.changeLanguage = function(lang) { 
             if (typeof globalChangeLang === 'function') globalChangeLang(lang); 
             if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
         };
 
-        // 啟動
         document.addEventListener('DOMContentLoaded', () => {
             updateLocalLanguage(currentLang);
+            fetchUpdateLog();
         });
     </script>
 </body>
