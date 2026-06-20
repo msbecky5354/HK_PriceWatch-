@@ -26,7 +26,12 @@
             <div class="flex items-center gap-3">
                 <span class="text-xl md:text-2xl">🌐</span> 
                 <div class="flex flex-col">
-                    <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全局戰情室 (Command Center)</h1>
+                    <div class="flex items-center gap-2">
+                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">全局戰情室 (Command Center)</h1>
+                        <button onclick="openMechanismModal()" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition active:scale-95" title="運算與視覺化聲明">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </button>
+                    </div>
                     <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">實時監控各大超市降價分佈與火力</span>
                 </div>
             </div>
@@ -58,15 +63,48 @@
 
     <script src="footer.js?v=1"></script>
 
+    <!-- 🛡️ 全局戰情室專屬彈窗 (新增「真降價」定義) -->
+    <div id="mechanismModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[210] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl flex flex-col max-h-[85vh] border dark:border-slate-700 transition-colors duration-300">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-[20px]">📊</span>
+                <h2 id="mechTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">全局戰情室運算與聲明</h2>
+            </div>        
+            <div class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors">
+                <p id="mechDesc" class="font-bold text-slate-500 dark:text-slate-400">本戰情室實時匯總全港超市的「真・劈價」數據，並轉化為高階視覺化圖表，助您一秒洞悉全城戰況：</p>
+                <div class="space-y-3">
+                    <div class="bg-green-50/50 dark:bg-green-900/20 p-3 rounded-xl border border-green-100 dark:border-green-800/50">
+                        <div id="mechR1T" class="font-black text-green-700 dark:text-green-400 mb-1"></div>
+                        <div id="mechR1D" class="text-slate-600 dark:text-slate-400 text-[12px] leading-relaxed"></div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div id="mechR2T" class="font-black text-slate-800 dark:text-slate-100 mb-1"></div>
+                        <div id="mechR2D" class="text-slate-500 dark:text-slate-400 text-[12px]"></div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div id="mechR3T" class="font-black text-slate-800 dark:text-slate-100 mb-1"></div>
+                        <div id="mechR3D" class="text-slate-500 dark:text-slate-400 text-[12px]"></div>
+                    </div>
+                    <div class="bg-blue-50/50 dark:bg-slate-900/50 p-3 rounded-xl border border-blue-100 dark:border-slate-700">
+                        <div id="mechR4T" class="font-black text-slate-800 dark:text-slate-100 mb-2"></div>
+                        <div id="mechR4D" class="text-slate-500 dark:text-slate-400 text-[11px] space-y-1.5"></div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeMechanismModal()" id="mechCloseBtn" class="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-md shadow-blue-100 dark:shadow-none">我明白及接受</button>
+        </div>
+    </div>
+
 <script>
     let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
-    
     let treemapChart = null;
     let heatmapChart = null;
-
     let treemapData = [];
     let totalItemsCount = 0;
     let heatmapData = []; 
+
+    function openMechanismModal() { document.getElementById('mechanismModal').classList.remove('hidden'); }
+    function closeMechanismModal() { document.getElementById('mechanismModal').classList.add('hidden'); }
 
     const i18n = {
         'zh-Hant': { 
@@ -96,11 +134,11 @@
         localStorage.setItem('appLang', lang);
         const t = i18n[lang] || i18n['zh-Hant'];
 
-        // 🌟 完美修復 Windows Tab 標籤名稱：確保英文環境只出現英文，中文環境只出現中文！
         const appName = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
         document.title = `${t.title} | ${appName}🔎`;
 
         const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
+        const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
         
         setTxt('pageTitleText', t.title);
         setTxt('subTitleText', t.sub);
@@ -110,6 +148,44 @@
 
         const appTitleEl = document.getElementById('appTitle');
         if (appTitleEl) appTitleEl.innerText = appName;
+
+        const mechText = {
+            'zh-Hant': {
+                title: '📊 全局戰情室運算與視覺化聲明',
+                desc: '本戰情室實時匯總全港超市的「真・劈價」數據，並轉化為高階視覺化圖表，助您一秒洞悉全城戰況：',
+                r1t: '📉 甚麼是「真・降價」？', r1d: '系統每日將即時價格與 <b>2025年12月31日以來</b> 的最新歷史紀錄進行比對。只有當「今日折實價」嚴格 <b>低於</b>「上次紀錄之折實價」時，方被系統認證為真降價，剔除所有假促銷。',
+                r2t: '🔲 降價戰力版圖 (Treemap)', r2d: '圖表中的方塊面積越大，代表該超市符合「真降價」標準的貨品數量越多（總火力佔比越高）。',
+                r3t: '🔥 戰火熱力矩陣 (Heatmap)', r3d: '展示各超市在不同貨品分類的減價力度。顏色越深（偏紅），代表「平均真降幅」越大；顏色越淺（偏黃）代表微減。',
+                r4t: '⚖️ 重要免責聲明 (Legal Compliance)', r4d: '<p><b>1. 按原樣提供 (As-Is)</b>：本面板數據基於第三方公開資料實時抓取及電腦運算，本程式不保證數據絕對無延遲或零誤差。</p><p><b>2. 第三方數據免責</b>：因零售商隨時更改定價或第三方接口延遲導致之價格落差，本平台概不負責。所有資訊僅供參考，不構成任何消費建議，請以實體店最終標價為準。</p>',
+                btn: '我明白及接受'
+            },
+            'zh-Hans': {
+                title: '📊 全局战情室运算与视觉化声明',
+                desc: '本战情室实时汇总全港超市的「真・劈价」数据，并转化为高阶视觉化图表，助您一秒洞悉全城战况：',
+                r1t: '📉 什么是「真・降价」？', r1d: '系统每日将即时价格与 <b>2025年12月31日以来</b> 的最新历史纪录进行比对。只有当「今日折实价」严格 <b>低于</b>「上次纪录之折实价」时，方被系统认证为真降价，剔除所有假促销。',
+                r2t: '🔲 降价战力版图 (Treemap)', r2d: '图表中的方块面积越大，代表该超市符合「真降价」标准的货品数量越多（总火力占比越高）。',
+                r3t: '🔥 战火热力矩阵 (Heatmap)', r3d: '展示各超市在不同货品分类的减价力度。颜色越深（偏红），代表「平均真降幅」越大；颜色越浅（偏黄）代表微减。',
+                r4t: '⚖️ 重要免责声明 (Legal Compliance)', r4d: '<p><b>1. 按原样提供 (As-Is)</b>：本面板数据基于第三方公开资料实时抓取及电脑运算，本程式不保证数据绝对无延迟或零误差。</p><p><b>2. 第三方数据免责</b>：因零售商随时更改定价或第三方接口延迟导致之价格落差，本平台概不负责。所有资讯仅供参考，不构成任何消费建议，请以实体店最终标价为准。</p>',
+                btn: '我明白及接受'
+            },
+            'en': {
+                title: '📊 Dashboard Visualization & Disclaimer',
+                desc: 'This dashboard aggregates live "True Discount" data from supermarkets across HK into advanced visualizations:',
+                r1t: '📉 What is a "True Drop"?', r1d: 'The system compares today\'s live price with the latest historical record since <b>Dec 31, 2025</b>. A "True Drop" is strictly defined as today\'s effective price being <b>lower</b> than the previous record, filtering out all fake promotions.',
+                r2t: '🔲 Discount Treemap', r2d: 'The larger the area of the block, the higher the number of products meeting our "True Discount" standard (Higher Market Share).',
+                r3t: '🔥 Warfare Heatmap', r3d: 'Displays the discount intensity across categories. Darker colors (red) indicate a higher "Average True Drop"; lighter colors (yellow) indicate minor drops.',
+                r4t: '⚖️ Legal Disclaimer (As-Is)', r4d: '<p><b>1. As-Is Basis</b>: Data is auto-calculated from public sources. We do not guarantee absolute real-time accuracy.</p><p><b>2. Third-Party Exemption</b>: We are not liable for discrepancies caused by retailer changes or API delays. All information is for reference only and does not constitute purchasing advice. Verify at the store.</p>',
+                btn: 'I Understand & Accept'
+            }
+        };
+        const mt = mechText[lang] || mechText['zh-Hant'];
+        setTxt('mechTitle', mt.title);
+        setTxt('mechDesc', mt.desc);
+        setTxt('mechR1T', mt.r1t); setElHtml('mechR1D', mt.r1d);
+        setTxt('mechR2T', mt.r2t); setTxt('mechR2D', mt.r2d);
+        setTxt('mechR3T', mt.r3t); setTxt('mechR3D', mt.r3d);
+        setTxt('mechR4T', mt.r4t); setElHtml('mechR4D', mt.r4d);
+        setTxt('mechCloseBtn', mt.btn);
 
         if (treemapData.length > 0) renderTreemap();
         if (heatmapData.length > 0) renderHeatmap();
@@ -200,46 +276,28 @@
                 },
                 backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#e2e8f0'
             },
-           // 🌟 1. 加大 bottom 到 22%，給底部的 AEON 標籤與圖例留下足夠的呼吸空間
             grid: { top: '5%', right: '5%', bottom: '22%', left: '2%', containLabel: true }, 
-            xAxis: { type: 'category', data: xData, splitArea: { show: true }, axisLabel: { fontWeight: 'bold' } },
+            xAxis: { 
+                type: 'category', 
+                data: xData, 
+                splitArea: { show: true }, 
+                axisLabel: { fontWeight: 'bold', interval: 0, rotate: 45, fontSize: 11, margin: 12 } 
+            },
             yAxis: { 
                 type: 'category', 
                 data: yData, 
                 splitArea: { show: true }, 
-                axisLabel: { 
-                    fontWeight: 'bold', 
-                    interval: 0,
-                    // 🌟 2. 終極換行魔法：設定最大寬度，超過自動換行！
-                    width: 160, 
-                    overflow: 'break' 
-                } 
+                axisLabel: { fontWeight: 'bold', interval: 0, width: 160, overflow: 'break' } 
             },
             visualMap: {
-                min: 0,
-                max: 50, 
-                calculable: true,
-                orient: 'horizontal',
-                left: 'center',
-                // 🌟 3. 將圖例貼齊最底部，徹底與 X 軸文字分開
-                bottom: '0%', 
+                min: 0, max: 50, calculable: true, orient: 'horizontal', left: 'center', bottom: '0%', 
                 inRange: { color: ['#fef08a', '#f97316', '#b91c1c'] }, 
                 text: currentLang === 'en' ? ['High', 'Low'] : ['激減 (高)', '微減 (低)'],
                 textStyle: { color: '#64748b', fontWeight: 'bold', fontSize: 11 }
             },
             series: [{
-                name: '平均真降幅',
-                type: 'heatmap',
-                data: seriesData,
-                label: {
-                    show: true,
-                    formatter: function(params) { return params.value[2] + '%'; },
-                    color: '#ffffff',
-                    fontWeight: 'black',
-                    fontSize: 13,
-                    textShadowColor: 'rgba(0,0,0,0.3)',
-                    textShadowBlur: 2
-                },
+                name: '平均真降幅', type: 'heatmap', data: seriesData,
+                label: { show: true, formatter: function(params) { return params.value[2] + '%'; }, color: '#ffffff', fontWeight: 'black', fontSize: 13, textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 2 },
                 itemStyle: { borderColor: '#ffffff', borderWidth: 3, borderRadius: 6 } 
             }]
         };
