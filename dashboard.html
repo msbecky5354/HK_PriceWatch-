@@ -45,7 +45,8 @@
                     <span>🔲</span> <span id="titleTreemap">全城降價戰力版圖</span>
                 </div>
                 <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
-                    <div id="treemapChart" class="w-full h-[500px]"></div>
+                    <!-- 🟢 修改 1: 拉高圖表容器的高度，提供更多垂直空間 -->
+                    <div id="treemapChart" class="w-full h-[500px] md:h-[600px] lg:h-[650px]"></div>
                 </div>
             </div>
 
@@ -214,27 +215,45 @@
             },
             series: [{
                 type: 'treemap', width: '100%', height: '100%', roam: false, nodeClick: false, breadcrumb: { show: false },
+                squareRatio: 1, // 🟢 修改 2: 強制 ECharts 優先排列正方形，避免產生極幼長的方塊
                 itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
                 data: cleanData, 
                 label: {
-                    show: true, position: 'inside',
+                    show: true, 
+                    position: 'inside',
+                    align: 'center', 
                     formatter: function(params) {
                         if (params.value < 10) return '';
                         let dName = params.name;
-                        dName = dName.replace(' ', '\n');
-                        if (dName.includes(' (')) {
-                            let parts = dName.split(' (');
-                            return `{logo|}\n\n{name|${parts[0]}}\n{subName|(${parts[1]}}\n{count|${params.value} ${t.itemUnit}}`;
-                        } else if (dName.includes('\n(')) { 
-                            let parts = dName.split('\n(');
-                             return `{logo|}\n\n{name|${parts[0]}}\n{subName|(${parts[1]}}\n{count|${params.value} ${t.itemUnit}}`;
+                        
+                        // 1. 提取商戶代碼
+                        let smCode = dName;
+                        const match = dName.match(/\((.*?)\)/);
+                        if (match) {
+                            smCode = match[1].toUpperCase().trim();
+                        } else {
+                            smCode = dName.toUpperCase().trim();
                         }
-                        return `{logo|}\n\n{name|${dName}}\n{count|${params.value} ${t.itemUnit}}`; 
+                        
+                        // 2. 多語言名稱轉譯
+                        let cleanName = smCode;
+                        if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][smCode]) {
+                            cleanName = supermarketDict[currentLang][smCode];
+                        } else if (match) {
+                            cleanName = (currentLang === 'en') ? match[1] : dName.split(' (')[0].trim();
+                        }
+                        
+                        // 3. 自適應排版：小型區塊強制卸載 Logo，改用純文字垂直排列，完美迴避水平溢出
+                        if (params.value < 200) {
+                            return `{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
+                        } else {
+                            return `{logo|}\n{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
+                        }
                     },
                     rich: {
-                        name: { fontSize: 15, fontWeight: 'bold', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', lineHeight: 18 },
-                        subName: { fontSize: 11, fontWeight: 'bold', color: 'rgba(255,255,255,0.85)', align: 'center', lineHeight: 14, padding: [0, 0, 4, 0] },
-                        count: { fontSize: 18, fontWeight: 'black', color: '#ffffff', textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 3, align: 'center', backgroundColor: 'rgba(0,0,0,0.2)', padding: [2, 6], borderRadius: 4, marginTop: 2 }
+                        // 🟢 修改 3: 加入 lineHeight 及縮減 padding 使細塊文字不會逼爆
+                        name: { fontSize: 12, fontWeight: 'bold', color: '#ffffff', align: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowBlur: 3, lineHeight: 14 },
+                        count: { fontSize: 11, fontWeight: 'bold', color: '#ffffff', align: 'center', backgroundColor: 'rgba(0,0,0,0.3)', padding: [1, 3], borderRadius: 4, marginTop: 2, lineHeight: 12 }
                     }
                 }
             }]
@@ -242,6 +261,7 @@
         treemapChart.setOption(option);
     }
 
+    
     function renderHeatmap() {
         if (!heatmapChart) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
