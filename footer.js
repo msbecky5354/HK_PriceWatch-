@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span id="miniFooterCopy">© 2026 慳真D</span> 
             <span class="mx-1.5">|</span> 
             <span id="footerDevTeam">開發團隊: </span>
-            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
+            <a id="footerDevName" href="https://lazytoolsstation.vercel.app" target="_blank" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
         </div>
     </div>
     `;
