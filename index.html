@@ -5,6 +5,20 @@
     <script>
         (function() {
             try {
+                // 🚨 1. 第一時間檢測維護狀態 (防偷渡核心)
+                // 加上時間戳防止 Cache 緩存
+                fetch('status.txt?v=' + new Date().getTime())
+                    .then(response => response.text())
+                    .then(status => {
+                        // 如果 status.txt 入面係 1，即刻踢去維護版面
+                        if (status.trim() === '1') {
+                            window.location.replace('maintenance.html');
+                            return; // 終止後續執行
+                        }
+                    })
+                    .catch(error => console.error('無法讀取系統狀態:', error));
+
+                // 2. 原本嘅 URL 參數處理 (無郁到你嘅邏輯)
                 const params = new URLSearchParams(window.location.search);
                 const urlLang = params.get('lang');
                 const searchQuery = params.get('q'); 
@@ -25,6 +39,8 @@
             } catch(e) {}
         })();
     </script>
+
+   
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">

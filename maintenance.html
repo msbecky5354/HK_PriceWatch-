@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系統維護中 | System Maintenance</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        // 🚨 1. 系統狀態檢測 (防偷渡機制)
+        fetch('status.txt?v=' + new Date().getTime())
+            .then(response => response.text())
+            .then(status => {
+                if (status.trim() === '0') {
+                    window.location.replace('index.html');
+                }
+            })
+            .catch(error => console.error('無法讀取系統狀態:', error));
+
+        // 🚨 2. 微型翻譯字典 (專為維護頁面而設)
+        const maintenanceTranslations = {
+            'zh-Hant': {
+                title: '系統緊急維護中',
+                desc: '哎呀！我哋嘅後台資料庫發生咗啲小意外，工程團隊正喺度瘋狂搶修緊。為免數據出錯，網站暫時停止服務。',
+                eta: '預計恢復時間：修復完成後即時重開',
+                footerBtn: '關於我們、條款及免責聲明',
+                footerDev: '開發團隊: '
+            },
+            'zh-Hans': {
+                title: '系统紧急维护中',
+                desc: '哎呀！我们的后台数据库发生了一些小意外，工程团队正在疯狂抢修中。为免数据出错，网站暂时停止服务。',
+                eta: '预计恢复时间：修复完成后即时重开',
+                footerBtn: '关于我们、条款及免责声明',
+                footerDev: '开发团队: '
+            },
+            'en': {
+                title: 'Emergency Maintenance',
+                desc: 'Oops! We experienced a minor database hiccup. Our engineering team is working hard to fix it. To prevent data corruption, the site is temporarily unavailable.',
+                eta: 'Estimated recovery time: As soon as the fix is complete.',
+                footerBtn: 'About Us, Terms & Disclaimer',
+                footerDev: 'Developed by: '
+            }
+        };
+
+        // 🚨 3. 執行翻譯嘅 Function
+        window.updateLocalLanguage = function(lang) {
+            // 讀取字典 (如果無呢個語言就 fallback 去繁體)
+            const t = maintenanceTranslations[lang] || maintenanceTranslations['zh-Hant'];
+            
+            // 更新維護畫面文字
+            const titleEl = document.getElementById('maintenance-title');
+            const descEl = document.getElementById('maintenance-desc');
+            const etaEl = document.getElementById('maintenance-eta');
+            
+            if (titleEl) titleEl.textContent = t.title;
+            if (descEl) descEl.textContent = t.desc;
+            if (etaEl) etaEl.textContent = t.eta;
+
+            // 更新 Footer 文字
+            const footerBtn = document.getElementById('miniFooterLinks');
+            const footerDev = document.getElementById('footerDevTeam');
+            
+            if (footerBtn) footerBtn.textContent = t.footerBtn;
+            if (footerDev) footerDev.textContent = t.footerDev;
+            
+            // 確保 Header 個 Select 都指住啱嗰個選項
+            const langSelect = document.getElementById('langSelector');
+            if (langSelect) langSelect.value = lang;
+        };
+
+        // 🚨 4. 接管 Header 嘅 changeLanguage (令佢撳完即刻轉字)
+        window.changeLanguage = function(lang) {
+            localStorage.setItem('appLang', lang); // 幫你 Save 低個選擇
+            updateLocalLanguage(lang); // 即刻轉字
+        };
+
+        // 🚨 5. 確保一開網頁就讀取上次揀嘅語言
+        document.addEventListener('DOMContentLoaded', () => {
+            // 嘗試讀取你原本系統設定嘅語言變數 (currentLang 或 appLang)
+            const savedLang = localStorage.getItem('appLang') || 'zh-Hant';
+            
+            // 等 Header 同 Footer 都 Load 完，先至執行翻譯
+            setTimeout(() => {
+                updateLocalLanguage(savedLang);
+            }, 100); // 畀 0.1 秒緩衝時間等 HTML 砌好
+        });
+
+        // 🛡️ 防禦性 Dummy Function (防止撳 Header 按鈕報錯)
+        window.openMyAlerts = function() { alert('系統緊急維護中，暫停通知服務。'); };
+        window.openShareAppModal = function() { alert('系統緊急維護中，暫停分享服務。'); };
+    </script>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 flex flex-col min-h-screen transition-colors duration-300">
+
+    <main class="flex-1 flex items-center justify-center px-4 py-8">
+        <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-lg max-w-md w-full border border-slate-100 dark:border-slate-700 text-center transition-colors duration-300">
+            <div class="text-yellow-500 text-6xl mb-4 animate-bounce">⚠️</div>
+            
+            <h1 id="maintenance-title" class="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2">系統緊急維護中</h1>
+            
+            <p id="maintenance-desc" class="text-slate-500 dark:text-slate-400 mb-6 font-medium text-sm leading-relaxed">
+                哎呀！我哋嘅後台資料庫發生咗啲小意外，工程團隊正喺度瘋狂搶修緊。為免數據出錯，網站暫時停止服務。
+            </p>
+            
+            <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 mb-4 overflow-hidden">
+                <div class="bg-yellow-500 h-full rounded-full animate-pulse" style="width: 100%"></div>
+            </div>
+            
+            <p id="maintenance-eta" class="text-xs text-slate-400 dark:text-slate-500 font-bold">預計恢復時間：修復完成後即時重開</p>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
+    <script>
+        (function() {
+            try {
+                // 🚨 純淨版：只做系統維護檢測 (防偷渡核心)
+                fetch('status.txt?v=' + new Date().getTime())
+                    .then(response => response.text())
+                    .then(status => {
+                        // 如果 status.txt 入面係 1，即刻踢去維護版面
+                        if (status.trim() === '1') {
+                            window.location.replace('maintenance.html');
+                        }
+                    })
+                    .catch(error => console.error('無法讀取系統狀態:', error));
+            } catch(e) {}
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>智選真抵榜 | 慳真D🔎</title>
