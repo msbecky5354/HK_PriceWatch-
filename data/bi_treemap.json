@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T13:25:47.185Z",
+  "generated_at": "2026-06-23T13:40:41.008Z",
   "report_date": "2026-06-23",
   "data": [
     {
@@ -127,7 +127,7 @@
       }
     },
     {
-      "name": "LUNGFUNG",
+      "name": "DCHFOOD",
       "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
@@ -137,7 +137,7 @@
       }
     },
     {
-      "name": "DCHFOOD",
+      "name": "LUNGFUNG",
       "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
