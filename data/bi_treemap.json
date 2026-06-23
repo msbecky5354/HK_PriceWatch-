@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-23T11:00:41.121Z",
+  "generated_at": "2026-06-23T13:25:47.185Z",
   "report_date": "2026-06-23",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
-      "value": 664,
+      "value": 668,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 616,
+      "value": 619,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 527,
+      "value": 528,
       "itemStyle": {
         "color": "#334155"
       },
@@ -61,7 +61,7 @@
     },
     {
       "name": "AEON",
-      "value": 173,
+      "value": 190,
       "itemStyle": {
         "color": "#f472b6"
       },
@@ -138,7 +138,7 @@
     },
     {
       "name": "DCHFOOD",
-      "value": 6,
+      "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
       },
