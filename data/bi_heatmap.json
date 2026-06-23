@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T13:25:48.463Z",
+  "generated_at": "2026-06-23T13:40:42.441Z",
   "report_date": "2026-06-23",
   "data": [
     {
@@ -49,7 +49,7 @@
       "cat_zh": "飲品",
       "cat_en": "Drinks",
       "cat_hans": "饮品",
-      "avg_drop_pct": "9.4"
+      "avg_drop_pct": "9.6"
     },
     {
       "smCode": "AEON",
@@ -154,7 +154,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "21.2"
+      "avg_drop_pct": "22.1"
     },
     {
       "smCode": "LUNGFUNG",
@@ -175,7 +175,7 @@
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "8.3"
+      "avg_drop_pct": "7.5"
     },
     {
       "smCode": "MANNINGS",
@@ -189,21 +189,21 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "8.0"
+      "avg_drop_pct": "7.9"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "9.6"
+      "avg_drop_pct": "9.4"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "奶類及乳製品 / 大豆製品 / 蛋類",
       "cat_en": "Dairy / Soy products / Eggs",
       "cat_hans": "奶类及乳制品 / 大豆制品 / 蛋类",
-      "avg_drop_pct": "9.4"
+      "avg_drop_pct": "9.7"
     },
     {
       "smCode": "PARKNSHOP",
@@ -217,28 +217,28 @@
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "6.6"
+      "avg_drop_pct": "6.5"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "粉麵 / 煮食用料 / 冷凍加工食品",
       "cat_en": "Noodles / Cooking needs / Processed food (cold)",
       "cat_hans": "粉面 / 煮食用料 / 冷冻加工食品",
-      "avg_drop_pct": "11.7"
+      "avg_drop_pct": "11.9"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "糖果 / 餅乾 / 小食",
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
-      "avg_drop_pct": "13.3"
+      "avg_drop_pct": "13.1"
     },
     {
       "smCode": "PARKNSHOP",
       "cat_zh": "酒類",
       "cat_en": "Beer / Wines / Spirits",
       "cat_hans": "酒类",
-      "avg_drop_pct": "13.4"
+      "avg_drop_pct": "13.0"
     },
     {
       "smCode": "PARKNSHOP",
@@ -259,21 +259,21 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "20.6"
+      "avg_drop_pct": "15.7"
     },
     {
       "smCode": "WATSONS",
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "11.7"
+      "avg_drop_pct": "11.6"
     },
     {
       "smCode": "WATSONS",
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "8.3"
+      "avg_drop_pct": "7.7"
     },
     {
       "smCode": "WATSONS",
@@ -329,7 +329,7 @@
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "5.1"
+      "avg_drop_pct": "5.5"
     },
     {
       "smCode": "WELLCOME",
