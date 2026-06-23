@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-22T23:42:25.159Z",
-  "report_date": "2026-06-22",
+  "generated_at": "2026-06-23T10:27:56.934Z",
+  "report_date": "2026-06-23",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 610,
+      "value": 616,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 521,
+      "value": 527,
       "itemStyle": {
         "color": "#334155"
       },
@@ -61,7 +61,7 @@
     },
     {
       "name": "AEON",
-      "value": 166,
+      "value": 173,
       "itemStyle": {
         "color": "#f472b6"
       },
@@ -80,7 +80,7 @@
     },
     {
       "name": "屈臣氏 (WATSONS)",
-      "value": 157,
+      "value": 156,
       "itemStyle": {
         "color": "#14b8a6"
       },
