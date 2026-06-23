@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-22T23:42:26.665Z",
-  "report_date": "2026-06-22",
+  "generated_at": "2026-06-23T10:28:00.630Z",
+  "report_date": "2026-06-23",
   "data": [
     {
       "smCode": "AEON",
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "17.9"
+      "avg_drop_pct": "18.3"
     },
     {
       "smCode": "AEON",
@@ -91,7 +91,7 @@
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "3.0"
+      "avg_drop_pct": "2.1"
     },
     {
       "smCode": "JASONS",
@@ -161,7 +161,7 @@
       "cat_zh": "個人護理",
       "cat_en": "Personal care",
       "cat_hans": "个人护理",
-      "avg_drop_pct": "16.6"
+      "avg_drop_pct": "16.9"
     },
     {
       "smCode": "MANNINGS",
@@ -301,7 +301,7 @@
       "cat_zh": "奶粉 / 嬰兒用品",
       "cat_en": "Milk powder / Baby care",
       "cat_hans": "奶粉 / 婴儿用品",
-      "avg_drop_pct": "13.0"
+      "avg_drop_pct": "10.1"
     },
     {
       "smCode": "WELLCOME",
