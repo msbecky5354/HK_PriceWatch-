@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-23T13:43:42.600Z",
-  "report_date": "2026-06-23",
+  "generated_at": "2026-06-24T11:00:41.858Z",
+  "report_date": "2026-06-24",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 619,
+      "value": 630,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 528,
+      "value": 539,
       "itemStyle": {
         "color": "#334155"
       },
@@ -61,7 +61,7 @@
     },
     {
       "name": "AEON",
-      "value": 190,
+      "value": 181,
       "itemStyle": {
         "color": "#f472b6"
       },
@@ -99,7 +99,7 @@
     },
     {
       "name": "萬寧 (MANNINGS)",
-      "value": 104,
+      "value": 103,
       "itemStyle": {
         "color": "#f59e0b"
       },
@@ -127,7 +127,7 @@
       }
     },
     {
-      "name": "DCHFOOD",
+      "name": "LUNGFUNG",
       "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
@@ -137,7 +137,7 @@
       }
     },
     {
-      "name": "LUNGFUNG",
+      "name": "DCHFOOD",
       "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
