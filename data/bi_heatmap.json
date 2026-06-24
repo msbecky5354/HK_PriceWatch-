@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-23T13:43:43.835Z",
-  "report_date": "2026-06-23",
+  "generated_at": "2026-06-24T11:00:43.390Z",
+  "report_date": "2026-06-24",
   "data": [
     {
       "smCode": "AEON",
@@ -21,7 +21,7 @@
       "cat_zh": "家居用品 / 寵物食品及用品",
       "cat_en": "Household / Pet food and care",
       "cat_hans": "家居用品 / 宠物食品及用品",
-      "avg_drop_pct": "8.7"
+      "avg_drop_pct": "10.4"
     },
     {
       "smCode": "AEON",
@@ -43,6 +43,13 @@
       "cat_en": "Candies / Biscuits / Snacks",
       "cat_hans": "糖果 / 饼乾 / 小食",
       "avg_drop_pct": "10.0"
+    },
+    {
+      "smCode": "AEON",
+      "cat_zh": "酒類",
+      "cat_en": "Beer / Wines / Spirits",
+      "cat_hans": "酒类",
+      "avg_drop_pct": "9.3"
     },
     {
       "smCode": "AEON",
@@ -329,7 +336,7 @@
       "cat_zh": "米 / 食油 / 罐頭 / 蔬果 / 肉類",
       "cat_en": "Rice / Oil / Canned food / Fruits / Vegetables / Meat",
       "cat_hans": "米 / 食油 / 罐头 / 蔬果 / 肉类",
-      "avg_drop_pct": "5.5"
+      "avg_drop_pct": "5.6"
     },
     {
       "smCode": "WELLCOME",
