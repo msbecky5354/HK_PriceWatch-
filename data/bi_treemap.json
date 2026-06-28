@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-27T11:00:41.912Z",
-  "report_date": "2026-06-27",
+  "generated_at": "2026-06-28T19:11:05.129Z",
+  "report_date": "2026-06-28",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
-      "value": 665,
+      "value": 712,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 616,
+      "value": 608,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 525,
+      "value": 535,
       "itemStyle": {
         "color": "#334155"
       },
@@ -80,7 +80,7 @@
     },
     {
       "name": "屈臣氏 (WATSONS)",
-      "value": 116,
+      "value": 102,
       "itemStyle": {
         "color": "#14b8a6"
       },
@@ -99,7 +99,7 @@
     },
     {
       "name": "萬寧 (MANNINGS)",
-      "value": 104,
+      "value": 86,
       "itemStyle": {
         "color": "#f59e0b"
       },
@@ -128,7 +128,7 @@
     },
     {
       "name": "LUNGFUNG",
-      "value": 9,
+      "value": 10,
       "itemStyle": {
         "color": "#cbd5e1"
       },
