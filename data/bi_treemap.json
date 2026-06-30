@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-29T22:46:37.056Z",
-  "report_date": "2026-06-29",
+  "generated_at": "2026-06-30T14:24:24.532Z",
+  "report_date": "2026-06-30",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
-      "value": 729,
+      "value": 730,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 638,
+      "value": 641,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -80,7 +80,7 @@
     },
     {
       "name": "屈臣氏 (WATSONS)",
-      "value": 103,
+      "value": 108,
       "itemStyle": {
         "color": "#14b8a6"
       },
