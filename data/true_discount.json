@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T07:35:38.242Z",
+  "generated_at": "2026-07-01T08:01:39.063Z",
   "report_date": "2026-07-01",
   "data": [
     {
@@ -9225,7 +9225,7 @@
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
           "effectivePrice": 36,
-          "lastChangeDate": "2026-06-30",
+          "lastChangeDate": "2026-07-01",
           "otherPricesRaw": [
             {
               "price": 40,
@@ -13376,7 +13376,7 @@
           "currentOfferEn": "Buy 2 to save $29.80",
           "currentOfferZh": "買2件慳$29.80",
           "effectivePrice": 28,
-          "lastChangeDate": "2026-06-30",
+          "lastChangeDate": "2026-07-01",
           "otherPricesRaw": [
             {
               "price": 32.5,
@@ -28692,12 +28692,12 @@
           "prevOfferZh": "買2件$29.90 / 8.00折",
           "prevEffPrice": 14.95,
           "originalPrice": 15.9,
-          "prevBasePrice": 17.9,
+          "prevBasePrice": 15.9,
           "prevOfferHans": "买2件$29.90 / 8.00折",
           "currentOfferEn": "Buy 2 at $29.90",
           "currentOfferZh": "買2件$29.90",
           "effectivePrice": 14.95,
-          "lastChangeDate": "2026-06-03",
+          "lastChangeDate": "2026-06-30",
           "otherPricesRaw": [],
           "realDiscountPct": 5.9748427672955975,
           "currentOfferHans": "买2件$29.90"
