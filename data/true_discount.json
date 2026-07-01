@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T08:01:39.063Z",
+  "generated_at": "2026-07-01T11:00:51.854Z",
   "report_date": "2026-07-01",
   "data": [
     {
@@ -239,7 +239,7 @@
             "zh-Hans": "公仔點心",
             "zh-Hant": "公仔點心"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -256,12 +256,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 17.5,
-              "smCode": "PARKNSHOP"
+              "price": 12.47,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 12.47,
-              "smCode": "JASONS"
+              "price": 17.5,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 46.93617021276596,
@@ -499,7 +499,7 @@
             "zh-Hans": "卡樂B",
             "zh-Hant": "卡樂B"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -508,7 +508,7 @@
           "prevOfferZh": "$37任揀2件",
           "prevEffPrice": 18.5,
           "originalPrice": 22,
-          "prevBasePrice": 23,
+          "prevBasePrice": 22,
           "prevOfferHans": "$37任拣2件",
           "currentOfferEn": "Buy 4 item(s) for $60.00",
           "currentOfferZh": "$60任揀4件",
@@ -516,12 +516,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 15,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 19.5,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 15,
+              "smCode": "JASONS"
             },
             {
               "price": 18.5,
@@ -587,7 +587,7 @@
             "zh-Hans": "卡夫",
             "zh-Hant": "卡夫"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -605,11 +605,11 @@
           "otherPricesRaw": [
             {
               "price": 25,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 25,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 27.5,
@@ -631,7 +631,7 @@
             "zh-Hans": "可口可樂",
             "zh-Hant": "可口可樂"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "fake",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -649,11 +649,11 @@
           "otherPricesRaw": [
             {
               "price": 30,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 30,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 25,
@@ -799,7 +799,7 @@
             "zh-Hans": "嘉頓",
             "zh-Hant": "嘉頓"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬"
@@ -816,12 +816,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 6,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 7.5,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 6,
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 29.41176470588235,
@@ -883,7 +883,7 @@
             "zh-Hans": "地捫",
             "zh-Hant": "地捫"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "米 / 食油 / 罐頭 / 蔬果 / 肉類"
@@ -901,11 +901,11 @@
           "otherPricesRaw": [
             {
               "price": 20,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 20,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 18.367346938775512,
@@ -1207,7 +1207,7 @@
             "zh-Hans": "斧頭牌",
             "zh-Hant": "斧頭牌"
           },
-          "smCode": "JASONS",
+          "smCode": "PARKNSHOP",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -1218,8 +1218,8 @@
           "originalPrice": 25.9,
           "prevBasePrice": 25.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 item(s) for $44.90",
-          "currentOfferZh": "$44.9任揀2件",
+          "currentOfferEn": "Buy 2 to save $6.90",
+          "currentOfferZh": "買2件慳$6.90",
           "effectivePrice": 22.45,
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
@@ -1229,11 +1229,11 @@
             },
             {
               "price": 22.45,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 13.32046332046332,
-          "currentOfferHans": "$44.9任拣2件"
+          "currentOfferHans": "买2件悭$6.90"
         },
         {
           "code": "P000000069",
@@ -1427,16 +1427,16 @@
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
+              "price": 5,
+              "smCode": "AEON"
+            },
+            {
               "price": 4.95,
               "smCode": "WELLCOME"
             },
             {
               "price": 6.95,
               "smCode": "PARKNSHOP"
-            },
-            {
-              "price": 5,
-              "smCode": "AEON"
             }
           ],
           "realDiscountPct": 38.125,
@@ -1511,16 +1511,16 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
+              "price": 18.8,
+              "smCode": "DCHFOOD"
+            },
+            {
               "price": 20.9,
               "smCode": "WELLCOME"
             },
             {
               "price": 20.9,
               "smCode": "JASONS"
-            },
-            {
-              "price": 18.8,
-              "smCode": "DCHFOOD"
             }
           ],
           "realDiscountPct": 35,
@@ -1582,7 +1582,7 @@
             "zh-Hans": "淘大",
             "zh-Hant": "淘大"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -1599,12 +1599,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 13,
-              "smCode": "PARKNSHOP"
+              "price": 12.51,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 12.51,
-              "smCode": "JASONS"
+              "price": 13,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 13.9,
@@ -1970,7 +1970,7 @@
             "zh-Hans": "福字",
             "zh-Hant": "福字"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -1987,12 +1987,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 12.75,
-              "smCode": "PARKNSHOP"
+              "price": 12.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 12.5,
-              "smCode": "JASONS"
+              "price": 12.75,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 13,
@@ -2243,12 +2243,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 14,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 19,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 14,
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 30,
@@ -2474,7 +2474,7 @@
             "zh-Hans": "藍威寶",
             "zh-Hant": "藍威寶"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -2492,11 +2492,11 @@
           "otherPricesRaw": [
             {
               "price": 30.25,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 30.25,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 22.435897435897434,
@@ -3195,7 +3195,7 @@
             "zh-Hans": "阿波羅",
             "zh-Hant": "阿波羅"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -3204,7 +3204,7 @@
           "prevOfferZh": "$53.8任揀2件",
           "prevEffPrice": 26.9,
           "originalPrice": 37,
-          "prevBasePrice": 42,
+          "prevBasePrice": 43,
           "prevOfferHans": "$53.8任拣2件",
           "currentOfferEn": "Buy 2 item(s) for $55.00",
           "currentOfferZh": "$55任揀2件",
@@ -3212,12 +3212,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 29,
-              "smCode": "PARKNSHOP"
+              "price": 27.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 27.5,
-              "smCode": "JASONS"
+              "price": 29,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 25.675675675675677,
@@ -3869,7 +3869,7 @@
             "zh-Hans": "卡樂B",
             "zh-Hant": "卡樂B"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -3878,7 +3878,7 @@
           "prevOfferZh": "$37任揀2件",
           "prevEffPrice": 18.5,
           "originalPrice": 22,
-          "prevBasePrice": 22,
+          "prevBasePrice": 23,
           "prevOfferHans": "$37任拣2件",
           "currentOfferEn": "Buy 4 item(s) for $60.00",
           "currentOfferZh": "$60任揀4件",
@@ -3886,12 +3886,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 19.5,
-              "smCode": "PARKNSHOP"
+              "price": 15,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 15,
-              "smCode": "JASONS"
+              "price": 19.5,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 31.818181818181817,
@@ -3953,7 +3953,7 @@
             "zh-Hans": "卡樂B",
             "zh-Hant": "卡樂B"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -3962,7 +3962,7 @@
           "prevOfferZh": "$37任揀2件",
           "prevEffPrice": 18.5,
           "originalPrice": 22,
-          "prevBasePrice": 22,
+          "prevBasePrice": 23,
           "prevOfferHans": "$37任拣2件",
           "currentOfferEn": "Buy 4 item(s) for $60.00",
           "currentOfferZh": "$60任揀4件",
@@ -3970,12 +3970,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 19.5,
-              "smCode": "PARKNSHOP"
+              "price": 15,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 15,
-              "smCode": "JASONS"
+              "price": 19.5,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 18.5,
@@ -4214,12 +4214,12 @@
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
-              "price": 10,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 13.9,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 10,
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 28.057553956834532,
@@ -4450,16 +4450,16 @@
           "lastChangeDate": "2026-06-13",
           "otherPricesRaw": [
             {
+              "price": 21.9,
+              "smCode": "AEON"
+            },
+            {
               "price": 20,
               "smCode": "WELLCOME"
             },
             {
               "price": 25,
               "smCode": "PARKNSHOP"
-            },
-            {
-              "price": 21.9,
-              "smCode": "AEON"
             },
             {
               "price": 25,
@@ -5168,7 +5168,7 @@
             "zh-Hans": "公仔點心",
             "zh-Hant": "公仔點心"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -5185,12 +5185,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 12.47,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 17.5,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 12.47,
+              "smCode": "JASONS"
             },
             {
               "price": 15,
@@ -6455,16 +6455,16 @@
             "zh-Hans": "美味棧",
             "zh-Hant": "美味棧"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 27.9,
+          "prevEffPrice": 29,
           "originalPrice": 25,
-          "prevBasePrice": 27.9,
+          "prevBasePrice": 29,
           "prevOfferHans": null,
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -6472,12 +6472,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 25,
-              "smCode": "PARKNSHOP"
+              "price": 22.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 22.5,
-              "smCode": "JASONS"
+              "price": 25,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 30.9,
@@ -6499,7 +6499,7 @@
             "zh-Hans": "金妹牌",
             "zh-Hant": "金妹牌"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "fake",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -6516,12 +6516,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 26,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 30.9,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 26,
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 15.857605177993527,
@@ -6880,12 +6880,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 6.75,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 8.5,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 6.75,
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 41.30434782608695,
@@ -6903,7 +6903,7 @@
             "zh-Hans": "卡夫",
             "zh-Hant": "卡夫"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -6921,11 +6921,11 @@
           "otherPricesRaw": [
             {
               "price": 25,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 25,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 27.5,
@@ -7041,11 +7041,11 @@
           "otherPricesRaw": [
             {
               "price": 9,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             },
             {
               "price": 9,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 50,
@@ -7199,7 +7199,7 @@
             "zh-Hans": "日清",
             "zh-Hant": "日清"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -7216,12 +7216,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 6.83,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 6.87,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 6.83,
+              "smCode": "JASONS"
             },
             {
               "price": 7.25,
@@ -7614,7 +7614,7 @@
             "zh-Hans": "道地",
             "zh-Hant": "道地"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -7631,12 +7631,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 11.95,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 15,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 11.95,
+              "smCode": "JASONS"
             },
             {
               "price": 18.9,
@@ -7759,16 +7759,16 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
+              "price": 20,
+              "smCode": "WATSONS"
+            },
+            {
               "price": 18,
               "smCode": "PARKNSHOP"
             },
             {
               "price": 15,
               "smCode": "JASONS"
-            },
-            {
-              "price": 20,
-              "smCode": "WATSONS"
             }
           ],
           "realDiscountPct": 34.78260869565217,
@@ -7963,12 +7963,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 26,
-              "smCode": "JASONS"
-            },
-            {
               "price": 25,
               "smCode": "WELLCOME"
+            },
+            {
+              "price": 26,
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 19.67871485943775,
@@ -8026,7 +8026,7 @@
             "zh-Hans": "傑卡斯",
             "zh-Hant": "傑卡斯"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "酒類"
@@ -8043,12 +8043,12 @@
           "lastChangeDate": "2026-05-16",
           "otherPricesRaw": [
             {
-              "price": 59,
-              "smCode": "PARKNSHOP"
+              "price": 55.25,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 55.25,
-              "smCode": "JASONS"
+              "price": 59,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 15,
@@ -8154,7 +8154,7 @@
             "zh-Hans": "李錦記",
             "zh-Hant": "李錦記"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -8163,7 +8163,7 @@
           "prevOfferZh": "$28任揀2件",
           "prevEffPrice": 14,
           "originalPrice": 17.9,
-          "prevBasePrice": 20.5,
+          "prevBasePrice": 20,
           "prevOfferHans": "$28任拣2件",
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -8171,12 +8171,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 16.11,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 18,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 16.11,
+              "smCode": "JASONS"
             },
             {
               "price": 17.9,
@@ -8198,7 +8198,7 @@
             "zh-Hans": "李錦記",
             "zh-Hant": "李錦記"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -8215,12 +8215,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 16.2,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 18,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 16.2,
+              "smCode": "JASONS"
             },
             {
               "price": 17.9,
@@ -8563,16 +8563,16 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
+              "price": 19,
+              "smCode": "PARKNSHOP"
+            },
+            {
               "price": 18,
               "smCode": "JASONS"
             },
             {
               "price": 18.9,
               "smCode": "AEON"
-            },
-            {
-              "price": 19,
-              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 10,
@@ -9299,7 +9299,7 @@
             "zh-Hans": "水仙花牌",
             "zh-Hant": "水仙花牌"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "米 / 食油 / 罐頭 / 蔬果 / 肉類"
@@ -9321,7 +9321,7 @@
             },
             {
               "price": 15,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 44.44444444444444,
@@ -9918,7 +9918,7 @@
             "zh-Hans": "寶礦力水特",
             "zh-Hant": "寶礦力水特"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -9935,12 +9935,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 19,
-              "smCode": "PARKNSHOP"
+              "price": 15,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 15,
-              "smCode": "JASONS"
+              "price": 19,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 20.9,
@@ -10067,16 +10067,16 @@
           "lastChangeDate": "2026-06-13",
           "otherPricesRaw": [
             {
+              "price": 23.9,
+              "smCode": "AEON"
+            },
+            {
               "price": 18,
               "smCode": "PARKNSHOP"
             },
             {
               "price": 19,
               "smCode": "JASONS"
-            },
-            {
-              "price": 23.9,
-              "smCode": "AEON"
             }
           ],
           "realDiscountPct": 43.75,
@@ -10226,7 +10226,7 @@
             "zh-Hans": "維他奶 山水",
             "zh-Hant": "維他奶 山水"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -10244,11 +10244,11 @@
           "otherPricesRaw": [
             {
               "price": 14.5,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 14.5,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 21.62162162162162,
@@ -10346,19 +10346,19 @@
             "zh-Hans": "絲潔",
             "zh-Hant": "絲潔"
           },
-          "smCode": "JASONS",
+          "smCode": "PARKNSHOP",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
           },
-          "prevOfferEn": "Buy 2 item(s) for $38.00",
-          "prevOfferZh": "$38任揀2件",
+          "prevOfferEn": "Buy 2 to save $10.00",
+          "prevOfferZh": "買2件慳$10.00",
           "prevEffPrice": 19,
           "originalPrice": 24,
           "prevBasePrice": 24,
-          "prevOfferHans": "$38任拣2件",
-          "currentOfferEn": "Buy 2 item(s) for $40.00",
-          "currentOfferZh": "$40任揀2件",
+          "prevOfferHans": "买2件悭$10.00",
+          "currentOfferEn": "Buy 2 to save $8.00",
+          "currentOfferZh": "買2件慳$8.00",
           "effectivePrice": 20,
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
@@ -10368,7 +10368,7 @@
             },
             {
               "price": 20,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             },
             {
               "price": 24,
@@ -10376,7 +10376,7 @@
             }
           ],
           "realDiscountPct": 16.666666666666668,
-          "currentOfferHans": "$40任拣2件"
+          "currentOfferHans": "买2件悭$8.00"
         },
         {
           "code": "P000000920",
@@ -10606,7 +10606,7 @@
             "zh-Hans": "鴻福堂",
             "zh-Hant": "鴻福堂"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -10623,12 +10623,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 6,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 6.67,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 6,
+              "smCode": "JASONS"
             },
             {
               "price": 10,
@@ -10734,7 +10734,7 @@
             "zh-Hans": "伊美",
             "zh-Hant": "伊美"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -10752,11 +10752,11 @@
           "otherPricesRaw": [
             {
               "price": 8.75,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 8.75,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 8.97,
@@ -10968,11 +10968,11 @@
           "otherPricesRaw": [
             {
               "price": 7,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 7,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 38.095238095238095,
@@ -11342,16 +11342,16 @@
           "lastChangeDate": "2026-06-13",
           "otherPricesRaw": [
             {
+              "price": 14.9,
+              "smCode": "AEON"
+            },
+            {
               "price": 14.5,
               "smCode": "WELLCOME"
             },
             {
               "price": 15,
               "smCode": "JASONS"
-            },
-            {
-              "price": 14.9,
-              "smCode": "AEON"
             }
           ],
           "realDiscountPct": 30,
@@ -11556,16 +11556,16 @@
             "zh-Hans": "辣椒仔",
             "zh-Hant": "辣椒仔"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 24,
+          "prevEffPrice": 23.5,
           "originalPrice": 15,
-          "prevBasePrice": 24,
+          "prevBasePrice": 23.5,
           "prevOfferHans": null,
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -11573,12 +11573,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 13.5,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 22,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 13.5,
+              "smCode": "JASONS"
             },
             {
               "price": 18.5,
@@ -11892,16 +11892,16 @@
             "zh-Hans": "美極",
             "zh-Hant": "美極"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 17,
+          "prevEffPrice": 15.9,
           "originalPrice": 10,
-          "prevBasePrice": 17,
+          "prevBasePrice": 15.9,
           "prevOfferHans": null,
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -11909,12 +11909,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 9,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 9.75,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 9,
+              "smCode": "JASONS"
             },
             {
               "price": 12.9,
@@ -12016,7 +12016,7 @@
             "zh-Hans": "獅王潔白物語",
             "zh-Hant": "獅王潔白物語"
           },
-          "smCode": "PARKNSHOP",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -12027,14 +12027,14 @@
           "originalPrice": 29.9,
           "prevBasePrice": 29.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 to save $5.80",
-          "currentOfferZh": "買2件慳$5.80",
+          "currentOfferEn": "Buy 2 item(s) for $54.00",
+          "currentOfferZh": "$54任揀2件",
           "effectivePrice": 27,
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
               "price": 27,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 28,
@@ -12042,7 +12042,7 @@
             }
           ],
           "realDiscountPct": 9.698996655518394,
-          "currentOfferHans": "买2件悭$5.80"
+          "currentOfferHans": "$54任拣2件"
         },
         {
           "code": "P000001155",
@@ -12578,7 +12578,7 @@
             "zh-Hans": "藍妹",
             "zh-Hant": "藍妹"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "酒類"
@@ -12596,11 +12596,11 @@
           "otherPricesRaw": [
             {
               "price": 42.5,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 42.5,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 16.666666666666668,
@@ -13194,7 +13194,7 @@
             "zh-Hans": "維他奶",
             "zh-Hant": "維他奶"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -13211,12 +13211,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 18,
-              "smCode": "PARKNSHOP"
+              "price": 15,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 15,
-              "smCode": "JASONS"
+              "price": 18,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 20,
@@ -13901,7 +13901,7 @@
             "zh-Hans": "Marusan",
             "zh-Hant": "Marusan"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "new",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -13919,7 +13919,7 @@
           "otherPricesRaw": [
             {
               "price": 15,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 6.25,
@@ -13937,7 +13937,7 @@
             "zh-Hans": "維他奶 山水",
             "zh-Hant": "維他奶 山水"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -13955,11 +13955,11 @@
           "otherPricesRaw": [
             {
               "price": 14.5,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 14.5,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 21.62162162162162,
@@ -14096,29 +14096,29 @@
             "zh-Hans": "佳樂事",
             "zh-Hant": "佳樂事"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "酒類"
           },
-          "prevOfferEn": "Buy 6 to get 15% off",
-          "prevOfferZh": "買6件享15%折扣",
-          "prevEffPrice": 50.15,
+          "prevOfferEn": null,
+          "prevOfferZh": null,
+          "prevEffPrice": 80,
           "originalPrice": 48,
-          "prevBasePrice": 59,
-          "prevOfferHans": "买6件享15%折扣",
+          "prevBasePrice": 80,
+          "prevOfferHans": null,
           "currentOfferEn": "Buy 6 to get 15% off",
           "currentOfferZh": "買6件享15%折扣",
           "effectivePrice": 40.8,
-          "lastChangeDate": "2026-04-18",
+          "lastChangeDate": "2026-05-30",
           "otherPricesRaw": [
-            {
-              "price": 40.8,
-              "smCode": "WELLCOME"
-            },
             {
               "price": 69,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 40.8,
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 15,
@@ -14410,7 +14410,7 @@
             "zh-Hans": "花王潔霸",
             "zh-Hant": "花王潔霸"
           },
-          "smCode": "PARKNSHOP",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -14421,18 +14421,18 @@
           "originalPrice": 39.9,
           "prevBasePrice": 39.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 to save $9.90",
-          "currentOfferZh": "買2件慳$9.90",
+          "currentOfferEn": "Buy 2 item(s) for $69.90",
+          "currentOfferZh": "$69.9任揀2件",
           "effectivePrice": 34.95,
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
               "price": 34.95,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 12.406015037593985,
-          "currentOfferHans": "买2件悭$9.90"
+          "currentOfferHans": "$69.9任拣2件"
         },
         {
           "code": "P000001442",
@@ -14526,7 +14526,7 @@
             "zh-Hans": "維達",
             "zh-Hant": "維達"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -14543,12 +14543,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 25.3,
-              "smCode": "PARKNSHOP"
+              "price": 18.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 18.5,
-              "smCode": "JASONS"
+              "price": 25.3,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 26,
@@ -14895,7 +14895,7 @@
             "zh-Hans": "總統牌",
             "zh-Hant": "總統牌"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -14912,12 +14912,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 40,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 59,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 40,
+              "smCode": "JASONS"
             },
             {
               "price": 42.5,
@@ -15107,7 +15107,7 @@
             "zh-Hans": "舊街場",
             "zh-Hant": "舊街場"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -15124,12 +15124,12 @@
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
-              "price": 25,
-              "smCode": "PARKNSHOP"
+              "price": 24.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 24.5,
-              "smCode": "JASONS"
+              "price": 25,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 48.958333333333336,
@@ -15672,12 +15672,12 @@
           "lastChangeDate": "2026-06-18",
           "otherPricesRaw": [
             {
-              "price": 124.9,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 139,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 124.9,
+              "smCode": "WELLCOME"
             },
             {
               "price": 124.9,
@@ -15783,7 +15783,7 @@
             "zh-Hans": "玉泉",
             "zh-Hant": "玉泉"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "fake",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -15801,11 +15801,11 @@
           "otherPricesRaw": [
             {
               "price": 30,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 30,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 25,
@@ -15823,16 +15823,16 @@
             "zh-Hans": "淘大",
             "zh-Hant": "淘大"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 22,
+          "prevEffPrice": 21,
           "originalPrice": 20,
-          "prevBasePrice": 22,
+          "prevBasePrice": 21,
           "prevOfferHans": null,
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -15840,12 +15840,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 18,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 21,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 18,
+              "smCode": "JASONS"
             },
             {
               "price": 22,
@@ -16321,16 +16321,16 @@
             "zh-Hans": "嘉頓",
             "zh-Hant": "嘉頓"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 37.9,
+          "prevEffPrice": 39,
           "originalPrice": 44.5,
-          "prevBasePrice": 37.9,
+          "prevBasePrice": 39,
           "prevOfferHans": null,
           "currentOfferEn": "Add 2 item(s) to cart and get 1 free(free the most expensive one)",
           "currentOfferZh": "任揀2件，其中1件免費(優先送最高價錢)",
@@ -16338,12 +16338,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 32.9,
-              "smCode": "PARKNSHOP"
+              "price": 29.67,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 29.67,
-              "smCode": "JASONS"
+              "price": 32.9,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 33.325842696629216,
@@ -16793,12 +16793,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 9,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 14,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 9,
+              "smCode": "WELLCOME"
             },
             {
               "price": 10,
@@ -17015,7 +17015,7 @@
             "zh-Hans": "道地",
             "zh-Hant": "道地"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -17032,12 +17032,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 15,
-              "smCode": "PARKNSHOP"
+              "price": 11.95,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 11.95,
-              "smCode": "JASONS"
+              "price": 15,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 18.9,
@@ -17806,7 +17806,7 @@
             "zh-Hans": "日清",
             "zh-Hant": "日清"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -17823,12 +17823,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 6.83,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 6.87,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 6.83,
+              "smCode": "JASONS"
             },
             {
               "price": 7.25,
@@ -18254,7 +18254,7 @@
             "zh-Hans": "東東",
             "zh-Hant": "東東"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -18271,12 +18271,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 20,
-              "smCode": "PARKNSHOP"
+              "price": 17.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 17.5,
-              "smCode": "JASONS"
+              "price": 20,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 28.571428571428573,
@@ -18855,12 +18855,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 21.9,
-              "smCode": "PARKNSHOP"
-            },
-            {
               "price": 10,
               "smCode": "WELLCOME"
+            },
+            {
+              "price": 21.9,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 14,
@@ -19133,17 +19133,17 @@
             "zh-Hans": "藍莓",
             "zh-Hant": "藍莓"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "米 / 食油 / 罐頭 / 蔬果 / 肉類"
           },
-          "prevOfferEn": "Buy 2 item(s) for $28.00",
-          "prevOfferZh": "$28任揀2件",
-          "prevEffPrice": 14,
+          "prevOfferEn": "Buy 2 item(s) for $25.00",
+          "prevOfferZh": "$25任揀2件",
+          "prevEffPrice": 12.5,
           "originalPrice": 16,
           "prevBasePrice": 16,
-          "prevOfferHans": "$28任拣2件",
+          "prevOfferHans": "$25任拣2件",
           "currentOfferEn": "Buy 2 item(s) for $23.00",
           "currentOfferZh": "$23任揀2件",
           "effectivePrice": 11.5,
@@ -19151,7 +19151,7 @@
           "otherPricesRaw": [
             {
               "price": 11.5,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 28.125,
@@ -20388,16 +20388,16 @@
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
+              "price": 17.9,
+              "smCode": "AEON"
+            },
+            {
               "price": 26.8,
               "smCode": "PARKNSHOP"
             },
             {
               "price": 14.95,
               "smCode": "JASONS"
-            },
-            {
-              "price": 17.9,
-              "smCode": "AEON"
             },
             {
               "price": 18,
@@ -20582,7 +20582,7 @@
             "zh-Hans": "喜寶",
             "zh-Hant": "喜寶"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -20599,12 +20599,12 @@
           "lastChangeDate": "2026-06-28",
           "otherPricesRaw": [
             {
-              "price": 344.5,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 352,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 344.5,
+              "smCode": "JASONS"
             },
             {
               "price": 383,
@@ -20758,7 +20758,7 @@
             "zh-Hans": "Nutricia Aptamil",
             "zh-Hant": "Nutricia Aptamil"
           },
-          "smCode": "PARKNSHOP",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -20769,10 +20769,10 @@
           "originalPrice": 376,
           "prevBasePrice": 376,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 to save $62.00",
-          "currentOfferZh": "Buy 2 to save $62.00",
+          "currentOfferEn": "Buy 2 item(s) for $690.00",
+          "currentOfferZh": "$690任揀2件",
           "effectivePrice": 345,
-          "lastChangeDate": "2026-06-13",
+          "lastChangeDate": "2026-06-28",
           "otherPricesRaw": [
             {
               "price": 345,
@@ -20780,7 +20780,7 @@
             },
             {
               "price": 345,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 376.2,
@@ -20796,7 +20796,7 @@
             }
           ],
           "realDiscountPct": 8.24468085106383,
-          "currentOfferHans": "Buy 2 to save $62.00"
+          "currentOfferHans": "$690任拣2件"
         },
         {
           "code": "P000002679",
@@ -21357,16 +21357,16 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 24,
-              "smCode": "AEON"
-            },
-            {
               "price": 22,
               "smCode": "WELLCOME"
             },
             {
               "price": 22,
               "smCode": "JASONS"
+            },
+            {
+              "price": 24,
+              "smCode": "AEON"
             }
           ],
           "realDiscountPct": 30,
@@ -21595,7 +21595,7 @@
             "zh-Hans": "淘大",
             "zh-Hant": "淘大"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -21612,12 +21612,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 12.51,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 13,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 12.51,
+              "smCode": "JASONS"
             },
             {
               "price": 13.9,
@@ -21710,16 +21710,16 @@
             "zh-Hans": "李錦記",
             "zh-Hant": "李錦記"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 17,
+          "prevEffPrice": 18,
           "originalPrice": 15,
-          "prevBasePrice": 17,
+          "prevBasePrice": 18,
           "prevOfferHans": null,
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -21727,12 +21727,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 15,
-              "smCode": "PARKNSHOP"
+              "price": 13.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 13.5,
-              "smCode": "JASONS"
+              "price": 15,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 10,
@@ -21834,16 +21834,16 @@
             "zh-Hans": "美味棧",
             "zh-Hant": "美味棧"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": null,
           "prevOfferZh": null,
-          "prevEffPrice": 28.5,
+          "prevEffPrice": 30,
           "originalPrice": 25,
-          "prevBasePrice": 28.5,
+          "prevBasePrice": 30,
           "prevOfferHans": null,
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -21851,12 +21851,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 25.5,
-              "smCode": "PARKNSHOP"
+              "price": 22.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 22.5,
-              "smCode": "JASONS"
+              "price": 25.5,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 10,
@@ -22162,7 +22162,7 @@
             "zh-Hans": "Mandom Beauty - Barrier Repair",
             "zh-Hant": "Mandom Beauty - Barrier Repair"
           },
-          "smCode": "WATSONS",
+          "smCode": "MANNINGS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -22173,14 +22173,14 @@
           "originalPrice": 59.9,
           "prevBasePrice": 59.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 1 get 1 free",
-          "currentOfferZh": "買1送1",
+          "currentOfferEn": "Selected Skincare Products Buy 1 get 1 free",
+          "currentOfferZh": "精選Skincare Products買1件送1件",
           "effectivePrice": 29.95,
-          "lastChangeDate": "2026-06-25",
+          "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
               "price": 29.95,
-              "smCode": "MANNINGS"
+              "smCode": "WATSONS"
             },
             {
               "price": 59.9,
@@ -22192,7 +22192,7 @@
             }
           ],
           "realDiscountPct": 50,
-          "currentOfferHans": "买1送1"
+          "currentOfferHans": "精选Skincare Products买1件送1件"
         },
         {
           "code": "P000002938",
@@ -22268,15 +22268,15 @@
           "otherPricesRaw": [
             {
               "price": 7,
-              "smCode": "WELLCOME"
-            },
-            {
-              "price": 7,
               "smCode": "JASONS"
             },
             {
               "price": 10.9,
               "smCode": "AEON"
+            },
+            {
+              "price": 7,
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 24.941176470588236,
@@ -22426,7 +22426,7 @@
             "zh-Hans": "惠氏",
             "zh-Hant": "惠氏"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -22444,11 +22444,11 @@
           "otherPricesRaw": [
             {
               "price": 412.5,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 412.5,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             },
             {
               "price": 469,
@@ -22509,7 +22509,7 @@
             "zh-Hans": "李錦記",
             "zh-Hant": "李錦記"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -22526,12 +22526,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 13.5,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 15,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 13.5,
+              "smCode": "JASONS"
             },
             {
               "price": 19.9,
@@ -22553,7 +22553,7 @@
             "zh-Hans": "護舒寶",
             "zh-Hant": "護舒寶"
           },
-          "smCode": "MANNINGS",
+          "smCode": "PARKNSHOP",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -22564,18 +22564,14 @@
           "originalPrice": 35.9,
           "prevBasePrice": 35.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Selected Sanitary Products Buy 1 get 1 free",
-          "currentOfferZh": "精選Sanitary Products買1件送1件",
+          "currentOfferEn": "Buy 1 Get 1 Free",
+          "currentOfferZh": "買1件送1件",
           "effectivePrice": 17.95,
-          "lastChangeDate": "2026-06-28",
+          "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
               "price": 23.93,
               "smCode": "WELLCOME"
-            },
-            {
-              "price": 17.95,
-              "smCode": "PARKNSHOP"
             },
             {
               "price": 24.67,
@@ -22584,6 +22580,10 @@
             {
               "price": 17.95,
               "smCode": "WATSONS"
+            },
+            {
+              "price": 17.95,
+              "smCode": "MANNINGS"
             },
             {
               "price": 35.9,
@@ -22595,7 +22595,7 @@
             }
           ],
           "realDiscountPct": 50,
-          "currentOfferHans": "精选Sanitary Products买1件送1件"
+          "currentOfferHans": "买1件送1件"
         },
         {
           "code": "P000002983",
@@ -22703,6 +22703,10 @@
           "otherPricesRaw": [
             {
               "price": 105.9,
+              "smCode": "WELLCOME"
+            },
+            {
+              "price": 105.9,
               "smCode": "PARKNSHOP"
             },
             {
@@ -22720,10 +22724,6 @@
             {
               "price": 86,
               "smCode": "LUNGFUNG"
-            },
-            {
-              "price": 105.9,
-              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 24.995278564683662,
@@ -22741,7 +22741,7 @@
             "zh-Hans": "雀巢三花",
             "zh-Hant": "雀巢三花"
           },
-          "smCode": "MANNINGS",
+          "smCode": "WATSONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -22752,8 +22752,8 @@
           "originalPrice": 138.9,
           "prevBasePrice": 138.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 at $219.00",
-          "currentOfferZh": "買2件$219.00",
+          "currentOfferEn": "2 For $219.00",
+          "currentOfferZh": "買2件只需$219.00",
           "effectivePrice": 109.5,
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
@@ -22771,11 +22771,11 @@
             },
             {
               "price": 109.5,
-              "smCode": "WATSONS"
+              "smCode": "MANNINGS"
             }
           ],
           "realDiscountPct": 21.166306695464364,
-          "currentOfferHans": "买2件$219.00"
+          "currentOfferHans": "买2件只需$219.00"
         },
         {
           "code": "P000002998",
@@ -23258,7 +23258,7 @@
             "zh-Hans": "勞工牌",
             "zh-Hant": "勞工牌"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -23276,11 +23276,11 @@
           "otherPricesRaw": [
             {
               "price": 20,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 20,
-              "smCode": "PARKNSHOP"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 16.317991631799163,
@@ -23316,11 +23316,11 @@
           "otherPricesRaw": [
             {
               "price": 30,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             },
             {
               "price": 30,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             },
             {
               "price": 39.9,
@@ -23804,29 +23804,25 @@
             "zh-Hans": "高潔絲",
             "zh-Hant": "高潔絲"
           },
-          "smCode": "MANNINGS",
-          "statusKey": "drop",
+          "smCode": "PARKNSHOP",
+          "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "個人護理"
           },
-          "prevOfferEn": null,
-          "prevOfferZh": null,
-          "prevEffPrice": 30,
+          "prevOfferEn": "Buy 2 to save $30.00",
+          "prevOfferZh": "買2件慳$30.00",
+          "prevEffPrice": 15,
           "originalPrice": 30,
           "prevBasePrice": 30,
-          "prevOfferHans": null,
-          "currentOfferEn": "Selected Sanitary Products Buy 2 get 1 free",
-          "currentOfferZh": "精選Sanitary Products買2件送1件",
+          "prevOfferHans": "买2件悭$30.00",
+          "currentOfferEn": "Buy 3 to save $30.00",
+          "currentOfferZh": "買3件慳$30.00",
           "effectivePrice": 20,
-          "lastChangeDate": "2026-06-30",
+          "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
               "price": 22.5,
               "smCode": "WELLCOME"
-            },
-            {
-              "price": 20,
-              "smCode": "PARKNSHOP"
             },
             {
               "price": 22.5,
@@ -23835,10 +23831,14 @@
             {
               "price": 22.5,
               "smCode": "WATSONS"
+            },
+            {
+              "price": 20,
+              "smCode": "MANNINGS"
             }
           ],
           "realDiscountPct": 33.333333333333336,
-          "currentOfferHans": "精选Sanitary Products买2件送1件"
+          "currentOfferHans": "买3件悭$30.00"
         },
         {
           "code": "P000003145",
@@ -23900,25 +23900,29 @@
             "zh-Hans": "高潔絲",
             "zh-Hant": "高潔絲"
           },
-          "smCode": "PARKNSHOP",
-          "statusKey": "increase",
+          "smCode": "MANNINGS",
+          "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
           },
-          "prevOfferEn": "Buy 1 Get 1 Free",
-          "prevOfferZh": "買1件送1件",
-          "prevEffPrice": 20,
+          "prevOfferEn": null,
+          "prevOfferZh": null,
+          "prevEffPrice": 40,
           "originalPrice": 40,
           "prevBasePrice": 40,
-          "prevOfferHans": "买1件送1件",
-          "currentOfferEn": "Buy 2 Get 1 Free",
-          "currentOfferZh": "買2件送1件",
+          "prevOfferHans": null,
+          "currentOfferEn": "Selected Sanitary Products Buy 2 get 1 free",
+          "currentOfferZh": "精選Sanitary Products買2件送1件",
           "effectivePrice": 26.67,
-          "lastChangeDate": "2026-06-20",
+          "lastChangeDate": "2026-06-30",
           "otherPricesRaw": [
             {
               "price": 30,
               "smCode": "WELLCOME"
+            },
+            {
+              "price": 26.67,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 30,
@@ -23927,14 +23931,10 @@
             {
               "price": 30,
               "smCode": "WATSONS"
-            },
-            {
-              "price": 26.67,
-              "smCode": "MANNINGS"
             }
           ],
           "realDiscountPct": 33.325,
-          "currentOfferHans": "买2件送1件"
+          "currentOfferHans": "精选Sanitary Products买2件送1件"
         },
         {
           "code": "P000003151",
@@ -23965,12 +23965,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 20.9,
-              "smCode": "PARKNSHOP"
-            },
-            {
               "price": 20.92,
               "smCode": "WATSONS"
+            },
+            {
+              "price": 20.9,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 27.9,
@@ -24058,11 +24058,11 @@
           "otherPricesRaw": [
             {
               "price": 5,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             },
             {
               "price": 5,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 16.666666666666668,
@@ -24120,7 +24120,7 @@
             "zh-Hans": "嘉寶",
             "zh-Hant": "嘉寶"
           },
-          "smCode": "MANNINGS",
+          "smCode": "WATSONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -24131,10 +24131,10 @@
           "originalPrice": 52,
           "prevBasePrice": 52,
           "prevOfferHans": null,
-          "currentOfferEn": "Selected Baby Food Product Buy 3 get 1 free",
-          "currentOfferZh": "精選Baby Food Product買3件送1件",
+          "currentOfferEn": "Buy 3 get 1 free",
+          "currentOfferZh": "買3送1",
           "effectivePrice": 39,
-          "lastChangeDate": "2026-03-14",
+          "lastChangeDate": "2026-05-31",
           "otherPricesRaw": [
             {
               "price": 52,
@@ -24150,11 +24150,11 @@
             },
             {
               "price": 39,
-              "smCode": "WATSONS"
+              "smCode": "MANNINGS"
             }
           ],
           "realDiscountPct": 25,
-          "currentOfferHans": "精选Baby Food Product买3件送1件"
+          "currentOfferHans": "买3送1"
         },
         {
           "code": "P000003193",
@@ -24645,16 +24645,16 @@
             "zh-Hans": "多味好",
             "zh-Hant": "多味好"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
           },
           "prevOfferEn": "Buy 4 to get 10% off",
           "prevOfferZh": "買4件享10%折扣",
-          "prevEffPrice": 33.21,
+          "prevEffPrice": 34.2,
           "originalPrice": 28.5,
-          "prevBasePrice": 36.9,
+          "prevBasePrice": 38,
           "prevOfferHans": "买4件享10%折扣",
           "currentOfferEn": "Buy 4 to get 10% off",
           "currentOfferZh": "買4件享10%折扣",
@@ -24662,12 +24662,12 @@
           "lastChangeDate": "2026-06-28",
           "otherPricesRaw": [
             {
-              "price": 28.5,
-              "smCode": "PARKNSHOP"
+              "price": 25.65,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 25.65,
-              "smCode": "JASONS"
+              "price": 28.5,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 10,
@@ -25727,7 +25727,7 @@
             "zh-Hans": "舊街場",
             "zh-Hant": "舊街場"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -25744,12 +25744,12 @@
           "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
-              "price": 25,
-              "smCode": "PARKNSHOP"
+              "price": 24.5,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 24.5,
-              "smCode": "JASONS"
+              "price": 25,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 48.958333333333336,
@@ -26175,7 +26175,7 @@
             "zh-Hans": "品客",
             "zh-Hant": "品客"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -26192,12 +26192,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 10,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 11.5,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 10,
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 50,
@@ -26450,7 +26450,7 @@
             "zh-Hans": "明輝",
             "zh-Hant": "明輝"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -26467,12 +26467,12 @@
           "lastChangeDate": "2026-04-18",
           "otherPricesRaw": [
             {
-              "price": 12.5,
-              "smCode": "PARKNSHOP"
+              "price": 9,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 9,
-              "smCode": "JASONS"
+              "price": 12.5,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 50,
@@ -26574,7 +26574,7 @@
             "zh-Hans": "芬達",
             "zh-Hant": "芬達"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "fake",
           "categoryRaw": {
             "zh-Hant": "飲品"
@@ -26592,11 +26592,11 @@
           "otherPricesRaw": [
             {
               "price": 30,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 30,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 25,
@@ -26769,7 +26769,7 @@
             "zh-Hans": "50惠",
             "zh-Hant": "50惠"
           },
-          "smCode": "WATSONS",
+          "smCode": "MANNINGS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -26780,10 +26780,10 @@
           "originalPrice": 166,
           "prevBasePrice": 166,
           "prevOfferHans": null,
-          "currentOfferEn": "2nd Item For 50% off",
-          "currentOfferZh": "第二件50%折扣",
+          "currentOfferEn": "50% for 2nd",
+          "currentOfferZh": "買第二件享50%折扣",
           "effectivePrice": 124.5,
-          "lastChangeDate": "2026-06-18",
+          "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
               "price": 132.8,
@@ -26791,11 +26791,11 @@
             },
             {
               "price": 124.5,
-              "smCode": "MANNINGS"
+              "smCode": "WATSONS"
             }
           ],
           "realDiscountPct": 25,
-          "currentOfferHans": "第二件50%折扣"
+          "currentOfferHans": "买第二件享50%折扣"
         },
         {
           "code": "P000003479",
@@ -26809,7 +26809,7 @@
             "zh-Hans": "Nonio",
             "zh-Hant": "Nonio"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -26826,12 +26826,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 19.95,
-              "smCode": "WELLCOME"
-            },
-            {
               "price": 20.45,
               "smCode": "PARKNSHOP"
+            },
+            {
+              "price": 19.95,
+              "smCode": "JASONS"
             },
             {
               "price": 20.45,
@@ -27524,7 +27524,7 @@
             "zh-Hans": "百得阿姨",
             "zh-Hant": "百得阿姨"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -27541,12 +27541,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 22.5,
-              "smCode": "PARKNSHOP"
+              "price": 19.8,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 19.8,
-              "smCode": "JASONS"
+              "price": 22.5,
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 34.5,
@@ -28376,29 +28376,29 @@
             "zh-Hans": "旺旺",
             "zh-Hant": "旺旺"
           },
-          "smCode": "PARKNSHOP",
-          "statusKey": "maintained",
+          "smCode": "WELLCOME",
+          "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
           },
-          "prevOfferEn": null,
-          "prevOfferZh": null,
-          "prevEffPrice": null,
+          "prevOfferEn": "Buy 2 item(s) for $10.00",
+          "prevOfferZh": "$10任揀2件",
+          "prevEffPrice": 5,
           "originalPrice": 12.9,
-          "prevBasePrice": null,
-          "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 to save $3.30",
-          "currentOfferZh": "買2件慳$3.30",
+          "prevBasePrice": 8,
+          "prevOfferHans": "$10任拣2件",
+          "currentOfferEn": "Buy 2 item(s) for $22.50",
+          "currentOfferZh": "$22.5任揀2件",
           "effectivePrice": 11.25,
-          "lastChangeDate": "2025-12-31",
+          "lastChangeDate": "2026-06-06",
           "otherPricesRaw": [
             {
               "price": 11.25,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 12.790697674418604,
-          "currentOfferHans": "买2件悭$3.30"
+          "currentOfferHans": "$22.5任拣2件"
         },
         {
           "code": "P000003650",
@@ -28822,7 +28822,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -28840,7 +28840,7 @@
           "otherPricesRaw": [
             {
               "price": 6,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 7.6923076923076925,
@@ -29228,7 +29228,7 @@
             "zh-Hans": "御品皇",
             "zh-Hant": "御品皇"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -29246,7 +29246,7 @@
           "otherPricesRaw": [
             {
               "price": 12.67,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 36.65,
@@ -29408,7 +29408,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -29417,7 +29417,7 @@
           "prevOfferZh": "$29.9任揀2件",
           "prevEffPrice": 14.95,
           "originalPrice": 22,
-          "prevBasePrice": 22.8,
+          "prevBasePrice": 22,
           "prevOfferHans": "$29.9任拣2件",
           "currentOfferEn": "Buy 2 item(s) for $23.00",
           "currentOfferZh": "$23任揀2件",
@@ -29426,7 +29426,7 @@
           "otherPricesRaw": [
             {
               "price": 11.5,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 47.72727272727273,
@@ -29655,7 +29655,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -29673,7 +29673,7 @@
           "otherPricesRaw": [
             {
               "price": 15,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 41.1764705882353,
@@ -29835,7 +29835,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -29853,7 +29853,7 @@
           "otherPricesRaw": [
             {
               "price": 25.2,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 10,
@@ -29871,7 +29871,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -29889,7 +29889,7 @@
           "otherPricesRaw": [
             {
               "price": 21.6,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 10,
@@ -31434,7 +31434,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "麵包蛋糕 / 穀類早餐 / 麵包醬"
@@ -31452,7 +31452,7 @@
           "otherPricesRaw": [
             {
               "price": 15,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 25,
@@ -31470,7 +31470,7 @@
             "zh-Hans": "Meadows Home",
             "zh-Hant": "Meadows Home"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "maintained",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -31488,7 +31488,7 @@
           "otherPricesRaw": [
             {
               "price": 19,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 13.636363636363637,
@@ -31923,7 +31923,7 @@
             "zh-Hans": "寶寶百味",
             "zh-Hant": "寶寶百味"
           },
-          "smCode": "MANNINGS",
+          "smCode": "WATSONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -31934,10 +31934,10 @@
           "originalPrice": 35,
           "prevBasePrice": 35,
           "prevOfferHans": null,
-          "currentOfferEn": "Selected Baby Food Product Buy 3 get 1 free",
-          "currentOfferZh": "精選Baby Food Product買3件送1件",
+          "currentOfferEn": "Buy 3 get 1 free",
+          "currentOfferZh": "買3送1",
           "effectivePrice": 26.25,
-          "lastChangeDate": "2026-02-08",
+          "lastChangeDate": "2026-01-07",
           "otherPricesRaw": [
             {
               "price": 29.5,
@@ -31945,7 +31945,7 @@
             },
             {
               "price": 26.25,
-              "smCode": "WATSONS"
+              "smCode": "MANNINGS"
             },
             {
               "price": 29.5,
@@ -31953,7 +31953,7 @@
             }
           ],
           "realDiscountPct": 25,
-          "currentOfferHans": "精选Baby Food Product买3件送1件"
+          "currentOfferHans": "买3送1"
         },
         {
           "code": "P000004125",
@@ -32929,7 +32929,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "fake",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -32947,7 +32947,7 @@
           "otherPricesRaw": [
             {
               "price": 55,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 20.174165457184326,
@@ -33325,7 +33325,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "糖果 / 餅乾 / 小食"
@@ -33343,7 +33343,7 @@
           "otherPricesRaw": [
             {
               "price": 13.5,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 20.118343195266274,
@@ -33469,7 +33469,7 @@
             "zh-Hans": "Meadows",
             "zh-Hant": "Meadows"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -33487,7 +33487,7 @@
           "otherPricesRaw": [
             {
               "price": 25.2,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 10,
@@ -33706,7 +33706,7 @@
             "zh-Hans": "御品皇",
             "zh-Hant": "御品皇"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "粉麵 / 煮食用料 / 冷凍加工食品"
@@ -33724,7 +33724,7 @@
           "otherPricesRaw": [
             {
               "price": 12.67,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 36.65,
@@ -33835,7 +33835,7 @@
             "zh-Hans": "MEADOWS HOME",
             "zh-Hant": "MEADOWS HOME"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -33853,7 +33853,7 @@
           "otherPricesRaw": [
             {
               "price": 6.67,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 33.3,
@@ -36322,21 +36322,21 @@
             "zh-Hans": "金佰利 好奇",
             "zh-Hant": "金佰利 好奇"
           },
-          "smCode": "PARKNSHOP",
+          "smCode": "WATSONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
           },
-          "prevOfferEn": "Buy 2 to save $113.00",
-          "prevOfferZh": "買2件慳$113.00",
-          "prevEffPrice": 108.5,
+          "prevOfferEn": "2 Or More 25%Off",
+          "prevOfferZh": "買2件或以上75折",
+          "prevEffPrice": 123.75,
           "originalPrice": 165,
           "prevBasePrice": 165,
-          "prevOfferHans": "买2件悭$113.00",
-          "currentOfferEn": "Buy 1 Get 1 Free",
-          "currentOfferZh": "買1件送1件",
+          "prevOfferHans": "买2件或以上75折",
+          "currentOfferEn": "Buy 1 get 1 free",
+          "currentOfferZh": "買1送1",
           "effectivePrice": 82.5,
-          "lastChangeDate": "2026-06-20",
+          "lastChangeDate": "2026-06-25",
           "otherPricesRaw": [
             {
               "price": 110,
@@ -36344,7 +36344,7 @@
             },
             {
               "price": 82.5,
-              "smCode": "WATSONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 165,
@@ -36352,7 +36352,7 @@
             }
           ],
           "realDiscountPct": 50,
-          "currentOfferHans": "买1件送1件"
+          "currentOfferHans": "买1送1"
         },
         {
           "code": "P000004894",
@@ -37167,15 +37167,15 @@
           "otherPricesRaw": [
             {
               "price": 84,
+              "smCode": "JASONS"
+            },
+            {
+              "price": 84,
               "smCode": "WELLCOME"
             },
             {
               "price": 85.9,
               "smCode": "PARKNSHOP"
-            },
-            {
-              "price": 84,
-              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 10,
@@ -37694,7 +37694,7 @@
             "zh-Hans": "Meadows Home",
             "zh-Hant": "Meadows Home"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "家居用品 / 寵物食品及用品"
@@ -37712,7 +37712,7 @@
           "otherPricesRaw": [
             {
               "price": 21.67,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 25.275862068965516,
@@ -37782,7 +37782,7 @@
             "zh-Hans": "Pure by Meadows",
             "zh-Hant": "Pure by Meadows"
           },
-          "smCode": "JASONS",
+          "smCode": "WELLCOME",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -37800,7 +37800,7 @@
           "otherPricesRaw": [
             {
               "price": 24,
-              "smCode": "WELLCOME"
+              "smCode": "JASONS"
             }
           ],
           "realDiscountPct": 27.272727272727273,
@@ -37818,7 +37818,7 @@
             "zh-Hans": "維他奶",
             "zh-Hant": "維他奶"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -37835,12 +37835,12 @@
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
-              "price": 18,
-              "smCode": "PARKNSHOP"
+              "price": 15,
+              "smCode": "WELLCOME"
             },
             {
-              "price": 15,
-              "smCode": "JASONS"
+              "price": 18,
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 34.78260869565217,
@@ -38154,25 +38154,25 @@
             "zh-Hans": "西蘭花",
             "zh-Hant": "西蘭花"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "米 / 食油 / 罐頭 / 蔬果 / 肉類"
           },
-          "prevOfferEn": "Buy 2 item(s) for $10.90",
-          "prevOfferZh": "$10.9任揀2件",
-          "prevEffPrice": 5.45,
+          "prevOfferEn": "Buy 2 item(s) for $11.90",
+          "prevOfferZh": "$11.9任揀2件",
+          "prevEffPrice": 5.95,
           "originalPrice": 8.9,
           "prevBasePrice": 8.9,
-          "prevOfferHans": "$10.9任拣2件",
+          "prevOfferHans": "$11.9任拣2件",
           "currentOfferEn": "Buy 2 item(s) for $13.00",
           "currentOfferZh": "$13任揀2件",
           "effectivePrice": 6.5,
-          "lastChangeDate": "2026-06-30",
+          "lastChangeDate": "2026-04-28",
           "otherPricesRaw": [
             {
               "price": 6.5,
-              "smCode": "JASONS"
+              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 26.96629213483146,
@@ -38378,11 +38378,11 @@
           "otherPricesRaw": [
             {
               "price": 22.5,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 22.5,
-              "smCode": "WELLCOME"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 22.413793103448278,
@@ -38400,7 +38400,7 @@
             "zh-Hans": "雀巢三花",
             "zh-Hant": "雀巢三花"
           },
-          "smCode": "MANNINGS",
+          "smCode": "PARKNSHOP",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "奶粉 / 嬰兒用品"
@@ -38411,18 +38411,14 @@
           "originalPrice": 138.9,
           "prevBasePrice": 138.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 at $219.00",
-          "currentOfferZh": "買2件$219.00",
+          "currentOfferEn": "Buy 2 to save $58.80",
+          "currentOfferZh": "買2件慳$58.80",
           "effectivePrice": 109.5,
           "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
               "price": 109.5,
               "smCode": "WELLCOME"
-            },
-            {
-              "price": 109.5,
-              "smCode": "PARKNSHOP"
             },
             {
               "price": 109.5,
@@ -38433,12 +38429,16 @@
               "smCode": "WATSONS"
             },
             {
+              "price": 109.5,
+              "smCode": "MANNINGS"
+            },
+            {
               "price": 120,
               "smCode": "LUNGFUNG"
             }
           ],
           "realDiscountPct": 21.166306695464364,
-          "currentOfferHans": "买2件$219.00"
+          "currentOfferHans": "买2件悭$58.80"
         },
         {
           "code": "P000005104",
@@ -38792,15 +38792,15 @@
           "otherPricesRaw": [
             {
               "price": 37.42,
+              "smCode": "JASONS"
+            },
+            {
+              "price": 37.42,
               "smCode": "WELLCOME"
             },
             {
               "price": 37.4,
               "smCode": "PARKNSHOP"
-            },
-            {
-              "price": 37.42,
-              "smCode": "JASONS"
             },
             {
               "price": 37.42,
@@ -39188,7 +39188,7 @@
             "zh-Hans": "護舒寶",
             "zh-Hant": "護舒寶"
           },
-          "smCode": "WATSONS",
+          "smCode": "MANNINGS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -39199,10 +39199,10 @@
           "originalPrice": 39.9,
           "prevBasePrice": 39.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 1 get 1 free",
-          "currentOfferZh": "買1送1",
+          "currentOfferEn": "Selected Sanitary Products Buy 1 get 1 free",
+          "currentOfferZh": "精選Sanitary Products買1件送1件",
           "effectivePrice": 19.95,
-          "lastChangeDate": "2026-06-25",
+          "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
               "price": 26.67,
@@ -39218,7 +39218,7 @@
             },
             {
               "price": 19.95,
-              "smCode": "MANNINGS"
+              "smCode": "WATSONS"
             },
             {
               "price": 33.9,
@@ -39226,7 +39226,7 @@
             }
           ],
           "realDiscountPct": 50,
-          "currentOfferHans": "买1送1"
+          "currentOfferHans": "精选Sanitary Products买1件送1件"
         },
         {
           "code": "P000005168",
@@ -39288,7 +39288,7 @@
             "zh-Hans": "護舒寶",
             "zh-Hant": "護舒寶"
           },
-          "smCode": "WATSONS",
+          "smCode": "MANNINGS",
           "statusKey": "drop",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -39299,10 +39299,10 @@
           "originalPrice": 39.9,
           "prevBasePrice": 39.9,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 1 get 1 free",
-          "currentOfferZh": "買1送1",
+          "currentOfferEn": "Selected Sanitary Products Buy 1 get 1 free",
+          "currentOfferZh": "精選Sanitary Products買1件送1件",
           "effectivePrice": 19.95,
-          "lastChangeDate": "2026-06-25",
+          "lastChangeDate": "2026-06-20",
           "otherPricesRaw": [
             {
               "price": 26.67,
@@ -39318,7 +39318,7 @@
             },
             {
               "price": 19.95,
-              "smCode": "MANNINGS"
+              "smCode": "WATSONS"
             },
             {
               "price": 33.9,
@@ -39326,7 +39326,7 @@
             }
           ],
           "realDiscountPct": 50,
-          "currentOfferHans": "买1送1"
+          "currentOfferHans": "精选Sanitary Products买1件送1件"
         },
         {
           "code": "P000005170",
@@ -39676,7 +39676,7 @@
             "zh-Hans": "淨",
             "zh-Hant": "淨"
           },
-          "smCode": "WATSONS",
+          "smCode": "PARKNSHOP",
           "statusKey": "new",
           "categoryRaw": {
             "zh-Hant": "個人護理"
@@ -39687,8 +39687,8 @@
           "originalPrice": 79.9,
           "prevBasePrice": null,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 1 get 1 free",
-          "currentOfferZh": "買1送1",
+          "currentOfferEn": "Buy 2 to save $79.90",
+          "currentOfferZh": "買2件慳$79.90",
           "effectivePrice": 39.95,
           "lastChangeDate": "2026-06-25",
           "otherPricesRaw": [
@@ -39698,7 +39698,7 @@
             },
             {
               "price": 39.95,
-              "smCode": "PARKNSHOP"
+              "smCode": "WATSONS"
             },
             {
               "price": 39.95,
@@ -39706,7 +39706,7 @@
             }
           ],
           "realDiscountPct": 50,
-          "currentOfferHans": "买1送1"
+          "currentOfferHans": "买2件悭$79.90"
         },
         {
           "code": "P000005191",
@@ -39952,7 +39952,7 @@
             "zh-Hans": "高雲",
             "zh-Hant": "高雲"
           },
-          "smCode": "WELLCOME",
+          "smCode": "JASONS",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "米 / 食油 / 罐頭 / 蔬果 / 肉類"
@@ -39970,11 +39970,11 @@
           "otherPricesRaw": [
             {
               "price": 22.5,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 22.5,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             },
             {
               "price": 38,
@@ -39996,25 +39996,25 @@
             "zh-Hans": "天龍牌",
             "zh-Hant": "天龍牌"
           },
-          "smCode": "WELLCOME",
+          "smCode": "PARKNSHOP",
           "statusKey": "increase",
           "categoryRaw": {
             "zh-Hant": "米 / 食油 / 罐頭 / 蔬果 / 肉類"
           },
-          "prevOfferEn": "Buy 2 item(s) for $22.00",
-          "prevOfferZh": "$22任揀2件",
+          "prevOfferEn": "Buy 2 to save $8.00",
+          "prevOfferZh": "買2件慳$8.00",
           "prevEffPrice": 11,
           "originalPrice": 15,
           "prevBasePrice": 15,
-          "prevOfferHans": "$22任拣2件",
-          "currentOfferEn": "Buy 2 item(s) for $24.00",
-          "currentOfferZh": "$24任揀2件",
+          "prevOfferHans": "买2件悭$8.00",
+          "currentOfferEn": "Buy 2 to save $6.00",
+          "currentOfferZh": "買2件慳$6.00",
           "effectivePrice": 12,
-          "lastChangeDate": "2026-06-20",
+          "lastChangeDate": "2026-06-27",
           "otherPricesRaw": [
             {
               "price": 12,
-              "smCode": "PARKNSHOP"
+              "smCode": "WELLCOME"
             },
             {
               "price": 12.5,
@@ -40022,7 +40022,7 @@
             }
           ],
           "realDiscountPct": 20,
-          "currentOfferHans": "$24任拣2件"
+          "currentOfferHans": "买2件悭$6.00"
         },
         {
           "code": "P000005239",
@@ -40457,16 +40457,16 @@
           "lastChangeDate": "2026-06-19",
           "otherPricesRaw": [
             {
+              "price": 26,
+              "smCode": "WELLCOME"
+            },
+            {
               "price": 25,
               "smCode": "PARKNSHOP"
             },
             {
               "price": 26,
               "smCode": "JASONS"
-            },
-            {
-              "price": 26,
-              "smCode": "WELLCOME"
             }
           ],
           "realDiscountPct": 7.528957528957529,
@@ -40828,7 +40828,7 @@
             "zh-Hans": "維他",
             "zh-Hant": "維他"
           },
-          "smCode": "PARKNSHOP",
+          "smCode": "JASONS",
           "statusKey": "new",
           "categoryRaw": {
             "zh-Hant": "奶類及乳製品 / 大豆製品 / 蛋類"
@@ -40839,8 +40839,8 @@
           "originalPrice": 23.5,
           "prevBasePrice": null,
           "prevOfferHans": null,
-          "currentOfferEn": "Buy 2 to save $7.00",
-          "currentOfferZh": "買2件慳$7.00",
+          "currentOfferEn": "Buy 2 item(s) for $40.00",
+          "currentOfferZh": "$40任揀2件",
           "effectivePrice": 20,
           "lastChangeDate": "2026-06-28",
           "otherPricesRaw": [
@@ -40850,11 +40850,11 @@
             },
             {
               "price": 20,
-              "smCode": "JASONS"
+              "smCode": "PARKNSHOP"
             }
           ],
           "realDiscountPct": 14.893617021276595,
-          "currentOfferHans": "买2件悭$7.00"
+          "currentOfferHans": "$40任拣2件"
         },
         {
           "code": "P000005270",
