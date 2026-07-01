@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-01T07:35:34.777Z",
+  "generated_at": "2026-07-01T08:01:35.406Z",
   "report_date": "2026-07-01",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
-      "value": 730,
+      "value": 719,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 641,
+      "value": 649,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 561,
+      "value": 571,
       "itemStyle": {
         "color": "#334155"
       },
@@ -61,7 +61,7 @@
     },
     {
       "name": "AEON",
-      "value": 186,
+      "value": 192,
       "itemStyle": {
         "color": "#f472b6"
       },
@@ -99,7 +99,7 @@
     },
     {
       "name": "萬寧 (MANNINGS)",
-      "value": 84,
+      "value": 87,
       "itemStyle": {
         "color": "#f59e0b"
       },
