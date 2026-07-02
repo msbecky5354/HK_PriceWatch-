@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-01T11:00:47.904Z",
-  "report_date": "2026-07-01",
+  "generated_at": "2026-07-02T10:40:21.560Z",
+  "report_date": "2026-07-02",
   "data": [
     {
       "name": "百佳 (PARKNSHOP)",
-      "value": 719,
+      "value": 720,
       "itemStyle": {
         "color": "#3b82f6"
       },
@@ -23,7 +23,7 @@
     },
     {
       "name": "惠康 (WELLCOME)",
-      "value": 649,
+      "value": 635,
       "itemStyle": {
         "color": "#ef4444"
       },
@@ -42,7 +42,7 @@
     },
     {
       "name": "Market Place (Jasons)",
-      "value": 571,
+      "value": 558,
       "itemStyle": {
         "color": "#334155"
       },
@@ -127,7 +127,7 @@
       }
     },
     {
-      "name": "LUNGFUNG",
+      "name": "DCHFOOD",
       "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
@@ -137,8 +137,8 @@
       }
     },
     {
-      "name": "DCHFOOD",
-      "value": 8,
+      "name": "LUNGFUNG",
+      "value": 9,
       "itemStyle": {
         "color": "#cbd5e1"
       },
