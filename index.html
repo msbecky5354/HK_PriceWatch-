@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
+
+    <script>
+        (function() {
+            try {
+                // 🚨 純淨版：只做系統維護檢測 (防偷渡核心)
+                fetch('status.txt?v=' + new Date().getTime())
+                    .then(response => response.text())
+                    .then(status => {
+                        // 如果 status.txt 入面係 1，即刻踢去維護版面
+                        if (status.trim() === '1') {
+                            window.location.replace('maintenance.html');
+                        }
+                    })
+                    .catch(error => console.error('無法讀取系統狀態:', error));
+            } catch(e) {}
+        })();
+    </script>
+
     <meta charset="UTF-8">
     <meta name="description" content="慳真D (HK Price Watch) - 全城超市真・劈價即時追蹤器。踢走假促銷，為你比較百佳、惠康、萬寧、屈臣氏等最新折實價。全自動 AI 運算，完全免費！">
     <meta name="keywords" content="慳真D, 超市格價, 百佳優惠, 惠康減價, 萬寧優惠, 香港超市, 劈價, 免費格價App, hk price watch, 懶人工具駅, 免費工具">
