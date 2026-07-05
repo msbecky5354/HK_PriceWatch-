@@ -72,7 +72,8 @@ window.buildStructuredData = function() {
             prevOfferEn: item.po || '',
             prevOfferHans: item.po || '',
             statusKey: item.status || 'maintained',
-            lastChangeDate: item.prev_date || ''
+            // 🟢 核心修復：對齊最新 SQL 鍵值，精準讀取真實嘅變動生效日期
+            lastChangeDate: item.lc_date|| ''
         });
     });
 };
