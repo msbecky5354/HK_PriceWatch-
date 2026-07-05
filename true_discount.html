@@ -145,9 +145,6 @@
                 <tbody id="leaderboardTableBody"></tbody>
             </table>
         </div>
-
-       
-        
     </div>
 
     <div class="text-center pt-2 pb-8 flex-none w-full"> 
@@ -305,7 +302,6 @@
             ? supermarketStyleDict[code] 
             : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' };
             
-        // 🟢 替換 setQuickSearch 為 syncFilters，點擊後完美連動頂部下拉選單
         return `<span onclick="event.stopPropagation(); syncFilters('sm', '${code}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
     }
 
@@ -408,10 +404,12 @@
 
             if (!finalData || finalData.length === 0) throw new Error("JSON 解析為空，請檢查後端導出格式。");
 
+            // 🟢 預先運算「戰情霸主 (isBattleWinner)」標籤
             finalData = finalData.map(item => {
                 let avgPrice = 0;
                 let dropPct = 0;
                 let hasMarket = false;
+                let isBattleWinner = false;
                 
                 if (item.otherPricesRaw && item.otherPricesRaw !== '[]' && item.otherPricesRaw !== 'null') {
                     try {
@@ -420,15 +418,28 @@
                             opRaw = opRaw.filter(op => op.smCode !== item.smCode);
                             if (opRaw.length > 0) {
                                 hasMarket = true;
-                                let total = parseFloat(item.effectivePrice) || 0;
+                                let effPrice = parseFloat(item.effectivePrice) || 0;
+                                let total = effPrice;
                                 let count = 1;
+                                let isLowestPrice = true;
+
                                 opRaw.forEach(op => {
-                                    total += parseFloat(op.price) || 0;
+                                    let opPrice = parseFloat(op.price) || 0;
+                                    total += opPrice;
                                     count++;
+                                    // 驗證是否為全城最低價 (容許平手)
+                                    if (opPrice > 0 && effPrice > opPrice) {
+                                        isLowestPrice = false;
+                                    }
                                 });
                                 avgPrice = total / count;
                                 if (avgPrice > 0) {
-                                    dropPct = ((avgPrice - parseFloat(item.effectivePrice)) / avgPrice) * 100;
+                                    dropPct = ((avgPrice - effPrice) / avgPrice) * 100;
+                                }
+
+                                // 符合所有戰情室條件：最低價、擊穿市價、真降價
+                                if (isLowestPrice && dropPct > 0 && item.statusKey === 'drop') {
+                                    isBattleWinner = true;
                                 }
                             }
                         }
@@ -437,6 +448,7 @@
                 item.marketAvgPrice = avgPrice;
                 item.marketDropPct = dropPct;
                 item.hasCompetitors = hasMarket;
+                item.isBattleWinner = isBattleWinner;
                 return item;
             });
 
@@ -547,7 +559,12 @@
             const matchesSm = (fState.sm === 'ALL' || i.smCode === fState.sm);
             const matchesCat = (fState.cat === 'ALL' || rawCatValue === fState.cat);
             const matchesStatus = (fState.status === 'ALL' || i.statusKey === fState.status);
-            const matchesOther = (fState.other === 'ALL' || (fState.other === 'HAS_OTHER' && i.hasCompetitors));
+            
+            // 🟢 加入新濾鏡：戰情霸主 (BATTLE_WINNER)
+            const matchesOther = (fState.other === 'ALL' || 
+                                 (fState.other === 'HAS_OTHER' && i.hasCompetitors) ||
+                                 (fState.other === 'BATTLE_WINNER' && i.isBattleWinner));
+                                 
             const matchesPct = currentMinPct > 0 ? (parseFloat(i.realDiscountPct) >= currentMinPct) : true;
             
             return matchesKw && matchesSm && matchesCat && matchesStatus && matchesOther && matchesPct;
@@ -556,16 +573,13 @@
         filtered.sort((a, b) => {
             let valA = a[currentSort.column], valB = b[currentSort.column];
             
-            // 🟢 當使用者點擊「真·減幅」排頭進行排序時
+            // 🟢 三重排序 (Tie-breaker): 若真・減幅平手，退一步比擊穿市價，再平手比超市代碼
             if (currentSort.column === 'realDiscountPct') {
                 valA = parseFloat(valA) || 0;
                 valB = parseFloat(valB) || 0;
-                
                 if (valA === valB) {
                     let marketA = parseFloat(a.marketDropPct) || 0;
                     let marketB = parseFloat(b.marketDropPct) || 0;
-                    
-                    // 🚨 雙重平手：啟動終極第三重防線（按超市代碼 A-Z 排序）
                     if (marketA === marketB) {
                         let smA = String(a.smCode || '').toUpperCase();
                         let smB = String(b.smCode || '').toUpperCase();
@@ -631,8 +645,11 @@
         const smAllText = currentLang === 'en' ? 'All Stores' : (currentLang === 'zh-Hans' ? '所有超市' : '所有超市');
         const catAllText = currentLang === 'en' ? 'All Categories' : (currentLang === 'zh-Hans' ? '所有分类' : '所有分類');
         const statusAllText = currentLang === 'en' ? 'All Status' : (currentLang === 'zh-Hans' ? '所有状态' : '所有狀態');
+        
+        // 🟢 加入戰情霸主的三語支援
         const otherAllText = currentLang === 'en' ? 'All Items' : (currentLang === 'zh-Hans' ? '全部商品' : '全部貨品');
         const otherHasText = currentLang === 'en' ? 'Has Competitors' : (currentLang === 'zh-Hans' ? '有对手定价' : '有對手定價');
+        const otherBattleText = currentLang === 'en' ? '👑 Battle Winners' : (currentLang === 'zh-Hans' ? '👑 战情霸主 (全城最低+击穿市价)' : '👑 戰情霸主 (全城最低+擊穿市價)');
 
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
         const smOpts = `<option value="ALL">${smAllText}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
@@ -646,7 +663,8 @@
         const statusOpts = `<option value="ALL">${statusAllText}</option>` + statuses.map(s => `<option value="${s}">${statusI18n[s][currentLang] || statusI18n[s]['zh-Hant']}</option>`).join('');
         statusEls.forEach(el => el.innerHTML = statusOpts);
 
-        const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option>`;
+        // 🟢 注入全新選項
+        const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option><option value="BATTLE_WINNER">${otherBattleText}</option>`;
         otherEls.forEach(el => el.innerHTML = otherOpts);
 
         const safeSm = (fullDataList.length === 0) ? fState.sm : (smCodes.includes(fState.sm) ? fState.sm : 'ALL');
