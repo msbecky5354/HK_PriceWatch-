@@ -22,6 +22,8 @@
     <title>全局戰情室 | 慳真D🔎</title>
     
     <script src="lang.js?v=11"></script>
+    <script src="lang_gb.js?v=11"></script>
+    <script src="lang_tw.js?v=11"></script>
     <script src="appUtils.js?v=1"></script>
     <script src="alertSystem.js?v=2"></script>
     
@@ -48,7 +50,11 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                         </button>
                     </div>
-                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">實時監控各大超市降價分佈與火力</span>
+                    <!-- 🟢 加入戰情更新專屬 Badge -->
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">實時監控各大超市降價分佈與火力</span>
+                        <span id="biUpdateBadge" class="text-[10px] bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400 border border-green-200 dark:border-green-800/50 px-1.5 py-0.5 rounded shadow-sm font-bold">載入中...</span>
+                    </div>
                 </div>
             </div>
             <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
@@ -61,14 +67,20 @@
                     <span>🔲</span> <span id="titleTreemap">全城降價戰力版圖</span>
                 </div>
                 <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
-                    <!-- 🟢 修改 1: 拉高圖表容器的高度，提供更多垂直空間 -->
                     <div id="treemapChart" class="w-full h-[500px] md:h-[600px] lg:h-[650px]"></div>
                 </div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
-                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                    <span>🔥</span> <span id="titleHeatmap">全城戰火熱力矩陣</span>
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
+                    <div class="font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <span>🔥</span> <span id="titleHeatmap">全城戰火熱力矩陣</span>
+                    </div>
+                    <!-- 🟢 新增：雙視角一鍵切換掣 -->
+                    <div class="flex bg-slate-200 dark:bg-slate-700 p-1 rounded-lg">
+                        <button id="btnHeatModeReal" onclick="switchHeatmapMode('real')" class="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all">📉 自身真降幅</button>
+                        <button id="btnHeatModeMarket" onclick="switchHeatmapMode('market')" class="px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all">⚔️ 擊穿市價幅</button>
+                    </div>
                 </div>
                 <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
                     <div id="heatmapChart" class="w-full h-[500px]"></div>
@@ -80,7 +92,6 @@
 
     <script src="footer.js?v=1"></script>
 
-    <!-- 🛡️ 全局戰情室專屬彈窗 (新增「真降價」定義) -->
     <div id="mechanismModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[210] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl flex flex-col max-h-[85vh] border dark:border-slate-700 transition-colors duration-300">
             <div class="flex items-center gap-2 mb-4">
@@ -119,6 +130,28 @@
     let treemapData = [];
     let totalItemsCount = 0;
     let heatmapData = []; 
+    // 宣告當前 Heatmap 視角 (預設睇自身減幅)
+    let currentHeatmapMode = 'real'; 
+
+    // 新增切換視角功能
+    window.switchHeatmapMode = function(mode) {
+        currentHeatmapMode = mode;
+        const btnReal = document.getElementById('btnHeatModeReal');
+        const btnMarket = document.getElementById('btnHeatModeMarket');
+        
+        if (mode === 'real') {
+            btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all";
+            btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
+        } else {
+            btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 shadow-sm transition-all";
+            btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
+        }
+        renderHeatmap(); // 切換後即時重繪矩陣！
+    };
+    
+    // 🟢 雙軌時間變數
+    let mainLastUpdatedTime = null; // 畀頂頭 Header (主頁時間)
+    let biLastUpdatedTime = null;   // 畀綠色 Badge (戰情室時間)
 
     function openMechanismModal() { document.getElementById('mechanismModal').classList.remove('hidden'); }
     function closeMechanismModal() { document.getElementById('mechanismModal').classList.add('hidden'); }
@@ -165,6 +198,28 @@
 
         const appTitleEl = document.getElementById('appTitle');
         if (appTitleEl) appTitleEl.innerText = appName;
+
+        // 🟢 1. 頂部 Header 更新時間 (跟隨 mainLastUpdatedTime)
+        const statusLabel = document.getElementById('todayStatusLabel');
+        if (statusLabel) {
+            if (mainLastUpdatedTime && !isNaN(mainLastUpdatedTime.getTime())) {
+                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
+                statusLabel.innerText = prefix + formatDateTime(mainLastUpdatedTime);
+            } else {
+                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
+            }
+        }
+
+        // 🟢 2. 標題下方 Badge 更新時間 (跟隨 biLastUpdatedTime)
+        const biBadge = document.getElementById('biUpdateBadge');
+        if (biBadge) {
+            if (biLastUpdatedTime && !isNaN(biLastUpdatedTime.getTime())) {
+                const prefix = lang === 'en' ? 'Data Updated: ' : (lang === 'zh-Hans' ? '战情更新于: ' : '戰情更新於: ');
+                biBadge.innerText = prefix + formatDateTime(biLastUpdatedTime);
+            } else {
+                biBadge.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
+            }
+        }
 
         const mechText = {
             'zh-Hant': {
@@ -213,11 +268,71 @@
         if (typeof globalChangeLang === 'function') globalChangeLang(lang);
         if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
     };
-
-    function renderTreemap() {
+function renderTreemap() {
         if (!treemapChart) return;
-        const cleanData = treemapData.filter(item => !(item.label && item.label.show === false));
         const t = i18n[currentLang] || i18n['zh-Hant'];
+
+        const twColorMap = {
+            'red': '#dc2626', 'blue': '#2563eb', 'teal': '#0d9488',
+            'green': '#16a34a', 'emerald': '#059669', 'orange': '#f97316',
+            'fuchsia': '#c026d3', 'pink': '#db2777', 'yellow': '#facc15',
+            'slate': '#475569'
+        };
+
+        const storeAgg = {};
+        treemapData.forEach(cat => {
+            if (cat.children && cat.label?.show !== false) {
+                cat.children.forEach(child => {
+                    let smCode = child.name.toUpperCase().trim();
+                    if (!storeAgg[smCode]) storeAgg[smCode] = 0;
+                    storeAgg[smCode] += child.value; 
+                });
+            }
+        });
+
+       // 🟢 1. 建立動態 Rich 字典 (包含文字設定)
+        const dynamicRich = {
+            name: { fontSize: 13, fontWeight: 'bold', color: '#ffffff', align: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowBlur: 3, lineHeight: 16 },
+            count: { fontSize: 11, fontWeight: 'bold', color: '#ffffff', align: 'center', backgroundColor: 'rgba(0,0,0,0.3)', padding: [2, 4], borderRadius: 4, marginTop: 4, lineHeight: 12 }
+        };
+
+        // 🟢 2. 新增：GitHub 檔名翻譯字典 (解決 pns.png 同 marketplace.png 嘅問題)
+        const logoFileMap = {
+            'PARKNSHOP': 'pns',
+            'JASONS': 'marketplace',
+            'AEON': 'aeon',
+            'WELLCOME': 'wellcome',
+            'MANNINGS': 'mannings',
+            'WATSONS': 'watsons'
+        };
+
+        const unifiedData = Object.keys(storeAgg).map(smCode => {
+            let hexColor = '#475569'; 
+            if (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[smCode] && supermarketStyleDict[smCode].battleCountBg) {
+                const bgClass = supermarketStyleDict[smCode].battleCountBg;
+                for (const [twColor, hex] of Object.entries(twColorMap)) {
+                    if (bgClass.includes(`bg-${twColor}`)) { hexColor = hex; break; }
+                }
+            }
+            
+            // 🟢 3. 使用字典查出正確檔名，搵唔到就用原本個名轉細楷做保底
+            const fileName = logoFileMap[smCode] || smCode.toLowerCase();
+
+            dynamicRich[`logo_${smCode}`] = {
+                backgroundColor: {
+                    image: `https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png`
+                },
+                height: 40, // Logo 高度 (可視乎需要較大較細)
+                width: 40,  // Logo 闊度
+                align: 'center'
+            };
+
+            return {
+                name: smCode,
+                value: storeAgg[smCode],
+                itemStyle: { color: hexColor }
+            };
+        });
 
         const option = {
             tooltip: {
@@ -231,113 +346,152 @@
             },
             series: [{
                 type: 'treemap', width: '100%', height: '100%', roam: false, nodeClick: false, breadcrumb: { show: false },
-                squareRatio: 1, // 🟢 修改 2: 強制 ECharts 優先排列正方形，避免產生極幼長的方塊
+                squareRatio: 1, 
                 itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
-                data: cleanData, 
+                data: unifiedData, 
                 label: {
-                    show: true, 
-                    position: 'inside',
-                    align: 'center', 
+                    show: true, position: 'inside', align: 'center', 
                     formatter: function(params) {
-                        if (params.value < 10) return '';
-                        let dName = params.name;
-                        
-                        // 1. 提取商戶代碼
-                        let smCode = dName;
-                        const match = dName.match(/\((.*?)\)/);
-                        if (match) {
-                            smCode = match[1].toUpperCase().trim();
-                        } else {
-                            smCode = dName.toUpperCase().trim();
-                        }
-                        
-                        // 2. 多語言名稱轉譯
+                        if (params.value < 5) return ''; 
+                        let smCode = params.name;
                         let cleanName = smCode;
+                        
                         if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][smCode]) {
                             cleanName = supermarketDict[currentLang][smCode];
-                        } else if (match) {
-                            cleanName = (currentLang === 'en') ? match[1] : dName.split(' (')[0].trim();
                         }
                         
-                        // 3. 自適應排版：小型區塊強制卸載 Logo，改用純文字垂直排列，完美迴避水平溢出
-                        if (params.value < 200) {
+                        // 🟢 4. 降低門檻：只要件數多過 30 件，就會顯示 Logo！
+                        if (params.value < 30) {
                             return `{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
                         } else {
-                            return `{logo|}\n{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
+                            return `{logo_${smCode}|}\n{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
                         }
                     },
-                    rich: {
-                        // 🟢 修改 3: 加入 lineHeight 及縮減 padding 使細塊文字不會逼爆
-                        name: { fontSize: 12, fontWeight: 'bold', color: '#ffffff', align: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowBlur: 3, lineHeight: 14 },
-                        count: { fontSize: 11, fontWeight: 'bold', color: '#ffffff', align: 'center', backgroundColor: 'rgba(0,0,0,0.3)', padding: [1, 3], borderRadius: 4, marginTop: 2, lineHeight: 12 }
-                    }
+                    rich: dynamicRich 
                 }
             }]
         };
         treemapChart.setOption(option);
+
+        // 綁定 Treemap 雙擊事件
+        treemapChart.off('dblclick');
+        treemapChart.on('dblclick', function(params) {
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=drop&other=ALL`;
+            window.open(targetUrl, 'TrueDiscountView'); 
+        });
     }
 
-    
+
+
     function renderHeatmap() {
         if (!heatmapChart) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
         
-        const xDataRaw = [...new Set(heatmapData.map(item => item.smCode))];
+        const twColorMap = {
+            'red': '#b91c1c', 'blue': '#1d4ed8', 'teal': '#0f766e',
+            'green': '#15803d', 'emerald': '#065f46', 'orange': '#f97316',
+            'fuchsia': '#a21caf', 'pink': '#be185d', 'yellow': '#eab308', 'slate': '#475569'
+        };
+
+        const xDataRaw = [...new Set(heatmapData.map(item => String(item.store).toUpperCase().trim()))];
         const xData = xDataRaw.map(code => {
-            return (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][code]) 
-                   ? supermarketDict[currentLang][code] 
-                   : code;
+            if (window.supermarketDict && window.supermarketDict[currentLang] && window.supermarketDict[currentLang][code]) {
+                return window.supermarketDict[currentLang][code];
+            }
+            return code; 
         });
 
-        let catKey = 'cat_zh';
-        if (currentLang === 'en') catKey = 'cat_en';
-        if (currentLang === 'zh-Hans') catKey = 'cat_hans';
-        const yData = [...new Set(heatmapData.map(item => item[catKey]))];
+        const xAxisColors = xDataRaw.map(code => {
+            let hexColor = '#475569'; 
+            if (window.supermarketStyleDict && window.supermarketStyleDict[code] && window.supermarketStyleDict[code].indexText) {
+                const textClass = window.supermarketStyleDict[code].indexText;
+                for (const [twColor, hex] of Object.entries(twColorMap)) {
+                    if (textClass.includes(`text-${twColor}`)) { hexColor = hex; break; }
+                }
+            }
+            return hexColor;
+        });
+
+        const yData = [...new Set(heatmapData.map(item => item.category))];
+        const yDataRaw = [...new Set(heatmapData.map(item => item.category))];
 
         const seriesData = heatmapData.map(item => {
-            const xIndex = xDataRaw.indexOf(item.smCode);
-            const yIndex = yData.indexOf(item[catKey]);
-            return [xIndex, yIndex, parseFloat(item.avg_drop_pct) || 0];
+            const cleanCode = String(item.store).toUpperCase().trim();
+            const xIndex = xDataRaw.indexOf(cleanCode);
+            const yIndex = yData.indexOf(item.category);
+            
+            // 🟢 修復 1：在數學運算層面強制捨入至 1 位小數，避免浮點數誤差
+            const realDrop = Number((parseFloat(item.avgDiscount) || 0).toFixed(1));
+            const marketDrop = Number((parseFloat(item.avgMarketDrop) || 0).toFixed(1));
+            
+            const displayValue = currentHeatmapMode === 'real' ? realDrop : marketDrop;
+            const itemCount = parseInt(item.count) || 0;
+
+            return [xIndex, yIndex, displayValue, itemCount, realDrop, marketDrop];
         });
+
+        const colorRange = currentHeatmapMode === 'real' 
+            ? ['#fef08a', '#f97316', '#b91c1c'] 
+            : ['#fef08a', '#fb923c', '#c2410c'];
 
         const option = {
             tooltip: {
                 position: 'top',
+                confine: true, 
                 formatter: function (params) {
                     const smName = xData[params.value[0]];
                     const catName = yData[params.value[1]];
-                    const val = params.value[2];
-                    return `<div class="font-bold text-slate-800 text-sm mb-1">${smName} - ${catName}</div>
-                            <div class="text-xs text-slate-500">${t.ttAvgDrop} <span class="text-red-500 font-black">▼ ${val}%</span></div>`;
+                    const count = params.value[3];
+                    // 🟢 修復 2：Tooltip 顯示強制鎖定 1 位小數格式 (例如 37.2%, 23.4%)
+                    const real = params.value[4].toFixed(1);
+                    const market = params.value[5].toFixed(1);
+                    
+                    return `<div class="min-w-[170px] w-full">
+                                <div class="font-bold text-slate-800 text-[14px] mb-2 border-b border-slate-200 pb-1.5">${smName} - ${catName}</div>
+                                <div class="flex justify-between items-center mb-1.5 text-[13px] text-slate-600">
+                                    <span class="shrink-0">📦 降價件數:</span> <span class="font-black text-blue-600 text-right ml-4">${count} 件</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-1.5 text-[13px] text-slate-600">
+                                    <span class="shrink-0">📉 平均真降幅:</span> <span class="font-black text-red-600 text-right ml-4">▼ ${real}%</span>
+                                </div>
+                                <div class="flex justify-between items-center text-[13px] text-slate-600">
+                                    <span class="shrink-0">⚔️ 擊穿市價幅:</span> <span class="font-black text-orange-600 text-right ml-4">▼ ${market}%</span>
+                                </div>
+                                <div class="mt-2 pt-1.5 border-t border-slate-200 text-[11px] text-slate-400 text-center font-medium">💡 雙擊查看詳細清單</div>
+                            </div>`;
                 },
-                backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#e2e8f0'
+                backgroundColor: 'rgba(255, 255, 255, 0.96)', borderColor: '#cbd5e1', borderWidth: 1, padding: 12, shadowColor: 'rgba(0, 0, 0, 0.1)', shadowBlur: 10
             },
             grid: { top: '5%', right: '5%', bottom: '22%', left: '2%', containLabel: true }, 
             xAxis: { 
-                type: 'category', 
-                data: xData, 
-                splitArea: { show: true }, 
-                axisLabel: { fontWeight: 'bold', interval: 0, rotate: 45, fontSize: 11, margin: 12 } 
+                type: 'category', data: xData, splitArea: { show: true }, 
+                axisLabel: { fontWeight: 'bold', interval: 0, rotate: 45, fontSize: 11, margin: 12, color: function (value, index) { return xAxisColors[index]; } } 
             },
-            yAxis: { 
-                type: 'category', 
-                data: yData, 
-                splitArea: { show: true }, 
-                axisLabel: { fontWeight: 'bold', interval: 0, width: 160, overflow: 'break' } 
-            },
+            yAxis: { type: 'category', data: yData, splitArea: { show: true }, axisLabel: { fontWeight: 'bold', interval: 0, width: 160, overflow: 'break' } },
             visualMap: {
-                min: 0, max: 50, calculable: true, orient: 'horizontal', left: 'center', bottom: '0%', 
-                inRange: { color: ['#fef08a', '#f97316', '#b91c1c'] }, 
+                dimension: 2,
+                min: 0, max: 40, calculable: true, orient: 'horizontal', left: 'center', bottom: '0%', 
+                inRange: { color: colorRange }, 
                 text: currentLang === 'en' ? ['High', 'Low'] : ['激減 (高)', '微減 (低)'],
                 textStyle: { color: '#64748b', fontWeight: 'bold', fontSize: 11 }
             },
             series: [{
-                name: '平均真降幅', type: 'heatmap', data: seriesData,
-                label: { show: true, formatter: function(params) { return params.value[2] + '%'; }, color: '#ffffff', fontWeight: 'black', fontSize: 13, textShadowColor: 'rgba(0,0,0,0.3)', textShadowBlur: 2 },
+                name: '戰況數值', type: 'heatmap', data: seriesData,
+                // 🟢 修復 3：圖表方格上的文字同樣強制鎖定 1 位小數格式
+                label: { show: true, formatter: function(params) { return params.value[2].toFixed(1) + '%'; }, color: '#ffffff', fontWeight: 'black', fontSize: 13, textShadowColor: 'rgba(0,0,0,0.4)', textShadowBlur: 3 },
                 itemStyle: { borderColor: '#ffffff', borderWidth: 3, borderRadius: 6 } 
             }]
         };
         heatmapChart.setOption(option);
+
+        heatmapChart.off('dblclick');
+        heatmapChart.on('dblclick', function (params) {
+            const rawSmCode = xDataRaw[params.value[0]]; 
+            const rawCat = yDataRaw[params.value[1]];
+            
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=drop&other=HAS_OTHER`;
+            window.open(targetUrl, 'TrueDiscountView');
+        });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -350,28 +504,44 @@
         treemapChart.showLoading({ text: t.loading, color: '#3b82f6', maskColor: 'rgba(255, 255, 255, 0.8)' });
         heatmapChart.showLoading({ text: t.loading, color: '#ef4444', maskColor: 'rgba(255, 255, 255, 0.8)' });
 
-        const treemapUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_treemap.json';
-        fetch(`${treemapUrl}?v=${new Date().getTime()}`, { cache: 'no-store' })
+        const nocache = new Date().getTime();
+
+        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
+            .then(res => res.ok ? res.text() : Promise.reject('Failed to load main log'))
+            .then(text => {
+                let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
+                mainLastUpdatedTime = new Date(safeTimeStr);
+                updateLocalLanguage(currentLang);
+            })
+            .catch(e => console.warn("主網站時間紀錄載入失敗", e));
+
+        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log_TrueDiscount.txt?v=${nocache}`, { cache: 'no-store' })
+            .then(res => res.ok ? res.text() : Promise.reject('Failed to load BI log'))
+            .then(text => {
+                let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
+                biLastUpdatedTime = new Date(safeTimeStr);
+                updateLocalLanguage(currentLang);
+            })
+            .catch(e => console.warn("戰情室時間紀錄載入失敗", e));
+
+        // 🟢 終極修正：更新 URL 路徑至 bi_treemap_data.json
+        const treemapUrl = 'https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_treemap_data.json';
+        fetch(`${treemapUrl}?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.json())
             .then(payload => {
                 treemapChart.hideLoading();
                 treemapData = payload.data;
-                totalItemsCount = treemapData.reduce((sum, item) => sum + item.value, 0);
-                
-                if (payload.generated_at) {
-                    const statusLabel = document.getElementById('todayStatusLabel');
-                    if (statusLabel) {
-                        const dDate = new Date(payload.generated_at);
-                        const prefix = currentLang === 'en' ? 'Updated: ' : '更新於: ';
-                        statusLabel.innerText = prefix + formatDateTime(dDate);
-                    }
-                }
+                // 🛡️ 防呆計算總數
+                totalItemsCount = treemapData.reduce((sum, category) => {
+                    return sum + (category.children ? category.children.reduce((subSum, child) => subSum + child.value, 0) : 0);
+                }, 0);
                 renderTreemap();
             })
             .catch(e => { treemapChart.hideLoading(); console.error(e); });
 
-        const heatmapUrl = 'https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/bi_heatmap.json';
-        fetch(`${heatmapUrl}?v=${new Date().getTime()}`, { cache: 'no-store' })
+        // 🟢 終極修正：更新 URL 路徑至 bi_heatmap_data.json
+        const heatmapUrl = 'https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_heatmap_data.json';
+        fetch(`${heatmapUrl}?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.json())
             .then(payload => {
                 heatmapChart.hideLoading();

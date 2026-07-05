@@ -2,52 +2,11 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <script>
-        (function() {
-            try {
-                // 🚨 1. 第一時間檢測維護狀態 (防偷渡核心)
-                // 加上時間戳防止 Cache 緩存
-                fetch('status.txt?v=' + new Date().getTime())
-                    .then(response => response.text())
-                    .then(status => {
-                        // 如果 status.txt 入面係 1，即刻踢去維護版面
-                        if (status.trim() === '1') {
-                            window.location.replace('maintenance.html');
-                            return; // 終止後續執行
-                        }
-                    })
-                    .catch(error => console.error('無法讀取系統狀態:', error));
-
-                // 2. 原本嘅 URL 參數處理 (無郁到你嘅邏輯)
-                const params = new URLSearchParams(window.location.search);
-                const urlLang = params.get('lang');
-                const searchQuery = params.get('q'); 
-                
-                if (urlLang) {
-                    localStorage.setItem('appLang', urlLang);
-                    localStorage.setItem('lang', urlLang); 
-                }
-
-                let newUrl = window.location.pathname;
-                if (searchQuery) {
-                    newUrl += '?q=' + encodeURIComponent(searchQuery);
-                }
-                
-                if (window.location.search !== (searchQuery ? '?q=' + encodeURIComponent(searchQuery) : '')) {
-                    window.history.replaceState(null, '', newUrl);
-                }
-            } catch(e) {}
-        })();
-    </script>
-
-     <!-- SEO 優化 -->
     <meta name="description" content="慳真D (HK Price Watch) - 全城超市真・劈價即時追蹤器。踢走假促銷，為你比較百佳、惠康、萬寧、屈臣氏等最新折實價。全自動 AI 運算，完全免費！">
     <meta name="keywords" content="慳真D, 超市格價, 百佳優惠, 惠康減價, 萬寧優惠, 香港超市, 劈價, 免費格價App, hk price watch, 懶人工具駅, 免費工具">
     <meta property="og:title" content="慳真D | 全城超市劈價追蹤器">
     <meta property="og:description" content="踢走假促銷！自動對比全港超市真・劈價，幫你搵最抵折實價。">
-
     <meta name="google-site-verification" content="Hc5hN1_E9_sRd-qshFZDMPThUHWkh4-9ajxGvxR43wE" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -80,11 +39,16 @@
     <meta name="apple-mobile-web-app-title" content="HK Smart Price">
     <meta name="mobile-web-app-capable" content="yes">
    
+   <script src="dbEngine.js?v=1"></script> 
+    <script src="dataCore.js?v=1"></script> 
     <script src="botResponses.js?v=999"></script> 
-    <script src="lang.js?v=11"></script>
-    <script src="promoEngine.js?v=11"></script>
-    <script src="alertSystem.js?v=2"></script> 
+    <script src="lang.js?v=12"></script>
+    <script src="lang_tw.js?v=12"></script>
+    <script src="lang_gb.js?v=12"></script>
+    <script src="smallTalk.js?v=1"></script> 
     
+    <script src="alertSystem.js?v=3"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = { darkMode: 'class' }
@@ -286,34 +250,79 @@
         </div>
     </div>
 
-    <div id="toastMsg" class="fixed top-14 left-1/2 transform -translate-x-1/2 bg-[#345B8C] dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-2 rounded-lg shadow-md text-[13px] font-bold z-[70] transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
+    <div id="toastMsg" class="fixed top-14 left-1/2 transform -translate-x-1/2 bg-[#345B8C] dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-2 rounded-lg shadow-md text-[13px] font-bold z-[70] transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px] text-center whitespace-nowrap">
         ✅ 連結已複製！
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="ocrEngine.js"></script>
 
-    <script>
-        // 🌟 修復 1：重新綁定 toggleHistoryBox，強制提升 z-index 防止被遮擋 🌟
+   <script>
+        // =====================================================================
+        // 🌐 1. 全域狀態初始化
+        // =====================================================================
+        window.currentLang = localStorage.getItem('appLang') || 'zh-Hant';
+        if (!['zh-Hant', 'zh-Hans', 'en'].includes(window.currentLang)) {
+            window.currentLang = 'zh-Hant';
+        }
+        window.initialLang = window.currentLang; 
+        window.selectedCat1 = null; 
+        window.currentKeyword = ""; 
+        window.isBigGapMode = false;
+        window.isDiscountMode = false;
+        window.lastUpdatedTime = null; 
+        window.snapshotData = [];
+        window.rawApiData = [];
+        window.structuredData = {};
+
+        const loadingDict = {
+            'zh-Hant': { check: '正在驗證本地快取...', load: '⚡ 秒速載入本地快取中...', down: '📥 下載最新行情中 (約需幾秒)...', err: '❌ 載入失敗' },
+            'zh-Hans': { check: '正在验证本地缓存...', load: '⚡ 秒速载入本地缓存中...', down: '📥 下载最新行情中 (约需几秒)...', err: '❌ 载入失败' },
+            'en': { check: 'Checking local cache...', load: '⚡ Loading from cache...', down: '📥 Downloading latest data (few secs)...', err: '❌ Load Failed' }
+        };
+
+        window.updateLoadingStatus = function(state) {
+            const loadingEl = document.getElementById('loadingText');
+            if(loadingEl) loadingEl.innerText = loadingDict[window.currentLang][state];
+        };
+
+       // =====================================================================
+        // 🛡️ 2. UI 互動與導航 (Logo 返回、歷史下拉、卡片雙語切換)
+        // =====================================================================
+        window.showLevel1 = function() { 
+            const chatSec = document.getElementById('chatSection');
+            const lvl1Sec = document.getElementById('level1Section');
+            if (chatSec) chatSec.classList.add('hidden'); 
+            if (lvl1Sec) lvl1Sec.classList.remove('hidden'); 
+            if (typeof window.renderLevel1 === 'function') window.renderLevel1(); 
+
+            // 🧹 自動吸塵機：當離開搜尋結果返回主頁時，抹走 URL 上面嘅 q 參數
+            if (window.history.replaceState) {
+                const cleanUrl = new URL(window.location.href);
+                cleanUrl.searchParams.delete('q');
+                window.history.replaceState(null, '', cleanUrl.toString());
+            }
+        };
+        window.goHome = window.showLevel1; // 綁定 header.js 嘅 Logo
+
+        window.formatDateTime = function(date) {
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        };
+
         window.toggleHistoryBox = function(boxId, iconId, event) {
-            if (event) event.stopPropagation(); // 阻止點擊事件冒泡
+            if (event) event.stopPropagation(); 
             const box = document.getElementById(boxId);
             const icon = document.getElementById(iconId);
-            
             if (box) {
                 const isHidden = box.classList.contains('hidden');
-                
-                // 1. 先關閉全站其他已經展開的歷史選單
                 document.querySelectorAll('.history-dropdown').forEach(el => el.classList.add('hidden'));
                 document.querySelectorAll('.history-icon').forEach(el => el.classList.remove('rotate-180'));
                 document.querySelectorAll('.price-row').forEach(el => el.style.zIndex = '');
                 document.querySelectorAll('.product-card').forEach(el => el.style.zIndex = '');
 
-                // 2. 如果原本是隱藏的，現在就展開它，並強勢提升所有相關父層的 z-index
                 if (isHidden) {
                     box.classList.remove('hidden');
                     if (icon) icon.classList.add('rotate-180');
-                    
                     const priceRow = box.closest('.price-row');
                     if (priceRow) priceRow.style.zIndex = '50';
                     const productCard = box.closest('.product-card');
@@ -322,7 +331,6 @@
             }
         };
 
-        // 🌟 修復 2：點擊畫面其他空白處時，自動關閉已展開的歷史選單 🌟
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.price-row')) {
                 document.querySelectorAll('.history-dropdown').forEach(el => el.classList.add('hidden'));
@@ -332,271 +340,172 @@
             }
         });
 
-        const catStyles = [
-            { keywords: ['奶粉', '嬰兒', 'baby'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>' },
-            { keywords: ['麵包', '面包', '糕', 'bakery'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>' },
-            { keywords: ['米', '油', '罐', 'rice', 'oil'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>' },
-            { keywords: ['奶', '蛋', 'dairy', 'egg'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="8 6 12 2 16 6"/></svg>' },
-            { keywords: ['粉', '麵', '面', '冷', 'noodle'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 17 22 12"/></svg>' },
-            { keywords: ['居', '寵', 'pet'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
-            { keywords: ['護理', '护理', 'personal'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
-            { keywords: ['糖', '餅', '饼', '食', 'snack'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
-            { keywords: ['飲', 'drink'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>' },
-            { keywords: ['酒', 'wine', 'beer'], icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>' }
-        ];
-
-        function formatDateTime(date) {
-            const y = date.getFullYear();
-            const m = String(date.getMonth() + 1).padStart(2, '0');
-            const d = String(date.getDate()).padStart(2, '0');
-            const h = String(date.getHours()).padStart(2, '0');
-            const min = String(date.getMinutes()).padStart(2, '0');
-            return `${y}-${m}-${d} ${h}:${min}`;
-        }
-
-        window.triggerHomeQuickAction = function(mode, label, kw = '') {
-            selectedCat1 = 'GLOBAL'; 
-            const chatSection = document.getElementById('chatSection');
-            const level1Section = document.getElementById('level1Section');
-            const chatTitle = document.getElementById('chatTitle');
-            const chatMessages = document.getElementById('chatMessages');
-
-            if (chatSection) chatSection.classList.remove('hidden'); 
-            if (level1Section) level1Section.classList.add('hidden');
-            
-            let titleStr = currentLang === 'en' ? 'Global Search' : (currentLang === 'zh-Hans' ? '全局搜索' : '全局搜尋');
-            if (chatTitle) {
-                chatTitle.innerHTML = `<span class="mr-1.5 text-[#345B8C] dark:text-[#608BC1]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span> ${titleStr}`;
-            }
-            if (chatMessages) chatMessages.innerHTML = '';
-            
-            isBigGapMode = (mode === 'bigGap');
-            isDiscountMode = (mode === 'discount');
-            currentKeyword = kw;
-            
-            addUserMessage(label);
-            
-            let startMsgText = currentLang === 'en' ? `Activating mode: ${label}...` : (currentLang === 'zh-Hans' ? `启动「${label}」模式，正在为您查找...` : `啟動「${label}」模式，正在為您查找...`);
-            addBotMessage(startMsgText);
-            
-            setTimeout(() => { executeProductSearch(); }, 300);
-        };
-
-        window.toggleCategories = function() {
-            const container = document.getElementById('collapsibleCatContainer');
-            const icon = document.getElementById('catToggleIcon');
-            if (container && icon) {
-                if (container.classList.contains('hidden')) {
-                    container.classList.remove('hidden');
-                    icon.style.transform = 'rotate(180deg)';
-                } else {
-                    container.classList.add('hidden');
-                    icon.style.transform = 'rotate(0deg)';
-                }
-            }
-        };
-
         window.toggleCardLang = function(btn) {
-            const nameSpan = btn.closest('.flex-1').querySelector('.product-name');
-            const brandSpan = btn.closest('.flex-1').querySelector('.product-brand');
-            if (!nameSpan || !brandSpan) return;
-
+            const card = btn.closest('.product-card');
+            if (!card) return;
+            const nameSpan = card.querySelector('.product-name');
+            const brandSpan = card.querySelector('.product-brand');
+            if (!nameSpan) return;
+            
             const zhName = nameSpan.getAttribute('data-zh');
-            const enName = nameSpan.getAttribute('data-en');
-            const zhBrand = brandSpan.getAttribute('data-brand-zh');
-            const enBrand = brandSpan.getAttribute('data-brand-en');
-
-            if (nameSpan.innerText === zhName) {
-                nameSpan.innerText = enName || zhName;
-                brandSpan.innerText = enBrand || zhBrand;
+            const enName = nameSpan.getAttribute('data-en') || zhName;
+            
+            if (nameSpan.innerText.trim() === zhName.trim()) {
+                nameSpan.innerText = enName;
+                if (brandSpan) {
+                    const enBrand = brandSpan.getAttribute('data-brand-en');
+                    if (enBrand) brandSpan.innerText = enBrand;
+                }
             } else {
                 nameSpan.innerText = zhName;
-                brandSpan.innerText = zhBrand;
+                if (brandSpan) {
+                    const zhBrand = brandSpan.getAttribute('data-brand-zh');
+                    if (zhBrand) brandSpan.innerText = zhBrand;
+                }
             }
         };
 
-        window.normalizeStr = window.normalizeStr || function(str) {
-            return str ? str.toLowerCase().replace(/[^\w\s\u4e00-\u9fa5]/gi, '') : '';
-        };
-        window.checkSmallTalk = window.checkSmallTalk || function(q) { return null; };
-
-        const level1Section = document.getElementById('level1Section');
-        const chatSection = document.getElementById('chatSection');
-        const level1Container = document.getElementById('level1Container');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const chatTitle = document.getElementById('chatTitle');
-        const infoModal = document.getElementById('infoModal');
-        const modalBox = document.getElementById('modalBox');
-        
-        const shareAppModal = document.getElementById('shareAppModal');
-        const shareAppBox = document.getElementById('shareAppBox');
-        const qrCodeImg = document.getElementById('qrCodeImg');
-        const toastMsg = document.getElementById('toastMsg');
-
-        let rawApiData = [];    
-        window.structuredData = {}; 
-        
-        let currentLang = localStorage.getItem('appLang') || 'zh-Hant';
-        let selectedCat1 = null; 
-        let currentKeyword = ""; 
-        let isBigGapMode = false;
-        let isDiscountMode = false;
-        let lastUpdatedTime = null; 
-
-        function getCatStyle(catName) {
-            const lowerName = catName.toLowerCase();
-            for (let style of catStyles) { if (style.keywords.some(kw => lowerName.includes(kw.toLowerCase()))) return style; }
-            return { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-[#345B8C] dark:text-[#608BC1] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>` };
-        }
-
-        let snapshotData = [];
-
-        async function init() {
-            try {
-                let commitSha = '';
-                try {
-                    const apiRes = await fetch('https://api.github.com/repos/msbecky5354/HK_PriceWatch-/commits/main', { cache: 'no-store' });
-                    if (apiRes.ok) {
-                        const commitData = await apiRes.json();
-                        commitSha = commitData.sha; 
-                    }
-                } catch (e) {
-                    console.warn("GitHub API 限制或連線錯誤，將啟用保險方案", e);
-                }
-
-                let dataUrl, logUrl, snapshotUrl;
-                if (commitSha) {
-                    dataUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/pricewatch.json";
-                    logUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/update_log.txt";
-                    snapshotUrl = "https://cdn.jsdelivr.net/gh/msbecky5354/HK_PriceWatch-@" + commitSha + "/data/snapshot.json";
-                } else {
-                    const cb = new Date().getTime();
-                    dataUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/pricewatch.json?v=${cb}`;
-                    logUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/update_log.txt?v=${cb}`;
-                    snapshotUrl = `https://raw.githubusercontent.com/msbecky5354/HK_PriceWatch-/main/data/snapshot.json?v=${cb}`;
-                }
-
-                try {
-                    const timeRes = await fetch(logUrl);
-                    if (timeRes.ok) {
-                        const timeText = await timeRes.text();
-                        lastUpdatedTime = new Date(timeText.trim());
-                    }
-                } catch(e) { console.warn("時間紀錄載入失敗", e); }
-
-                try {
-                    const snapRes = await fetch(snapshotUrl);
-                    if (snapRes.ok) {
-                        const snapJson = await snapRes.json();
-                        snapshotData = Array.isArray(snapJson) ? snapJson : (snapJson.results || []);
-                    }
-                } catch(e) { console.warn("Snapshot 載入失敗", e); }
-
-                try {
-                    const dataRes = await fetch(dataUrl);
-                    if (dataRes.ok) {
-                        rawApiData = await dataRes.json();
-                    } else {
-                        console.error("主要數據庫請求失敗，狀態碼:", dataRes.status);
-                    }
-                } catch(e) { console.error("物價數據載入發生異常", e); }
-
-            } catch (e) {
-                console.error("系統初始化嚴重錯誤:", e);
-            } finally {
-                try {
-                    changeLanguage(currentLang);
-                    let langSel = document.getElementById('langSelector');
-                    if (langSel) langSel.value = currentLang;
-                    
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const sharedQuery = urlParams.get('q');
-                    
-                    if (sharedQuery) {
-                        const input = document.getElementById('globalSearchInput');
-                        if (input) {
-                            input.value = sharedQuery;
-                            
-                            let checkAttempts = 0;
-                            const checkInterval = setInterval(() => {
-                                checkAttempts++;
-                                if (typeof rawApiData !== 'undefined' && rawApiData.length > 0 && typeof triggerGlobalSearch === 'function') {
-                                    clearInterval(checkInterval);
-                                    triggerGlobalSearch();
-                                } else if (checkAttempts > 25) { 
-                                    clearInterval(checkInterval);
-                                }
-                            }, 200); 
-                        }
-                    }
-                    
-                    if (typeof updateAlertBadge === 'function') updateAlertBadge();
-                } catch (uiErr) {
-                    console.error("渲染 UI 時發生錯誤:", uiErr);
-                }
+        // =====================================================================
+        // 🔮 3. 分享與彈窗功能
+        // =====================================================================
+        window.openModal = function(titleKey, contentKey) {
+            const dict = (typeof uiText !== 'undefined' && uiText[window.currentLang]) ? uiText[window.currentLang] : {};
+            document.getElementById('modalTitle').innerText = dict[titleKey] || 'Info';
+            document.getElementById('modalContent').innerHTML = dict[contentKey] || '';
+            const infoModal = document.getElementById('infoModal');
+            const modalBox = document.getElementById('modalBox');
+            if(infoModal && modalBox) {
+                infoModal.classList.remove('hidden');
+                setTimeout(() => { infoModal.classList.remove('opacity-0'); modalBox.classList.remove('scale-95'); modalBox.classList.add('scale-100'); }, 10);
             }
-        }
+        };
 
-        async function shareProduct(name, brand, minPrice) {
+        window.closeModal = function() {
+            const infoModal = document.getElementById('infoModal');
+            const modalBox = document.getElementById('modalBox');
+            if(infoModal && modalBox) {
+                infoModal.classList.add('opacity-0'); modalBox.classList.remove('scale-100'); modalBox.classList.add('scale-95');
+                setTimeout(() => { infoModal.classList.add('hidden'); }, 300);
+            }
+        };
+
+        window.openShareAppModal = function() {
+            const currentUrl = window.location.origin + window.location.pathname;
+            const qrCodeImg = document.getElementById('qrCodeImg');
+            const shareAppModal = document.getElementById('shareAppModal');
+            const shareAppBox = document.getElementById('shareAppBox');
+            if(qrCodeImg) qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}&margin=10`;
+            if(shareAppModal && shareAppBox) {
+                shareAppModal.classList.remove('hidden');
+                setTimeout(() => { shareAppModal.classList.remove('opacity-0'); shareAppBox.classList.remove('scale-95'); shareAppBox.classList.add('scale-100'); }, 10);
+            }
+        };
+
+        window.closeShareAppModal = function() {
+            const shareAppModal = document.getElementById('shareAppModal');
+            const shareAppBox = document.getElementById('shareAppBox');
+            if(shareAppModal && shareAppBox) {
+                shareAppModal.classList.add('opacity-0'); shareAppBox.classList.remove('scale-100'); shareAppBox.classList.add('scale-95');
+                setTimeout(() => { shareAppModal.classList.add('hidden'); }, 300);
+            }
+        };
+
+        // 🟢 升級版 showToast 支援自訂訊息 (配合手機防禦網)
+        window.showToast = function(customMsg) {
+            const toastMsg = document.getElementById('toastMsg');
+            if(toastMsg) {
+                const originalText = toastMsg.innerText;
+                if (customMsg) toastMsg.innerText = customMsg;
+                toastMsg.classList.remove('opacity-0', 'translate-y-[-20px]');
+                setTimeout(() => { 
+                    toastMsg.classList.add('opacity-0', 'translate-y-[-20px]'); 
+                    setTimeout(() => { if (customMsg) toastMsg.innerText = '✅ 連結已複製！'; }, 300);
+                }, 2000);
+            }
+        };
+
+        window.copyAppUrl = function() {
+            const currentUrl = window.location.origin + window.location.pathname;
+            navigator.clipboard.writeText(currentUrl).then(() => { window.showToast(); setTimeout(window.closeShareAppModal, 1000); });
+        };
+
+        window.shareToWhatsApp = function() {
+            const currentUrl = window.location.origin + window.location.pathname;
+            const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
+            const msgText = (typeof uiText !== 'undefined' && uiText[window.currentLang] && uiText[window.currentLang].shareMessage) ? uiText[window.currentLang].shareMessage : defaultMsg;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msgText + currentUrl)}`, '_blank');
+        };
+
+        window.shareNative = function() {
+            const currentUrl = window.location.origin + window.location.pathname;
+            const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
+            const msgText = (typeof uiText !== 'undefined' && uiText[window.currentLang] && uiText[window.currentLang].shareMessage) ? uiText[window.currentLang].shareMessage : defaultMsg;
+            if (navigator.share) { navigator.share({ title: '慳真D', text: msgText, url: currentUrl }).catch(console.error); } 
+            else { window.copyAppUrl(); }
+        };
+
+        window.shareProduct = async function(name, brand, minPrice) {
             const baseUrl = window.location.origin + window.location.pathname;
             const productUrl = `${baseUrl}?q=${encodeURIComponent(name)}`;
-
-            let finalTitle = "慳真D🔎推介";
-            let finalTemplate = "【慳錢情報】{brand} - {name}，最低價見 ${price}！快啲去慳真D🔎睇吓啦！🛒";
-
-            if (typeof uiText !== 'undefined' && uiText[currentLang]) {
-                if (uiText[currentLang].shareProductTitle) {
-                    finalTitle = uiText[currentLang].shareProductTitle;
-                }
-                if (uiText[currentLang].shareProductTemplate) {
-                    finalTemplate = uiText[currentLang].shareProductTemplate;
-                }
-            }
-
-            const safeBrand = brand ? brand : (currentLang === 'en' ? 'General' : '綜合品牌');
-            const finalText = finalTemplate
-                .replace('{brand}', safeBrand)
-                .replace('{name}', name)
-                .replace('{price}', minPrice);
-
-            const shareData = {
-                title: finalTitle,
-                text: finalText,
-                url: productUrl 
-            };
-            
+            const finalText = `【慳錢情報】${brand || '綜合品牌'} - ${name}，最低價見 $${minPrice}！快啲去睇吓啦！🛒`;
             try {
-                if (navigator.share) { await navigator.share(shareData); }
-                else {
-                    navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-                    showToast();
-                }
+                if (navigator.share) { await navigator.share({ title: "慳真D🔎推介", text: finalText, url: productUrl }); }
+                else { navigator.clipboard.writeText(`${finalText} ${productUrl}`); window.showToast(); }
             } catch (err) { console.log('Share error:', err); }
-        }
+        };
 
-        window.changeLanguage = function(lang) {
+        // 🟢 全新加入：設備偵測與跳轉防護網 (Mobile Blocker Engine)
+        window.checkDeviceAndRedirect = function(url) {
+            if (window.innerWidth < 768) {
+                const msg = window.currentLang === 'en' ? '🖥️ Desktop/Tablet Only' : (window.currentLang === 'zh-Hans' ? '🖥️ 报表仅限电脑或平板浏览' : '🖥️ 報表僅限電腦或平板瀏覽');
+                window.showToast(msg);
+            } else {
+                window.location.href = url;
+            }
+        };
+
+       // =====================================================================
+        // 🌐 4. 語系與 UI 動態切換引擎
+        // =====================================================================
+        window.changeLanguage = async function(lang) {
             try {
-                currentLang = lang;
-                document.documentElement.lang = lang;
+                if (window.initialLang && window.initialLang !== lang) {
+                    document.body.style.pointerEvents = 'none';
+                    const spinnerHtml = `<div class="col-span-full flex justify-center py-10 w-full"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#345B8C]"></div></div>`;
+                    const lvl1Container = document.getElementById('level1Container');
+                    const chatMessages = document.getElementById('chatMessages');
+                    if (lvl1Container && document.getElementById('level1Section') && !document.getElementById('level1Section').classList.contains('hidden')) {
+                        lvl1Container.innerHTML = spinnerHtml;
+                    } else if (chatMessages && document.getElementById('chatSection') && !document.getElementById('chatSection').classList.contains('hidden')) {
+                        chatMessages.innerHTML = spinnerHtml;
+                    }
+
+                    try {
+                        const cb = Date.now();
+                        const snapshotUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/snapshot_${lang}.json?v=${cb}`;
+                        const snapRes = await fetch(snapshotUrl);
+                        if (snapRes.ok) window.snapshotData = window.unwrapData(await snapRes.json());
+                    } catch (e) { console.error('語系快照拉取失敗', e); }
+                    document.body.style.pointerEvents = 'auto';
+                }
                 
+                window.initialLang = lang; window.currentLang = lang;
+                document.documentElement.lang = lang;
                 localStorage.setItem('appLang', lang);
                 localStorage.setItem('lang', lang);
+
+                const langSel = document.getElementById('langSelector');
+                if (langSel) langSel.value = lang;
                 
                 const dict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : {};
-
                 const updateText = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).innerText = text; };
                 const updatePlaceholder = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).placeholder = text; };
                 const updateHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
                 document.title = dict.title || '慳真D';
-                
                 updateText('appTitle', dict.title);
-                if (lastUpdatedTime) {
-                    updateText('todayStatusLabel', (dict.lastUpdated || '更新: ') + formatDateTime(lastUpdatedTime));
-                } else {
-                    updateText('todayStatusLabel', dict.subLabel || '載入中...');
-                }
+                if (window.lastUpdatedTime) updateText('todayStatusLabel', (dict.lastUpdated || '更新: ') + window.formatDateTime(window.lastUpdatedTime));
+                else updateText('todayStatusLabel', dict.subLabel || '載入中...');
 
                 updateText('miniFooterLinks', dict.miniFooterLinks);
                 updateText('miniFooterCopy', dict.miniFooterCopy);
@@ -611,983 +520,394 @@
                 updateText('sendBtnText', dict.send);
                 updatePlaceholder('chatInput', dict.placeholder);
 
+                // 🟢 加入照妖鏡字典支援 (Price Illusion)
                 const homeUI = {
-                    'zh-Hant': { title: "物價情報分析中樞", placeholder: "輸入資料源關鍵字 (例: 可口可樂)...", quickTitle: "情報捷徑", catTitle: "分類目錄瀏覽", b1: "極端差價分析", b2: "最新優惠", b3: "熱搜飲品", b4: "糧食雜貨", trueDiscountBtn: "智選真抵榜", battleSummaryBtn: "戰情總結", commandCenterBtn: "全局戰情室" },
-                    'zh-Hans': { title: "物价情报分析中枢", placeholder: "输入数据源关键字 (例: 可口可乐)...", quickTitle: "情报捷径", catTitle: "分类目录浏览", b1: "极端差价分析", b2: "最新优惠", b3: "热搜饮品", b4: "粮食杂货", trueDiscountBtn: "智选真抵榜", battleSummaryBtn: "战情总结", commandCenterBtn: "全局战情室" },
-                    'en': { title: "Price Intelligence Center", placeholder: "Search data source (e.g., Cola)...", quickTitle: "Quick Insights", catTitle: "Browse Categories", b1: "Extreme Gap", b2: "Latest Deals", b3: "Trending Drinks", b4: "Pantry Goods", trueDiscountBtn: "Smart Deals", battleSummaryBtn: "Battle Summary", commandCenterBtn: "Command Center" }
+                    'zh-Hant': { title: "物價情報分析中樞", placeholder: "輸入資料源關鍵字 (例: 可口可樂)...", quickTitle: "情報捷徑", catTitle: "分類目錄瀏覽", b1: "極端差價分析", b2: "最新優惠", b3: "熱搜飲品", b4: "糧食雜貨", trueDiscountBtn: "智選真抵榜", battleSummaryBtn: "戰情總結", commandCenterBtn: "全局戰情室", priceIllusionBtn: "明降暗升照妖鏡" },
+                    'zh-Hans': { title: "物价情报分析中枢", placeholder: "输入数据源关键字 (例: 可口可乐)...", quickTitle: "情报捷径", catTitle: "分类目录浏览", b1: "极端差价分析", b2: "最新优惠", b3: "热搜饮品", b4: "粮食杂货", trueDiscountBtn: "智选真抵榜", battleSummaryBtn: "战情总结", commandCenterBtn: "全局战情室", priceIllusionBtn: "明降暗升照妖镜" },
+                    'en': { title: "Price Intelligence Center", placeholder: "Search data source (e.g., Cola)...", quickTitle: "Quick Insights", catTitle: "Browse Categories", b1: "Extreme Gap", b2: "Latest Deals", b3: "Trending Drinks", b4: "Pantry Goods", trueDiscountBtn: "Smart Deals", battleSummaryBtn: "Battle Summary", commandCenterBtn: "Command Center", priceIllusionBtn: "Illusion Detector" }
                 };
 
                 let activeLang = homeUI[lang] ? lang : 'zh-Hant';
 
                 updateText('homeTitle', homeUI[activeLang].title);
                 updatePlaceholder('globalSearchInput', homeUI[activeLang].placeholder);
+                
                 if(document.getElementById('quickTitle')) document.getElementById('quickTitle').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> ${homeUI[activeLang].quickTitle}`;
                 if(document.getElementById('catTitle')) document.getElementById('catTitle').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2.5 text-[#345B8C] dark:text-[#608BC1]"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> ${homeUI[activeLang].catTitle}`;
 
-                let kwCola = '可口可樂';
-                let kwBread = '麵包';
-                if (activeLang === 'en') { kwCola = 'cola'; kwBread = 'bread'; } 
-                else if (activeLang === 'zh-Hans') { kwCola = '可乐'; kwBread = '面包'; }
+                let catDrinks = '飲品';
+                let catPantry = '米 / 食油 / 罐頭 / 蔬果 / 肉類';
 
+                // 🟢 2x2 陣列重排：所有 BI 報表均套用 checkDeviceAndRedirect 手機防線
                 if(document.getElementById('quickBtnGroup')) {
                     document.getElementById('quickBtnGroup').innerHTML = `
-                        <button onclick="window.triggerHomeQuickAction('bigGap', '${homeUI[activeLang].b1}')" class="w-full flex items-center justify-start gap-2.5 bg-[#8BC34A] text-white px-3 py-2.5 rounded-xl active:scale-95 transition hover:opacity-90 shadow-sm leading-tight h-[48px]">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            <span class="truncate font-bold">${homeUI[activeLang].b1}</span>
-                        </button>
+                        <button onclick="window.triggerHomeQuickAction('bigGap', '${homeUI[activeLang].b1}')" class="w-full flex items-center justify-start gap-2.5 bg-[#8BC34A] text-white px-3 py-2.5 rounded-xl active:scale-95 transition hover:opacity-90 shadow-sm leading-tight h-[48px] font-bold"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg><span class="truncate">${homeUI[activeLang].b1}</span></button>
+                        <button onclick="window.triggerHomeQuickAction('discount', '${homeUI[activeLang].b2}')" class="w-full flex items-center justify-start gap-2.5 bg-[#FFB74D] text-white px-3 py-2.5 rounded-xl active:scale-95 transition hover:opacity-90 shadow-sm leading-tight h-[48px] font-bold"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg><span class="truncate">${homeUI[activeLang].b2}</span></button>
                         
-                        <button onclick="window.triggerHomeQuickAction('discount', '${homeUI[activeLang].b2}')" class="w-full flex items-center justify-start gap-2.5 bg-[#FFB74D] text-white px-3 py-2.5 rounded-xl active:scale-95 transition hover:opacity-90 shadow-sm leading-tight h-[48px]">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01"></path></svg>
-                            <span class="truncate font-bold">${homeUI[activeLang].b2}</span>
-                        </button>
+                        <button onclick="window.triggerHomeQuickAction('category', '${homeUI[activeLang].b3}', '${catDrinks}')" class="w-full flex items-center justify-start gap-2.5 bg-[#F8F8F8] text-[#345B8C] border border-slate-200/60 px-3 py-2.5 rounded-xl active:scale-95 transition hover:bg-white shadow-sm leading-tight h-[48px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 font-medium"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#345B8C] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span class="truncate">${homeUI[activeLang].b3}</span></button>
                         
-                        <button onclick="window.triggerHomeQuickAction('search', '${homeUI[activeLang].b3}', '${kwCola}')" class="w-full flex items-center justify-start gap-2.5 bg-[#F8F8F8] text-[#345B8C] border border-slate-200/60 px-3 py-2.5 rounded-xl active:scale-95 transition hover:bg-white shadow-sm leading-tight h-[48px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#345B8C] dark:text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            <span class="truncate font-medium">${homeUI[activeLang].b3}</span>
-                        </button>
+                        <button onclick="window.triggerHomeQuickAction('category', '${homeUI[activeLang].b4}', '${catPantry}')" class="w-full flex items-center justify-start gap-2.5 bg-[#F8F8F8] text-[#345B8C] border border-slate-200/60 px-3 py-2.5 rounded-xl active:scale-95 transition hover:bg-white shadow-sm leading-tight h-[48px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 font-medium"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#345B8C] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span class="truncate">${homeUI[activeLang].b4}</span></button>
                         
-                        <button onclick="window.triggerHomeQuickAction('search', '${homeUI[activeLang].b4}', '${kwBread}')" class="w-full flex items-center justify-start gap-2.5 bg-[#F8F8F8] text-[#345B8C] border border-slate-200/60 px-3 py-2.5 rounded-xl active:scale-95 transition hover:bg-white shadow-sm leading-tight h-[48px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#345B8C] dark:text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            <span class="truncate font-medium">${homeUI[activeLang].b4}</span>
-                        </button>
-                        
+                        <!-- 🟢 2x2 BI 報表陣列 -->
                         <div class="col-span-2 flex flex-col gap-2.5 mt-3 mb-1">
                             <div class="grid grid-cols-2 gap-2.5">
-                                <button onclick="window.location.href='true_discount.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#345B8C] hover:opacity-90 text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#4a76b0]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    ${homeUI[activeLang].trueDiscountBtn}
-                                </button>
-                                
-                                <button onclick="window.location.href='battle_summary.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#F8F8F8] hover:bg-white text-[#345B8C] border border-[#345B8C]/20 p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm dark:bg-slate-800 dark:text-[#608BC1] dark:border-slate-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
-                                    ${homeUI[activeLang].battleSummaryBtn}
-                                </button>
+                                <button onclick="window.checkDeviceAndRedirect('true_discount.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#345B8C] hover:opacity-90 text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#4a76b0]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>${homeUI[activeLang].trueDiscountBtn}</button>
+                                <button onclick="window.checkDeviceAndRedirect('battle_summary.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#F8F8F8] hover:bg-white text-[#345B8C] border border-[#345B8C]/20 p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm dark:bg-slate-800 dark:text-[#608BC1] dark:border-slate-700"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>${homeUI[activeLang].battleSummaryBtn}</button>
+                                <button onclick="window.checkDeviceAndRedirect('dashboard.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#D4AF37] hover:bg-[#C5A030] text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-md border border-[#B8942E]/50 dark:bg-[#C5A030]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><span class="drop-shadow-sm tracking-wide">${homeUI[activeLang].commandCenterBtn}</span></button>
+                                <button onclick="window.checkDeviceAndRedirect('price_illusion.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#ef4444] hover:bg-[#dc2626] text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#b91c1c]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span class="drop-shadow-sm tracking-wide">${homeUI[activeLang].priceIllusionBtn}</span></button>
                             </div>
-                            
-                            <button onclick="window.location.href='dashboard.html?lang=' + currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#D4AF37] hover:bg-[#C5A030] text-white p-3.5 rounded-xl text-[13px] sm:text-[14px] font-bold active:scale-95 transition shadow-md border border-[#B8942E]/50 dark:bg-[#C5A030] dark:hover:bg-[#B8942E]">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                                <span class="drop-shadow-sm tracking-wide">${homeUI[activeLang].commandCenterBtn}</span>
-                            </button>
                         </div>
                     `;
                 }
 
-                if (typeof renderQuickActions === 'function') renderQuickActions();
-                if (typeof buildStructuredData === 'function') buildStructuredData();
-                
-                const chatSection = document.getElementById('chatSection');
-                if (chatSection && !chatSection.classList.contains('hidden')) {
-                    if (typeof showLevel1 === 'function') showLevel1();
-                } else {
-                    if (typeof renderLevel1 === 'function') renderLevel1();
+                if (typeof window.renderQuickActions === 'function') window.renderQuickActions();
+                if (typeof window.buildStructuredData === 'function') window.buildStructuredData();
+                if (typeof window.renderLevel1 === 'function') window.renderLevel1();
+
+                const chatSec = document.getElementById('chatSection');
+                if (chatSec && !chatSec.classList.contains('hidden')) {
+                    const chatMessages = document.getElementById('chatMessages');
+                    if (chatMessages) chatMessages.innerHTML = ''; 
+                    if (window.currentKeyword || (window.selectedCat1 && window.selectedCat1 !== 'GLOBAL')) {
+                        if (typeof window.executeProductSearch === 'function') window.executeProductSearch();
+                    }
                 }
-            } catch (err) {
-                console.error("⚠️ changeLanguage 發生錯誤，但已成功攔截，不影響載入資料:", err);
-            }
-        }
-        
-        window.openModal = function(titleKey, contentKey) {
-            document.getElementById('modalTitle').innerText = uiText[currentLang][titleKey];
-            document.getElementById('modalContent').innerHTML = uiText[currentLang][contentKey];
-            infoModal.classList.remove('hidden');
-            setTimeout(() => {
-                infoModal.classList.remove('opacity-0');
-                modalBox.classList.remove('scale-95');
-                modalBox.classList.add('scale-100');
-            }, 10);
+            } catch (err) { console.error("⚠️ changeLanguage 發生錯誤:", err); }
         };
 
-        window.closeModal = function() {
-            infoModal.classList.add('opacity-0');
-            modalBox.classList.remove('scale-100');
-            modalBox.classList.add('scale-95');
-            setTimeout(() => { infoModal.classList.add('hidden'); }, 300);
+        // =====================================================================
+        // 🔎 5. 搜尋與指令處理
+        // =====================================================================
+        window.normalizeStr = window.normalizeStr || function(str) { return str ? str.toLowerCase().replace(/[^\w\s\u4e00-\u9fa5]/gi, '') : ''; };
+
+        window.cleanUserInput = window.cleanUserInput || function(str) {
+            if (!str) return '';
+            return str.replace(/[<>"'&]/g, "").trim(); 
         };
 
-        window.openShareAppModal = function() {
-            const currentUrl = window.location.origin + window.location.pathname;
-            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}&margin=10`;
-            shareAppModal.classList.remove('hidden');
-            setTimeout(() => {
-                shareAppModal.classList.remove('opacity-0');
-                shareAppBox.classList.remove('scale-95');
-                shareAppBox.classList.add('scale-100');
-            }, 10);
-        };
+        window.triggerHomeQuickAction = function(mode, label, kw = '') {
+            const chatSec = document.getElementById('chatSection');
+            const lvl1Sec = document.getElementById('level1Section');
+            const chatTitle = document.getElementById('chatTitle');
+            const chatMessages = document.getElementById('chatMessages');
 
-        window.closeShareAppModal = function() {
-            shareAppModal.classList.add('opacity-0');
-            shareAppBox.classList.remove('scale-100');
-            shareAppBox.classList.add('scale-95');
-            setTimeout(() => { shareAppModal.classList.add('hidden'); }, 300);
-        };
-
-        window.showToast = function() {
-            toastMsg.classList.remove('opacity-0', 'translate-y-[-20px]');
-            setTimeout(() => { toastMsg.classList.add('opacity-0', 'translate-y-[-20px]'); }, 2000);
-        };
-
-        window.copyAppUrl = function() {
-            const currentUrl = window.location.origin + window.location.pathname;
-            navigator.clipboard.writeText(currentUrl).then(() => {
-                showToast();
-                setTimeout(closeShareAppModal, 1000);
-            });
-        };
-
-        window.shareToWhatsApp = function() {
-            const currentUrl = window.location.origin + window.location.pathname;
-            const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
-            const msgText = (typeof uiText !== 'undefined' && uiText[currentLang] && uiText[currentLang].shareMessage) 
-                            ? uiText[currentLang].shareMessage 
-                            : defaultMsg;
-            const msg = encodeURIComponent(msgText + currentUrl);
-            window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
-        };
-
-        window.shareNative = function() {
-            const currentUrl = window.location.origin + window.location.pathname;
-            const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
-            const msgText = (typeof uiText !== 'undefined' && uiText[currentLang] && uiText[currentLang].shareMessage) 
-                            ? uiText[currentLang].shareMessage 
-                            : defaultMsg;
+            if (chatSec) chatSec.classList.remove('hidden'); 
+            if (lvl1Sec) lvl1Sec.classList.add('hidden');
             
-            if (navigator.share) {
-                navigator.share({
-                    title: (typeof uiText !== 'undefined' && uiText[currentLang] && uiText[currentLang].title) ? uiText[currentLang].title : '慳真D',
-                    text: msgText,
-                    url: currentUrl
-                }).catch(console.error);
+            let titleStr = window.currentLang === 'en' ? 'Global Search' : '全局搜尋';
+            if (chatTitle) chatTitle.innerHTML = `<span class="mr-1.5 text-[#345B8C]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span> ${titleStr}`;
+            if (chatMessages) chatMessages.innerHTML = '';
+            
+            window.isBigGapMode = (mode === 'bigGap');
+            window.isDiscountMode = (mode === 'discount');
+            
+            if (mode === 'category') {
+                window.selectedCat1 = kw; 
+                window.currentKeyword = '';
             } else {
-                copyAppUrl(); 
+                window.selectedCat1 = 'GLOBAL'; 
+                window.currentKeyword = kw;
             }
+            
+            window.addUserMessage(label);
+            window.addBotMessage(window.currentLang === 'en' ? `Activating mode: ${label}...` : `啟動「${label}」模式，正在為您查找...`);
+            setTimeout(() => { window.executeProductSearch(); }, 300);
         };
 
-        function renderQuickActions() {
-            const container = document.getElementById('quickActionChips');
-            let bigGapText = '極端差價';
-            if (currentLang === 'zh-Hans') bigGapText = '极端差价';
-            if (currentLang === 'en') bigGapText = 'Big Gap';
-
-            const chips = [
-                { text: (uiText[currentLang].quickAll || '所有').replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim(), action: "showAll" },
-                { text: (uiText[currentLang].quickDiscount || '優惠').replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim(), action: "filterDiscount" },
-                { text: bigGapText, action: "filterBigGap" },
-                { text: (uiText[currentLang].quickHome || '首頁').replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim(), action: "goHome" }
-            ];
-            container.innerHTML = chips.map(c => 
-                `<button type="button" onclick="window.handleQuickAction('${c.action}', '${c.text}')" 
-                    class="whitespace-nowrap bg-[#F8F8F8] dark:bg-slate-800 text-[#345B8C] dark:text-[#608BC1] border border-slate-200/50 dark:border-slate-700 px-3 py-1.5 rounded-xl text-[13px] font-medium hover:bg-white dark:hover:bg-slate-700 active:scale-95 transition-transform shadow-sm flex-none">
-                    ${c.text}
-                </button>`
-            ).join('');
-        }
-
-        window.handleQuickAction = function(action, text) {
-            if (action === 'goHome') { showLevel1(); return; }
-            if (action === 'sayBye') {
-                addUserMessage(text);
-                setTimeout(() => addBotMessage(getBotReply('replyBye')), 300);
-                return;
+        window.toggleCategories = function() {
+            const container = document.getElementById('collapsibleCatContainer');
+            const icon = document.getElementById('catToggleIcon');
+            if (container && icon) {
+                container.classList.toggle('hidden');
+                icon.style.transform = container.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
             }
-            addUserMessage(text); 
-            setTimeout(() => {
-                if (action === 'showAll') {
-                    isBigGapMode = false;
-                    isDiscountMode = false;
-                    currentKeyword = ""; 
-                } else if (action === 'filterDiscount') {
-                    isDiscountMode = true; 
-                    isBigGapMode = false;
-                } else if (action === 'filterBigGap') {
-                    isBigGapMode = true; 
-                    isDiscountMode = false;
-                }
-                executeProductSearch();
-            }, 300);
-        }
-        
-       function buildStructuredData() {
-            structuredData = {};
-
-            let dataArray = Array.isArray(rawApiData) ? rawApiData : (rawApiData.results || []);
-
-            if (!dataArray || dataArray.length === 0) return;
-
-            dataArray.forEach(item => {
-                let cat1 = item.cat1Name?.[currentLang] || item.cat1Name?.['zh-Hant'];
-                if (!cat1) return;
-                
-                let cat2 = item.cat3Name?.[currentLang] || item.cat2Name?.[currentLang] || 'Other';
-                let rawName = item.name?.[currentLang] || item.name?.['zh-Hant'] || 'Unknown';
-                
-                let brandObj = item.brand || item.brandName || '';
-                let localBrand = (typeof brandObj === 'object') ? (brandObj[currentLang] || brandObj['zh-Hant'] || '') : brandObj;
-                
-                let brandEn = (typeof brandObj === 'object') ? (brandObj['en'] || localBrand) : localBrand;
-                let enName = (item.name && item.name['en']) ? item.name['en'] : rawName;
-
-                let uniqueName = localBrand ? `${localBrand} - ${rawName}` : rawName;
-                
-                let productKey = item.code || uniqueName;
-                
-                if (!structuredData[cat1]) structuredData[cat1] = {};
-                if (!structuredData[cat1][cat2]) structuredData[cat1][cat2] = {};
-                
-                if (!structuredData[cat1][cat2][productKey]) {
-                    let allNames = Object.values(item.name || {}).join(' '); 
-                    let allBrands = (typeof brandObj === 'object') ? Object.values(brandObj).join(' ') : brandObj;
-                    let allCat2 = Object.values(item.cat2Name || {}).join(' ') + ' ' + Object.values(item.cat3Name || {}).join(' ');
-
-                    structuredData[cat1][cat2][productKey] = { 
-                        originalUniqueName: uniqueName, 
-                        brand: localBrand,
-                        brandEn: brandEn,
-                        enName: enName, 
-                        searchKeywords: normalizeStr(`${allNames} ${allBrands} ${allCat2} ${cat1}`),
-                        prices: [] 
-                    };
-                }
-                
-                if (Array.isArray(item.prices)) {
-                    item.prices.forEach(p => {
-                        let codeUpper = (p.supermarketCode || '').toUpperCase();
-                        
-                        if (codeUpper === 'ZTORE') return;
-
-                        let smName = p.supermarketCode;
-
-                        if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][codeUpper]) {
-                            smName = supermarketDict[currentLang][codeUpper]; 
-                        } else if (p.supermarketName && p.supermarketName[currentLang]) {
-                            smName = p.supermarketName[currentLang]; 
-                        }
-                        
-                        let promoDisplay = "";
-                        let promoCalcEn = "";
-                        const promoKeys = ['offers', 'promotions', 'promotion', 'offer', 'promotionDesc'];
-                        
-                        for (let key of promoKeys) {
-                            if (Array.isArray(item[key])) {
-                                let matchingOffer = item[key].find(o => String(o.supermarketCode) === String(p.supermarketCode) || String(o.supermarket) === String(p.supermarketCode));
-                                if (matchingOffer) {
-                                    let extractedDisplay = extractDeepPromoText(matchingOffer, currentLang);
-                                    if (extractedDisplay && extractedDisplay !== "[object Object]") {
-                                        promoDisplay = extractedDisplay;
-                                        promoCalcEn = extractDeepPromoText(matchingOffer, 'en');
-                                        break; 
-                                    }
-                                }
-                            } 
-                            else if (p[key]) {
-                                let extractedDisplay = extractDeepPromoText(p[key], currentLang);
-                                if (extractedDisplay && extractedDisplay !== "[object Object]") {
-                                    promoDisplay = extractedDisplay;
-                                    promoCalcEn = extractDeepPromoText(p[key], 'en');
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        let historyStatus = null;
-                        let prevPrice = null;
-                        let prevBase = null;
-                        let lastDate = null;
-                        let prevOffEn = null;
-                        let prevOffZh = null;
-                        let prevOffHans = null;
-                        
-                        if (snapshotData && snapshotData.length > 0) {
-                            const snapRecord = snapshotData.find(s => String(s.product_code) === String(item.code) && String(s.supermarket_code) === String(p.supermarketCode));
-                            if (snapRecord) {
-                                historyStatus = snapRecord.change_status;
-                                prevPrice = snapRecord.previous_effective_price;
-                                prevBase = snapRecord.previous_base_price;   
-                                lastDate = snapRecord.last_changed_date;     
-                                prevOffEn = snapRecord.previous_offer_en;
-                                prevOffZh = snapRecord.previous_offer_zh_hant;
-                                prevOffHans = snapRecord.previous_offer_zh_hans;
-                            }
-                        }
-
-                        const newPriceObj = { 
-                            rawCode: p.supermarketCode, 
-                            supermarket: smName, 
-                            price: p.price ?? '--', 
-                            promoDisplay: promoDisplay,
-                            promoCalc: promoCalcEn,
-                            statusKey: historyStatus,  
-                            prevEffPrice: prevPrice,
-                            prevBasePrice: prevBase,     
-                            lastChangeDate: lastDate,    
-                            prevOfferEn: prevOffEn,        
-                            prevOfferZh: prevOffZh,        
-                            prevOfferHans: prevOffHans     
-                        };
-
-                        const existingIdx = structuredData[cat1][cat2][productKey].prices.findIndex(existing => existing.rawCode === p.supermarketCode);
-                        
-                        if (existingIdx !== -1) {
-                            let existingParsed = parseFloat(structuredData[cat1][cat2][productKey].prices[existingIdx].price);
-                            let newParsed = parseFloat(newPriceObj.price);
-                            if (!isNaN(newParsed) && !isNaN(existingParsed) && newParsed < existingParsed) {
-                                structuredData[cat1][cat2][productKey].prices[existingIdx] = newPriceObj; 
-                            }
-                        } else {
-                            structuredData[cat1][cat2][productKey].prices.push(newPriceObj);
-                        }
-                    });
-                }
-                
-                if (structuredData[cat1][cat2][productKey].prices.length === 0) {
-                    delete structuredData[cat1][cat2][productKey];
-                }
-            });
-        }
-
-        function renderLevel1() {
-            if(!level1Container) return;
-            level1Container.innerHTML = '';
-            const history = JSON.parse(localStorage.getItem('cat_usage_history') || '{}');
-            const sorted = Object.keys(structuredData).sort((a, b) => (history[b]||0) - (history[a]||0) || a.localeCompare(b));
-            
-            sorted.forEach(cat1 => {
-                const style = getCatStyle(cat1);
-                const iconStr = style ? style.icon : '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2 text-slate-400 group-hover:text-[#345B8C] transition-colors" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>';
-                const card = document.createElement('div');
-                
-                card.className = `clickable-card group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-[#F8F8F8] dark:hover:bg-slate-700 hover:border-[#E8F0F8] dark:hover:border-slate-500 px-2 py-3 rounded-2xl shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center h-[90px] overflow-hidden relative`;
-                card.innerHTML = `<div class="transform group-active:scale-95 transition-transform flex justify-center w-full">${iconStr}</div><span class="font-bold text-slate-700 dark:text-slate-300 text-[12px] leading-tight line-clamp-2 px-1 w-full group-hover:text-[#345B8C] dark:group-hover:text-blue-400 transition-colors">${cat1}</span>`;
-                
-                card.onclick = () => { history[cat1] = (history[cat1]||0)+1; localStorage.setItem('cat_usage_history', JSON.stringify(history)); startChat(cat1); };
-                level1Container.appendChild(card);
-            });
-        }
-
-        window.showLevel1 = function() { 
-            chatSection.classList.add('hidden'); level1Section.classList.remove('hidden'); renderLevel1(); 
         };
-
-        function startChat(cat1) {
-            selectedCat1 = cat1; 
-            chatSection.classList.remove('hidden'); 
-            level1Section.classList.add('hidden');
-            
-            const style = getCatStyle(cat1);
-            chatTitle.innerHTML = `<span class="flex items-center gap-1.5"><span class="w-4 h-4">${style.icon.replace('w-6 h-6 mb-2 text-[#345B8C]', 'w-4 h-4 mb-0 inline-block text-[#345B8C]')}</span> ${cat1}</span>`;
-            chatMessages.innerHTML = '';
-            
-            isBigGapMode = false;
-            isDiscountMode = false;
-            currentKeyword = ""; 
-            
-            let welcomeMsg = currentLang === 'en' ? 'Welcome to' : (currentLang === 'zh-Hans' ? '进入' : '進入');
-            let askMsg = currentLang === 'en' ? 'What product are you looking for?' : (currentLang === 'zh-Hans' ? '请问想查找什么产品？' : '請問想查找什麼產品？');
-            addBotMessage(`${welcomeMsg} <strong>${cat1}</strong>。<br>${askMsg}`);
-            executeProductSearch(); 
-        }
-
-        function cleanUserInput(q) {
-            let kw = q;
-            const noiseWords = ['可唔可以幫我搵', '可唔可以幫我買', '幫我搵吓', '幫我搵下', '我想搵吓', '我想搵下', '我想搵', '我想買', '幫我搵', '幫我買', '有無', '有冇', '想搵', '想買', '搵', '買', 'search', '找', '有沒有'];
-            noiseWords.forEach(noise => { kw = kw.replace(new RegExp(noise, 'gi'), ''); });
-            kw = kw.replace(/[？\?。！\!，,]/g, '');
-            return kw.trim();
-        }
 
         window.triggerGlobalSearch = function() {
             const inputEl = document.getElementById('globalSearchInput');
-            const originalQ = inputEl.value.trim();
+            const chatSec = document.getElementById('chatSection');
+            const lvl1Sec = document.getElementById('level1Section');
+            const chatTitle = document.getElementById('chatTitle');
+            const chatMessages = document.getElementById('chatMessages');
+
+            const originalQ = inputEl ? inputEl.value.trim() : '';
             if (!originalQ) return;
-            inputEl.value = '';
-            inputEl.blur();
-            selectedCat1 = 'GLOBAL'; 
-            chatSection.classList.remove('hidden'); 
-            level1Section.classList.add('hidden');
-            let titleStr = currentLang === 'en' ? 'Global Search' : (currentLang === 'zh-Hans' ? '全局搜索' : '全局搜尋');
-            chatTitle.innerHTML = `<span class="mr-1.5 text-[#345B8C] dark:text-[#608BC1]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span> ${titleStr}`;
-            chatMessages.innerHTML = '';
-            isBigGapMode = false;
-            isDiscountMode = false;
+            if(inputEl) { inputEl.value = ''; inputEl.blur(); }
             
-            let startMsgText = currentLang === 'en' ? `Activating global search...` : (currentLang === 'zh-Hans' ? `启动全域搜索模式。<br>正在为您查找...` : `啟動全域搜尋模式。<br>正在為您查找...`);
-            addBotMessage(startMsgText);
-            addUserMessage(originalQ); 
+            if(chatSec) chatSec.classList.remove('hidden'); 
+            if(lvl1Sec) lvl1Sec.classList.add('hidden');
+            if(chatTitle) chatTitle.innerHTML = window.currentLang === 'en' ? 'Global Search' : (window.currentLang === 'zh-Hans' ? '全局搜寻' : '全局搜尋'); 
+            if(chatMessages) chatMessages.innerHTML = '';
+            window.isBigGapMode = false; window.isDiscountMode = false;
+            
+            window.addUserMessage(originalQ);
+            
             setTimeout(() => {
-                const talk = checkSmallTalk(originalQ);
-                if (talk) { addBotMessage(talk); return; }
-                const cleanQ = cleanUserInput(originalQ);
-                currentKeyword = normalizeStr(cleanQ).trim();
-                if (!currentKeyword) { 
-                    let noKwMsg = currentLang === 'en' ? `Please enter a valid keyword.` : (currentLang === 'zh-Hans' ? `请输入有效的关键字。` : `請輸入有效的關鍵字。`);
-                    addBotMessage(noKwMsg); 
+                const talk = (typeof window.checkSmallTalk === 'function') ? window.checkSmallTalk(originalQ) : null;
+                if (talk) { 
+                    window.currentKeyword = ""; 
+                    window.selectedCat1 = 'GLOBAL';
+                    window.addBotMessage(talk); 
                     return; 
-                }
-                executeProductSearch(); 
+                } 
+                
+                window.selectedCat1 = 'GLOBAL'; 
+                const cleanQ = cleanUserInput(originalQ);
+                window.currentKeyword = window.normalizeStr(cleanQ).trim();
+                if (typeof window.executeProductSearch === 'function') window.executeProductSearch(false); 
             }, 300);
         };
-
-        function getBotReply(key) {
-            if (window.botResponses && window.botResponses[currentLang] && window.botResponses[currentLang][key]) {
-                return window.botResponses[currentLang][key].replace(/[\u{1F300}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
-            }
-            return "系統連線中..."; 
-        }
 
         window.submitChat = function() {
             const chatInput = document.getElementById('chatInput');
-            const originalQ = chatInput.value.trim();
+            const originalQ = chatInput ? chatInput.value.trim() : '';
             if (!originalQ) return;
 
-            const cleanText = cleanUserInput(originalQ); 
-            const goHomeKeywords = ['主目錄', '主頁', '首頁', '返轉頭','返回','上一頁', 'home', 'main menu', 'back', '主页', '目錄'];
-            const isGoHome = goHomeKeywords.some(keyword => cleanText.includes(keyword));
-
-            if (isGoHome) {
-                addUserMessage(originalQ);
-                chatInput.value = '';
-                chatInput.blur();
-                showLevel1(); 
-                return;
+            const cleanText = cleanUserInput(originalQ);
+            if (['主目錄', '主頁', '首頁', '返回', 'home', 'back'].some(kw => cleanText.includes(kw))) {
+                if(chatInput) chatInput.value = ''; 
+                window.showLevel1(); return;
             }
 
-            addUserMessage(originalQ); 
-            chatInput.value = ''; 
-            chatInput.blur();
-            setTimeout(() => {
-                const talk = checkSmallTalk(originalQ);
-                if (talk) { addBotMessage(talk); return; }
-                
-                currentKeyword = normalizeStr(cleanText).trim();
-                if (!currentKeyword) { 
-                    let noKwMsg = currentLang === 'en' ? `Please enter a valid keyword.` : (currentLang === 'zh-Hans' ? `请输入有效的关键字。` : `請輸入有效的關鍵字。`);
-                    addBotMessage(noKwMsg); 
+            window.addUserMessage(originalQ); 
+            if(chatInput) { chatInput.value = ''; chatInput.blur(); }
+            
+           setTimeout(() => {
+                const talk = (typeof window.checkSmallTalk === 'function') ? window.checkSmallTalk(originalQ) : null;
+                if (talk) { 
+                    window.currentKeyword = "";      
+                    window.selectedCat1 = 'GLOBAL';  
+                    window.addBotMessage(talk); 
+                    
+                    const chips = document.getElementById('quickActionChips');
+                    if (chips) chips.innerHTML = '';
+                    
                     return; 
-                }
-                executeProductSearch(); 
+                } 
+
+                window.isBigGapMode = false; window.isDiscountMode = false;
+                window.currentKeyword = window.normalizeStr(cleanText).trim();
+                if (typeof window.executeProductSearch === 'function') window.executeProductSearch(); 
             }, 300);
         };
 
-        function getFilteredProductsHTML(keywordToTest) {
-            const isAll = ['所有', '全部', 'all', 'list', '*'].includes(keywordToTest) || !keywordToTest;
-            let foundProducts = [];
-            window.scoredProducts = []; 
-
-            const categoriesToSearch = selectedCat1 === 'GLOBAL' ? Object.keys(structuredData) : [selectedCat1];
+        window.executeProductSearch = function(suppressEmpty = false) {
+            if (typeof window.renderQuickActions === 'function') window.renderQuickActions();
+            if (typeof window.getFilteredProductsHTML !== 'function') return;
             
-            categoriesToSearch.forEach(cat1 => {
-                if (!structuredData[cat1]) return;
-                Object.keys(structuredData[cat1]).forEach(cat2 => {
-                    Object.keys(structuredData[cat1][cat2]).forEach(productKey => {
-                        const info = structuredData[cat1][cat2][productKey];
-                        
-                        const safeSearchTarget = info.searchKeywords.replace(/\s+/g, '').toLowerCase();
-                        const safeInput = (keywordToTest || '').replace(/\s+/g, '').toLowerCase();
-                        const matchesKeyword = isAll || safeSearchTarget.includes(safeInput);
-                        
-                        const hasDiscount = info.prices.some(p => p.promoDisplay || p.promoCalc);
-                        const matchesDiscount = !isDiscountMode || hasDiscount;
-                        
-                        if (matchesDiscount) {
-                            if (matchesKeyword) {
-                                const gapInfo = checkPriceGap(info);
-                                foundProducts.push({
-                                    pName: info.originalUniqueName, 
-                                    info: info,
-                                    gapPercent: gapInfo.percentage || 0
-                                });
-                            } else if (!isAll && keywordToTest.length >= 2) {
-                                let score = typeof calculateRelevance === 'function' ? calculateRelevance(keywordToTest, info.searchKeywords, info.brand) : 0;
-                                if (score > 10) {
-                                    window.scoredProducts.push({ name: info.originalUniqueName, info: info, score: score }); 
-                                }
-                            }
-                        }
-                    });
-                });
-            });
+            window.isCodesIssue = false; 
+            const searchResults = window.getFilteredProductsHTML(window.currentKeyword);
 
-            if (isBigGapMode) {
-                foundProducts.sort((a, b) => b.gapPercent - a.gapPercent);
+            if (window.isCodesIssue) {
+                window.addBotMessage("Codes issue. Please call support. 🛠️");
+                return;
             }
 
-            return foundProducts.map(item => generateProductCardHTML(item.pName, item.info)).join('');
-        }
-
-        function executeProductSearch() {
-            const html = getFilteredProductsHTML(currentKeyword);
-            const isAll = ['所有', '全部', 'all', 'list', '*'].includes(currentKeyword) || !currentKeyword;
-
-            if (!html) {
-                if (window.scoredProducts && window.scoredProducts.length > 0) {
-                    window.scoredProducts.sort((a, b) => b.score - a.score);
-                    let topMatches = window.scoredProducts.slice(0, 4); 
-                    
-                    let rescueHtml = '';
-                    topMatches.forEach(match => {
-                        rescueHtml += generateProductCardHTML(match.name, match.info);
-                    });
-
-                    let fallbackMsg = (currentLang === 'en') 
-                        ? `Exact match not found for "${currentKeyword}", displaying relevant data:` 
-                        : (currentLang === 'zh-Hans') 
-                        ? `数据库中未找到「${currentKeyword}」的完全匹配，为您展示最相关的数据：` 
-                        : `資料庫中未找到「${currentKeyword}」的完全匹配，為您展示最相關的數據：`;
-                    
-                    addBotMessage(fallbackMsg, rescueHtml);
-                    return true;
-                }
-
-                let noResultMsg = '查無結果';
-                if (isDiscountMode) {
-                    const langMsgs = {
-                        'zh-Hant': (currentKeyword && !isAll) ? `「${currentKeyword}」資料集中暫無符合優惠條件的項目。` : "此維度暫無符合優惠條件的資料。",
-                        'zh-Hans': (currentKeyword && !isAll) ? `「${currentKeyword}」数据集中暂无符合优惠条件的项目。` : "此维度暂无符合优惠条件的数据。",
-                        'en': (currentKeyword && !isAll) ? `No promotional items found in data set "${currentKeyword}".` : "No promotional items found in this dimension."
-                    };
-                    noResultMsg = langMsgs[currentLang];
-                } else if (isBigGapMode) {
-                    const showWord = (currentKeyword && !isAll) ? `於「${currentKeyword}」資料集中` : "此維度";
-                    const langMsgs = {
-                        'zh-Hant': `${showWord}未發現價格落差超過 10% 的項目。`,
-                        'zh-Hans': (currentKeyword && !isAll) ? `于「${currentKeyword}」数据集中未发现价格落差超过 10% 的项目。` : "此维度未发现价格落差超过 10% 的项目。",
-                        'en': (currentKeyword && !isAll) ? `No significant price gap (>10%) found in "${currentKeyword}".` : "No significant price gap (>10%) found in this dimension."
-                    };
-                    noResultMsg = langMsgs[currentLang];
-                } else if (currentKeyword && !isAll) {
-                    const langMsgs = {
-                        'zh-Hant': `資料庫查無「${currentKeyword}」的相關紀錄，請嘗試其他關鍵字。`,
-                        'zh-Hans': `数据库查无「${currentKeyword}」的相关纪录，请尝试其他关键字。`,
-                        'en': `No records found for "${currentKeyword}" in the database. Please try another keyword.`
-                    };
-                    noResultMsg = langMsgs[currentLang];
-                }
-
-                let suggestions = [];
-                if (currentKeyword && currentKeyword.length >= 2) {
-                     let isEnglish = /^[a-zA-Z0-9\s]+$/.test(currentKeyword);
-                     let searchPrefix = '';
-                     
-                     if (isEnglish) {
-                         searchPrefix = currentKeyword.trim().split(/\s+/)[0];
-                         if (searchPrefix.length < 3 && currentKeyword.length >= 3) {
-                             searchPrefix = currentKeyword.substring(0, 3); 
-                         }
-                     } else {
-                         searchPrefix = currentKeyword.substring(0, 2); 
-                     }
-
-                     const categoriesToSearch = selectedCat1 === 'GLOBAL' ? Object.keys(structuredData) : [selectedCat1];
-                     categoriesToSearch.forEach(cat1 => {
-                         if(!structuredData[cat1]) return;
-                         Object.keys(structuredData[cat1]).forEach(cat2 => {
-                             Object.keys(structuredData[cat1][cat2]).forEach(productKey => {
-                                 const info = structuredData[cat1][cat2][productKey];
-                                 if (suggestions.length < 3 && info.searchKeywords.includes(searchPrefix.toLowerCase())) {
-                                     suggestions.push(info.originalUniqueName); 
-                                 }
-                             });
-                         });
-                     });
-                }
-
-                if (suggestions.length > 0) {
-                     noResultMsg += "<br><br>";
-                     suggestions.forEach(s => {
-                         noResultMsg += `<button onclick="this.closest('.flex-col').remove(); currentKeyword='${s.replace(/'/g, "\\'")}'; executeProductSearch();" style="display:inline-block; background-color:#F8F8F8; color:#345B8C; border:1px solid #E8F0F8; padding:6px 14px; margin:4px; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer;">${s}</button> `;
-                     });
-                }
-
-                addBotMessage(noResultMsg);
-            } else {
-                let botTip = '';
-                if (isBigGapMode) {
-                    botTip = (currentKeyword && !isAll) 
-                        ? (currentLang === 'en' ? `Found items with >10% gap for "${currentKeyword}":` : (currentLang === 'zh-Hans' ? `为您找到包含「${currentKeyword}」且差价 >10% 的商品：` : `為您找到包含「${currentKeyword}」且差價 >10% 的貨品：`)) 
-                        : (currentLang === 'en' ? `Here are items with extreme price gaps in this category:` : (currentLang === 'zh-Hans' ? `此分类下存在极端差价的商品如下：` : `此分類下存在極端差價的貨品如下：`));
-                } else if (isDiscountMode) {
-                    botTip = (currentKeyword && !isAll) 
-                        ? (currentLang === 'en' ? `Found promotional items for "${currentKeyword}":` : (currentLang === 'zh-Hans' ? `为您找到包含「${currentKeyword}」的优惠商品：` : `為您找到包含「${currentKeyword}」的優惠貨品：`)) 
-                        : (currentLang === 'en' ? `Here are the latest deals in this category:` : (currentLang === 'zh-Hans' ? `此分类下的最新优惠商品：` : `此分類下的最新優惠貨品：`));
-                } else if (isAll) {
-                    botTip = currentLang === 'en' ? 'Displaying all items in this category:' : (currentLang === 'zh-Hans' ? '正在展示此分类下的所有商品：' : '正在展示此分類下的所有貨品：');
+            if (searchResults && searchResults.exactCount > 0) {
+                let botTip = "";
+                let catName = (window.selectedCat1 && window.selectedCat1 !== 'GLOBAL') ? window.selectedCat1 : '所有目錄';
+                
+                if (window.isBigGapMode) {
+                    botTip = window.currentLang === 'en' ? `Items with extreme gaps in "${catName}":` : (window.currentLang === 'zh-Hans' ? `「${catName}」下差价超过 10% 的货品：` : `「${catName}」下差價超過 10% 的貨品：`);
+                } else if (window.isDiscountMode) {
+                    botTip = window.currentLang === 'en' ? `Discounted items in "${catName}":` : (window.currentLang === 'zh-Hans' ? `「${catName}」下的优惠货品：` : `「${catName}」下的優惠貨品：`);
+                } else if (!window.currentKeyword) {
+                    botTip = window.currentLang === 'en' ? `Displaying items in "${catName}":` : (window.currentLang === 'zh-Hans' ? `正在展示「${catName}」下的所有货品：` : `正在展示「${catName}」下的所有貨品：`);
                 } else {
-                    botTip = currentLang === 'en' ? `Found results for "${currentKeyword}":` : (currentLang === 'zh-Hans' ? `为您找到「${currentKeyword}」的匹配结果：` : `為您找到「${currentKeyword}」的匹配結果：`);
+                    botTip = window.currentLang === 'en' ? `Found results for "${window.currentKeyword}":` : (window.currentLang === 'zh-Hans' ? `为您找到「${window.currentKeyword}」的匹配结果：` : `為您找到「${window.currentKeyword}」的匹配結果：`);
                 }
 
-                let finalHtml = html;
-                if (!isBigGapMode) {
-                    const sortText = currentLang === 'en' ? 'Sort by Price Gap' : (currentLang === 'zh-Hans' ? '按差价排序' : '按差價排序');
-                    const sortBtnHtml = `
-                    <div class="flex justify-end w-full mb-3 pr-1">
-                        <button onclick="window.handleQuickAction('filterBigGap', '${sortText}')" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg text-[12px] font-medium hover:bg-[#F8F8F8] dark:hover:bg-slate-700 active:scale-95 transition-transform shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#345B8C]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
-                            ${sortText}
-                        </button>
-                    </div>`;
-                    finalHtml = sortBtnHtml + finalHtml;
+                let finalHtml = searchResults.exactHtml;
+                if (!window.isBigGapMode) {
+                    let sortText = window.currentLang === 'en' ? 'Sort by Gap' : (window.currentLang === 'zh-Hans' ? '按差价排序' : '按差價排序');
+                    finalHtml = `<div class="flex justify-end w-full mb-3"><button onclick="window.handleQuickAction('filterBigGap', '${sortText}')" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg text-[12px] font-medium hover:bg-[#F8F8F8] dark:hover:bg-slate-700 active:scale-95 transition-transform shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#345B8C] dark:text-[#608BC1]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>${sortText}</button></div>` + finalHtml;
                 }
+                window.addBotMessage(botTip, finalHtml);
 
-                addBotMessage(botTip, finalHtml);
-                return true; 
+            } else if (searchResults && searchResults.fuzzyCount > 0) {
+                let fuzzyMsg = window.currentLang === 'en' ? 'Displaying most relevant data:' : (window.currentLang === 'zh-Hans' ? '为您展示最相关的数据：' : '為您展示最相關的數據：');
+                window.addBotMessage(fuzzyMsg, searchResults.fuzzyHtml);
+
+            } else {
+                if (!suppressEmpty) {
+                    let noResMsg = window.currentLang === 'en' ? 'Cannot search such product.' : (window.currentLang === 'zh-Hans' ? '查无相关纪录，请尝试其他关键字。' : '查無相關紀錄，請嘗試其他關鍵字。');
+                    window.addBotMessage(noResMsg);
+                }
             }
-        }
+        };
 
-        // 🎨 專業版 Bot 訊息介面 (柔和深藍 #345B8C 頭像)
-        function addBotMessage(text, cardsHTML = null) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'flex flex-col items-start w-full bot-response-block';
-            
-            wrapper.innerHTML = `
-                <div class="flex items-end gap-2 max-w-[90%]">
-                    <div class="w-8 h-8 rounded-lg bg-[#345B8C] dark:bg-slate-700 flex items-center justify-center text-white dark:text-slate-300 shadow-sm border border-transparent dark:border-slate-600 shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                    </div>
-                    <div class="bg-[#F8F8F8] dark:bg-slate-800 border border-[#E8F0F8] dark:border-slate-700 text-slate-700 dark:text-slate-200 px-4 py-3.5 rounded-2xl rounded-bl-sm shadow-sm dark:shadow-none text-[14px] transition-colors leading-relaxed">${text}</div>
-                </div>
-                ${cardsHTML ? `<div class="w-full mt-4 space-y-4">${cardsHTML}</div>` : ''}
+        // =====================================================================
+        // 🚀 快捷指令按鈕 (Quick Action Chips) 渲染與點擊處理
+        // =====================================================================
+        window.renderQuickActions = function() {
+            const container = document.getElementById('quickActionChips');
+            if (!container) return;
+
+            const dict = {
+                'zh-Hant': { all: '睇晒全部', discount: '淨係睇有優惠', gap: '極端差價', home: '返主目錄' },
+                'zh-Hans': { all: '查看全部', discount: '只看有优惠', gap: '极端差价', home: '回主目录' },
+                'en': { all: 'Show All', discount: 'Discount Only', gap: 'Extreme Gap', home: 'Home' }
+            };
+            const text = dict[window.currentLang] || dict['zh-Hant'];
+
+            container.innerHTML = `
+                <button onclick="window.handleQuickAction('all', '${text.all}')" class="shrink-0 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[13px] font-bold rounded-xl active:scale-95 transition shadow-sm">${text.all}</button>
+                <button onclick="window.handleQuickAction('discount', '${text.discount}')" class="shrink-0 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[13px] font-bold rounded-xl active:scale-95 transition shadow-sm">${text.discount}</button>
+                <button onclick="window.handleQuickAction('gap', '${text.gap}')" class="shrink-0 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[13px] font-bold rounded-xl active:scale-95 transition shadow-sm">${text.gap}</button>
+                <button onclick="window.showLevel1()" class="shrink-0 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[13px] font-bold rounded-xl active:scale-95 transition shadow-sm">${text.home}</button>
             `;
-            
-            chatMessages.appendChild(wrapper);
+        };
 
+        window.handleQuickAction = function(action, label) {
+            window.addUserMessage(label);
             setTimeout(() => {
-                wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
+                if (action === 'viewAll' || action === 'all') {
+                    window.isBigGapMode = false;
+                    window.isDiscountMode = false;
+                } else if (action === 'filterDiscount' || action === 'discount') {
+                    window.isBigGapMode = false;
+                    window.isDiscountMode = true;
+                } else if (action === 'filterBigGap' || action === 'gap') {
+                    window.isBigGapMode = true;
+                    window.isDiscountMode = false;
+                } else if (action === 'backHome' || action === 'home') {
+                    window.showLevel1();
+                    return;
+                }
 
-        function userMessage(text) {
-            addUserMessage(text);
-        }
+                if ((window.selectedCat1 === 'GLOBAL' || !window.selectedCat1) && !window.currentKeyword) {
+                    let alertMsg = window.currentLang === 'en' ? 'Please enter a product keyword first.' : (window.currentLang === 'zh-Hans' ? '请先输入要搜寻的货品关键字。' : '請先輸入要搜尋的貨品關鍵字。');
+                    window.addBotMessage(alertMsg);
+                    return; 
+                }
 
-        function addUserMessage(text) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'flex flex-col items-end w-full';
-            wrapper.innerHTML = `<div class="bg-[#345B8C] text-white px-4 py-3.5 rounded-2xl rounded-br-sm shadow-sm max-w-[85%] text-[14px] font-medium transition-colors">${text}</div>`;
+                window.executeProductSearch();
+            }, 300);
+        };
+
+        window.renderLevel1 = function() {
+            const level1Container = document.getElementById('level1Container');
+            if(!level1Container) return;
+            level1Container.innerHTML = '';
+            
+            if (!window.structuredData) return;
+            
+            Object.keys(window.structuredData).forEach(cat1 => {
+                const style = (typeof window.getCatStyle === 'function') ? window.getCatStyle(cat1) : { icon: '' };
+                const card = document.createElement('div');
+                card.className = `clickable-card bg-white border p-3 rounded-2xl shadow-sm text-center h-[90px] flex flex-col items-center justify-center cursor-pointer dark:bg-slate-800 dark:border-slate-700 hover:bg-slate-50 transition-colors`;
+                card.innerHTML = `<div>${style.icon}</div><span class="font-bold text-[12px] mt-1 text-slate-700 dark:text-slate-300">${cat1}</span>`;
+                card.onclick = () => { 
+                    window.selectedCat1 = cat1; 
+                    const chatSec = document.getElementById('chatSection');
+                    const lvl1Sec = document.getElementById('level1Section');
+                    if(chatSec) chatSec.classList.remove('hidden'); 
+                    if(lvl1Sec) lvl1Sec.classList.add('hidden'); 
+                    window.executeProductSearch(); 
+                };
+                level1Container.appendChild(card);
+            });
+        };
+
+        window.addBotMessage = function(text, cardsHTML = null) {
+            const chatMessages = document.getElementById('chatMessages');
+            if(!chatMessages) return;
+            const wrapper = document.createElement('div'); wrapper.className = 'flex flex-col items-start w-full';
+            wrapper.innerHTML = `<div class="flex items-end gap-2 max-w-[90%]"><div class="bg-[#F8F8F8] dark:bg-slate-800 border dark:border-slate-700 text-slate-700 dark:text-slate-200 px-4 py-3.5 rounded-2xl rounded-bl-sm text-[14px]">${text}</div></div>${cardsHTML ? `<div class="w-full mt-4 space-y-4">${cardsHTML}</div>` : ''}`;
+            chatMessages.appendChild(wrapper);
+            setTimeout(() => wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        };
+
+        window.addUserMessage = function(text) {
+            const chatMessages = document.getElementById('chatMessages');
+            if(!chatMessages) return;
+            const wrapper = document.createElement('div'); wrapper.className = 'flex flex-col items-end w-full';
+            wrapper.innerHTML = `<div class="bg-[#345B8C] text-white px-4 py-3.5 rounded-2xl rounded-br-sm text-[14px] font-medium">${text}</div>`;
             chatMessages.appendChild(wrapper);
             chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-        }
+        };
 
-        function checkPriceGap(info) {
-            let validPrices = [];
-            info.prices.forEach(p => {
-                let parsed = parseFloat(p.price);
-                if (!isNaN(parsed)) {
-                    let avg = typeof calculateAvgPrice === 'function' ? calculateAvgPrice(p.promoCalc, parsed) : parsed;
-                    validPrices.push((avg && avg > 0 && avg < parsed) ? avg : parsed);
-                }
-            });
-            if (validPrices.length < 2) return { isBigGap: false, percentage: 0 };
-            let min = Math.min(...validPrices);
-            let max = Math.max(...validPrices);
-            if (min <= 0) return { isBigGap: false, percentage: 0 };
-            let gap = ((max - min) / min) * 100;
-            return { isBigGap: gap >= 10, percentage: Math.round(gap) };
-        }
-
-        function generateProductCardHTML(pName, info) {
-            let validPrices = [];
-            info.prices.forEach(p => {
-                let parsed = parseFloat(p.price);
-                if (!isNaN(parsed)) {
-                    let avg = typeof calculateAvgPrice === 'function' ? calculateAvgPrice(p.promoCalc, parsed) : parsed;
-                    validPrices.push((avg && avg > 0 && avg < parsed) ? avg : parsed);
-                }
-            });
-
-            let minBasePrice = Math.min(...info.prices.map(p => parseFloat(p.price)).filter(pr => !isNaN(pr)));
-            let minEffectivePrice = validPrices.length > 0 ? Math.min(...validPrices) : null;
-            let allSameBasePrice = info.prices.filter(p => !isNaN(parseFloat(p.price))).every(v => parseFloat(v.price) === minBasePrice);
-            let allSameEffectivePrice = validPrices.length > 1 && validPrices.every(v => Math.abs(v - validPrices[0]) < 0.01);
-
-            const gapInfo = checkPriceGap(info);
-            let gapBadgeHtml = '';
-            if (gapInfo.isBigGap) {
-                let badgeText = currentLang === 'en' ? `Gap ${gapInfo.percentage}%` : (currentLang === 'zh-Hans' ? `差价 ${gapInfo.percentage}%` : `差價 ${gapInfo.percentage}%`);
-                // 🎨 柔和綠色 #8BC34A 代表節省與增長
-                gapBadgeHtml = `<span class="ml-2 px-2 py-0.5 bg-[#8BC34A]/10 text-[#558B2F] font-bold text-[10px] rounded-md border border-[#8BC34A]/30 inline-flex items-center shadow-sm dark:bg-[#8BC34A]/20 dark:text-[#AEEA00]" style="white-space: nowrap; transform: translateY(-1px);"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>${badgeText}</span>`;
+        // =====================================================================
+        // 🚀 6. 系統初始化與安全解包
+        // =====================================================================
+        window.unwrapData = function(d) {
+            if (!d) return [];
+            let rawData = Array.isArray(d) ? d : (d.results || d.data || [d]);
+            if (rawData.length > 0) {
+                if (rawData[0]?.json?.snapshot_data) return rawData[0].json.snapshot_data;
+                if (rawData[0]?.snapshot_data) return rawData[0].snapshot_data;
             }
+            return rawData;
+        };
 
-            const priceList = info.prices.map((p, pIdx) => {
-                let parsed = parseFloat(p.price);
-                let isLowestBase = (!isNaN(parsed) && parsed === minBasePrice && info.prices.length > 1 && !allSameBasePrice);
+        window.init = async function() {
+            try {
+                window.updateLoadingStatus('check');
+                const cb = Date.now();
                 
-                let code = (p.rawCode || '').toUpperCase();
-                let style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[code]) ? supermarketStyleDict[code] : (typeof supermarketStyleDict !== 'undefined' ? supermarketStyleDict['DEFAULT'] : { indexCard: 'border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-700/30', indexText: 'text-slate-600 dark:text-slate-300' });
-                
-                let cls = style.indexCard;
-                let textCls = style.indexText;
-                let displayName = p.supermarket;
-                
-                let avgLabel = '';
-                let fakePromoIcon = ''; 
-                
-                if (typeof calculateAvgPrice === 'function') {
-                    let avg = calculateAvgPrice(p.promoCalc, parsed);
-                    if (avg && avg > 0 && avg < parsed) {
-                        let isAbsoluteLowest = (minEffectivePrice !== null && Math.abs(avg - minEffectivePrice) < 0.01 && validPrices.length > 1 && !allSameEffectivePrice);
-                        let starHtml = isAbsoluteLowest ? `<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 ml-1 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>` : '';
-                        // 🎨 淺橙色 #FFB74D 代表抵買優惠
-                        avgLabel = `<span class="bg-[#FFB74D] text-white text-[10px] px-1.5 py-0.5 rounded-md font-bold shadow-sm ml-1 shrink-0 whitespace-nowrap flex items-center">${(currentLang === 'en' ? 'Avg' : '折合')} $${avg.toFixed(1)}/${(currentLang === 'en' ? 'ea' : '件')}${starHtml}</span>`;
-                    } 
-                    else if (avg >= parsed && p.promoDisplay) {
-                        let stampText = (currentLang === 'en') ? 'NO OFFER' : (currentLang === 'zh-Hans' ? '无实质降价' : '無實質降價');
-                        fakePromoIcon = `<span class="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-[#FFF9F2] text-[#E65100] rounded-md border border-[#FFB74D]/30 shadow-sm cursor-help dark:bg-orange-900/30 dark:border-orange-800 dark:text-orange-400" title="${currentLang === 'en' ? 'Fake Discount!' : '此促銷無實質折扣'}">${stampText}</span>`;
-                    }
-                }
-                
-                let inlineStatusHtml = '';
-                
-                let currentEffPrice = parsed;
-                if (typeof calculateAvgPrice === 'function' && p.promoCalc) {
-                    let res = calculateAvgPrice(p.promoCalc, parsed);
-                    if (res && res.price !== null) currentEffPrice = res.price;
-                }
-                
-                let prevEffPriceNum = parseFloat(p.prevEffPrice);
+                const logUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${cb}`;
+                const snapshotUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/snapshot_${window.currentLang}.json?v=${cb}`;
 
-                let realStatus = 'maintained';
-                if (p.statusKey === 'NEW_ADDED' || p.statusKey === 'new') {
-                    realStatus = 'new';
-                } else if (p.statusKey === 'PRICE_CHANGED' || p.statusKey === 'PRICE_AND_OFFER_CHANGED' || p.statusKey === 'drop' || p.statusKey === 'increase') {
-                    if (!isNaN(prevEffPriceNum) && currentEffPrice < prevEffPriceNum) {
-                        realStatus = 'drop';      
-                    } else if (!isNaN(prevEffPriceNum) && currentEffPrice > prevEffPriceNum) {
-                        realStatus = 'increase';  
-                    } else {
-                        realStatus = 'promo_changed'; 
-                    }
-                } else if (p.statusKey === 'OFFER_CHANGED' || p.statusKey === 'promo_changed') {
-                    realStatus = 'promo_changed';
-                } else if (p.promoDisplay && !isNaN(prevEffPriceNum) && currentEffPrice >= prevEffPriceNum) {
-                    realStatus = 'fake';      
-                } else {
-                    realStatus = 'maintained'; 
+                try {
+                    const timeRes = await fetch(logUrl);
+                    if (timeRes.ok) window.lastUpdatedTime = new Date((await timeRes.text()).trim());
+                } catch(e) { console.warn("時間紀錄載入失敗", e); }
+
+                window.updateLoadingStatus('down');
+                
+                const snapRes = await fetch(snapshotUrl).catch(() => null);
+
+                if (snapRes?.ok) {
+                    window.snapshotData = window.unwrapData(await snapRes.json());
                 }
 
-                let statusText = '';
-                let statusColor = '';
-                let statusIcon = '';
-                
-                // 🎨 專業化無 Emoji 歷史標籤 (對應專家推薦色彩)
-                if (realStatus === 'drop') {
-                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>';
-                    statusText = currentLang === 'en' ? 'Price Drop' : (currentLang === 'zh-Hans' ? '真降价' : '真降價');
-                    statusColor = 'border-[#8BC34A]/30 bg-[#8BC34A]/10 text-[#558B2F] dark:border-[#8BC34A]/30 dark:bg-green-900/30 dark:text-[#AEEA00]';
-                } else if (realStatus === 'new') {
-                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>';
-                    statusText = currentLang === 'en' ? 'New' : (currentLang === 'zh-Hans' ? '首次上架' : '首次上架');
-                    statusColor = 'border-[#345B8C]/20 bg-[#E8F0F8] text-[#345B8C] dark:border-[#6A95CC]/30 dark:bg-slate-700 dark:text-[#6A95CC]';
-                } else if (realStatus === 'increase') {
-                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>';
-                    statusText = currentLang === 'en' ? 'Price Up' : (currentLang === 'zh-Hans' ? '价格上升' : '價格暗升');
-                    statusColor = 'border-red-200 bg-red-50 text-red-600 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400';
-                } else if (realStatus === 'fake' || realStatus === 'promo_changed') {
-                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
-                    statusText = currentLang === 'en' ? 'Promo Changed' : (currentLang === 'zh-Hans' ? '优惠变动' : '優惠變動');
-                    statusColor = 'border-[#FFB74D]/30 bg-[#FFF9F2] text-[#E65100] dark:border-orange-800 dark:bg-orange-900/30 dark:text-[#FFCC80]';
-                } else if (realStatus === 'maintained') {
-                    statusIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-                    statusText = currentLang === 'en' ? 'Maintained' : (currentLang === 'zh-Hans' ? '价格维持' : '價格維持');
-                    statusColor = 'border-slate-200 bg-[#F8F8F8] text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400';
-                }
+            } catch (e) {
+                console.error("系統初始化嚴重錯誤:", e);
+                window.updateLoadingStatus('err');
+            } finally {
+                try {
+                    if (typeof window.buildStructuredData === 'function') window.buildStructuredData();
+                    if (typeof window.changeLanguage === 'function') window.changeLanguage(window.currentLang);
+                    if (typeof window.updateAlertBadge === 'function') window.updateAlertBadge();
+                    if (typeof window.renderLevel1 === 'function') window.renderLevel1();
 
-                const lblDate = currentLang === 'en' ? 'Last Changed:' : (currentLang === 'zh-Hans' ? '上次变动:' : '上次變動:');
-                const lblBase = currentLang === 'en' ? 'Prev Base:' : (currentLang === 'zh-Hans' ? '上次原价:' : '上次原價:');
-                const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
-                const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
-
-                let lastDateText = '-';
-                if (p.lastChangeDate && p.lastChangeDate !== 'null' && p.lastChangeDate !== '') {
-                    let dStr = String(p.lastChangeDate).trim();
-                    if (/^\d{4}-\d{2}-\d{2}/.test(dStr)) {
-                        lastDateText = dStr.substring(0, 10);
-                    } else {
-                        let d = new Date(dStr);
-                        if (!isNaN(d.getTime())) {
-                            lastDateText = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                        } else {
-                            lastDateText = dStr.split('T')[0]; 
+                    if (!window.snapshotData || window.snapshotData.length === 0) {
+                        const loadingEl = document.getElementById('loadingText');
+                        if (loadingEl && loadingEl.parentElement) {
+                            loadingEl.parentElement.innerHTML = `<div class="col-span-2 flex flex-col items-center justify-center p-6 text-center"><p class="text-slate-600 dark:text-slate-300 font-bold mb-4">未偵測到快照數據，請點擊重試。</p><button onclick="window.location.reload()" class="bg-[#345B8C] text-white px-6 py-2.5 rounded-xl font-bold active:scale-95 shadow-sm">重新連線</button></div>`;
                         }
                     }
-                }
 
-                let prevBaseText = (p.prevBasePrice && parseFloat(p.prevBasePrice) > 0) ? `$${parseFloat(p.prevBasePrice).toFixed(1)}` : '-';
-                let prevEffText = (p.prevEffPrice && parseFloat(p.prevEffPrice) > 0) ? `$${parseFloat(p.prevEffPrice).toFixed(1)}` : '-';
-
-                let prevPriceHtml = (prevEffText !== '-' && realStatus !== 'maintained' && realStatus !== 'new') ? `<span class="${realStatus === 'increase' || realStatus === 'fake' ? 'text-red-500 dark:text-red-400 font-medium' : 'opacity-75 font-medium'}">${prevEffText} &rarr;&nbsp;</span>` : '';
-
-                let prevOfferText = '';
-                if (currentLang === 'en' && p.prevOfferEn) prevOfferText = p.prevOfferEn;
-                else if (currentLang === 'zh-Hans' && p.prevOfferHans) prevOfferText = p.prevOfferHans;
-                else if (p.prevOfferZh) prevOfferText = p.prevOfferZh;
-                if (!prevOfferText || prevOfferText === 'null' || prevOfferText.trim() === '') prevOfferText = currentLang === 'en' ? 'None' : '無';
-
-                const uniqueProdId = String(info.searchKeywords).replace(/[^a-zA-Z0-9]/g, '').substring(0, 10);
-                const safeSupermarketCode = String(p.rawCode).replace(/[^a-zA-Z0-9]/g, '');
-                const boxId = `hist-${safeSupermarketCode}-${uniqueProdId}-${pIdx}`;
-                const iconId = `icon-${safeSupermarketCode}-${uniqueProdId}-${pIdx}`;
-
-                inlineStatusHtml = `
-                    <div class="ml-2 flex flex-col items-start relative mt-1 sm:mt-0 z-20">
-                        <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="window.toggleHistoryBox('${boxId}', '${iconId}', event)">
-                            <span class="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold rounded-md border ${statusColor} shadow-sm w-max">
-                                ${prevPriceHtml} ${statusText}
-                            </span>
-                            <div class="bg-[#F8F8F8] dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" id="${iconId}" class="history-icon w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                            </div>
-                        </div>
-                        <div id="${boxId}" class="history-dropdown hidden mt-1.5 p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-600 text-[11px] text-slate-500 dark:text-slate-400 space-y-2 w-max min-w-[160px] absolute top-full left-0 shadow-lg z-50">
-                            <div class="flex justify-between gap-4"><span>${lblDate}</span> <span class="font-bold text-slate-800 dark:text-slate-100">${lastDateText}</span></div>
-                            <div class="flex justify-between gap-4"><span>${lblBase}</span> <span class="font-bold text-slate-800 dark:text-slate-100">${prevBaseText}</span></div>
-                            <div class="flex justify-between gap-4"><span>${lblEff}</span> <span class="font-black text-[#345B8C] dark:text-[#6A95CC]">${prevEffText}</span></div>
-                            <div class="flex justify-between gap-4 items-start pt-1.5 border-t border-[#E8F0F8] dark:border-slate-700">
-                                <span class="shrink-0 text-slate-500">${lblOffer}</span> 
-                                <span class="font-bold text-slate-700 dark:text-slate-300 truncate max-w-[120px] text-right" title="${prevOfferText.replace(/"/g, '&quot;')}">${prevOfferText}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                return `<div class="price-row flex flex-col p-3 rounded-2xl border ${cls} ${isLowestBase ? 'ring-2 ring-green-400 dark:ring-green-500 bg-white dark:bg-slate-800 scale-[1.01] shadow-md z-10' : 'hover:border-[#345B8C]/30'} relative transition-all">
-                            <div class="flex justify-between items-center w-full">
-                                <div class="flex items-center flex-wrap">
-                                    <span class="font-black text-[13px] ${textCls} mr-1">${displayName}</span>
-                                    ${inlineStatusHtml}
-                                </div>
-                                <span class="text-[17px] font-black text-[#345B8C] dark:text-[#608BC1] tracking-tight">$${isNaN(parsed) ? p.price : parsed.toFixed(1)}${isLowestBase ? ' <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-0.5 text-green-500 mb-1 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>' : ''}</span>
-                            </div>
-                            ${p.promoDisplay ? `<div class="mt-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1 w-full"><span class="text-[11px] font-bold text-[#E65100] dark:text-[#FFCC80] bg-[#FFF9F2] dark:bg-orange-900/30 px-2 py-0.5 rounded-md border border-[#FFB74D]/30 break-words w-full sm:w-auto flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#FFB74D]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg> ${p.promoDisplay}</span><div class="flex items-center">${fakePromoIcon}${avgLabel}</div></div>` : ''}
-                        </div>`;
-            }).join('');
-
-            let alertTitle = (currentLang === 'zh-Hans') ? "设定到价提醒" : (currentLang === 'en') ? "Set Price Alert" : "設定到價提醒";
-
-            const englishName = (info.enName) ? info.enName : pName;
-            const brandZh = info.brand || '綜合品牌';
-            const brandEn = info.brandEn || info.brand || 'General';
-
-            let displayZhName = pName;
-            if (info.brand && displayZhName.startsWith(info.brand + ' - ')) {
-                displayZhName = displayZhName.substring(info.brand.length + 3);
-            }
-            let displayEnName = englishName;
-            if (info.brandEn && displayEnName.toLowerCase().startsWith(info.brandEn.toLowerCase() + ' - ')) {
-                displayEnName = displayEnName.substring(info.brandEn.length + 3);
-            } else if (info.brand && displayEnName.toLowerCase().startsWith(info.brand.toLowerCase() + ' - ')) {
-                displayEnName = displayEnName.substring(info.brand.length + 3);
-            }
-
-            let defaultDisplayName = currentLang === 'en' ? displayEnName : displayZhName;
-
-            const langSwitchBtn = (currentLang === 'en') ? '' : `
-                <button onclick="window.toggleCardLang(this)" 
-                        data-zh="${displayZhName.replace(/"/g, '&quot;')}" 
-                        data-en="${displayEnName.replace(/"/g, '&quot;')}" 
-                        data-brand-zh="${brandZh.replace(/"/g, '&quot;')}"
-                        data-brand-en="${brandEn.replace(/"/g, '&quot;')}"
-                        class="px-1.5 py-0.5 text-[10px] bg-[#F8F8F8] dark:bg-slate-700 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-600 rounded font-medium hover:bg-[#E8F0F8] transition-colors ml-1 shadow-sm">
-                    EN
-                </button>`;
-
-            let fullSearchQuery = pName.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-            
-            const searchBtn = `
-                <button onclick="window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent('${fullSearchQuery}'), '_blank')" 
-                        class="w-6 h-6 flex items-center justify-center bg-[#F8F8F8] dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded hover:bg-[#E8F0F8] transition-colors ml-1 shadow-sm" 
-                        title="Google 搜尋/Search"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="text-[#345B8C] dark:text-slate-400"><circle cx="5" cy="5" r="4"/><line x1="11" y1="11" x2="8" y2="8"/></svg>
-                </button>`;
-
-            return `<div class="product-card bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-4 relative transition-colors">
-                        <div class="flex justify-between items-start gap-3">
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <div class="product-brand text-[12px] text-[#345B8C] dark:text-[#6A95CC] font-black tracking-widest uppercase" 
-                                         data-brand-zh="${brandZh.replace(/"/g, '&quot;')}" 
-                                         data-brand-en="${brandEn.replace(/"/g, '&quot;')}">
-                                         ${brandZh}
-                                    </div>
-                                    ${langSwitchBtn}
-                                    ${searchBtn} 
-                                </div>
-                                <div class="flex items-start justify-between gap-2">
-                                    <h3 class="font-bold text-slate-800 dark:text-slate-100 text-[16px] leading-tight break-words">
-                                        <span class="product-name" data-zh="${displayZhName.replace(/"/g, '&quot;')}" data-en="${displayEnName.replace(/"/g, '&quot;')}">${defaultDisplayName}</span>
-                                    </h3>
-                                    ${gapBadgeHtml}
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 shrink-0">
-                                <button onclick="window.openAlertModal('${fullSearchQuery}', '${minBasePrice}')" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#F8F8F8] dark:bg-slate-800 hover:bg-[#E8F0F8] border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300 active:scale-95 transition-all shadow-sm" title="${alertTitle}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                                </button>
-                                <button onclick="window.shareProduct('${displayZhName.replace(/'/g, "\\'")}', '${info.brand}', '${minBasePrice}')" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#345B8C] dark:bg-blue-600 hover:bg-[#284973] dark:hover:bg-blue-500 text-white active:scale-95 transition-opacity shadow-sm border border-transparent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-2.5">${priceList}</div>
-                    </div>`;
-        }
-
-        function checkGeminiKey() {
-            const keyInput = document.getElementById('geminiKeyInput');
-            const keyStatus = document.getElementById('keyStatus');
-            if (!keyInput || !keyStatus) return; 
-            
-            const savedKey = localStorage.getItem('gemini_api_key');
-            const dict = (typeof uiText !== 'undefined' && typeof currentLang !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : {};
-
-            if (savedKey) {
-                keyInput.value = '********'; 
-                keyStatus.innerText = dict.statusConnected || '✅ 已連接 Gemini Pro 引擎';
-                keyStatus.className = 'text-xs font-bold mt-2 text-emerald-600 dark:text-emerald-400';
-            } else {
-                keyInput.value = '';
-                keyStatus.innerText = dict.statusOffline || '🐢 目前使用基礎離線引擎';
-                keyStatus.className = 'text-xs font-bold mt-2 text-slate-500 dark:text-slate-400';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const saveBtn = document.getElementById('saveKeyBtn');
-            const clearBtn = document.getElementById('clearKeyBtn');
-            if (saveBtn) {
-                saveBtn.addEventListener('click', () => {
-                    const key = document.getElementById('geminiKeyInput').value.trim();
-                    if(key && key !== '********') { 
-                        localStorage.setItem('gemini_api_key', key); 
-                        const dict = (typeof uiText !== 'undefined' && typeof currentLang !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : {};
-                        alert(dict.alertKeySaved || '✅ 鎖匙已安全儲存！'); 
-                        checkGeminiKey(); 
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const sharedQuery = urlParams.get('q');
+                    
+                    if (sharedQuery) {
+                        const input = document.getElementById('globalSearchInput');
+                        if (input) {
+                            input.value = sharedQuery;
+                            
+                            let checkAttempts = 0;
+                            const checkInterval = setInterval(() => {
+                                checkAttempts++;
+                                if (window.snapshotData && window.snapshotData.length > 0 && typeof window.triggerGlobalSearch === 'function') {
+                                    clearInterval(checkInterval);
+                                    window.triggerGlobalSearch();
+                                } else if (checkAttempts > 25) { 
+                                    clearInterval(checkInterval);
+                                }
+                            }, 200); 
+                        }
                     }
-                });
-            }
-            if (clearBtn) {
-                clearBtn.addEventListener('click', () => {
-                    localStorage.removeItem('gemini_api_key'); 
-                    const dict = (typeof uiText !== 'undefined' && typeof currentLang !== 'undefined' && uiText[currentLang]) ? uiText[currentLang] : {};
-                    alert(dict.alertKeyCleared || '🗑️ 鎖匙已清除，回復基礎模式。'); 
-                    checkGeminiKey(); 
-                });
-            }
-            checkGeminiKey();
-        });
 
-        function scrollToResults() {
-            const anchor = document.getElementById('latest-search-anchor');
-            const container = document.getElementById('chatMessages');
-            
-            if (anchor && container) {
-                container.scrollTo({ 
-                    top: anchor.offsetTop - 20,
-                    behavior: 'smooth' 
-                });
+                } catch (uiErr) { console.error("渲染 UI 時發生錯誤:", uiErr); }
             }
+        };
+
+        window.init();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(console.error); });
         }
-
-        init();
     </script>
 </body>
 </html>

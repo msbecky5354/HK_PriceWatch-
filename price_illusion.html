@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <script>
+        (function() {
+            try {
+                fetch('status.txt?v=' + new Date().getTime())
+                    .then(response => response.text())
+                    .then(status => { if (status.trim() === '1') window.location.replace('maintenance.html'); })
+                    .catch(error => console.error('無法讀取系統狀態:', error));
+            } catch(e) {}
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>明降暗升照妖鏡 | 慳真D🔎</title>
+    <script src="lang.js?v=12"></script>
+    <script src="lang_tw.js?v=12"></script>
+    <script src="lang_gb.js?v=12"></script>
+    <script src="alertSystem.js?v=4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#2563eb' } } } }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 min-h-[100dvh] flex flex-col transition-colors duration-300">
+
+    <!-- 🚫 手機封鎖結界 -->
+    <div class="md:hidden fixed inset-0 z-[9999] bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
+        <span class="text-7xl mb-6">🖥️</span>
+        <h2 class="text-xl font-black text-white mb-2 tracking-wide">請使用電腦或平板瀏覽</h2>
+        <h3 class="text-sm font-bold text-slate-300 mb-6">Please use a Desktop or Tablet</h3>
+        <p class="text-[13px] text-slate-400 mb-8 max-w-[280px] leading-relaxed">
+            「明降暗升照妖鏡」包含高密度的專業數據分析圖表。為確保最佳視覺體驗與操作，本系統不開放予手機螢幕使用。
+        </p>
+        <button onclick="window.location.href='index.html?lang=' + (typeof currentLang !== 'undefined' ? currentLang : 'zh-Hant')" class="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl shadow-lg transition active:scale-95">返回首頁 / Back</button>
+    </div>
+
+    <script src="appUtils.js?v=2"></script>
+    <script src="header.js?v=3"></script>
+
+    <div class="max-w-7xl mx-auto md:mt-6 bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 md:rounded-t-2xl flex-1 transition-colors duration-300 w-full">
+        
+        <div class="p-4 md:p-5 flex items-center justify-between border-b border-slate-100 dark:border-slate-700">
+            <div class="flex items-center gap-3">
+                <span class="text-xl md:text-2xl drop-shadow-sm">🚨</span> 
+                <div class="flex flex-col">
+                   <div class="flex items-center gap-2">
+                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-black text-slate-800 dark:text-slate-100 leading-tight tracking-wide">明降暗升照妖鏡 (Price Illusion)</h1>
+                        <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 flex items-center justify-center text-[12px] font-bold hover:bg-red-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
+                    </div>
+                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-bold mt-0.5">全自動狙擊「假促銷」與「底價暗升」</span>
+                </div>
+            </div>
+            <button id="backBtn" onclick="window.history.back()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
+        </div>
+
+        <div class="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-50/50 dark:bg-slate-900/50">
+            
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 transition-colors relative">
+                <div id="hintBarChart" class="absolute top-4 right-4 text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded shadow-sm z-10 pointer-events-none">👆 點擊圖表核對</div>
+                <h2 id="titleBarChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>📊</span> 超市「黑材料」火力排行榜</h2>
+                <div id="barChart" class="w-full h-[450px] cursor-pointer"></div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 transition-colors relative">
+                <div id="hintRadarChart" class="absolute top-4 right-4 text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded shadow-sm z-10 pointer-events-none">👆 點擊文字核對</div>
+                <h2 id="titleRadarChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>🕸️</span> 假促銷重災區 (Top 8 分類)</h2>
+                <div id="radarChart" class="w-full h-[450px] cursor-pointer"></div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 lg:col-span-2 transition-colors relative">
+                <div id="hintScatterChart" class="absolute top-4 right-4 text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded shadow-sm z-10 pointer-events-none">👆 點擊紅點核對</div>
+                <h2 id="titleScatterChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>🎯</span> 劏客幅度散佈圖 (紅點飛得越高，暗升越狠)</h2>
+                <div id="scatterChart" class="w-full h-[450px] cursor-pointer"></div>
+            </div>
+        </div>
+
+        <!-- 📋 詳細數據核對表 -->
+        <div id="tableSection" class="p-4 md:p-6 bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 transition-colors">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors">
+                
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">📋</span>
+                        <h2 id="titleTable" class="text-[14px] font-black text-slate-700 dark:text-slate-300">詳細數據核對清單</h2>
+                        <span id="tableFilterBadge" class="hidden ml-1 px-2.5 py-0.5 text-[11px] bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full font-bold shadow-sm"></span>
+                    </div>
+                    <button id="clearTableFilterBtn" onclick="clearIllusionFilters()" class="hidden px-2.5 py-1.5 text-[11px] font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all shadow-sm active:scale-95 flex items-center gap-1">✕ <span id="txtClearFilter">清除篩選</span></button>
+                </div>
+
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 flex flex-wrap items-center gap-3">
+                    <select id="tblSmFilter" onchange="syncTableFilter('smCode', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[12px] font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer"></select>
+                    <select id="tblCatFilter" onchange="syncTableFilter('categoryRaw', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[12px] font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer"></select>
+                    <select id="tblStatusFilter" onchange="syncTableFilter('statusKey', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[12px] font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer"></select>
+                    
+                    <div class="ml-auto flex items-center gap-1.5 bg-red-50 dark:bg-slate-900/80 px-3 py-1.5 rounded-lg border border-red-100 dark:border-slate-700 shadow-sm">
+                        <span id="lblTblCount" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">符合條件:</span>
+                        <span id="tblTotalCount" class="text-red-600 dark:text-red-400 text-[16px] font-black leading-none">0</span>
+                        <span id="lblTblUnit" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">件</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto min-h-[300px]">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 dark:bg-slate-700/50 select-none border-b border-slate-200 dark:border-slate-700 text-[12px] whitespace-nowrap">
+                                <th id="thSm" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">超市</th>
+                                <th id="thCat" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">分類</th>
+                                <th id="thName" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">品牌及貨品名稱</th>
+                                <th id="thStatus" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-center">狀態判定</th>
+                                <th id="thPrev" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right">上次折實</th>
+                                <th id="thToday" onclick="handleTableSort('today')" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">今日折實 <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span></th>
+                                <th id="thDiff" onclick="handleTableSort('diff')" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">差價幅 <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500">▼</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="illusionTableBody" class="text-[13px]"></tbody>
+                    </table>
+                    <div id="tableEmptyState" class="hidden p-12 text-center text-slate-400 dark:text-slate-500 font-bold flex flex-col items-center gap-2">
+                        <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                        <span id="txtEmptyData">沒有符合條件的數據</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 系統標準 Footer -->
+    <div class="text-center pt-4 pb-8 flex-none w-full"> 
+        <button id="miniFooterLinks" onclick="document.getElementById('calcInfoModal').classList.remove('hidden');" 
+                class="text-[11px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:underline decoration-slate-300 dark:decoration-slate-600 transition">
+            關於我們、條款及免責聲明
+        </button>
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
+            <span id="miniFooterCopy">© 2026 慳真D</span> 
+            <span class="mx-1.5">|</span> 
+            <span id="footerDevTeam">開發團隊: </span>
+            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="hover:text-slate-700 dark:hover:text-slate-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
+        </div>
+    </div>
+
+    <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border border-red-100 dark:border-red-900/50 max-h-[85vh]" id="calcInfoBox">
+            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-red-50/50 dark:bg-red-900/10 shrink-0">
+                <h3 id="calcModalTitle" class="text-[16px] font-black text-red-600 dark:text-red-400 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    運算機制與聲明
+                </h3>
+                <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
+                <div id="calcModalContent"></div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
+                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition">我明白</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+    let globalIllusionData = [];
+    
+    let tableFilters = { smCode: 'ALL', statusKey: 'ALL', categoryRaw: 'ALL', productCode: null };
+    let currentSort = { col: 'diff', dir: 'desc' };
+
+    const barChart = echarts.init(document.getElementById('barChart'));
+    const radarChart = echarts.init(document.getElementById('radarChart'));
+    const scatterChart = echarts.init(document.getElementById('scatterChart'));
+
+    const colorDict = { fake: '#f59e0b', increase: '#dc2626' }; 
+
+    const i18n = {
+        'zh-Hant': {
+            pageTitle: '明降暗升照妖鏡', subTitle: '全自動狙擊「假促銷」與「底價暗升」', back: '返回',
+            titleBar: '超市「黑材料」火力排行榜', titleRadar: '假促銷重災區 (Top 8 分類)', titleScatter: '🎯 劏客幅度散佈圖 (紅點飛得越高，暗升越狠)',
+            fakeTxt: '⚠️ 假促銷 (無平過)', incTxt: '📈 價格暗升 (賣貴咗)',
+            affectedItems: '中伏貨品數量', radarTotal: '中伏總數',
+            xScatter: '上次折實價 ($)', yScatter: '今日折實價 ($)', refLine: 'X=Y 基準線 (高於此線即為加價)',
+            uncategorized: '未分類',
+            thSm: '超市', thCat: '分類', thName: '品牌及貨品名稱', thStatus: '狀態判定', thPrev: '上次折實', thToday: '今日折實', thDiff: '差價幅',
+            titleTable: '詳細數據核對清單', clearFilter: '清除全部篩選', emptyData: '沒有符合條件的數據',
+            optAllSm: '所有超市', optAllCat: '所有分類', optAllStatus: '所有狀態',
+            hintBar: '👆 點擊圖表核對', hintRadar: '👆 點擊文字核對', hintScatter: '👆 點擊紅點核對',
+            hintScatterDetail: '💡 點擊核對明細'
+        },
+        'zh-Hans': {
+            pageTitle: '明降暗升照妖镜', subTitle: '全自动狙击「假促销」与「底价暗升」', back: '返回',
+            titleBar: '超市「黑材料」火力排行榜', titleRadar: '假促销重灾区 (Top 8 分类)', titleScatter: '🎯 宰客幅度散布图 (红点飞得越高，暗升越狠)',
+            fakeTxt: '⚠️ 假促销 (无降价)', incTxt: '📈 价格暗升 (卖贵了)',
+            affectedItems: '中伏商品数量', radarTotal: '中伏总数',
+            xScatter: '上次折实价 ($)', yScatter: '今日折实价 ($)', refLine: 'X=Y 基准线 (高于此线即为加价)',
+            uncategorized: '未分类',
+            thSm: '超市', thCat: '分类', thName: '品牌及商品名称', thStatus: '状态判定', thPrev: '上次折实', thToday: '今日折实', thDiff: '差价幅',
+            titleTable: '详细数据核对清单', clearFilter: '清除全部筛选', emptyData: '没有符合条件的数据',
+            optAllSm: '所有超市', optAllCat: '所有分类', optAllStatus: '所有状态',
+            hintBar: '👆 点击图表核对', hintRadar: '👆 点击文字核对', hintScatter: '👆 点击红点核对',
+            hintScatterDetail: '💡 点击核对明细'
+        },
+        'en': {
+            pageTitle: 'Price Illusion Detector', subTitle: 'Auto-detect Fake Promos & Hidden Increases', back: 'Back',
+            titleBar: 'Hall of Shame Ranking', titleRadar: 'Illusion Hotspots (Top 8 Categories)', titleScatter: '🎯 Price Hike Scatter Plot',
+            fakeTxt: '⚠️ Fake Promo', incTxt: '📈 Hidden Increase',
+            affectedItems: 'Affected Items', radarTotal: 'Total Affected',
+            xScatter: 'Prev Eff Price', yScatter: 'Today\'s Eff Price', refLine: 'X=Y Baseline (Price Hike)',
+            uncategorized: 'Uncategorized',
+            thSm: 'Store', thCat: 'Category', thName: 'Brand & Product Name', thStatus: 'Status', thPrev: 'Prev Price', thToday: 'Today Price', thDiff: 'Diff',
+            titleTable: 'Detailed Verification List', clearFilter: 'Clear Filters', emptyData: 'No matching data found',
+            optAllSm: 'All Stores', optAllCat: 'All Categories', optAllStatus: 'All Status',
+            hintBar: '👆 Click Chart to Filter', hintRadar: '👆 Click Text to Filter', hintScatter: '👆 Click Dot to Filter',
+            hintScatterDetail: '💡 Click to check details'
+        }
+    };
+
+    const calcInfoTexts = {
+        'zh-Hant': {
+            title: "ℹ️ 運算機制與聲明", close: "我明白",
+            content: `
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 照妖鏡運作原理解密</h4>
+                <p class="mb-3">本系統透過底層 AI 引擎與歷史快照庫進行交叉比對，將超市玩弄數字遊戲的貨品無情揭露：</p>
+                <div class="space-y-3 mb-4 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div>
+                        <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200">⚠️ 假促銷 (Fake Promo)</span>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">超市為貨品掛上「特價 / 買多件優惠」等促銷字眼，但經系統精算後，發現單件折實價 <b>大於或等於</b> 上次歷史紀錄。營造特價錯覺，實質毫無優惠。</p>
+                    </div>
+                    <div>
+                        <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-red-600 bg-red-50 border-red-200">📈 價格暗升 (Hidden Increase)</span>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">無論有沒有掛上特價牌，只要今日折實價 <b>高於</b> 上次歷史紀錄，即被判定為暗中加價 (劏客)。</p>
+                    </div>
+                </div>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🛡️ 正常商業行為豁免結界</h4>
+                <p class="mb-3">為確保絕對公信力，若貨品之<b>「原價(底價)」維持不變</b>，且單純因為結束早前減價而<b>「合法恢復正價」</b>，系統將絕對不會將其標記為暗升，避免冤枉超市。</p>
+                <p class="text-[12px] text-slate-500"><b>免責聲明：</b>所有數據均由電腦運算。本程式對數據落差引致之損失概不負責。</p>
+            `
+        },
+        'zh-Hans': {
+            title: "ℹ️ 运算机制与声明", close: "我明白",
+            content: `
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 照妖镜运作原理解密</h4>
+                <p class="mb-3">本系统透过底层 AI 引擎与历史快照库进行交叉比对，将超市玩弄数字游戏的商品无情揭露：</p>
+                <div class="space-y-3 mb-4 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div>
+                        <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200">⚠️ 假促销 (Fake Promo)</span>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">超市为商品挂上「特价」等字眼，但单件折实价 <b>大于或等于</b> 上次历史纪录。实质毫无优惠。</p>
+                    </div>
+                    <div>
+                        <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-red-600 bg-red-50 border-red-200">📈 价格暗升 (Hidden Increase)</span>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">只要今日折实价 <b>高于</b> 上次历史纪录，即被判定为暗中加价 (宰客)。</p>
+                    </div>
+                </div>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🛡️ 正常商业行为豁免结界</h4>
+                <p class="mb-3">若商品之<b>「原价」维持不变</b>，且单纯因为结束减价而<b>「合法恢复正价」</b>，系统绝不会将其标记为暗升。</p>
+                <p class="text-[12px] text-slate-500"><b>免责声明：</b>所有数据均由电脑运算。本程式对数据落差引致之损失概不负责。</p>
+            `
+        },
+        'en': {
+            title: "ℹ️ Algorithm & Disclaimer", close: "I Understand",
+            content: `
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 How it Works</h4>
+                <p class="mb-3">Our AI engine cross-references live data with historical snapshots to expose deceptive pricing:</p>
+                <div class="space-y-3 mb-4 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div>
+                        <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200">⚠️ Fake Promo</span>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">A promo tag is shown, but the calculated effective price is <b>≥</b> the last record. No real saving.</p>
+                    </div>
+                    <div>
+                        <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-red-600 bg-red-50 border-red-200">📈 Hidden Increase</span>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">If today's effective price is <b>higher</b> than the last record, it is a price hike.</p>
+                    </div>
+                </div>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🛡️ Fair Play Exemption</h4>
+                <p class="mb-3">If an item's <b>original base price is unchanged</b> and it simply ended a promotion to return to normal price, it is exempted.</p>
+                <p class="text-[12px] text-slate-500"><b>Disclaimer:</b> Data is auto-calculated. We accept no liability for data discrepancies.</p>
+            `
+        }
+    };
+
+    function goToProductSearch(productQuery) {
+        window.location.href = 'index.html?lang=' + currentLang + '&q=' + encodeURIComponent(productQuery);
+    }
+
+    function openCalcInfoModal() {
+        const modal = document.getElementById('calcInfoModal');
+        const box = document.getElementById('calcInfoBox');
+        if (modal && box) {
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+        }
+    }
+    function closeCalcInfoModal() {
+        const modal = document.getElementById('calcInfoModal');
+        const box = document.getElementById('calcInfoBox');
+        if (modal && box) {
+            modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+    }
+
+    function formatDateTime(date) {
+        if (!date || isNaN(date.getTime())) return '';
+        return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+    }
+
+    function getText(content, lang) {
+        if (!content) return '-';
+        if (typeof content === 'string') return content;
+        return content[lang] || content['zh-Hant'] || Object.values(content)[0] || '-';
+    }
+
+    function getSmName(code, lang) {
+        let c = (code || '').toString().trim().toUpperCase();
+        if (typeof supermarketDict !== 'undefined' && supermarketDict[lang] && supermarketDict[lang][c]) return supermarketDict[lang][c];
+        if (typeof supermarketDict !== 'undefined' && supermarketDict['zh-Hant'] && supermarketDict['zh-Hant'][c]) return supermarketDict['zh-Hant'][c];
+        return c;
+    }
+
+    function getCatName(rawCat, lang) {
+        let c = (rawCat || '').toString().trim();
+        if (window.categoryDict && window.categoryDict[lang] && window.categoryDict[lang][c]) return window.categoryDict[lang][c];
+        return c; 
+    }
+
+    function getSmBadge(smCode, lang) {
+        let code = (smCode || '').toUpperCase();
+        let name = getSmName(code, lang);
+        let style = (typeof supermarketStyleDict !== 'undefined' && supermarketStyleDict[code]) 
+            ? supermarketStyleDict[code] 
+            : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' };
+        return `<span class="px-2.5 py-1 text-[11px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} whitespace-nowrap shadow-sm inline-block">${name}</span>`;
+    }
+
+    window.handleTableSort = function(col) {
+        if (currentSort.col === col) {
+            currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
+        } else {
+            currentSort.col = col;
+            currentSort.dir = 'desc'; 
+        }
+        applyTableFilters();
+    };
+
+    function updateLocalLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('appLang', lang);
+        
+        const txt = i18n[lang] || i18n['zh-Hant'];
+        document.title = `${txt.pageTitle} | ${lang === 'en' ? 'SmartDeal' : '慳真D'}`;
+        
+        const appTitle = document.getElementById('appTitle');
+        if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : '慳真D';
+        
+        const statusLabel = document.getElementById('todayStatusLabel');
+        if (statusLabel) {
+            if (window.mainLastUpdatedTime && !isNaN(window.mainLastUpdatedTime.getTime())) {
+                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
+                statusLabel.innerText = prefix + formatDateTime(window.mainLastUpdatedTime);
+            } else {
+                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '载入中...');
+            }
+        }
+        
+        const langSel = document.getElementById('langSelector');
+        if (langSel) langSel.value = lang;
+
+        const setTxt = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
+        
+        setTxt('pageTitleText', txt.pageTitle);
+        setTxt('subTitleText', txt.subTitle);
+        setTxt('backBtn', txt.back);
+        setTxt('titleScatterChart', txt.titleScatter);
+        
+        setTxt('hintBarChart', txt.hintBar);
+        setTxt('hintRadarChart', txt.hintRadar);
+        setTxt('hintScatterChart', txt.hintScatter);
+        
+        setTxt('thSm', txt.thSm); setTxt('thCat', txt.thCat); setTxt('thName', txt.thName); setTxt('thStatus', txt.thStatus);
+        
+        const thToday = document.getElementById('thToday');
+        if(thToday) thToday.innerHTML = `${txt.thToday} <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span>`;
+        const thDiff = document.getElementById('thDiff');
+        if(thDiff) thDiff.innerHTML = `${txt.thDiff} <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500"></span>`;
+        
+        setTxt('thPrev', txt.thPrev); 
+        setTxt('titleTable', txt.titleTable); setTxt('txtClearFilter', txt.clearFilter); setTxt('txtEmptyData', txt.emptyData);
+        setTxt('lblTblCount', lang === 'en' ? 'Matched:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:'));
+        setTxt('lblTblUnit', lang === 'en' ? 'Items' : '件');
+
+        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+        if (uiDict) {
+            setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
+            setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+        }
+        const devTeam = document.getElementById('footerDevTeam');
+        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
+        const devName = document.getElementById('footerDevName');
+        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
+
+        const langData = calcInfoTexts[lang] || calcInfoTexts['zh-Hant'];
+        setTxt('calcModalTitle', langData.title);
+        const contentEl = document.getElementById('calcModalContent');
+        if(contentEl) contentEl.innerHTML = langData.content;
+        setTxt('calcModalCloseBtn', langData.close);
+
+        if (globalIllusionData.length > 0) {
+            renderCharts(globalIllusionData, lang);
+            populateTableDropdowns(); 
+            applyTableFilters();
+        }
+    }
+
+    window.changeLanguage = function(lang) {
+        if (typeof globalChangeLang === 'function') globalChangeLang(lang);
+        updateLocalLanguage(lang); 
+    };
+    window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
+
+    async function loadIllusionData() {
+        const loadingOpt = { text: '數據分析中...', color: '#ef4444', maskColor: 'rgba(255, 255, 255, 0.8)' };
+        barChart.showLoading(loadingOpt); radarChart.showLoading(loadingOpt); scatterChart.showLoading(loadingOpt);
+
+        try {
+            const nocache = new Date().getTime();
+            const url = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_illusion.json?v=${nocache}`;
+            const res = await fetch(url);
+            let rawData = await res.json();
+            
+            let data = Array.isArray(rawData) ? rawData : (rawData.data || []);
+            if (data.length > 0 && data[0].json) data = data.map(i => i.json);
+
+            globalIllusionData = data;
+            renderCharts(globalIllusionData, currentLang);
+            populateTableDropdowns();
+            applyTableFilters();
+        } catch (e) {
+            console.error("載入失敗", e);
+            const errorMsg = currentLang === 'en' ? 'No Data Available' : '查無黑材料或數據載入失敗';
+            barChart.hideLoading(); radarChart.hideLoading(); scatterChart.hideLoading();
+            document.getElementById('barChart').innerHTML = `<div class="h-full flex items-center justify-center text-slate-400 font-bold">${errorMsg}</div>`;
+        }
+    }
+
+    function populateTableDropdowns() {
+        const txt = i18n[currentLang];
+        
+        const smCodes = [...new Set(globalIllusionData.map(i => i.smCode))];
+        const smOpts = `<option value="ALL">${txt.optAllSm}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
+        document.getElementById('tblSmFilter').innerHTML = smOpts;
+        
+        const rawCategories = [...new Set(globalIllusionData.map(i => (typeof i.categoryRaw === 'object' ? i.categoryRaw['zh-Hant'] : i.categoryRaw)))];
+        const catOpts = `<option value="ALL">${txt.optAllCat}</option>` + rawCategories.map(c => `<option value="${c}">${getCatName(c, currentLang)}</option>`).join('');
+        document.getElementById('tblCatFilter').innerHTML = catOpts;
+
+        const statusOpts = `<option value="ALL">${txt.optAllStatus}</option>
+                            <option value="increase">${txt.incTxt}</option>
+                            <option value="fake">${txt.fakeTxt}</option>`;
+        document.getElementById('tblStatusFilter').innerHTML = statusOpts;
+        
+        document.getElementById('tblSmFilter').value = tableFilters.smCode;
+        document.getElementById('tblCatFilter').value = tableFilters.categoryRaw;
+        document.getElementById('tblStatusFilter').value = tableFilters.statusKey;
+    }
+
+    window.syncTableFilter = function(key, value) {
+        tableFilters[key] = value;
+        tableFilters.productCode = null; 
+        applyTableFilters();
+    };
+
+    window.clearIllusionFilters = function() {
+        tableFilters = { smCode: 'ALL', statusKey: 'ALL', categoryRaw: 'ALL', productCode: null };
+        document.getElementById('tblSmFilter').value = 'ALL';
+        document.getElementById('tblCatFilter').value = 'ALL';
+        document.getElementById('tblStatusFilter').value = 'ALL';
+        applyTableFilters();
+    };
+
+    function applyTableFilters() {
+        let filtered = globalIllusionData.filter(item => {
+            if (tableFilters.smCode !== 'ALL' && item.smCode !== tableFilters.smCode) return false;
+            if (tableFilters.statusKey !== 'ALL' && item.statusKey !== tableFilters.statusKey) return false;
+            if (tableFilters.productCode && item.code !== tableFilters.productCode) return false;
+            if (tableFilters.categoryRaw !== 'ALL') {
+                let rawCat = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
+                if (rawCat !== tableFilters.categoryRaw) return false;
+            }
+            return true;
+        });
+        
+        document.getElementById('tblTotalCount').innerText = filtered.length;
+        
+        const clearBtn = document.getElementById('clearTableFilterBtn');
+        if (tableFilters.smCode !== 'ALL' || tableFilters.statusKey !== 'ALL' || tableFilters.categoryRaw !== 'ALL' || tableFilters.productCode) {
+            clearBtn.classList.remove('hidden');
+        } else {
+            clearBtn.classList.add('hidden');
+        }
+
+        renderTableData(filtered, currentLang);
+    }
+
+    function renderTableData(filteredData, lang) {
+        const tbody = document.getElementById('illusionTableBody');
+        const emptyState = document.getElementById('tableEmptyState');
+        const txt = i18n[lang];
+
+        if (filteredData.length === 0) {
+            tbody.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            return;
+        }
+        emptyState.classList.add('hidden');
+
+        filteredData.sort((a, b) => {
+            const todayA = parseFloat(a.effectivePrice) || 0;
+            const prevA = parseFloat(a.prevEffPrice) || 0;
+            const diffA = prevA > 0 ? (todayA - prevA) / prevA : 0;
+
+            const todayB = parseFloat(b.effectivePrice) || 0;
+            const prevB = parseFloat(b.prevEffPrice) || 0;
+            const diffB = prevB > 0 ? (todayB - prevB) / prevB : 0;
+
+            if (currentSort.col === 'today') {
+                return currentSort.dir === 'asc' ? todayA - todayB : todayB - todayA;
+            } else {
+                return currentSort.dir === 'asc' ? diffA - diffB : diffB - diffA;
+            }
+        });
+
+        const thTodayIcon = document.getElementById('sort-icon-today');
+        const thDiffIcon = document.getElementById('sort-icon-diff');
+        if(thTodayIcon) thTodayIcon.innerText = currentSort.col === 'today' ? (currentSort.dir === 'asc' ? '▲' : '▼') : '';
+        if(thDiffIcon) thDiffIcon.innerText = currentSort.col === 'diff' ? (currentSort.dir === 'asc' ? '▲' : '▼') : '';
+
+        tbody.innerHTML = filteredData.map(item => {
+            let smBadgeHTML = getSmBadge(item.smCode, lang);
+            smBadgeHTML = smBadgeHTML.replace('<span class="', `<span onclick="syncTableFilter('smCode', '${item.smCode}'); document.getElementById('tblSmFilter').value='${item.smCode}';" class="cursor-pointer hover:opacity-70 transition-opacity active:scale-95 `);
+
+            const rawCat = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
+            const catName = rawCat ? getCatName(rawCat, lang) : txt.uncategorized;
+            
+            const safeRawCat = rawCat.replace(/'/g, "\\'");
+            const catClick = `onclick="syncTableFilter('categoryRaw', '${safeRawCat}'); document.getElementById('tblCatFilter').value='${safeRawCat}';"`;
+            const catHTML = `<td class="py-3 px-4 align-top text-slate-500 dark:text-slate-400 text-[11px] max-w-[120px] truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors" title="${catName}" ${catClick}>${catName}</td>`;
+
+            const brand = getText(item.brand, lang);
+            const name = getText(item.name, lang);
+            const brandClean = brand.replace(/"/g, '&quot;');
+            const nameClean = name.replace(/"/g, '&quot;');
+            
+            const prev = parseFloat(item.prevEffPrice) || 0;
+            const today = parseFloat(item.effectivePrice) || 0;
+            let gapPct = 0;
+            if (prev > 0) gapPct = (((today - prev) / prev) * 100).toFixed(1);
+            
+            const gapSign = gapPct > 0 ? '+' : '';
+            const gapColor = gapPct > 0 ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400';
+            
+            const statusTxt = item.statusKey === 'fake' ? txt.fakeTxt : txt.incTxt;
+            const statusColor = item.statusKey === 'fake' ? 'text-amber-600 bg-amber-50 border-amber-200 dark:bg-amber-900/30 dark:border-amber-800' : 'text-red-600 bg-red-50 border-red-200 dark:bg-red-900/30 dark:border-red-800';
+            
+            const statusClick = `onclick="syncTableFilter('statusKey', '${item.statusKey}'); document.getElementById('tblStatusFilter').value='${item.statusKey}';"`;
+            const statusBadgeHTML = `<span class="px-2 py-1 text-[11px] font-bold rounded border ${statusColor} shadow-sm cursor-pointer hover:opacity-75 transition-opacity active:scale-95 inline-block" ${statusClick}>${statusTxt}</span>`;
+
+            return `
+                <tr class="border-b border-red-100/50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors">
+                    <td class="py-3 px-4 align-top whitespace-nowrap">${smBadgeHTML}</td>
+                    ${catHTML}
+                    <td class="py-3 px-4 align-top">
+                        <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${brandClean} ${nameClean} ${item.smCode}" class="block group cursor-pointer">
+                            <div class="text-[11px] text-slate-400 dark:text-slate-500 mb-0.5 group-hover:text-blue-500 transition-colors">${brand}</div>
+                            <div class="font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:underline transition-colors">${name}</div>
+                        </a>
+                    </td>
+                    <td class="py-3 px-4 align-top text-center whitespace-nowrap">${statusBadgeHTML}</td>
+                    <td class="py-3 px-4 align-top text-right text-slate-400 dark:text-slate-500 line-through">$${prev.toFixed(1)}</td>
+                    <td class="py-3 px-4 align-top text-right font-black text-red-600 dark:text-red-400 text-[14px]">$${today.toFixed(1)}</td>
+                    <td class="py-3 px-4 align-top text-right font-black ${gapColor}">${gapSign}${gapPct}%</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function renderCharts(data, lang) {
+        barChart.hideLoading(); radarChart.hideLoading(); scatterChart.hideLoading();
+        const txt = i18n[lang] || i18n['zh-Hant'];
+
+        // --- 📊 方案一：棒形圖 ---
+        let smStats = {};
+        let totalFake = 0;
+        let totalIncrease = 0;
+
+        data.forEach(item => {
+            let smCode = (item.smCode || 'Unknown').toUpperCase();
+            if (!smStats[smCode]) smStats[smCode] = { fake: 0, increase: 0 };
+            if (item.statusKey === 'fake') {
+                smStats[smCode].fake++;
+                totalFake++;
+            } else if (item.statusKey === 'increase') {
+                smStats[smCode].increase++;
+                totalIncrease++;
+            }
+        });
+
+        const barTitleEl = document.getElementById('titleBarChart');
+        if(barTitleEl) barTitleEl.innerHTML = `<span>📊</span> ${txt.titleBar} (${totalFake + totalIncrease})`;
+
+        let smCodes = Object.keys(smStats);
+        let smNames = smCodes.map(code => getSmName(code, lang));
+        
+        let fakeData = smCodes.map(code => ({ value: smStats[code].fake, rawSmCode: code }));
+        let increaseData = smCodes.map(code => ({ value: smStats[code].increase, rawSmCode: code }));
+
+        const fakeLegendName = `${txt.fakeTxt} (${totalFake})`;
+        const incLegendName = `${txt.incTxt} (${totalIncrease})`;
+
+        barChart.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: { data: [fakeLegendName, incLegendName], bottom: 0, textStyle: { fontWeight: 'bold' } },
+            grid: { left: '2%', right: '5%', bottom: '8%', top: '5%', containLabel: true },
+            xAxis: { type: 'value', axisLabel: { hideOverlap: true } },
+            yAxis: { 
+                type: 'category', 
+                data: smNames, 
+                axisLabel: { fontWeight: 'bold', color: '#475569', width: 100, overflow: 'truncate' } 
+            },
+            series: [
+                { name: fakeLegendName, type: 'bar', stack: 'total', itemStyle: { color: colorDict.fake, borderRadius: [0, 0, 0, 0] }, data: fakeData },
+                { name: incLegendName, type: 'bar', stack: 'total', itemStyle: { color: colorDict.increase, borderRadius: [0, 6, 6, 0] }, data: increaseData }
+            ]
+        }, true);
+
+        barChart.off('click');
+        barChart.on('click', function(params) {
+            tableFilters.smCode = params.data.rawSmCode;
+            tableFilters.statusKey = params.seriesIndex === 0 ? 'fake' : 'increase';
+            tableFilters.categoryRaw = 'ALL';
+            tableFilters.productCode = null;
+            document.getElementById('tblSmFilter').value = tableFilters.smCode;
+            document.getElementById('tblStatusFilter').value = tableFilters.statusKey;
+            document.getElementById('tblCatFilter').value = 'ALL';
+            applyTableFilters();
+            document.getElementById('tableSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // --- 🕸️ 方案三：雷達網 ---
+        let catStats = {};
+        let radarCatMap = {}; 
+        let totalAffectedCount = 0; 
+        
+        data.forEach(item => {
+            let rawCatValue = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
+            let translatedCat = rawCatValue ? getCatName(rawCatValue, lang) : txt.uncategorized;
+            
+            catStats[translatedCat] = (catStats[translatedCat] || 0) + 1;
+            radarCatMap[translatedCat] = rawCatValue; 
+            totalAffectedCount++; 
+        });
+
+        const radarTitleEl = document.getElementById('titleRadarChart');
+        if(radarTitleEl) radarTitleEl.innerHTML = `<span>🕸️</span> ${txt.titleRadar} (${totalAffectedCount})`;
+
+        let sortedCats = Object.entries(catStats).sort((a, b) => b[1] - a[1]).slice(0, 8);
+        let maxVal = sortedCats.length > 0 ? sortedCats[0][1] + 5 : 10;
+        let indicator = sortedCats.map(c => ({ name: c[0], max: maxVal }));
+        let radarData = sortedCats.map(c => c[1]);
+
+        radarChart.setOption({
+            tooltip: { 
+                trigger: 'item',
+                formatter: function () {
+                    let html = `<div class="font-bold text-slate-800 border-b border-slate-200 pb-1.5 mb-2 text-[14px] flex justify-between items-center">
+                                    <span>${txt.radarTotal}</span>
+                                    <span class="text-red-600 text-[16px] ml-4 font-black">${totalAffectedCount}</span>
+                                </div>`;
+                    sortedCats.forEach(cat => {
+                        html += `<div class="flex justify-between items-center text-[13px] text-slate-600 mb-1">
+                                    <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>${cat[0]}</span>
+                                    <span class="font-black text-slate-800 ml-5">${cat[1]}</span>
+                                 </div>`;
+                    });
+                    return `<div class="min-w-[180px]">${html}</div>`;
+                },
+                backgroundColor: 'rgba(255, 255, 255, 0.96)', borderColor: '#cbd5e1', borderWidth: 1, padding: 12, shadowColor: 'rgba(0, 0, 0, 0.1)'
+            },
+            radar: {
+                indicator: indicator, shape: 'polygon',
+                radius: '68%',
+                center: ['50%', '52%'],
+                axisName: { 
+                    color: '#475569', fontWeight: 'bold', fontSize: 11, triggerEvent: true, 
+                    formatter: function (value) { return value.replace(/ \/ /g, '\n'); } 
+                },
+                splitArea: { areaStyle: { color: ['rgba(239, 68, 68, 0.1)', 'rgba(239, 68, 68, 0.05)', 'rgba(255, 255, 255, 0)'] } }
+            },
+            series: [{
+                name: txt.affectedItems, type: 'radar',
+                data: [{ value: radarData, name: txt.radarTotal }],
+                itemStyle: { color: colorDict.increase },
+                areaStyle: { color: 'rgba(220, 38, 38, 0.4)' } 
+            }]
+        }, true);
+
+        radarChart.off('click');
+        radarChart.on('click', function(params) {
+            if (params.name && radarCatMap[params.name] !== undefined) {
+                tableFilters.categoryRaw = radarCatMap[params.name];
+                tableFilters.smCode = 'ALL';
+                tableFilters.statusKey = 'ALL';
+                tableFilters.productCode = null;
+                document.getElementById('tblCatFilter').value = tableFilters.categoryRaw;
+                document.getElementById('tblSmFilter').value = 'ALL';
+                document.getElementById('tblStatusFilter').value = 'ALL';
+                applyTableFilters();
+                document.getElementById('tableSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // --- 🎯 方案二：散佈圖 ---
+        let scatterData = data.map(item => ({
+            name: item.name ? getText(item.name, lang) : 'Unknown',
+            smCode: getSmName(item.smCode, lang),
+            rawSmCode: item.smCode, 
+            productCode: item.code, 
+            status: item.statusKey,
+            value: [parseFloat(item.prevEffPrice) || 0, parseFloat(item.effectivePrice) || 0]
+        }));
+
+        scatterChart.setOption({
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    if (params.componentType === 'markLine') return params.data.tooltip.formatter;
+                    let d = params.data;
+                    let color = d.status === 'fake' ? colorDict.fake : colorDict.increase;
+                    let statusTxt = d.status === 'fake' ? txt.fakeTxt : txt.incTxt; 
+                    
+                    let gapPct = 0;
+                    if (d.value[0] > 0) gapPct = (((d.value[1] - d.value[0]) / d.value[0]) * 100).toFixed(1);
+                    let gapSign = gapPct > 0 ? '+' : '';
+                    let gapColorClass = gapPct > 0 ? 'text-red-600' : 'text-amber-600';
+                    let gapLabel = lang === 'en' ? 'Price Gap' : (lang === 'zh-Hans' ? '差价幅' : '差價幅');
+
+                    return `<div class="min-w-[190px] w-full">
+                                <div class="font-bold text-slate-800 border-b border-slate-200 pb-1.5 mb-1.5 text-[14px]">
+                                    ${d.smCode} | <span style="color:${color}">${statusTxt}</span>
+                                </div>
+                                <div class="text-[13px] max-w-[220px] whitespace-normal mb-2.5 leading-snug text-slate-600">${d.name}</div>
+                                <div class="flex justify-between items-center text-[12px] text-slate-500 mb-1">
+                                    <span class="shrink-0">${txt.xScatter.replace(' ($)', '')}:</span> <span>$${d.value[0].toFixed(1)}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-[13px] font-bold text-slate-700 mb-2">
+                                    <span class="shrink-0">${txt.yScatter.replace(' ($)', '')}:</span> <span>$${d.value[1].toFixed(1)}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-[13px] font-black mt-1.5 pt-1.5 border-t border-slate-200 ${gapColorClass}">
+                                    <span class="shrink-0">📈 ${gapLabel}:</span> <span>${gapSign}${gapPct}%</span>
+                                </div>
+                                <div class="mt-2 text-[10px] text-slate-400 text-center">${txt.hintScatterDetail}</div>
+                            </div>`;
+                },
+                backgroundColor: 'rgba(255, 255, 255, 0.96)', borderColor: '#cbd5e1', borderWidth: 1, padding: 12, shadowColor: 'rgba(0, 0, 0, 0.1)', shadowBlur: 10
+            },
+            grid: { left: '3%', right: '5%', bottom: '8%', top: '8%', containLabel: true },
+            xAxis: { name: txt.xScatter, type: 'value', scale: true, splitLine: { lineStyle: { type: 'dashed' } } },
+            yAxis: { name: txt.yScatter, type: 'value', scale: true, splitLine: { lineStyle: { type: 'dashed' } } },
+            series: [{
+                type: 'scatter', data: scatterData,
+                itemStyle: { color: p => p.data.status === 'fake' ? colorDict.fake : colorDict.increase, opacity: 0.7, borderColor: '#fff', borderWidth: 1 },
+                symbolSize: 10,
+                markLine: {
+                    animation: false, lineStyle: { type: 'dashed', color: '#94a3b8', width: 2 },
+                    data: [[{ type: 'min', type: 'min' }, { type: 'max', type: 'max' }]], 
+                    tooltip: { formatter: txt.refLine }
+                }
+            }]
+        }, true);
+
+        scatterChart.off('click');
+        scatterChart.on('click', function(params) {
+            if (params.componentType === 'series') {
+                tableFilters.productCode = params.data.productCode;
+                tableFilters.smCode = 'ALL';
+                tableFilters.categoryRaw = 'ALL';
+                tableFilters.statusKey = 'ALL';
+                document.getElementById('tblSmFilter').value = 'ALL';
+                document.getElementById('tblCatFilter').value = 'ALL';
+                document.getElementById('tblStatusFilter').value = 'ALL';
+                applyTableFilters();
+                document.getElementById('tableSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const nocache = new Date().getTime();
+        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
+            .then(res => res.ok ? res.text() : Promise.reject('Failed to load main log'))
+            .then(text => {
+                let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
+                window.mainLastUpdatedTime = new Date(safeTimeStr);
+                if (typeof window.currentLang !== 'undefined') updateLocalLanguage(window.currentLang);
+                else updateLocalLanguage(currentLang);
+            })
+            .catch(e => console.warn("主網站時間紀錄載入失敗", e));
+
+        if (typeof window.currentLang !== 'undefined') updateLocalLanguage(window.currentLang);
+        else updateLocalLanguage(currentLang);
+    });
+
+    loadIllusionData();
+    window.addEventListener('resize', () => { barChart.resize(); radarChart.resize(); scatterChart.resize(); });
+</script>
+
+</body>
+</html>
