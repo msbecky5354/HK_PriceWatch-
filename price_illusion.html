@@ -100,6 +100,12 @@
                         <span id="tblTotalCount" class="text-red-600 dark:text-red-400 text-[16px] font-black leading-none">0</span>
                         <span id="lblTblUnit" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">件</span>
                     </div>
+
+                    <!-- 🟢 假促銷專屬警告字眼 -->
+                    <div id="fakeWarningDiv" class="hidden w-full px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg text-[12px] text-amber-700 dark:text-amber-400 font-medium flex items-start gap-2 shadow-sm mt-1">
+                        <span class="text-[14px]">⚠️</span>
+                        <span id="fakeWarningText">超市為貨品掛上「特價 / 買多件優惠」等促銷字眼，企圖營造大減價錯覺，但經系統精算後，發現單件折實價大於或等於上次歷史紀錄。實質毫無優惠。</span>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto min-h-[300px]">
@@ -108,11 +114,17 @@
                             <tr class="bg-slate-50/50 dark:bg-slate-700/50 select-none border-b border-slate-200 dark:border-slate-700 text-[12px] whitespace-nowrap">
                                 <th id="thSm" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">超市</th>
                                 <th id="thCat" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">分類</th>
-                                <th id="thName" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">品牌及貨品名稱</th>
+                                <!-- 🟢 增加商品名稱寬度 -->
+                                <th id="thName" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 w-[25%] min-w-[200px]">品牌及貨品名稱</th>
                                 <th id="thStatus" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-center">狀態判定</th>
-                                <th id="thPrev" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right">上次折實</th>
-                                <th id="thToday" onclick="handleTableSort('today')" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">今日折實 <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span></th>
-                                <th id="thDiff" onclick="handleTableSort('diff')" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">差價幅 <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500">▼</span></th>
+                                
+                                <!-- 🟢 板塊化整合表頭 -->
+                                <th id="thPrevGroup" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 border-l border-slate-200 dark:border-slate-700">上次歷史紀錄</th>
+                                <th id="thTodayGroup" onclick="handleTableSort('today')" class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700">今日最新狀態 <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span></th>
+                                
+                                <th id="thDiff" onclick="handleTableSort('diff')" class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700">差價幅 <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500">▼</span></th>
+                                <th id="thMarketAvg" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right border-l border-slate-200 dark:border-slate-700">全城公價</th>
+                                <th id="thOtherPrices" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">其他超市定價(折實)</th>
                             </tr>
                         </thead>
                         <tbody id="illusionTableBody" class="text-[13px]"></tbody>
@@ -171,7 +183,7 @@
 
     const colorDict = { fake: '#f59e0b', increase: '#dc2626' }; 
 
-    const i18n = {
+   const i18n = {
         'zh-Hant': {
             pageTitle: '明降暗升照妖鏡', subTitle: '全自動狙擊「假促銷」與「底價暗升」', back: '返回',
             titleBar: '超市「黑材料」火力排行榜', titleRadar: '假促銷重災區 (Top 8 分類)', titleScatter: '🎯 劏客幅度散佈圖 (紅點飛得越高，暗升越狠)',
@@ -179,7 +191,14 @@
             affectedItems: '中伏貨品數量', radarTotal: '中伏總數',
             xScatter: '上次折實價 ($)', yScatter: '今日折實價 ($)', refLine: 'X=Y 基準線 (高於此線即為加價)',
             uncategorized: '未分類',
-            thSm: '超市', thCat: '分類', thName: '品牌及貨品名稱', thStatus: '狀態判定', thPrev: '上次折實', thToday: '今日折實', thDiff: '差價幅',
+            thSm: '超市', thCat: '分類', thName: '品牌及貨品名稱', thStatus: '狀態判定', 
+            
+            // 🟢 新增版塊化表頭字典
+            thPrevGroup: '上次歷史紀錄', thTodayGroup: '今日最新狀態',
+            lblDate: '日期:', lblBase: '原價:', lblOffer: '優惠:', lblEff: '折實:',
+            
+            thDiff: '差價幅', thMarketAvg: '全城公價', thOtherPrices: '其他超市定價(折實)',
+            fakeWarning: '超市為貨品掛上「特價 / 買多件優惠」等促銷字眼，企圖營造大減價錯覺，但經系統精算後，發現單件折實價大於或等於上次歷史紀錄。實質毫無優惠。',
             titleTable: '詳細數據核對清單', clearFilter: '清除全部篩選', emptyData: '沒有符合條件的數據',
             optAllSm: '所有超市', optAllCat: '所有分類', optAllStatus: '所有狀態',
             hintBar: '👆 點擊圖表核對', hintRadar: '👆 點擊文字核對', hintScatter: '👆 點擊紅點核對',
@@ -192,7 +211,14 @@
             affectedItems: '中伏商品数量', radarTotal: '中伏总数',
             xScatter: '上次折实价 ($)', yScatter: '今日折实价 ($)', refLine: 'X=Y 基准线 (高于此线即为加价)',
             uncategorized: '未分类',
-            thSm: '超市', thCat: '分类', thName: '品牌及商品名称', thStatus: '状态判定', thPrev: '上次折实', thToday: '今日折实', thDiff: '差价幅',
+            thSm: '超市', thCat: '分类', thName: '品牌及商品名称', thStatus: '状态判定', 
+            
+            // 🟢 新增版塊化表头字典
+            thPrevGroup: '上次历史纪录', thTodayGroup: '今日最新状态',
+            lblDate: '日期:', lblBase: '原价:', lblOffer: '优惠:', lblEff: '折实:',
+            
+            thDiff: '差价幅', thMarketAvg: '全城公价', thOtherPrices: '其他超市定价(折实)',
+            fakeWarning: '超市为货品挂上「特价 / 买多件优惠」等促销字眼，企图营造大减价错觉，但经系统精算后，发现单件折实价大于或等于上次历史纪录。实质毫无优惠。',
             titleTable: '详细数据核对清单', clearFilter: '清除全部筛选', emptyData: '没有符合条件的数据',
             optAllSm: '所有超市', optAllCat: '所有分类', optAllStatus: '所有状态',
             hintBar: '👆 点击图表核对', hintRadar: '👆 点击文字核对', hintScatter: '👆 点击红点核对',
@@ -205,7 +231,14 @@
             affectedItems: 'Affected Items', radarTotal: 'Total Affected',
             xScatter: 'Prev Eff Price', yScatter: 'Today\'s Eff Price', refLine: 'X=Y Baseline (Price Hike)',
             uncategorized: 'Uncategorized',
-            thSm: 'Store', thCat: 'Category', thName: 'Brand & Product Name', thStatus: 'Status', thPrev: 'Prev Price', thToday: 'Today Price', thDiff: 'Diff',
+            thSm: 'Store', thCat: 'Category', thName: 'Brand & Product Name', thStatus: 'Status', 
+            
+            // 🟢 新增版塊化表头字典
+            thPrevGroup: 'Previous Record', thTodayGroup: 'Today Live Status',
+            lblDate: 'Date:', lblBase: 'Base:', lblOffer: 'Offer:', lblEff: 'Eff:',
+            
+            thDiff: 'Diff', thMarketAvg: 'Market Avg', thOtherPrices: 'Other Prices (Eff)',
+            fakeWarning: 'A promo tag is shown to create the illusion of a huge discount, but the calculated effective price is greater than or equal to the last record. No real saving.',
             titleTable: 'Detailed Verification List', clearFilter: 'Clear Filters', emptyData: 'No matching data found',
             optAllSm: 'All Stores', optAllCat: 'All Categories', optAllStatus: 'All Status',
             hintBar: '👆 Click Chart to Filter', hintRadar: '👆 Click Text to Filter', hintScatter: '👆 Click Dot to Filter',
@@ -218,60 +251,57 @@
             title: "ℹ️ 運算機制與聲明", close: "我明白",
             content: `
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 照妖鏡運作原理解密</h4>
-                <p class="mb-3">本系統透過底層 AI 引擎與歷史快照庫進行交叉比對，將超市玩弄數字遊戲的貨品無情揭露：</p>
+                <p class="mb-3">本系統透過底層算力中樞與歷史快照庫進行嚴格的「物理對撞」，拒絕被超市的數字掩眼法愚弄，將蠱惑貨品無情揭露：</p>
                 <div class="space-y-3 mb-4 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
                     <div>
                         <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200">⚠️ 假促銷 (Fake Promo)</span>
-                        <p class="text-slate-600 dark:text-slate-400 mt-1">超市為貨品掛上「特價 / 買多件優惠」等促銷字眼，但經系統精算後，發現單件折實價 <b>大於或等於</b> 上次歷史紀錄。營造特價錯覺，實質毫無優惠。</p>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">超市為貨品掛上全新或已更改的「特價 / 買多件優惠」等促銷字眼，企圖營造大減價錯覺，但經系統精算後，發現單件折實價 <b>大於或等於</b> 上次歷史紀錄，實質毫無優惠！<br><span class="text-[11px] text-amber-600/80 mt-1 inline-block">(註：為減少報表噪音，若超市長年掛著 100% 相同字眼的「萬年特價牌」且折實價不變，系統會中立地將其歸類為「價格維持」。照妖鏡只精準狙擊「換新牌呃人」的行為。)</span></p>
                     </div>
                     <div>
                         <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-red-600 bg-red-50 border-red-200">📈 價格暗升 (Hidden Increase)</span>
-                        <p class="text-slate-600 dark:text-slate-400 mt-1">無論有沒有掛上特價牌，只要今日折實價 <b>高於</b> 上次歷史紀錄，即被判定為暗中加價 (劏客)。</p>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">系統奉行「消費者荷包絕對優先」原則！無論超市有沒有掛上特價牌、是否辯稱「優惠期完結恢復正價」、甚至施展「調低名義原價」的煙幕——只要消費者今日要付出的單件折實價 <b>高於</b> 上次歷史紀錄，即被系統無情判定為暗中加價 (劏客)。本系統不設任何商業豁免或免死金牌，只認真金白銀！</p>
                     </div>
                 </div>
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🛡️ 正常商業行為豁免結界</h4>
-                <p class="mb-3">為確保絕對公信力，若貨品之<b>「原價(底價)」維持不變</b>，且單純因為結束早前減價而<b>「合法恢復正價」</b>，系統將絕對不會將其標記為暗升，避免冤枉超市。</p>
-                <p class="text-[12px] text-slate-500"><b>免責聲明：</b>所有數據均由電腦運算。本程式對數據落差引致之損失概不負責。</p>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">⚖️ 免責聲明</h4>
+                <p class="text-[12px] text-slate-500">所有價格及狀態判定均由電腦基於公開數據及純數學邏輯自動運算得出。數據可能因分店差異而有別，絕不構成購買建議。結帳前請自行核實實體店標價。對於因數據落差引致之任何損失，本程式及開發團隊概不承擔法律責任。</p>
             `
         },
         'zh-Hans': {
             title: "ℹ️ 运算机制与声明", close: "我明白",
             content: `
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 照妖镜运作原理解密</h4>
-                <p class="mb-3">本系统透过底层 AI 引擎与历史快照库进行交叉比对，将超市玩弄数字游戏的商品无情揭露：</p>
+                <p class="mb-3">本系统透过底层算力中枢与历史快照库进行严格的「物理对撞」，拒绝被超市的数字障眼法愚弄，将蛊惑商品无情揭露：</p>
                 <div class="space-y-3 mb-4 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
                     <div>
                         <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200">⚠️ 假促销 (Fake Promo)</span>
-                        <p class="text-slate-600 dark:text-slate-400 mt-1">超市为商品挂上「特价」等字眼，但单件折实价 <b>大于或等于</b> 上次历史纪录。实质毫无优惠。</p>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">超市为商品挂上全新或已更改的「特价 / 买多件优惠」等促销字眼，企图营造大减价错觉，但经系统精算后，发现单件折实价 <b>大于或等于</b> 上次历史纪录，实质毫无优惠！<br><span class="text-[11px] text-amber-600/80 mt-1 inline-block">(注：为减少报表噪音，若超市长年挂着 100% 相同字眼的「万年特价牌」且折实价不变，系统会中立地将其归类为「价格维持」。照妖镜只精准狙击「换新牌骗人」的行为。)</span></p>
                     </div>
                     <div>
                         <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-red-600 bg-red-50 border-red-200">📈 价格暗升 (Hidden Increase)</span>
-                        <p class="text-slate-600 dark:text-slate-400 mt-1">只要今日折实价 <b>高于</b> 上次历史纪录，即被判定为暗中加价 (宰客)。</p>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">系统奉行「消费者钱包绝对优先」原则！无论超市有没有挂上特价牌、是否辩称「优惠期完结恢复正价」、甚至施展「调低名义原价」的烟雾弹——只要消费者今日要付出的单件折实价 <b>高于</b> 上次历史纪录，即被系统无情判定为暗中加价 (宰客)。本系统不设任何商业豁免或免死金牌，只认真金白银！</p>
                     </div>
                 </div>
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🛡️ 正常商业行为豁免结界</h4>
-                <p class="mb-3">若商品之<b>「原价」维持不变</b>，且单纯因为结束减价而<b>「合法恢复正价」</b>，系统绝不会将其标记为暗升。</p>
-                <p class="text-[12px] text-slate-500"><b>免责声明：</b>所有数据均由电脑运算。本程式对数据落差引致之损失概不负责。</p>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">⚖️ 免责声明</h4>
+                <p class="text-[12px] text-slate-500">所有价格及状态判定均由电脑基于公开数据及纯数学逻辑自动运算得出。数据可能因分店差异而有别，绝不构成购买建议。结帐前请自行核实实体店标价。对于因数据落差引致之任何损失，本程式及开发团队概不承担法律责任。</p>
             `
         },
         'en': {
             title: "ℹ️ Algorithm & Disclaimer", close: "I Understand",
             content: `
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 How it Works</h4>
-                <p class="mb-3">Our AI engine cross-references live data with historical snapshots to expose deceptive pricing:</p>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-2">🔍 How the Detector Works</h4>
+                <p class="mb-3">Our system strictly cross-references our computing core with historical snapshots, refusing to be fooled by supermarkets' number tricks, to ruthlessly expose deceptive items:</p>
                 <div class="space-y-3 mb-4 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
                     <div>
                         <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200">⚠️ Fake Promo</span>
-                        <p class="text-slate-600 dark:text-slate-400 mt-1">A promo tag is shown, but the calculated effective price is <b>≥</b> the last record. No real saving.</p>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">Supermarkets display new or modified promo tags to create the illusion of a huge discount, but our system calculates that the effective price is <b>≥</b> the previous historical record. There is no real saving!<br><span class="text-[11px] text-amber-600/80 mt-1 inline-block">(Note: To reduce noise, if a supermarket uses the exact same promo tag continuously and the effective price remains unchanged, the system neutrally categorizes it as "Maintained". The detector only targets deceptive "new tag" behavior.)</span></p>
                     </div>
                     <div>
                         <span class="px-1.5 py-0.5 text-[11px] font-bold rounded border text-red-600 bg-red-50 border-red-200">📈 Hidden Increase</span>
-                        <p class="text-slate-600 dark:text-slate-400 mt-1">If today's effective price is <b>higher</b> than the last record, it is a price hike.</p>
+                        <p class="text-slate-600 dark:text-slate-400 mt-1">The system prioritizes the "Consumer's Wallet" above all else! Regardless of whether the supermarket displays a promo tag, claims the "promotion has ended," or uses a "lowered base price" smokescreen—as long as the effective price you pay today is <b>higher</b> than the previous historical record, the system ruthlessly flags it as a hidden price hike. There are no commercial exemptions or "get out of jail free" cards. We only recognize real money!</p>
                     </div>
                 </div>
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🛡️ Fair Play Exemption</h4>
-                <p class="mb-3">If an item's <b>original base price is unchanged</b> and it simply ended a promotion to return to normal price, it is exempted.</p>
-                <p class="text-[12px] text-slate-500"><b>Disclaimer:</b> Data is auto-calculated. We accept no liability for data discrepancies.</p>
+                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">⚖️ Legal Disclaimer</h4>
+                <p class="text-[12px] text-slate-500">All prices and status determinations are auto-calculated by computer based on public data and pure mathematical logic. Data may vary by branch and does not constitute purchasing advice. Please verify at the physical store. The developers accept no liability for any losses caused by data discrepancies.</p>
             `
         }
     };
@@ -376,12 +406,17 @@
         
         setTxt('thSm', txt.thSm); setTxt('thCat', txt.thCat); setTxt('thName', txt.thName); setTxt('thStatus', txt.thStatus);
         
-        const thToday = document.getElementById('thToday');
-        if(thToday) thToday.innerHTML = `${txt.thToday} <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span>`;
+        // 🟢 綁定整合表頭及其他新欄位
+        setTxt('thPrevGroup', txt.thPrevGroup);
+        setTxt('thMarketAvg', txt.thMarketAvg);
+        setTxt('thOtherPrices', txt.thOtherPrices);
+        setTxt('fakeWarningText', txt.fakeWarning);
+        
+        const thTodayGroup = document.getElementById('thTodayGroup');
+        if(thTodayGroup) thTodayGroup.innerHTML = `${txt.thTodayGroup} <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span>`;
         const thDiff = document.getElementById('thDiff');
         if(thDiff) thDiff.innerHTML = `${txt.thDiff} <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500"></span>`;
         
-        setTxt('thPrev', txt.thPrev); 
         setTxt('titleTable', txt.titleTable); setTxt('txtClearFilter', txt.clearFilter); setTxt('txtEmptyData', txt.emptyData);
         setTxt('lblTblCount', lang === 'en' ? 'Matched:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:'));
         setTxt('lblTblUnit', lang === 'en' ? 'Items' : '件');
@@ -489,6 +524,14 @@
         
         document.getElementById('tblTotalCount').innerText = filtered.length;
         
+        // 控制「假促銷」警告字眼的顯示與隱藏
+        const warningDiv = document.getElementById('fakeWarningDiv');
+        if (tableFilters.statusKey === 'fake') {
+            warningDiv.classList.remove('hidden');
+        } else {
+            warningDiv.classList.add('hidden');
+        }
+
         const clearBtn = document.getElementById('clearTableFilterBtn');
         if (tableFilters.smCode !== 'ALL' || tableFilters.statusKey !== 'ALL' || tableFilters.categoryRaw !== 'ALL' || tableFilters.productCode) {
             clearBtn.classList.remove('hidden');
@@ -511,6 +554,7 @@
         }
         emptyState.classList.add('hidden');
 
+        // 🟢 Sorting 邏輯 (支援今日折實價及差價幅)
         filteredData.sort((a, b) => {
             const todayA = parseFloat(a.effectivePrice) || 0;
             const prevA = parseFloat(a.prevEffPrice) || 0;
@@ -532,7 +576,7 @@
         if(thTodayIcon) thTodayIcon.innerText = currentSort.col === 'today' ? (currentSort.dir === 'asc' ? '▲' : '▼') : '';
         if(thDiffIcon) thDiffIcon.innerText = currentSort.col === 'diff' ? (currentSort.dir === 'asc' ? '▲' : '▼') : '';
 
-        tbody.innerHTML = filteredData.map(item => {
+       tbody.innerHTML = filteredData.map(item => {
             let smBadgeHTML = getSmBadge(item.smCode, lang);
             smBadgeHTML = smBadgeHTML.replace('<span class="', `<span onclick="syncTableFilter('smCode', '${item.smCode}'); document.getElementById('tblSmFilter').value='${item.smCode}';" class="cursor-pointer hover:opacity-70 transition-opacity active:scale-95 `);
 
@@ -548,8 +592,25 @@
             const brandClean = brand.replace(/"/g, '&quot;');
             const nameClean = name.replace(/"/g, '&quot;');
             
+            // 🟢 提取日期、優惠與價格 (變數更新為 last_change_date)
+            let prevDateText = 'N/A';
+            if (item.last_change_date && item.last_change_date !== 'null' && String(item.last_change_date).trim() !== '') {
+                prevDateText = String(item.last_change_date).substring(0, 10);
+            } else if (item.lastChangeDate && item.lastChangeDate !== 'null') {
+                prevDateText = String(item.lastChangeDate).substring(0, 10);
+            }
+
+            const prevOfferText = lang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : (lang === 'zh-Hans' ? item.prevOfferHans : item.prevOfferZh);
+            const finalPrevOffer = (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') ? (lang === 'en' ? 'None' : '無') : prevOfferText;
+
+            const currentOfferText = lang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : (lang === 'zh-Hans' ? item.currentOfferHans : item.currentOfferZh);
+            const finalTodayOffer = (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') ? (lang === 'en' ? 'None' : '無') : currentOfferText;
+
             const prev = parseFloat(item.prevEffPrice) || 0;
             const today = parseFloat(item.effectivePrice) || 0;
+            const prevBase = parseFloat(item.prevBasePrice) || 0;
+            const todayBase = parseFloat(item.originalPrice) || 0;
+
             let gapPct = 0;
             if (prev > 0) gapPct = (((today - prev) / prev) * 100).toFixed(1);
             
@@ -562,20 +623,69 @@
             const statusClick = `onclick="syncTableFilter('statusKey', '${item.statusKey}'); document.getElementById('tblStatusFilter').value='${item.statusKey}';"`;
             const statusBadgeHTML = `<span class="px-2 py-1 text-[11px] font-bold rounded border ${statusColor} shadow-sm cursor-pointer hover:opacity-75 transition-opacity active:scale-95 inline-block" ${statusClick}>${statusTxt}</span>`;
 
+            // 計算全城公價及格式化對手定價
+            let otherPricesHTML = '';
+            let marketAvgPrice = 0;
+            let opRaw = [];
+            
+            if (item.otherPricesRaw && item.otherPricesRaw !== '[]' && item.otherPricesRaw !== 'null') {
+                try { opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw; } catch (e) {}
+            }
+            if (opRaw && Array.isArray(opRaw)) opRaw = opRaw.filter(op => op.smCode !== item.smCode);
+            if (opRaw && opRaw.length > 0) {
+                otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, lang)}: $${parseFloat(op.price).toFixed(1)}`).join(' | ');
+                
+                let total = today; 
+                let count = 1;
+                opRaw.forEach(op => { total += parseFloat(op.price) || 0; count++; });
+                marketAvgPrice = total / count;
+            }
+
+            const prevBaseText = prevBase > 0 ? `$${prevBase.toFixed(1)}` : '-';
+            const todayBaseText = todayBase > 0 ? `$${todayBase.toFixed(1)}` : '-';
+            const marketAvgText = marketAvgPrice > 0 ? `$${marketAvgPrice.toFixed(1)}` : '-';
+            const otherPricesText = otherPricesHTML ? otherPricesHTML : '-';
+
+            // 🟢 板塊化 HTML 組裝
+            const prevGroupHTML = `
+                <div class="flex flex-col gap-1.5 text-[11px] min-w-[150px]">
+                    <div class="flex justify-between"><span class="text-slate-400">📅 ${txt.lblDate}</span> <span class="text-slate-500 dark:text-slate-400 font-medium">${prevDateText}</span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">🏷️ ${txt.lblBase}</span> <span class="text-slate-400 line-through">${prevBaseText}</span></div>
+                    <div class="flex justify-between items-start gap-2"><span class="text-slate-400 shrink-0">🎁 ${txt.lblOffer}</span> <span class="text-slate-500 dark:text-slate-400 truncate max-w-[110px]" title="${finalPrevOffer}">${finalPrevOffer}</span></div>
+                    <div class="flex justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-slate-700/50"><span class="text-slate-500 dark:text-slate-400 font-bold">💰 ${txt.lblEff}</span> <span class="text-slate-600 dark:text-slate-300 font-black text-[13px]">$${prev.toFixed(1)}</span></div>
+                </div>
+            `;
+
+            const todayGroupHTML = `
+                <div class="flex flex-col gap-1.5 text-[11px] min-w-[150px]">
+                    <!-- 🟢 加入隱形墊片 (Spacer) 完美對齊左邊日期 -->
+                    <div class="flex justify-between invisible pointer-events-none"><span class="text-slate-400">📅 ${txt.lblDate}</span> <span>-</span></div>
+                    
+                    <div class="flex justify-between"><span class="text-slate-400">🏷️ ${txt.lblBase}</span> <span class="text-slate-400 line-through">${todayBaseText}</span></div>
+                    <div class="flex justify-between items-start gap-2"><span class="text-slate-400 shrink-0">🎁 ${txt.lblOffer}</span> <span class="text-amber-600 dark:text-amber-500 font-medium truncate max-w-[110px]" title="${finalTodayOffer}">${finalTodayOffer}</span></div>
+                    <div class="flex justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-slate-700/50"><span class="text-slate-800 dark:text-slate-100 font-bold">💰 ${txt.lblEff}</span> <span class="text-red-600 dark:text-red-400 font-black text-[14px]">$${today.toFixed(1)}</span></div>
+                </div>
+            `;
+            // 🟢 加入擴闊後嘅貨品名稱與板塊化 <td>
             return `
                 <tr class="border-b border-red-100/50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors">
                     <td class="py-3 px-4 align-top whitespace-nowrap">${smBadgeHTML}</td>
                     ${catHTML}
-                    <td class="py-3 px-4 align-top">
+                    <td class="py-3 px-4 align-top w-1/4 min-w-[200px]">
                         <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${brandClean} ${nameClean} ${item.smCode}" class="block group cursor-pointer">
-                            <div class="text-[11px] text-slate-400 dark:text-slate-500 mb-0.5 group-hover:text-blue-500 transition-colors">${brand}</div>
-                            <div class="font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:underline transition-colors">${name}</div>
+                            <div class="text-[11px] text-slate-400 dark:text-slate-500 mb-1 group-hover:text-blue-500 transition-colors">${brand}</div>
+                            <div class="font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-relaxed group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:underline transition-colors whitespace-normal break-words">${name}</div>
                         </a>
                     </td>
                     <td class="py-3 px-4 align-top text-center whitespace-nowrap">${statusBadgeHTML}</td>
-                    <td class="py-3 px-4 align-top text-right text-slate-400 dark:text-slate-500 line-through">$${prev.toFixed(1)}</td>
-                    <td class="py-3 px-4 align-top text-right font-black text-red-600 dark:text-red-400 text-[14px]">$${today.toFixed(1)}</td>
-                    <td class="py-3 px-4 align-top text-right font-black ${gapColor}">${gapSign}${gapPct}%</td>
+                    
+                    <td class="py-3 px-4 align-top border-l border-slate-100 dark:border-slate-700/50 bg-slate-50/30 dark:bg-slate-800/30">${prevGroupHTML}</td>
+                    <td class="py-3 px-4 align-top border-l border-slate-100 dark:border-slate-700/50 bg-red-50/20 dark:bg-red-900/10">${todayGroupHTML}</td>
+                    
+                    <td class="py-3 px-4 align-top text-right font-black ${gapColor} border-l border-slate-100 dark:border-slate-700/50 whitespace-nowrap">${gapSign}${gapPct}%</td>
+                    
+                    <td class="py-3 px-4 align-top text-right font-bold text-orange-600 dark:text-orange-400 border-l border-slate-100 dark:border-slate-700/50 whitespace-nowrap">${marketAvgText}</td>
+                    <td class="py-3 px-4 align-top text-[11px] text-slate-500 dark:text-slate-400 min-w-[140px] whitespace-normal leading-relaxed max-w-[200px] break-words">${otherPricesText}</td>
                 </tr>
             `;
         }).join('');
