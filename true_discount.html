@@ -558,8 +558,8 @@
             const matchesKw = name.includes(kw) || smNameText.includes(kw) || translatedCatText.includes(kw);
             const matchesSm = (fState.sm === 'ALL' || i.smCode === fState.sm);
             const matchesCat = (fState.cat === 'ALL' || rawCatValue === fState.cat);
-            // 🔓 純血新貨特例：當 UI 過濾條件鎖定為 'drop' (真降價) 時，破例放行 'new' (首次上架且有實質減幅)
-            const matchesStatus = (fState.status === 'ALL' || i.statusKey === fState.status || (fState.status === 'drop' && i.statusKey === 'new'));
+            // 🔒 嚴格對齊：剔除所有畫蛇添足的特例，所見即所得
+            const matchesStatus = (fState.status === 'ALL' || i.statusKey === fState.status);
             const matchesOther = (fState.other === 'ALL' || (fState.other === 'HAS_OTHER' && i.hasCompetitors));
             const matchesPct = currentMinPct > 0 ? (parseFloat(i.realDiscountPct) >= currentMinPct) : true;
             
@@ -884,7 +884,7 @@
        
     }
 
-    const calcInfoTexts = {
+   const calcInfoTexts = {
         'zh-Hant': {
             title: "ℹ️ 運算機制與聲明",
             close: "我明白",
@@ -894,15 +894,15 @@
                 <ul class="list-disc pl-5 space-y-1 mb-3">
                     <li><b>1. 鎖定數據：</b>每日同步政府「網上價格一覽通」最新數據，防堵缺貨商品歷史殘影。</li>
                     <li><b>2. 還原折實價：</b>AI 引擎自動拆解「買X件$Y」等綑綁促銷，精算單件真實折合價。</li>
-                    <li><b>3. 識破先加後減：</b>單憑今日減幅 > 0% 並不足夠！系統必須核對歷史快照，確保「今日折實價」嚴格低於<b>「上次歷史快照記錄之折實價」</b>，無情剔除超市抬高原價的假促銷，保證您買得平過尋日。</li>
+                    <li><b>3. 識破先加後減與字眼掩飾：</b>無論超市有沒有掛上促銷標籤，系統只看歷史物理對撞！必須確保「今日折實價」嚴格低於<b>「上次歷史快照記錄之折實價」</b>，方可上榜。無情剔除超市抬高原價的假促銷，保證您買得平過尋日。</li>
                     <li><b>4. 全城公價：</b>結合全城競爭對手定價，運算出公價，並顯示「擊穿市價幅」。</li>
-                    <li><b>5. 平手決勝機制 (新)：</b>為精選全城最抵，若跨超市出現折實同價，系統將優先顯示「原價較高」(減幅較大) 的超市；若原價亦完全相同，則以超市英文代碼 A-Z 排序決出單一上榜者。</li>
+                    <li><b>5. 平手決勝與公平原則：</b>為精選全城最抵，若跨超市出現折實同價，系統將秉持「公平原則」，優先顯示「原價較低」(定價最老實、無發水標高) 的超市，嚴厲打擊「假原價」掩眼法；若原價亦完全相同，則以超市英文代碼 A-Z 排序決出單一上榜者。</li>
                 </ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 歷史狀態判定基準</h4>
                 <p class="mb-2 text-[12px]">系統每日將即時價格與 <b>2025年12月31日以來</b> 的最新<b>歷史快照記錄</b>進行比對，標籤定義如下：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>低於</b> 上次歷史快照記錄之折實價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>低於</b> 上次歷史快照記錄之折實價，且定價為全城最平。（註：包含短期促銷與永久調低底價之貨品）</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以來，系統首次記錄到該貨品於此超市之報價。</span></div>
                     
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ 假促銷</span> <span class="text-slate-600 dark:text-slate-400">超市掛上促銷標籤，但計算後發現單件折實價 <b>大於或等於</b> 上次歷史快照記錄之折實價，毫無實質優惠。<br><span class="text-red-600 dark:text-red-400 font-black mt-1 inline-block tracking-wide">(註：本真抵榜已透過底層 AI 引擎，將此類誤導性特價無情剔除，因此您絕對不會在本榜單看到此類貨品。)</span></span></div>
@@ -926,15 +926,15 @@
                 <ul class="list-disc pl-5 space-y-1 mb-3">
                     <li><b>1. 锁定数据：</b>每日同步政府「网上价格一览通」最新数据，防堵缺货商品历史残影。</li>
                     <li><b>2. 还原折实价：</b>AI 引擎自动拆解「买X件$Y」等捆绑促销，精算单件真实折合价。</li>
-                    <li><b>3. 识破先加后减：</b>单凭今日减幅 > 0% 并不足够！系统必须核对历史快照，确保「今日折实价」严格低于<b>「上次历史快照记录之折实价」</b>，无情剔除超市抬高原价的假促销，保证您买得比昨天便宜。</li>
+                    <li><b>3. 识破先加后减与字眼掩饰：</b>无论超市有没有挂上促销标签，系统只看历史物理对撞！必须确保「今日折实价」严格低于<b>「上次历史快照记录之折实价」</b>，方可上榜。无情剔除超市抬高原价的假促销，保证您买得比昨天便宜。</li>
                     <li><b>4. 全城公价：</b>结合全城竞争对手定价，运算出公价，并显示「击穿市价幅」。</li>
-                    <li><b>5. 平手决胜机制 (新)：</b>为精选全城最抵，若跨超市出现折实同价，系统将优先显示「原价较高」(减幅较大) 的超市；若原价亦完全相同，则以超市英文代码 A-Z 排序决出单一上榜者。</li>
+                    <li><b>5. 平手决胜与公平原则：</b>为精选全城最抵，若跨超市出现折实同价，系统将秉持「公平原则」，优先显示「原价较低」(定价最老实、无发水标高) 的超市，严厉打击「假原价」掩眼法；若原价亦完全相同，则以超市英文代码 A-Z 排序决出单一上榜者。</li>
                 </ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 历史状态判定基准</h4>
                 <p class="mb-2 text-[12px]">系统每日将即时价格与 <b>2025年12月31日以来</b> 的最新<b>历史快照记录</b>进行比对，标签定义如下：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>低于</b> 上次历史快照记录之折实价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>低于</b> 上次历史快照记录之折实价，且定价为全城最平。（注：包含短期促销与永久调低底价之货品）</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以来，系统首次记录到该商品于此超市之报价。</span></div>
                     
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ 假促销</span> <span class="text-slate-600 dark:text-slate-400">超市挂上促销标签，但计算后发现单件折实价 <b>大于或等于</b> 上次历史快照记录之折实价，毫无实质优惠。<br><span class="text-red-600 dark:text-red-400 font-black mt-1 inline-block tracking-wide">(注：本真抵榜已透过底层 AI 引擎，将此类误导性特价无情剔除，因此您绝对不会在本榜单看到此类货品。)</span></span></div>
@@ -958,15 +958,15 @@
                 <ul class="list-disc pl-5 space-y-1 mb-3">
                     <li><b>1. Official Data:</b> Synced daily with the government's latest data to avoid "ghost prices" of out-of-stock items.</li>
                     <li><b>2. True Effective Price:</b> Our AI breaks down promos (e.g., "Buy 2 for $Y") to calculate the true price per item.</li>
-                    <li><b>3. Beating "Mark-up to Mark-down":</b> A discount > 0% isn't enough! Our system cross-checks historical snapshots to ensure today's effective price is strictly lower than <b>the effective price of the last historical snapshot record</b>, filtering out fake promotions where base prices are artificially inflated.</li>
+                    <li><b>3. Unmasking Fake Promos:</b> Regardless of whether a promo tag is displayed, our system strictly checks historical data. Today's effective price must be strictly lower than <b>the effective price of the last historical snapshot record</b> to be listed, filtering out fake promotions where base prices are artificially inflated.</li>
                     <li><b>4. Market Drop:</b> Computes the true market average by combining all competitors' pricing.</li>
-                    <li><b>5. Tie-Breaker Rule (New):</b> To highlight the best deals, if competitors offer the exact same effective price, the one with the higher original price (higher discount) ranks first. If both are absolutely identical, the system uses the alphabetical order of the supermarket code to select a single winner.</li>
+                    <li><b>5. Tie-Breaker & Fairness Rule:</b> To highlight the best deals, if competitors offer the exact same effective price, the system upholds the "Fairness Principle" by prioritizing the supermarket with the <b>lower original price</b> (honest pricing without artificial markups). If both are absolutely identical, it uses the alphabetical order of the supermarket code to select a single winner.</li>
                 </ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 History Status Definitions</h4>
                 <p class="mb-2 text-[12px]">The system compares today's live price with the <b>latest historical snapshot record</b> since Dec 31, 2025. Definitions:</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>lower</b> than the last historical snapshot record.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>lower</b> than the last historical snapshot record, AND it is the lowest price in the market. (Note: Includes short-term promos and permanent price drops).</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since late 2025.</span></div>
                     
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-amber-600 bg-amber-50 border-amber-200 shrink-0">⚠️ Fake Promo</span> <span class="text-slate-600 dark:text-slate-400">A promo tag is displayed, but the calculated effective price is <b>greater than or equal to</b> the last historical snapshot record. No real savings.<br><span class="text-red-600 dark:text-red-400 font-black mt-1 inline-block tracking-wide">(Note: Our underlying AI engine has ruthlessly eliminated such misleading promotions, so you will absolutely never see these items on this board.)</span></span></div>

@@ -373,10 +373,11 @@ function renderTreemap() {
         };
         treemapChart.setOption(option);
 
-        // 綁定 Treemap 雙擊事件
+       // 綁定 Treemap 雙擊事件
         treemapChart.off('dblclick');
         treemapChart.on('dblclick', function(params) {
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=drop&other=ALL`;
+            // 🟢 修正跳轉參數：將狀態改為 ALL，放寬歷史狀態過濾
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=ALL&other=ALL`;
             window.open(targetUrl, 'TrueDiscountView'); 
         });
     }
