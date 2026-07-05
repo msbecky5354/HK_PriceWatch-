@@ -72,7 +72,7 @@ window.buildStructuredData = function() {
             prevOfferEn: item.po || '',
             prevOfferHans: item.po || '',
             statusKey: item.status || 'maintained',
-            lastChangeDate: item.lc_date || ''
+            lastChangeDate: item.prev_date || ''
         });
     });
 };
