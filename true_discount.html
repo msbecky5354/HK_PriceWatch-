@@ -109,7 +109,7 @@
             <span id="dailyUpdateBadge" class="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded font-bold">每日更新</span>
         </div>
 
-        <div class="hidden md:block overflow-x-auto bg-white dark:bg-slate-800 min-h-[500px]">
+       <div class="overflow-x-auto bg-white dark:bg-slate-800 min-h-[500px]">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-blue-50/50 dark:bg-slate-700/50 select-none border-b border-blue-100 dark:border-slate-700 text-sm">
@@ -147,7 +147,7 @@
             </table>
         </div>
 
-        <div id="leaderboardMobile" class="md:hidden flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 transition-colors min-h-[500px]"></div>
+       
         
     </div>
 
@@ -317,12 +317,9 @@
     async function loadTrueDiscountData() {
         try {
             const tbody = document.getElementById('leaderboardTableBody');
-            const mbody = document.getElementById('leaderboardMobile');
-            
             let loadingStr = currentLang === 'en' ? '⏳ Verifying Local Cache...' : (currentLang === 'zh-Hans' ? '⏳ 正在验证本地缓存...' : '⏳ 正在驗證本地快取...');
             const loadingHTML = `<div id="loadingMessage" class="p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px] flex flex-col items-center justify-center gap-3"><div class="w-8 h-8 border-4 border-slate-200 border-t-[#345B8C] rounded-full animate-spin"></div><span>${loadingStr}</span></div>`;
             if (tbody) tbody.innerHTML = `<tr><td colspan="10">${loadingHTML}</td></tr>`;
-            if (mbody) mbody.innerHTML = loadingHTML;
 
             const updateMsg = (msg) => { const el = document.querySelector('#loadingMessage span'); if(el) el.innerText = msg; };
             const nocache = new Date().getTime();
@@ -771,9 +768,10 @@
         if (icon) icon.classList.toggle('rotate-180');
     };
 
-    function renderLeaderboard(list) {
+   function renderLeaderboard(list) {
         const otherStrText = currentLang === 'en' ? 'Others' : (currentLang === 'zh-Hans' ? '其他' : '其他');
-        const lblDate = currentLang === 'en' ? 'Last Changed:' : (currentLang === 'zh-Hans' ? '上次变动:' : '上次變動:');
+        // 🛡️ 修正 Label 語意，避免誤導
+        const lblDate = currentLang === 'en' ? 'Prev Record:' : (currentLang === 'zh-Hans' ? '上次纪录:' : '上次紀錄:');
         const lblBase = currentLang === 'en' ? 'Prev Base:' : (currentLang === 'zh-Hans' ? '上次原价:' : '上次原價:');
         const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
         const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
@@ -816,9 +814,11 @@
                 let prevEffText = item.prevEffPrice && parseFloat(item.prevEffPrice) > 0 ? `$${parseFloat(item.prevEffPrice).toFixed(1)}` : '-';
                 let prevBaseText = item.prevBasePrice && parseFloat(item.prevBasePrice) > 0 ? `$${parseFloat(item.prevBasePrice).toFixed(1)}` : '-';
                 
-                let lastDateText = '-';
-                if (item.lastChangeDate && item.lastChangeDate !== 'null' && item.lastChangeDate !== '') {
-                    let dStr = String(item.lastChangeDate).trim();
+                // 🛡️ 禁忌 5 修正 (Desktop端)：棄用 T-0 lastChangeDate，強硬對接 T-1，並加入防呆結界
+               let lastDateText = currentLang === 'en' ? 'N/A' : '無紀錄 (N/A)'; 
+               let targetPrevDate = item.prev_date; // 🛡️ 鐵律：無條件信任並綁定後端 prev_date
+                if (targetPrevDate && targetPrevDate !== 'null' && String(targetPrevDate).trim() !== '') {
+                    let dStr = String(targetPrevDate).trim();
                     if (/^\d{4}-\d{2}-\d{2}/.test(dStr)) lastDateText = dStr.substring(0, 10);
                     else {
                         let d = new Date(dStr);
@@ -881,120 +881,7 @@
             }).join('');
         }
 
-        const mobileContainer = document.getElementById('leaderboardMobile');
-        if (mobileContainer) {
-            mobileContainer.innerHTML = list.map((item, i) => {
-                let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
-                let displayName = getText(item.name, currentLang);
-                let brandName = getText(item.brand, currentLang);
-                
-                let otherPricesHTML = '';
-                let opRaw = [];
-                if (item.otherPricesRaw && item.otherPricesRaw !== '[]' && item.otherPricesRaw !== 'null') {
-                    try { opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw; } catch (e) {}
-                }
-                if (opRaw && Array.isArray(opRaw)) opRaw = opRaw.filter(op => op.smCode !== item.smCode);
-                if (opRaw && opRaw.length > 0) {
-                    otherPricesHTML = opRaw.map(op => `${getSmName(op.smCode, currentLang)}: $${parseFloat(op.price).toFixed(1)}`).join(' | ');
-                }
-
-                let marketStatsHTML = '';
-                if (item.hasCompetitors) {
-                    let dropColor = item.marketDropPct > 0 ? 'text-orange-600 dark:text-orange-400 font-black' : 'text-slate-500 font-bold';
-                    let dropArrow = item.marketDropPct > 0 ? '▼' : '';
-                    marketStatsHTML = `
-                        <div class="mt-2.5 mb-1.5 text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-orange-50 dark:bg-orange-900/20 px-2 py-1.5 rounded-lg border border-orange-200 dark:border-orange-800/50 shadow-sm w-full">
-                            <div class="flex justify-between items-center mb-0.5"><span class="opacity-80">📊 ${lblAvg}</span> <span>$${item.marketAvgPrice.toFixed(1)}</span></div>
-                            <div class="flex justify-between items-center ${dropColor}"><span class="opacity-90">⚔️ ${lblDrop}</span> <span>${dropArrow}${item.marketDropPct.toFixed(1)}%</span></div>
-                        </div>
-                    `;
-                }
-
-                const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
-                const statusText = stDict[currentLang] || stDict['zh-Hant'];
-                
-                let prevEffText = item.prevEffPrice && parseFloat(item.prevEffPrice) > 0 ? `$${parseFloat(item.prevEffPrice).toFixed(1)}` : '-';
-                let prevBaseText = item.prevBasePrice && parseFloat(item.prevBasePrice) > 0 ? `$${parseFloat(item.prevBasePrice).toFixed(1)}` : '-';
-                
-                let lastDateText = '-';
-                if (item.lastChangeDate && item.lastChangeDate !== 'null' && item.lastChangeDate !== '') {
-                    let dStr = String(item.lastChangeDate).trim();
-                    if (/^\d{4}-\d{2}-\d{2}/.test(dStr)) lastDateText = dStr.substring(0, 10);
-                    else {
-                        let d = new Date(dStr);
-                        if (!isNaN(d.getTime())) lastDateText = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                        else lastDateText = dStr.split('T')[0]; 
-                    }
-                }
-                
-                let currentOfferText = currentLang === 'en' && item.currentOfferEn && item.currentOfferEn !== '-' ? item.currentOfferEn : (currentLang === 'zh-Hans' ? item.currentOfferHans : item.currentOfferZh);
-                if (!currentOfferText || currentOfferText === '-' || currentOfferText === 'null') currentOfferText = '';
-
-                let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : (currentLang === 'zh-Hans' ? item.prevOfferHans : item.prevOfferZh);
-                if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
-
-                const mobBoxId = `mob-hist-${i}`;
-                const mobIconId = `mob-icon-${i}`;
-
-                const statusBadgeHTML = `
-                    <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95" onclick="toggleHistoryBox('${mobBoxId}', '${mobIconId}')">
-                        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded border ${stDict.color} shadow-sm w-max">
-                            <span class="${item.statusKey === 'increase' || item.statusKey === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span> ${statusText}
-                        </span>
-                        <div class="bg-slate-100 dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
-                            <svg id="${mobIconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                    </div>
-                `;
-
-                const microHistoryBox = `
-                    <div id="${mobBoxId}" class="hidden mt-1.5 p-2 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-100 dark:border-slate-700/50 text-[11px] text-slate-500 dark:text-slate-400 space-y-1 w-max min-w-[150px]">
-                        <div class="flex justify-between gap-4"><span>${lblDate}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${lastDateText}</span></div>
-                        <div class="flex justify-between gap-4"><span>${lblBase}</span> <span class="font-medium text-slate-700 dark:text-slate-300">${prevBaseText}</span></div>
-                        <div class="flex justify-between gap-4"><span>${lblEff}</span> <span class="font-bold text-slate-700 dark:text-slate-300">${prevEffText}</span></div>
-                        <div class="flex justify-between gap-4 items-start">
-                            <span class="shrink-0">${lblOffer}</span> 
-                            <span class="font-medium text-slate-700 dark:text-slate-300 truncate max-w-[100px] text-right" title="${prevOfferText}">${prevOfferText}</span>
-                        </div>
-                    </div>
-                `;
-                
-                const rawCatStr = typeof item.categoryRaw === 'object' ? item.categoryRaw['zh-Hant'] : item.categoryRaw;
-                const displayCategory = getCatName(rawCatStr, currentLang);
-                
-                return `
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-1 relative overflow-hidden transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="text-xl font-black text-amber-500 drop-shadow-sm">${rankMedal}</span>
-                            ${getSmBadge(item.smCode, currentLang)}
-                        </div>
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 text-[12px] shadow-sm">▼ ${(parseFloat(item.realDiscountPct) || 0).toFixed(1)}%</span>
-                    </div>
-                    <div>
-                        <span class="text-[12px] font-normal text-slate-500 dark:text-slate-400 block mb-0.5">${brandName}</span>
-                       <h3 class="font-bold text-[15px] leading-snug mb-1">
-                            <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${brandName.replace(/"/g, '&quot;')} ${displayName.replace(/"/g, '&quot;')} ${item.smCode}" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors cursor-pointer block">${displayName}</a>
-                        </h3>
-                        ${currentOfferText ? `<div class="text-[12px] text-red-500 mt-1 flex gap-1 items-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#FFB74D] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg>${currentOfferText}</div>` : ''}
-                    </div>
-                    <div class="flex justify-between items-end mt-2">
-                        <div class="flex flex-col items-start gap-1 w-3/5">
-                            <span class="text-[12px] text-slate-500 dark:text-slate-400">${displayCategory}</span>
-                            ${statusBadgeHTML}
-                            ${microHistoryBox}
-                        </div>
-                        <div class="flex flex-col items-end justify-end shrink-0 pb-1">
-                            <span class="text-[14px] text-slate-400 dark:text-slate-500 line-through mb-0.5">$${(parseFloat(item.originalPrice) || 0).toFixed(1)}</span>
-                            <span class="text-[26px] font-black text-blue-600 dark:text-blue-400 leading-none tracking-tight">$${(parseFloat(item.effectivePrice) || 0).toFixed(1)}</span>
-                        </div>
-                    </div>
-                    ${marketStatsHTML}
-                    ${otherPricesHTML ? `<div class="mt-1 pt-2 ${!item.hasCompetitors ? 'border-t border-slate-100 dark:border-slate-700/50' : ''} text-[11px] text-slate-400 dark:text-slate-500 break-words leading-tight">${otherStrText}: ${otherPricesHTML}</div>` : ''}
-                </div>
-                `;
-            }).join('');
-        }
+       
     }
 
     const calcInfoTexts = {
