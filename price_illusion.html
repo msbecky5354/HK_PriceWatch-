@@ -562,51 +562,57 @@
             const res = await fetch(url);
             let rawData = await res.json();
             
-            let data = Array.isArray(rawData) ? rawData : (rawData.data || []);
-            if (data.length > 0 && data[0].json) data = data.map(i => i.json);
+           let data = Array.isArray(rawData) ? rawData : (rawData.data || []);
+if (data.length > 0 && data[0].json) data = data.map(i => i.json);
 
-           // 🧠 核心引擎升級：利用 Levenshtein 演算法將假促銷分裂為 3 級
+
+
+// 🧠 100% 照搬 review.html 嘅核心運算與過濾邏輯
+            let processedData = [];
+
             data.forEach(item => {
-                
-                // ⚖️ 升級運算：配合香港超市計價模式，先將折實價四捨五入至小數點後 1 個位
                 const rawPrev = parseFloat(item.prevEffPrice) || 0;
                 const rawToday = parseFloat(item.effectivePrice) || 0;
                 
-                // ⚠️ 採用最安全嘅 JS 四捨五入法 (避開 24.95 變 24.9 嘅浮點數陷阱)
                 const roundedPrev = Math.round((rawPrev + Number.EPSILON) * 10) / 10;
                 const roundedToday = Math.round((rawToday + Number.EPSILON) * 10) / 10;
 
-                // 🔄 重新判定核心狀態：如果進位後打和，就算後台話係 increase，前端一律當係 fake 處理！
-                if (roundedToday === roundedPrev) {
-                    item.statusKey = 'fake';
-                } else if (roundedToday > roundedPrev) {
-                    item.statusKey = 'increase';
-                }
+                // 系統嚴格以英文版 Offer 作為防出錯嘅對比基準
+                let prevOffer = (item.prevOfferEn && item.prevOfferEn !== '-' && item.prevOfferEn !== 'null') ? String(item.prevOfferEn).trim() : '';
+                let currOffer = (item.currentOfferEn && item.currentOfferEn !== '-' && item.currentOfferEn !== 'null') ? String(item.currentOfferEn).trim() : '';
+                let isOfferExactlyMatch = (currOffer === prevOffer);
 
-                if (item.statusKey === 'fake') {
-                    // 系統嚴格以英文版 Offer 作為防出錯嘅對比基準
-                    let prevOffer = (item.prevOfferEn && item.prevOfferEn !== '-' && item.prevOfferEn !== 'null') ? String(item.prevOfferEn).trim() : '';
-                    let currentOffer = (item.currentOfferEn && item.currentOfferEn !== '-' && item.currentOfferEn !== 'null') ? String(item.currentOfferEn).trim() : '';
-                    
-                    if (prevOffer === '') {
-                        item.refinedStatus = 'pure_fake';
-                        item.similarityPct = 0.0;
-                    } else {
-                        let sim = calculateSimilarity(prevOffer, currentOffer);
-                        item.similarityPct = parseFloat(sim);
-                        if (item.similarityPct < 50) {
-                            item.refinedStatus = 'disguise';
-                        } else {
-                            item.refinedStatus = 'tweak';
-                        }
-                    }
-                } else {
+                // 核心分流邏輯 (完全對齊 review.html)
+                if (roundedToday > roundedPrev) {
                     item.refinedStatus = 'increase';
                     item.similarityPct = null;
+                    processedData.push(item);
+                } else if (roundedToday === roundedPrev) {
+                    // 若價格維持不變，僅針對字眼異常進行捕捉
+                    if (!isOfferExactlyMatch) {
+                        const hasPromo = (currOffer !== '' && currOffer !== '無優惠');
+                        const hadPromoBefore = (prevOffer !== '' && prevOffer !== '無優惠');
+
+                        if (hasPromo && hadPromoBefore) {
+                            let sim = parseFloat(calculateSimilarity(prevOffer, currOffer));
+                            item.similarityPct = sim;
+                            if (sim < 50) {
+                                item.refinedStatus = 'disguise'; // 換湯不換藥
+                                processedData.push(item);
+                            } else {
+                                item.refinedStatus = 'tweak'; // 促銷字眼微調
+                                processedData.push(item);
+                            }
+                        } else if (hasPromo && !hadPromoBefore) {
+                            item.refinedStatus = 'pure_fake'; // 假促銷
+                            item.similarityPct = 0.0;
+                            processedData.push(item);
+                        }
+                    }
                 }
             });
 
-            globalIllusionData = data;
+            globalIllusionData = processedData;
             renderCharts(globalIllusionData, currentLang);
             populateTableDropdowns();
             applyTableFilters();
