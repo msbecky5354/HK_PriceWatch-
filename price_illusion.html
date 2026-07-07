@@ -13,7 +13,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>明降暗升照妖鏡 | 慳真D🔎</title>
+   <title>PriceWatch 價格稽核分析 | 慳真D🔎</title>
     <script src="lang.js?v=12"></script>
     <script src="lang_tw.js?v=12"></script>
     <script src="lang_gb.js?v=12"></script>
@@ -31,8 +31,8 @@
         <span class="text-7xl mb-6">🖥️</span>
         <h2 class="text-xl font-black text-white mb-2 tracking-wide">請使用電腦或平板瀏覽</h2>
         <h3 class="text-sm font-bold text-slate-300 mb-6">Please use a Desktop or Tablet</h3>
-        <p class="text-[13px] text-slate-400 mb-8 max-w-[280px] leading-relaxed">
-            「明降暗升照妖鏡」包含高密度的專業數據分析圖表。為確保最佳視覺體驗與操作，本系統不開放予手機螢幕使用。
+       <p class="text-[13px] text-slate-400 mb-8 max-w-[280px] leading-relaxed">
+            「PriceWatch 價格稽核分析報告」包含高密度的專業數據分析圖表。為確保最佳視覺體驗與操作，本系統不開放予手機螢幕使用。
         </p>
         <button onclick="window.location.href='index.html?lang=' + (typeof currentLang !== 'undefined' ? currentLang : 'zh-Hant')" class="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl shadow-lg transition active:scale-95">返回首頁 / Back</button>
     </div>
@@ -47,10 +47,10 @@
                 <span class="text-xl md:text-2xl drop-shadow-sm">🚨</span> 
                 <div class="flex flex-col">
                    <div class="flex items-center gap-2">
-                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-black text-slate-800 dark:text-slate-100 leading-tight tracking-wide">明降暗升照妖鏡 (Price Illusion)</h1>
+                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-black text-slate-800 dark:text-slate-100 leading-tight tracking-wide">PriceWatch 價格稽核分析報告 (Price Analytics Report)</h1>
                         <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 flex items-center justify-center text-[12px] font-bold hover:bg-red-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
                     </div>
-                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-bold mt-0.5">全自動狙擊「假促銷」與「底價暗升」</span>
+                    <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-bold mt-0.5">追蹤並分析定價策略 (Track and analyze pricing strategies)</span>
                 </div>
             </div>
             <button id="backBtn" onclick="window.history.back()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
@@ -58,21 +58,21 @@
 
         <div class="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-50/50 dark:bg-slate-900/50">
             
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 transition-colors relative">
+           <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 transition-colors relative">
                 <div id="hintBarChart" class="absolute top-4 right-4 text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded shadow-sm z-10 pointer-events-none">👆 點擊圖表核對</div>
-                <h2 id="titleBarChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>📊</span> 超市「黑材料」火力排行榜</h2>
+                <h2 id="titleBarChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>📊</span> 超市定價策略異動活躍度</h2>
                 <div id="barChart" class="w-full h-[450px] cursor-pointer"></div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 transition-colors relative">
                 <div id="hintRadarChart" class="absolute top-4 right-4 text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded shadow-sm z-10 pointer-events-none">👆 點擊文字核對</div>
-                <h2 id="titleRadarChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>🕸️</span> 假促銷重災區 (Top 8 分類)</h2>
+                <h2 id="titleRadarChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>🕸️</span> 隱性加價分佈矩陣 (Top 8 分類)</h2>
                 <div id="radarChart" class="w-full h-[450px] cursor-pointer"></div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 lg:col-span-2 transition-colors relative">
                 <div id="hintScatterChart" class="absolute top-4 right-4 text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded shadow-sm z-10 pointer-events-none">👆 點擊紅點核對</div>
-                <h2 id="titleScatterChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>🎯</span> 劏客幅度散佈圖 (紅點飛得越高，暗升越狠)</h2>
+                <h2 id="titleScatterChart" class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-2"><span>🎯</span> 隱性加價幅度散佈圖 (紅點飛得越高，加幅越大)</h2>
                 <div id="scatterChart" class="w-full h-[450px] cursor-pointer"></div>
             </div>
         </div>
@@ -218,21 +218,21 @@
         tweak: '#22c55e'       // 📝 字眼微調 (Green)
     };
 
-  // 🟢 字典全面升級：拔除主觀指控，轉向絕對客觀中立的數據監測口吻
+  // 🟢 字典全面升級：企業級別稽核術語
     const i18n = {
         'zh-Hant': {
-            pageTitle: '底價與促銷異常監測板', subTitle: '全自動監測定價及促銷異動', back: '返回',
-            titleBar: '超市「數字遊戲」活躍度', 
-            titleRadar: '底價暗升分佈矩陣 (Top 8 分類)', 
-            titleScatter: '🎯 折實價變動軌跡圖',
+            pageTitle: 'PriceWatch 價格稽核分析報告', subTitle: '追蹤並分析定價策略', back: '返回',
+            titleBar: '超市定價策略異動活躍度', 
+            titleRadar: '隱性加價分佈矩陣 (Top 8 分類)', 
+            titleScatter: '🎯 隱性加價幅度散佈圖',
             
-            incTxt: '📈 底價暗升',
-            fakeAllTxt: '⚠️ 異常促銷 (包含無效、變更、微調)',
+            incTxt: '📈 隱性加價',
+            fakeAllTxt: '⚠️ 異常促銷 (包含無效、包裝更改、微調)',
             pureFakeTxt: '🟠 無效促銷',
-            disguiseTxt: '🟣 字眼變更 (無實質折扣)',
+            disguiseTxt: '🟣 促銷包裝更改 (無實質折扣)',
             tweakTxt: '🟢 字眼微調',
 
-            affectedItems: '異動貨品數量', radarTotal: '暗升總數',
+            affectedItems: '異動貨品數量', radarTotal: '隱性加價總數',
             xScatter: '上次折實價 ($)', yScatter: '今日折實價 ($)', refLine: 'X=Y 價格維持不變 (基準線)',
             uncategorized: '未分類',
             thSm: '超市', thCat: '分類', thName: '品牌及貨品名稱', thStatus: '狀態判定', 
@@ -241,25 +241,25 @@
             lblDate: '日期:', lblBase: '原價:', lblOffer: '優惠:', lblEff: '折實:',
             
             thDiff: '差價幅', thMarketAvg: '全城公價', thOtherPrices: '其他超市定價(折實)',
-            fakeWarning: '前端已實裝『包底過濾』機制。當篩選「異常促銷」時，系統將毫無保留地同時展示【無效促銷】、【字眼變更】及【字眼微調】三大類別之貨品，確保透明度 100%，客觀呈現超市所有定價與字眼異動。',
-            titleTable: '底價與促銷異常核對清單', clearFilter: '清除全部篩選', emptyData: '沒有符合條件的數據',
+            fakeWarning: '系統提示 (System Audit Notice)：前端已實裝『包底過濾』機制。當篩選「異常促銷」時，系統將展示【無效促銷】、【促銷包裝更改】及【字眼微調】三大類別之貨品，客觀呈現超市所有定價與字眼異動。',
+            titleTable: 'PriceWatch 價格稽核分析清單', clearFilter: '清除全部篩選', emptyData: '沒有符合條件的數據',
             optAllSm: '所有超市', optAllCat: '所有分類', optAllStatus: '所有狀態',
             hintBar: '👆 點擊圖表核對', hintRadar: '👆 點擊文字核對', hintScatter: '👆 點擊紅點核對',
             hintScatterDetail: '💡 點擊核對明細'
         },
         'zh-Hans': {
-            pageTitle: '底价与促销异常监测板', subTitle: '全自动监测定价及促销异动', back: '返回',
-            titleBar: '超市「数字游戏」活跃度', 
-            titleRadar: '底价暗升分布矩阵 (Top 8 分类)', 
-            titleScatter: '🎯 折实价变动轨迹图',
+            pageTitle: 'PriceWatch 价格稽核分析报告', subTitle: '追踪并分析定价策略', back: '返回',
+            titleBar: '超市定价策略异动活跃度', 
+            titleRadar: '隐性加价分布矩阵 (Top 8 分类)', 
+            titleScatter: '🎯 隐性加价幅度散布图',
             
-            incTxt: '📈 底价暗升',
-            fakeAllTxt: '⚠️ 异常促销 (包含无效、变更、微调)',
+            incTxt: '📈 隐性加价',
+            fakeAllTxt: '⚠️ 异常促销 (包含无效、包装更改、微调)',
             pureFakeTxt: '🟠 无效促销',
-            disguiseTxt: '🟣 字眼变更 (无实质折扣)',
+            disguiseTxt: '🟣 促销包装更改 (无实质折扣)',
             tweakTxt: '🟢 字眼微调',
 
-            affectedItems: '异动商品数量', radarTotal: '暗升总数',
+            affectedItems: '异动商品数量', radarTotal: '隐性加价总数',
             xScatter: '上次折实价 ($)', yScatter: '今日折实价 ($)', refLine: 'X=Y 价格维持不变 (基准线)',
             uncategorized: '未分类',
             thSm: '超市', thCat: '分类', thName: '品牌及商品名称', thStatus: '状态判定', 
@@ -268,22 +268,22 @@
             lblDate: '日期:', lblBase: '原价:', lblOffer: '优惠:', lblEff: '折实:',
             
             thDiff: '差价幅', thMarketAvg: '全城公价', thOtherPrices: '其他超市定价(折实)',
-            fakeWarning: '前端已实装『包底过滤』机制。当筛选「异常促销」时，系统将毫无保留地同时展示【无效促销】、【字眼变更】及【字眼微调】三大类别之货品，确保透明度 100%，客观呈现超市所有定价与字眼异动。',
-            titleTable: '底价与促销异常核对清单', clearFilter: '清除全部筛选', emptyData: '没有符合条件的数据',
+            fakeWarning: '系统提示 (System Audit Notice)：前端已实装『包底过滤』机制。当筛选「异常促销」时，系统将展示【无效促销】、【促销包装更改】及【字眼微调】三大类别之货品，客观呈现超市所有定价与字眼异动。',
+            titleTable: 'PriceWatch 价格稽核分析清单', clearFilter: '清除全部筛选', emptyData: '没有符合条件的数据',
             optAllSm: '所有超市', optAllCat: '所有分类', optAllStatus: '所有状态',
             hintBar: '👆 点击图表核对', hintRadar: '👆 点击文字核对', hintScatter: '👆 点击红点核对',
             hintScatterDetail: '💡 点击核对明细'
         },
         'en': {
-            pageTitle: 'Base Price & Promo Anomaly Monitor', subTitle: 'Auto-monitor Pricing & Promo Anomalies', back: 'Back',
-            titleBar: 'Supermarket "Numbers Game" Activity', 
-            titleRadar: 'Base Price Increase Matrix (Top 8)', 
-            titleScatter: '🎯 Effective Price Variation Trajectory',
+            pageTitle: 'PriceWatch Price Analytics Report', subTitle: 'Track and analyze pricing strategies', back: 'Back',
+            titleBar: 'Supermarket Pricing Strategy Activity', 
+            titleRadar: 'Hidden Increase Matrix (Top 8)', 
+            titleScatter: '🎯 Hidden Increase Trajectory',
             
-            incTxt: '📈 Base Price Increase',
-            fakeAllTxt: '⚠️ Promo Anomalies (Invalid, Changed, Tweaked)',
-            pureFakeTxt: '🟠 Invalid Promo',
-            disguiseTxt: '🟣 Promo Wording Changed (No Discount)',
+            incTxt: '📈 Hidden Increase',
+            fakeAllTxt: '⚠️ Promo Anomalies (Ineffective, Altered, Tweaked)',
+            pureFakeTxt: '🟠 Ineffective Promo',
+            disguiseTxt: '🟣 Promo Text Alteration (No Discount)',
             tweakTxt: '🟢 Wording Tweak',
 
             affectedItems: 'Anomaly Items', radarTotal: 'Total Increases',
@@ -294,40 +294,40 @@
             thPrevGroup: 'Previous Record', thTodayGroup: 'Today Live Status',
             lblDate: 'Date:', lblBase: 'Base:', lblOffer: 'Offer:', lblEff: 'Eff:',
             
-            thDiff: 'Diff', thMarketAvg: 'Market Avg', thOtherPrices: 'Other Prices (Eff)',
-            fakeWarning: 'The system uses a comprehensive filter. Selecting "Promo Anomalies" will transparently display [Invalid Promo], [Wording Changed], and [Wording Tweak] categories, objectively presenting all pricing and promotional adjustments.',
-            titleTable: 'Base Price & Promo Anomaly Verification List', clearFilter: 'Clear Filters', emptyData: 'No matching data found',
+            thDiff: 'Effective Discount Rate', thMarketAvg: 'Market Avg', thOtherPrices: 'Other Prices (Eff)',
+            fakeWarning: 'System Audit Notice: The system uses a comprehensive filter. Selecting "Promo Anomalies" will display [Ineffective Promo], [Promo Text Alteration], and [Wording Tweak] categories, objectively presenting all pricing and promotional adjustments.',
+            titleTable: 'PriceWatch Verification List', clearFilter: 'Clear Filters', emptyData: 'No matching data found',
             optAllSm: 'All Stores', optAllCat: 'All Categories', optAllStatus: 'All Status',
             hintBar: '👆 Click Chart to Filter', hintRadar: '👆 Click Text to Filter', hintScatter: '👆 Click Dot to Filter',
             hintScatterDetail: '💡 Click to check details'
         }
     };
 
-    // 🟢 徹底更新 Data Insights Navigation，使用最客觀的數據陳述
+   // 🟢 徹底更新 Data Insights Navigation，使用最客觀的數據陳述
     const calcInfoTexts = {
         'zh-Hant': {
             title: "📊 數據洞察導航 (Data Insights Navigation)", close: "我明白",
             content: `
                 <div class="space-y-4 text-[13px]">
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> 底價與促銷異常核對清單 (詳細 Data Table)</h4>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> PriceWatch 價格稽核分析清單 (詳細 Data Table)</h4>
                         <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">系統最底層嘅 Audit Trail (稽核軌跡)，記錄所有底價與促銷字眼變更嘅客觀數據。</span></div>
-                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">配合「包底過濾」機制，一眼睇清所有定價異動。卡片精確印出由系統底層運算嘅「字串相似度百分比 (%)」，用客觀數學數據，列出超市更改字眼、調整件數及底價暗升嘅歷史紀錄。</span></div>
+                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">配合「包底過濾」機制，一眼睇清所有定價異動。卡片精確印出由系統底層運算嘅「字串相似度百分比 (%)」，用客觀數學數據，列出超市更改字眼、調整件數及隱性加價嘅歷史紀錄。</span></div>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> 底價暗升分佈矩陣 (雷達圖)</h4>
-                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">宏觀展示各個貨品分類發生「底價暗升」嘅密集程度。</span></div>
-                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">紅色網向外延展得越遠、尖角越長，代表該類別錄得價格實質上升嘅貨品數量越多。猶如入超市前嘅「高危地雷區地圖」，提醒買特定類別時加倍核對定價。</span></div>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> 隱性加價分佈矩陣 (雷達圖)</h4>
+                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">宏觀展示各個貨品分類發生「隱性加價」嘅密集程度。</span></div>
+                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">紅色網向外延展得越遠、尖角越長，代表該類別錄得價格實質上升嘅貨品數量越多，提醒採購時加倍核對定價。</span></div>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>3️⃣</span> 超市「數字遊戲」活躍度 (橫向棒形圖)</h4>
-                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">量化各大超市更改促銷字眼及底價暗升嘅發生頻率。</span></div>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>3️⃣</span> 超市定價策略異動活躍度 (橫向棒形圖)</h4>
+                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">量化各大超市更改促銷字眼及隱性加價嘅發生頻率。</span></div>
                         <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">橫條越長，代表該超市定價及字眼異動越頻密。透過系統分級，客觀顯示定價狀態：</span>
                             <ul class="mt-2 space-y-1.5 pl-1">
                                 <li class="flex items-start gap-1.5"><span class="shrink-0 text-green-500">🟢</span> <span><b>綠色 (字眼微調)：</b>正常排版或字眼修正（新舊字眼相似度 ≥ 50%）。</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-purple-500">🟣</span> <span><b>紫色 (字眼變更 - 無實質折扣)：</b>促銷字眼大幅更改，但折實價並無下降（相似度 < 50%）。</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-orange-500">🟠</span> <span><b>橙色 (無效促銷)：</b>並無實質優惠下標示特價。</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-red-500">🔴</span> <span><b>紅色 (底價暗升)：</b>實質底價上升。</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-purple-500">🟣</span> <span><b>紫色 (促銷包裝更改)：</b>字眼大幅度修改，但價格維持不變（相似度 < 50%）。</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-orange-500">🟠</span> <span><b>橙色 (無效促銷)：</b>具備促銷標籤，但無實質價格折讓。</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-red-500">🔴</span> <span><b>紅色 (隱性加價)：</b>實質底價上升。</span></li>
                             </ul>
                         </div>
                     </div>
@@ -344,24 +344,24 @@
             content: `
                 <div class="space-y-4 text-[13px]">
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> 底价与促销异常核对清单 (详细 Data Table)</h4>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> PriceWatch 价格稽核分析清单 (详细 Data Table)</h4>
                         <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">系统最底层的 Audit Trail (稽核轨迹)，记录所有底价与促销字眼变更的客观数据。</span></div>
-                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">配合「包底过滤」机制，一眼看清所有定价异动。卡片精确印出由系统底层运算的「字串相似度百分比 (%)」，用客观数学数据，列出超市更改字眼、调整件数及底价暗升的历史纪录。</span></div>
+                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">配合「包底过滤」机制，一眼看清所有定价异动。卡片精确印出由系统底层运算的「字串相似度百分比 (%)」，用客观数学数据，列出超市更改字眼、调整件数及隐性加价的历史纪录。</span></div>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> 底价暗升分布矩阵 (雷达图)</h4>
-                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">宏观展示各个商品分类发生「底价暗升」的密集程度。</span></div>
-                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">红色网向外延展得越远、尖角越长，代表该类别录得价格实质上升的商品数量越多。犹如入超市前的「高危地雷区地图」，提醒买特定类别时加倍核对定价。</span></div>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> 隐性加价分布矩阵 (雷达图)</h4>
+                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">宏观展示各个商品分类发生「隐性加价」的密集程度。</span></div>
+                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">红色网向外延展得越远、尖角越长，代表该类别录得价格实质上升的商品数量越多，提醒采购时加倍核对定价。</span></div>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>3️⃣</span> 超市「数字游戏」活跃度 (横向棒形图)</h4>
-                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">量化各大超市更改促销字眼及底价暗升的发生频率。</span></div>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>3️⃣</span> 超市定价策略异动活跃度 (横向棒形图)</h4>
+                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">量化各大超市更改促销字眼及隐性加价的发生频率。</span></div>
                         <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">横条越长，代表该超市定价及字眼异动越频密。透过系统分级，客观显示定价状态：</span>
                             <ul class="mt-2 space-y-1.5 pl-1">
                                 <li class="flex items-start gap-1.5"><span class="shrink-0 text-green-500">🟢</span> <span><b>绿色 (字眼微调)：</b>正常排版或字眼修正（新旧字眼相似度 ≥ 50%）。</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-purple-500">🟣</span> <span><b>紫色 (字眼变更 - 无实质折扣)：</b>促销字眼大幅更改，但折实价并无下降（相似度 < 50%）。</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-orange-500">🟠</span> <span><b>橙色 (无效促销)：</b>并无实质优惠下标示特价。</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-red-500">🔴</span> <span><b>红色 (底价暗升)：</b>实质底价上升。</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-purple-500">🟣</span> <span><b>紫色 (促销包装更改)：</b>字眼大幅度修改，但价格维持不变（相似度 < 50%）。</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-orange-500">🟠</span> <span><b>橙色 (无效促销)：</b>具备促销标签，但无实质价格折让。</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-red-500">🔴</span> <span><b>红色 (隐性加价)：</b>实质底价上升。</span></li>
                             </ul>
                         </div>
                     </div>
@@ -378,24 +378,24 @@
             content: `
                 <div class="space-y-4 text-[13px]">
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> Base Price & Promo Anomaly Verification List (Data Table)</h4>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> PriceWatch Verification List (Data Table)</h4>
                         <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">The system's underlying Audit Trail, recording objective data of all base price and promotional wording changes.</span></div>
                         <div><span class="font-bold text-emerald-600 dark:text-emerald-400">How to Use:</span> <span class="text-slate-600 dark:text-slate-300">Combined with the filter, you can spot all pricing anomalies at a glance. The cards print the exact "String Similarity Percentage (%)", objectively listing historical records of altered wording, quantity adjustments, and hidden base price increases.</span></div>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> Base Price Increase Matrix (Radar Chart)</h4>
-                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">A macro view of the density of "base price increases" across different product categories.</span></div>
-                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">How to Use:</span> <span class="text-slate-600 dark:text-slate-300">The further the red net extends outwards, the more items in that category have recorded an actual price increase. It acts as a "High-Risk Minefield Map" before entering the supermarket.</span></div>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> Hidden Increase Matrix (Radar Chart)</h4>
+                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">A macro view of the density of "hidden increases" across different product categories.</span></div>
+                        <div><span class="font-bold text-emerald-600 dark:text-emerald-400">How to Use:</span> <span class="text-slate-600 dark:text-slate-300">The further the red net extends outwards, the more items in that category have recorded an actual price increase, acting as a reminder for procurement verification.</span></div>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>3️⃣</span> Supermarket "Numbers Game" Activity (Bar Chart)</h4>
-                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">Quantifies the frequency of promotional wording changes and base price increases across major supermarkets.</span></div>
+                        <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>3️⃣</span> Supermarket Pricing Strategy Activity (Bar Chart)</h4>
+                        <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">Quantifies the frequency of promotional wording changes and hidden price increases.</span></div>
                         <div><span class="font-bold text-emerald-600 dark:text-emerald-400">How to Use:</span> <span class="text-slate-600 dark:text-slate-300">The longer the bar, the more frequent the pricing anomalies. Colors objectively reveal the pricing status:</span>
                             <ul class="mt-2 space-y-1.5 pl-1">
                                 <li class="flex items-start gap-1.5"><span class="shrink-0 text-green-500">🟢</span> <span><b>Green (Wording Tweak):</b> Normal layout or wording corrections (Similarity ≥ 50%).</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-purple-500">🟣</span> <span><b>Purple (Wording Changed - No Discount):</b> Promo wording significantly altered, but effective price has not dropped (Similarity < 50%).</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-orange-500">🟠</span> <span><b>Orange (Invalid Promo):</b> Promoted as a special offer without actual savings.</span></li>
-                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-red-500">🔴</span> <span><b>Red (Base Price Increase):</b> Actual base price has risen.</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-purple-500">🟣</span> <span><b>Purple (Promo Text Alteration):</b> Wording significantly modified, but price remains unchanged (Similarity < 50%).</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-orange-500">🟠</span> <span><b>Orange (Ineffective Promo):</b> Features a promotional tag, but offers no actual price discount.</span></li>
+                                <li class="flex items-start gap-1.5"><span class="shrink-0 text-red-500">🔴</span> <span><b>Red (Hidden Increase):</b> Actual base price has risen.</span></li>
                             </ul>
                         </div>
                     </div>
@@ -610,9 +610,9 @@
             renderCharts(globalIllusionData, currentLang);
             populateTableDropdowns();
             applyTableFilters();
-        } catch (e) {
+       } catch (e) {
             console.error("載入失敗", e);
-            const errorMsg = currentLang === 'en' ? 'No Data Available' : '查無黑材料或數據載入失敗';
+            const errorMsg = currentLang === 'en' ? 'No Data Available' : '查無數據或數據載入失敗';
             barChart.hideLoading(); radarChart.hideLoading(); scatterChart.hideLoading();
             document.getElementById('barChart').innerHTML = `<div class="h-full flex items-center justify-center text-slate-400 font-bold">${errorMsg}</div>`;
         }
