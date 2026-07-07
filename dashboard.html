@@ -50,7 +50,6 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                         </button>
                     </div>
-                    <!-- 🟢 加入戰情更新專屬 Badge -->
                     <div class="flex flex-wrap items-center gap-2 mt-1">
                         <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">實時監控各大超市降價分佈與火力</span>
                         <span id="biUpdateBadge" class="text-[10px] bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400 border border-green-200 dark:border-green-800/50 px-1.5 py-0.5 rounded shadow-sm font-bold">載入中...</span>
@@ -76,7 +75,6 @@
                     <div class="font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <span>🔥</span> <span id="titleHeatmap">全城戰火熱力矩陣</span>
                     </div>
-                    <!-- 🟢 新增：雙視角一鍵切換掣 -->
                     <div class="flex bg-slate-200 dark:bg-slate-700 p-1 rounded-lg">
                         <button id="btnHeatModeReal" onclick="switchHeatmapMode('real')" class="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all">📉 自身真降幅</button>
                         <button id="btnHeatModeMarket" onclick="switchHeatmapMode('market')" class="px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all">⚔️ 擊穿市價幅</button>
@@ -130,10 +128,8 @@
     let treemapData = [];
     let totalItemsCount = 0;
     let heatmapData = []; 
-    // 宣告當前 Heatmap 視角 (預設睇自身減幅)
     let currentHeatmapMode = 'real'; 
 
-    // 新增切換視角功能
     window.switchHeatmapMode = function(mode) {
         currentHeatmapMode = mode;
         const btnReal = document.getElementById('btnHeatModeReal');
@@ -146,12 +142,11 @@
             btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 shadow-sm transition-all";
             btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
         }
-        renderHeatmap(); // 切換後即時重繪矩陣！
+        renderHeatmap(); 
     };
     
-    // 🟢 雙軌時間變數
-    let mainLastUpdatedTime = null; // 畀頂頭 Header (主頁時間)
-    let biLastUpdatedTime = null;   // 畀綠色 Badge (戰情室時間)
+    let mainLastUpdatedTime = null;
+    let biLastUpdatedTime = null;
 
     function openMechanismModal() { document.getElementById('mechanismModal').classList.remove('hidden'); }
     function closeMechanismModal() { document.getElementById('mechanismModal').classList.add('hidden'); }
@@ -199,7 +194,6 @@
         const appTitleEl = document.getElementById('appTitle');
         if (appTitleEl) appTitleEl.innerText = appName;
 
-        // 🟢 1. 頂部 Header 更新時間 (跟隨 mainLastUpdatedTime)
         const statusLabel = document.getElementById('todayStatusLabel');
         if (statusLabel) {
             if (mainLastUpdatedTime && !isNaN(mainLastUpdatedTime.getTime())) {
@@ -210,7 +204,6 @@
             }
         }
 
-        // 🟢 2. 標題下方 Badge 更新時間 (跟隨 biLastUpdatedTime)
         const biBadge = document.getElementById('biUpdateBadge');
         if (biBadge) {
             if (biLastUpdatedTime && !isNaN(biLastUpdatedTime.getTime())) {
@@ -268,7 +261,8 @@
         if (typeof globalChangeLang === 'function') globalChangeLang(lang);
         if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
     };
-function renderTreemap() {
+
+    function renderTreemap() {
         if (!treemapChart) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
 
@@ -290,13 +284,11 @@ function renderTreemap() {
             }
         });
 
-       // 🟢 1. 建立動態 Rich 字典 (包含文字設定)
         const dynamicRich = {
             name: { fontSize: 13, fontWeight: 'bold', color: '#ffffff', align: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowBlur: 3, lineHeight: 16 },
             count: { fontSize: 11, fontWeight: 'bold', color: '#ffffff', align: 'center', backgroundColor: 'rgba(0,0,0,0.3)', padding: [2, 4], borderRadius: 4, marginTop: 4, lineHeight: 12 }
         };
 
-        // 🟢 2. 新增：GitHub 檔名翻譯字典 (解決 pns.png 同 marketplace.png 嘅問題)
         const logoFileMap = {
             'PARKNSHOP': 'pns',
             'JASONS': 'marketplace',
@@ -315,15 +307,14 @@ function renderTreemap() {
                 }
             }
             
-            // 🟢 3. 使用字典查出正確檔名，搵唔到就用原本個名轉細楷做保底
             const fileName = logoFileMap[smCode] || smCode.toLowerCase();
 
             dynamicRich[`logo_${smCode}`] = {
                 backgroundColor: {
                     image: `https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png`
                 },
-                height: 40, // Logo 高度 (可視乎需要較大較細)
-                width: 40,  // Logo 闊度
+                height: 40,
+                width: 40, 
                 align: 'center'
             };
 
@@ -360,7 +351,6 @@ function renderTreemap() {
                             cleanName = supermarketDict[currentLang][smCode];
                         }
                         
-                        // 🟢 4. 降低門檻：只要件數多過 30 件，就會顯示 Logo！
                         if (params.value < 30) {
                             return `{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
                         } else {
@@ -373,16 +363,12 @@ function renderTreemap() {
         };
         treemapChart.setOption(option);
 
-       // 綁定 Treemap 雙擊事件
         treemapChart.off('dblclick');
         treemapChart.on('dblclick', function(params) {
-            // 🟢 修正跳轉參數：將狀態改為 ALL，放寬歷史狀態過濾
             const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=ALL&other=ALL`;
             window.open(targetUrl, 'TrueDiscountView'); 
         });
     }
-
-
 
     function renderHeatmap() {
         if (!heatmapChart) return;
@@ -421,7 +407,6 @@ function renderTreemap() {
             const xIndex = xDataRaw.indexOf(cleanCode);
             const yIndex = yData.indexOf(item.category);
             
-            // 🟢 修復 1：在數學運算層面強制捨入至 1 位小數，避免浮點數誤差
             const realDrop = Number((parseFloat(item.avgDiscount) || 0).toFixed(1));
             const marketDrop = Number((parseFloat(item.avgMarketDrop) || 0).toFixed(1));
             
@@ -443,7 +428,6 @@ function renderTreemap() {
                     const smName = xData[params.value[0]];
                     const catName = yData[params.value[1]];
                     const count = params.value[3];
-                    // 🟢 修復 2：Tooltip 顯示強制鎖定 1 位小數格式 (例如 37.2%, 23.4%)
                     const real = params.value[4].toFixed(1);
                     const market = params.value[5].toFixed(1);
                     
@@ -478,7 +462,6 @@ function renderTreemap() {
             },
             series: [{
                 name: '戰況數值', type: 'heatmap', data: seriesData,
-                // 🟢 修復 3：圖表方格上的文字同樣強制鎖定 1 位小數格式
                 label: { show: true, formatter: function(params) { return params.value[2].toFixed(1) + '%'; }, color: '#ffffff', fontWeight: 'black', fontSize: 13, textShadowColor: 'rgba(0,0,0,0.4)', textShadowBlur: 3 },
                 itemStyle: { borderColor: '#ffffff', borderWidth: 3, borderRadius: 6 } 
             }]
@@ -490,7 +473,7 @@ function renderTreemap() {
             const rawSmCode = xDataRaw[params.value[0]]; 
             const rawCat = yDataRaw[params.value[1]];
             
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=drop&other=HAS_OTHER`;
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=ALL&other=ALL`;
             window.open(targetUrl, 'TrueDiscountView');
         });
     }
@@ -525,34 +508,105 @@ function renderTreemap() {
             })
             .catch(e => console.warn("戰情室時間紀錄載入失敗", e));
 
-        // 🟢 終極修正：更新 URL 路徑至 bi_treemap_data.json
-        const treemapUrl = 'https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_treemap_data.json';
-        fetch(`${treemapUrl}?v=${nocache}`, { cache: 'no-store' })
+        const dataUrl = 'https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_true_discount.json';
+        fetch(`${dataUrl}?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.json())
             .then(payload => {
-                treemapChart.hideLoading();
-                treemapData = payload.data;
-                // 🛡️ 防呆計算總數
-                totalItemsCount = treemapData.reduce((sum, category) => {
-                    return sum + (category.children ? category.children.reduce((subSum, child) => subSum + child.value, 0) : 0);
-                }, 0);
-                renderTreemap();
-            })
-            .catch(e => { treemapChart.hideLoading(); console.error(e); });
+                let data = payload;
+                if (!Array.isArray(data) && (data.results || data.data)) data = data.results || data.data;
+                if (!Array.isArray(data)) data = [data];
+                if (data.length > 0 && data[0].json && data[0].json.true_discount_json) data = data[0].json.true_discount_json;
+                else if (data.length > 0 && data[0].true_discount_json) data = data[0].true_discount_json;
+                else if (data.length > 0 && data[0].json) data = data.map(i => i.json);
 
-        // 🟢 終極修正：更新 URL 路徑至 bi_heatmap_data.json
-        const heatmapUrl = 'https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_heatmap_data.json';
-        fetch(`${heatmapUrl}?v=${nocache}`, { cache: 'no-store' })
-            .then(res => res.json())
-            .then(payload => {
+                if (data.length === 1 && data[0].true_discount_json) data = data[0].true_discount_json;
+
+                let treeMapAgg = {};
+                let heatMapAgg = {};
+                let totalItems = 0;
+
+                data = data.filter(item => {
+     if (item.rn !== undefined) return parseInt(item.rn) === 1;
+     if (item.route_flag !== undefined) return !String(item.route_flag).includes('secondary');
+     return true;
+});
+
+                data.forEach(item => {
+                    let smCode = (item.smCode || 'Unknown').toUpperCase().trim();
+                    let catRaw = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
+                    if (!catRaw) catRaw = '未分類';
+
+                    let prevE = parseFloat(item.prevEffPrice) || 0;
+                    let currE = parseFloat(item.effectivePrice) || 0;
+                    let realDrop = parseFloat(item.realDiscountPct) || 0;
+                    if (prevE > currE && realDrop === 0) {
+                        realDrop = ((prevE - currE) / prevE) * 100;
+                    }
+
+                   
+
+                    let marketDrop = parseFloat(item.marketDropPct) || 0;
+                    let hasComp = false;
+                    if (item.otherPricesRaw && item.otherPricesRaw !== '[]' && item.otherPricesRaw !== 'null') {
+                        try {
+                            let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
+                            if (Array.isArray(opRaw)) {
+                                opRaw = opRaw.filter(op => op.smCode !== smCode);
+                                if (opRaw.length > 0) hasComp = true;
+                            }
+                        } catch(e) {}
+                    }
+
+                    if (!treeMapAgg[catRaw]) treeMapAgg[catRaw] = {};
+                    if (!treeMapAgg[catRaw][smCode]) treeMapAgg[catRaw][smCode] = 0;
+                    treeMapAgg[catRaw][smCode]++;
+                    totalItems++;
+
+                    let heatKey = `${smCode}_${catRaw}`;
+                    if (!heatMapAgg[heatKey]) {
+                        heatMapAgg[heatKey] = { store: smCode, category: catRaw, count: 0, sumReal: 0, sumMarket: 0, marketCount: 0 };
+                    }
+                    heatMapAgg[heatKey].count++;
+                    heatMapAgg[heatKey].sumReal += realDrop;
+                    if (hasComp) {
+                        heatMapAgg[heatKey].sumMarket += marketDrop;
+                        heatMapAgg[heatKey].marketCount++;
+                    }
+                });
+
+                totalItemsCount = totalItems;
+                
+                treemapData = Object.keys(treeMapAgg).map(cat => {
+                    return {
+                        name: cat,
+                        children: Object.keys(treeMapAgg[cat]).map(sm => ({
+                            name: sm,
+                            value: treeMapAgg[cat][sm]
+                        }))
+                    };
+                });
+
+                heatmapData = Object.values(heatMapAgg).map(agg => {
+                    return {
+                        store: agg.store,
+                        category: agg.category,
+                        count: agg.count,
+                        avgDiscount: agg.count > 0 ? (agg.sumReal / agg.count) : 0,
+                        avgMarketDrop: agg.marketCount > 0 ? (agg.sumMarket / agg.marketCount) : 0
+                    };
+                });
+
+                treemapChart.hideLoading();
                 heatmapChart.hideLoading();
-                heatmapData = payload.data;
+                renderTreemap();
                 renderHeatmap();
             })
-            .catch(e => { 
-                heatmapChart.hideLoading(); 
-                console.error(e);
-                document.getElementById('heatmapChart').innerHTML = `<div class="text-red-500 font-bold text-center mt-20">無法載入熱力圖數據。</div>`;
+            .catch(e => {
+                console.error("Dashboard Data Fetch Error:", e);
+                treemapChart.hideLoading();
+                heatmapChart.hideLoading();
+                document.getElementById('treemapChart').innerHTML = `<div class="text-red-500 font-bold text-center mt-20">無法載入數據。</div>`;
+                document.getElementById('heatmapChart').innerHTML = `<div class="text-red-500 font-bold text-center mt-20">無法載入數據。</div>`;
             });
 
         window.addEventListener('resize', () => { 

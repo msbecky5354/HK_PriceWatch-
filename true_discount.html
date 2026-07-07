@@ -14,7 +14,7 @@
         })();
     </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=1400, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>智選真抵榜 | 慳真D🔎</title>
     <script src="lang.js?v=11"></script>
     <script src="lang_tw.js?v=11"></script>
@@ -31,14 +31,14 @@
     <script src="appUtils.js?v=1"></script>
     <script src="header.js?v=2"></script>
 
-    <div class="max-w-7xl mx-auto md:mt-6 md:mb-8 md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border-b md:border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 flex-1">
+    <div class="max-w-[1400px] w-full mx-auto mt-6 mb-8 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 flex-1">
         
-        <div class="p-4 md:p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+        <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
             <div class="flex items-center gap-3">
-                <span class="text-xl md:text-2xl">📉</span> 
+                <span class="text-2xl">📉</span> 
                 <div class="flex flex-col">
                    <div class="flex items-center gap-2">
-                        <h1 id="pageTitleText" class="text-[17px] md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">智選真抵榜</h1>
+                        <h1 id="pageTitleText" class="text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">智選真抵榜</h1>
                         <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[12px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
                     </div>
                     <span id="subTitleText" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">踢走假劈價，一眼看穿真減幅</span>
@@ -47,51 +47,55 @@
             <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
         </div>
 
-        <div class="px-4 md:px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col gap-3">
-            <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </div>
-                <input type="text" id="filterInput" placeholder="搜尋分類、品牌、貨品或推薦超市..." class="w-full pl-9 pr-9 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 placeholder-slate-400 transition-colors shadow-sm">
-                <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center">
-                    <button id="clearSearchBtn" onclick="setQuickSearch('')" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-[10px] transition-colors">✕</button>
-                </div>
-            </div>
+        <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-row gap-5 items-start">
             
-            <div class="grid grid-cols-2 gap-2 w-full md:hidden">
-                <select id="catFilter" onchange="syncFilters('cat', this.value)" class="w-full px-2 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 text-slate-600 shadow-sm"></select>
-                <select id="smFilter" onchange="syncFilters('sm', this.value)" class="w-full px-2 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 text-slate-600 shadow-sm"></select>
-                <select id="statusFilter" onchange="syncFilters('status', this.value)" class="w-full px-2 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 text-slate-600 shadow-sm"></select>
-                <select id="otherFilter" onchange="syncFilters('other', this.value)" class="w-full px-2 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 text-slate-600 shadow-sm"></select>
-                <select id="sortFilter" onchange="handleDropdownSort()" class="col-span-2 w-full px-2 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 text-slate-600 shadow-sm font-bold">
-                    <option value="realDiscountPct_desc" id="optSortDiff">📉 真・減幅最高</option>
+            <div class="w-1/3 flex flex-col gap-1.5">
+                <label id="lblSorting" class="text-[12px] font-bold text-slate-500 dark:text-slate-400 tracking-wide">波幅排序 (Sorting)</label>
+                <select id="sortFilter" onchange="handleDropdownSort()" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 text-slate-700 shadow-sm font-bold cursor-pointer">
+                    <option value="marketDropPct_desc" id="optSortMarketDrop">🎯 真實市場降幅 % 最大優先</option>
+                    <option value="realDiscountPct_desc" id="optSortRealDrop">📉 真實降價率 % 最大優先</option>
+                    <option value="priceDeviationPct_asc" id="optSortDevAsc">⚖️ 定價偏離度 % (折讓) 最大優先</option>
+                    <option value="priceDeviationPct_desc" id="optSortDevDesc">⚖️ 定價偏離度 % (溢價) 最大優先</option>
                     <option value="effectivePrice_asc" id="optSortMinP">💰 折實價最低</option>
-                    <option value="marketDropPct_desc" id="optSortMarket">⚔️ 擊穿市價最狠</option>
                     <option value="custom" id="optSortCustom" hidden>自訂排序</option>
                 </select>
             </div>
-
-            <div class="flex flex-wrap items-center gap-2 text-[12px] mt-1">
-                <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
-               <div class="flex items-center gap-1.5">
-                    <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all flex items-center gap-1">
-                        <span id="txtBtnPct20">>20% 減幅</span>
-                    </button>
-                    <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                        <span id="txtBtnPct30">>30% 減幅</span>
-                    </button>
-                    <button onclick="togglePctFilter(50)" id="btnPct50" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                        🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
-                    </button>
-                    <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mx-1"></div>
-                    <button onclick="resetToDefaultFilter()" class="px-2 py-1 text-sm bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-all font-bold shadow-sm active:scale-95 flex items-center gap-1">
-                        <span id="txtBtnReset">🔄 重置</span>
-                    </button>
+            
+            <div class="w-2/3 flex flex-col gap-1.5">
+                <label id="lblRadar" class="text-[12px] font-bold text-slate-500 dark:text-slate-400 tracking-wide">精確雷達 (支援 Name, Brand, ID)</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="filterInput" placeholder="輸入關鍵字..." class="w-full pl-9 pr-9 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 placeholder-slate-400 transition-colors shadow-sm">
+                    <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center">
+                        <button id="clearSearchBtn" onclick="setQuickSearch('')" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-[10px] transition-colors">✕</button>
+                    </div>
                 </div>
+            </div>
+
+        </div>
+
+        <div class="px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-wrap items-center gap-2 text-[12px]">
+            <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
+            <div class="flex items-center gap-1.5">
+                <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all flex items-center gap-1">
+                    <span id="txtBtnPct20">>20% 減幅</span>
+                </button>
+                <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    <span id="txtBtnPct30">>30% 減幅</span>
+                </button>
+                <button onclick="togglePctFilter(50)" id="btnPct50" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
+                </button>
+                <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+                <button onclick="resetToDefaultFilter()" class="px-2 py-1 text-sm bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-all font-bold shadow-sm active:scale-95 flex items-center gap-1">
+                    <span id="txtBtnReset">🔄 重置</span>
+                </button>
             </div>
         </div>
 
-        <div id="dynamicSummaryBar" class="hidden px-4 md:px-5 py-2.5 bg-blue-50/60 dark:bg-slate-800/80 border-b border-blue-100 dark:border-slate-700 flex flex-wrap items-center gap-4 md:gap-6 text-[13px] transition-colors">
+        <div id="dynamicSummaryBar" class="hidden px-5 py-2.5 bg-blue-50/60 dark:bg-slate-800/80 border-b border-blue-100 dark:border-slate-700 flex flex-wrap items-center gap-6 text-[13px] transition-colors">
             <div class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
                 <span class="text-[16px]">📦</span> <span id="lblSumCount" class="font-bold">符合條件:</span> <span id="sumCountVal" class="font-black text-blue-600 dark:text-blue-400 text-[15px]">0</span> <span id="lblSumUnit" class="text-slate-500">件</span>
             </div>
@@ -103,7 +107,7 @@
             </div>
         </div>
 
-        <div class="px-4 md:px-5 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
             <h2 id="listTitle" class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">🔥 今日 Top 劈價貨品</h2>
             <span id="dailyUpdateBadge" class="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded font-bold">每日更新</span>
         </div>
@@ -137,7 +141,7 @@
                         <th id="thDiff" onclick="handleSort('realDiscountPct')" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 text-right cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors align-top"><span id="txt-thDiff">真・減幅</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300">▼</span></th>
                         
                         <th id="thOther" onclick="handleSort('marketDropPct')" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 align-top cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors">
-                            <div class="mb-1.5 flex items-center gap-1"><span id="txt-thOther">其他超市定價</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300"></span></div>
+                            <div class="mb-1.5 flex items-center gap-1"><span id="txt-thOther">全城戰情透視</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300"></span></div>
                             <select id="headerOtherFilter" onclick="event.stopPropagation()" onchange="syncFilters('other', this.value)" class="w-full text-[11px] text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded px-1 py-1 font-normal cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"></select>
                         </th>
                     </tr>
@@ -194,7 +198,7 @@
     let fullDataList = [];
     let lastUpdatedTime = null;         
     let tdLastUpdatedTime = null;       
-    let currentSort = { column: 'realDiscountPct', dir: 'desc' };
+    let currentSort = { column: 'realDiscountPct', dir: 'desc' }; // 嚴格還原預設排序控制權
     let currentMinPct = 20;
     let fState = { cat: 'ALL', sm: 'ALL', status: 'ALL', other: 'ALL' };
 
@@ -202,15 +206,20 @@
     const targetSm = urlParams.get('sm');
     const targetCat = urlParams.get('cat');
     const targetStatus = urlParams.get('status'); 
-    const targetOther = urlParams.get('other');   
+    const targetOther = urlParams.get('other'); // 🟢 新增：精準擷取 other 參數
 
+    // 完美繼承 Dashboard 傳遞過來的所有戰略視角
     if (targetSm || targetCat || targetStatus || targetOther) {
         if (targetSm) fState.sm = targetSm;
         if (targetCat) fState.cat = targetCat;
         if (targetStatus) fState.status = targetStatus; 
-        if (targetOther) fState.other = targetOther;   
+        // 🟢 解除強制歸零！如果有傳入 other，就跟隨 other；無先至預設 ALL
+        if (targetOther) fState.other = targetOther; else fState.other = 'ALL';
         currentMinPct = 0; 
     }
+
+
+    
     const DB_NAME = 'PriceWatchDB';
     const STORE_TRUE_DISCOUNT = 'true_discount_store';
 
@@ -276,10 +285,8 @@
 
     const statusI18n = {
         'drop': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
-        // 🟢 升級為無效促銷 (統一使用 Orange 色系)
-        'fake': { 'en': '🟠 Invalid Promo', 'zh-Hant': '🟠 無效促銷(無平到)', 'zh-Hans': '🟠 无效促销(无降价)', 'color': 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800' },
-        // 🟢 升級為底價暗升
-        'increase': { 'en': '📈 Base Price Increase', 'zh-Hant': '📈 底價暗升', 'zh-Hans': '📈 底价暗升', 'color': 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800' },
+        'fake': { 'en': '🟠 Invalid Promo', 'zh-Hant': '🟠 無實質降幅', 'zh-Hans': '🟠 无实质降幅', 'color': 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800' },
+        'increase': { 'en': '📈 Base Price Increase', 'zh-Hant': '📈 底價上升', 'zh-Hans': '📈 底价上升', 'color': 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800' },
         'promo_changed': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
         'maintained': { 'en': '⏸️ Maintained', 'zh-Hant': '⏸️ 價格維持', 'zh-Hans': '⏸️ 价格维持', 'color': 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' },
         'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-[#345B8C] dark:text-[#6A95CC] bg-[#E8F0F8] dark:bg-slate-700 border-[#345B8C]/20 dark:border-[#6A95CC]/30' }
@@ -406,14 +413,36 @@
 
             if (!finalData || finalData.length === 0) throw new Error("JSON 解析為空，請檢查後端導出格式。");
 
-            // 🟢 預先運算「戰情霸主 (isBattleWinner)」標籤
-            finalData = finalData.map(item => {
-                let avgPrice = 0;
-                let dropPct = 0;
+            // 🟢 核心修改：剔除「次平真降價」及「次平新上架」，強制過濾保留 rn = 1
+            finalData = finalData.filter(item => {
+                if (item.rn !== undefined) return parseInt(item.rn) === 1;
+                if (item.route_flag !== undefined) return !String(item.route_flag).includes('secondary');
+                return true;
+            });
+
+           finalData = finalData.map(item => {
+                let avgPrice = parseFloat(item.marketAvgPrice) || 0;
+                let dropPct = parseFloat(item.marketDropPct) || 0;
+                let devPct = parseFloat(item.priceDeviationPct) || 0;
                 let hasMarket = false;
                 let isBattleWinner = false;
                 
+                // ---------------------------------------------------
+                // 🛠️ [新增] 修復「永久調低底價」導致的 0% 盲點
+                // ---------------------------------------------------
+                let prevE = parseFloat(item.prevEffPrice) || 0;
+                let currE = parseFloat(item.effectivePrice) || 0;
+                if (prevE > currE) {
+                    let hPct = ((prevE - currE) / prevE) * 100;
+                    // 如果原生促銷減幅為 0，則用歷史實質波幅覆寫，以確保排序及平均值統計正確
+                    if ((parseFloat(item.realDiscountPct) || 0) === 0) {
+                        item.realDiscountPct = hPct; 
+                    }
+                }
+                // ---------------------------------------------------
+
                 if (item.otherPricesRaw && item.otherPricesRaw !== '[]' && item.otherPricesRaw !== 'null') {
+
                     try {
                         let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
                         if (Array.isArray(opRaw)) {
@@ -421,25 +450,15 @@
                             if (opRaw.length > 0) {
                                 hasMarket = true;
                                 let effPrice = parseFloat(item.effectivePrice) || 0;
-                                let total = effPrice;
-                                let count = 1;
                                 let isLowestPrice = true;
 
                                 opRaw.forEach(op => {
                                     let opPrice = parseFloat(op.price) || 0;
-                                    total += opPrice;
-                                    count++;
-                                    // 驗證是否為全城最低價 (容許平手)
                                     if (opPrice > 0 && effPrice > opPrice) {
                                         isLowestPrice = false;
                                     }
                                 });
-                                avgPrice = total / count;
-                                if (avgPrice > 0) {
-                                    dropPct = ((avgPrice - effPrice) / avgPrice) * 100;
-                                }
 
-                                // 符合所有戰情室條件：最低價、擊穿市價、真降價
                                 if (isLowestPrice && dropPct > 0 && item.statusKey === 'drop') {
                                     isBattleWinner = true;
                                 }
@@ -449,6 +468,7 @@
                 }
                 item.marketAvgPrice = avgPrice;
                 item.marketDropPct = dropPct;
+                item.priceDeviationPct = devPct;
                 item.hasCompetitors = hasMarket;
                 item.isBattleWinner = isBattleWinner;
                 return item;
@@ -485,13 +505,11 @@
 
     window.syncFilters = function(type, value) {
         fState[type] = value;
-        const mobSelect = document.getElementById(type + 'Filter');
-        if (mobSelect) mobSelect.value = value;
         const headerSelectId = 'header' + type.charAt(0).toUpperCase() + type.slice(1) + 'Filter';
         const headerSelect = document.getElementById(headerSelectId);
         if (headerSelect) headerSelect.value = value;
         applyFilters();
-    };
+    }
 
     function updatePctButtonsUI() {
         [20, 30, 50].forEach(p => {
@@ -516,7 +534,7 @@
         populateDropdowns();
         updatePctButtonsUI();
         applyFilters();
-    };
+    }
 
     function handleDropdownSort() {
         const val = document.getElementById('sortFilter').value;
@@ -529,7 +547,7 @@
     function handleSort(col) {
         if (col === 'displayRank') { currentSort = { column: 'realDiscountPct', dir: 'desc' }; } 
         else if (currentSort.column === col) { currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc'; } 
-        else { currentSort.column = col; currentSort.dir = (col === 'effectivePrice' || col === 'originalPrice') ? 'asc' : 'desc'; }
+        else { currentSort.column = col; currentSort.dir = (col === 'effectivePrice' || col === 'originalPrice' || col === 'priceDeviationPct') ? 'asc' : 'desc'; }
         const sortFilter = document.getElementById('sortFilter');
         if (sortFilter) sortFilter.value = 'custom';
         applyFilters();
@@ -542,6 +560,13 @@
         if (thId) {
             const th = document.getElementById(thId);
             if (th) { const icon = th.querySelector('.sort-icon'); if (icon) icon.innerText = currentSort.dir === 'asc' ? '▲' : '▼'; }
+        }
+        
+        const sortFilter = document.getElementById('sortFilter');
+        if (sortFilter) {
+            const optVal = currentSort.column + '_' + currentSort.dir;
+            const optionExists = Array.from(sortFilter.options).some(opt => opt.value === optVal);
+            sortFilter.value = optionExists ? optVal : 'custom';
         }
     }
 
@@ -562,7 +587,6 @@
             const matchesCat = (fState.cat === 'ALL' || rawCatValue === fState.cat);
             const matchesStatus = (fState.status === 'ALL' || i.statusKey === fState.status);
             
-            // 🟢 加入新濾鏡：戰情霸主 (BATTLE_WINNER)
             const matchesOther = (fState.other === 'ALL' || 
                                  (fState.other === 'HAS_OTHER' && i.hasCompetitors) ||
                                  (fState.other === 'BATTLE_WINNER' && i.isBattleWinner));
@@ -575,24 +599,23 @@
         filtered.sort((a, b) => {
             let valA = a[currentSort.column], valB = b[currentSort.column];
             
-            // 🟢 三重排序 (Tie-breaker): 若真・減幅平手，退一步比擊穿市價，再平手比超市代碼
-            if (currentSort.column === 'realDiscountPct') {
+            if (currentSort.column === 'realDiscountPct' || currentSort.column === 'marketDropPct') {
                 valA = parseFloat(valA) || 0;
                 valB = parseFloat(valB) || 0;
                 if (valA === valB) {
-                    let marketA = parseFloat(a.marketDropPct) || 0;
-                    let marketB = parseFloat(b.marketDropPct) || 0;
-                    if (marketA === marketB) {
+                    let tieA = currentSort.column === 'realDiscountPct' ? parseFloat(a.marketDropPct) || 0 : parseFloat(a.realDiscountPct) || 0;
+                    let tieB = currentSort.column === 'realDiscountPct' ? parseFloat(b.marketDropPct) || 0 : parseFloat(b.realDiscountPct) || 0;
+                    if (tieA === tieB) {
                         let smA = String(a.smCode || '').toUpperCase();
                         let smB = String(b.smCode || '').toUpperCase();
                         return smA.localeCompare(smB); 
                     }
-                    return currentSort.dir === 'asc' ? marketA - marketB : marketB - marketA;
+                    return currentSort.dir === 'asc' ? tieA - tieB : tieB - tieA;
                 }
                 return currentSort.dir === 'asc' ? valA - valB : valB - valA;
             }
 
-            if (currentSort.column === 'effectivePrice' || currentSort.column === 'originalPrice' || currentSort.column === 'marketDropPct') {
+            if (currentSort.column === 'effectivePrice' || currentSort.column === 'originalPrice' || currentSort.column === 'priceDeviationPct') {
                  valA = parseFloat(valA) || 0;
                  valB = parseFloat(valB) || 0;
             } else if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
@@ -639,16 +662,15 @@
     }
 
     function populateDropdowns() {
-        const catEls = [document.getElementById('catFilter'), document.getElementById('headerCatFilter')].filter(Boolean);
-        const smEls = [document.getElementById('smFilter'), document.getElementById('headerSmFilter')].filter(Boolean);
-        const statusEls = [document.getElementById('statusFilter'), document.getElementById('headerStatusFilter')].filter(Boolean);
-        const otherEls = [document.getElementById('otherFilter'), document.getElementById('headerOtherFilter')].filter(Boolean);
+        const catEls = [document.getElementById('headerCatFilter')].filter(Boolean);
+        const smEls = [document.getElementById('headerSmFilter')].filter(Boolean);
+        const statusEls = [document.getElementById('headerStatusFilter')].filter(Boolean);
+        const otherEls = [document.getElementById('headerOtherFilter')].filter(Boolean);
 
         const smAllText = currentLang === 'en' ? 'All Stores' : (currentLang === 'zh-Hans' ? '所有超市' : '所有超市');
         const catAllText = currentLang === 'en' ? 'All Categories' : (currentLang === 'zh-Hans' ? '所有分类' : '所有分類');
         const statusAllText = currentLang === 'en' ? 'All Status' : (currentLang === 'zh-Hans' ? '所有状态' : '所有狀態');
         
-        // 🟢 加入戰情霸主的三語支援
         const otherAllText = currentLang === 'en' ? 'All Items' : (currentLang === 'zh-Hans' ? '全部商品' : '全部貨品');
         const otherHasText = currentLang === 'en' ? 'Has Competitors' : (currentLang === 'zh-Hans' ? '有对手定价' : '有對手定價');
         const otherBattleText = currentLang === 'en' ? '👑 Battle Winners' : (currentLang === 'zh-Hans' ? '👑 战情霸主 (全城最低+击穿市价)' : '👑 戰情霸主 (全城最低+擊穿市價)');
@@ -665,7 +687,6 @@
         const statusOpts = `<option value="ALL">${statusAllText}</option>` + statuses.map(s => `<option value="${s}">${statusI18n[s][currentLang] || statusI18n[s]['zh-Hant']}</option>`).join('');
         statusEls.forEach(el => el.innerHTML = statusOpts);
 
-        // 🟢 注入全新選項
         const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option><option value="BATTLE_WINNER">${otherBattleText}</option>`;
         otherEls.forEach(el => el.innerHTML = otherOpts);
 
@@ -714,12 +735,19 @@
         setTxt('pageTitleText', 'SmartDeal Board', '智選真抵榜', '智选真抵榜');
         setTxt('subTitleText', 'Say Goodbye to Fake Promos', '踢走假劈價，一眼看穿真減幅', '踢走假劈价，一眼看穿真减幅');
         setTxt('backBtn', 'Back', '返回', '返回');
+        
+        // 頂部控制台三語支援
+        setTxt('lblSorting', 'Sorting', '波幅排序 (Sorting)', '波幅排序 (Sorting)');
+        setTxt('lblRadar', 'Precision Radar (Name, Brand, ID)', '精確雷達 (支援 Name, Brand, ID)', '精确雷达 (支援 Name, Brand, ID)');
+        
         setTxt('qsLabel', 'Quick Search:', '熱門搜尋:', '热门搜索:');
         setTxt('listTitle', '🔥 TODAY\'S TOP DISCOUNTS', '🔥 今日 Top 劈價貨品', '🔥 今日 Top 降价商品');
         
-        setTxt('optSortDiff', '📉 Highest True Discount', '📉 真・減幅最高', '📉 真・减幅最高');
+        setTxt('optSortMarketDrop', '🎯 Max Market Drop %', '🎯 真實市場降幅 % 最大優先', '🎯 真实市场降幅 % 最大优先');
+        setTxt('optSortRealDrop', '📉 Max Real Discount %', '📉 真實降價率 % 最大優先', '📉 真实降价率 % 最大优先');
+        setTxt('optSortDevAsc', '⚖️ Max Price Discount (Deviation)', '⚖️ 定價偏離度 % (折讓) 最大優先', '⚖️ 定价偏离度 % (折让) 最大优先');
+        setTxt('optSortDevDesc', '⚖️ Max Price Premium (Deviation)', '⚖️ 定價偏離度 % (溢價) 最大優先', '⚖️ 定价偏离度 % (溢价) 最大优先');
         setTxt('optSortMinP', '💰 Lowest Effective Price', '💰 折實價最低', '💰 折实价最低');
-        setTxt('optSortMarket', '⚔️ Highest Market Drop', '⚔️ 擊穿市價最狠', '⚔️ 击穿市价最狠');
         setTxt('optSortCustom', 'Custom Sort', '自訂排序', '自定义排序');
         
         setTxt('txt-thRank', 'Rank', '排名', '排名');
@@ -731,7 +759,7 @@
         setTxt('txt-thOrig', 'Original', '今日原價', '今日原价');
         setTxt('txt-thEff', 'Effective', '今日折實', '今日折实');
         setTxt('txt-thDiff', 'True Diff', '真・減幅', '真・减幅');
-        setTxt('txt-thOther', 'Other Prices', '其他超市定價', '其他超市定价');
+        setTxt('txt-thOther', 'Market View', '全城戰情透視', '全城战情透视');
 
         setTxt('txtBtnPct20', '> 20% Off', '> 20% 減幅', '> 20% 减幅');
         
@@ -746,7 +774,7 @@
 
         const filterInput = document.getElementById('filterInput');
         if (filterInput) {
-            filterInput.placeholder = lang === 'en' ? 'Search category, brand, product or store...' : (lang === 'zh-Hans' ? '搜索分类、品牌、商品或超市...' : '搜尋分類、品牌、貨品或推薦超市...');
+            filterInput.placeholder = lang === 'en' ? 'Enter keyword (e.g., ParknShop Coffee)' : (lang === 'zh-Hans' ? '输入关键字 (例如: 百佳 咖啡)' : '輸入關鍵字 (例如: 百佳 咖啡)');
         }
         
         const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
@@ -794,8 +822,10 @@
         const lblBase = currentLang === 'en' ? 'Prev Base:' : (currentLang === 'zh-Hans' ? '上次原价:' : '上次原價:');
         const lblEff = currentLang === 'en' ? 'Prev Eff.:' : (currentLang === 'zh-Hans' ? '上次折实价:' : '上次折實價:');
         const lblOffer = currentLang === 'en' ? 'Prev Offer:' : (currentLang === 'zh-Hans' ? '上次优惠:' : '上次優惠:');
-        const lblAvg = currentLang === 'en' ? 'Market Avg:' : (currentLang === 'zh-Hans' ? '全城公价:' : '全城公價:');
-        const lblDrop = currentLang === 'en' ? 'Beat Market:' : (currentLang === 'zh-Hans' ? '击穿市价:' : '擊穿市價:');
+        
+        const lblAvg = currentLang === 'en' ? 'Market Avg' : (currentLang === 'zh-Hans' ? '全城平均公价' : '全城平均公價');
+        const lblDev = currentLang === 'en' ? 'Deviation' : (currentLang === 'zh-Hans' ? '定价偏离度' : '定價偏離度');
+        const lblDrop = currentLang === 'en' ? 'Market Drop' : (currentLang === 'zh-Hans' ? '真实市场降幅' : '真實市場降幅');
 
         const body = document.getElementById('leaderboardTableBody');
         if (body) {
@@ -816,13 +846,39 @@
                 }
 
                 let marketStatsHTML = '';
-                if (item.hasCompetitors) {
-                    let dropColor = item.marketDropPct > 0 ? 'text-orange-600 dark:text-orange-400 font-black' : 'text-slate-500 font-bold';
-                    let dropArrow = item.marketDropPct > 0 ? '▼' : '';
+                if (item.hasCompetitors && item.marketAvgPrice > 0) {
+                    // 定價偏離度渲染邏輯
+                    let devVal = parseFloat(item.priceDeviationPct) || 0;
+                    let devColor, devSuffix, devPrefix;
+                    if (devVal < 0) {
+                        devColor = 'text-emerald-600 dark:text-emerald-400';
+                        devSuffix = currentLang === 'en' ? '(Discount)' : (currentLang === 'zh-Hans' ? '(折让)' : '(折讓)');
+                        devPrefix = '';
+                    } else if (devVal > 0) {
+                        devColor = 'text-rose-600 dark:text-rose-400';
+                        devSuffix = currentLang === 'en' ? '(Premium)' : (currentLang === 'zh-Hans' ? '(溢价)' : '(溢價)');
+                        devPrefix = '+';
+                    } else {
+                        devColor = 'text-slate-500 dark:text-slate-400';
+                        devSuffix = currentLang === 'en' ? '(At Market)' : (currentLang === 'zh-Hans' ? '(贴市)' : '(貼市)');
+                        devPrefix = '';
+                    }
+
+                    // 市場數據視覺化模塊
                     marketStatsHTML = `
-                        <div class="mb-1.5 text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-orange-50 dark:bg-orange-900/20 px-1.5 py-1 rounded border border-orange-200 dark:border-orange-800/50 shadow-sm">
-                            <div class="flex justify-between items-center mb-0.5"><span class="opacity-80">📊 ${lblAvg}</span> <span>$${item.marketAvgPrice.toFixed(1)}</span></div>
-                            <div class="flex justify-between items-center ${dropColor}"><span class="opacity-90">⚔️ ${lblDrop}</span> <span>${dropArrow}${item.marketDropPct.toFixed(1)}%</span></div>
+                        <div class="mb-1.5 text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm rounded p-1.5 w-full min-w-[160px]">
+                            <div class="flex justify-between items-center pb-1 border-b border-dashed border-slate-200 dark:border-slate-700 mb-1">
+                                <span class="opacity-80 flex items-center gap-1">📊 ${lblAvg}</span> 
+                                <span class="text-slate-800 dark:text-slate-100">$${item.marketAvgPrice.toFixed(1)}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="opacity-80 flex items-center gap-1">⚖️ ${lblDev}</span> 
+                                <span class="${devColor}">${devPrefix}${devVal.toFixed(1)}% <span class="font-normal opacity-90 text-[10px]">${devSuffix}</span></span>
+                            </div>
+                            <div class="flex justify-between items-center text-blue-600 dark:text-blue-400 font-black">
+                                <span class="opacity-90 flex items-center gap-1">🎯 ${lblDrop}</span> 
+                                <span>${item.marketDropPct > 0 ? '-' : (item.marketDropPct < 0 ? '+' : '')}${Math.abs(item.marketDropPct).toFixed(1)}%</span>
+                            </div>
                         </div>
                     `;
                 }
@@ -851,10 +907,26 @@
                 let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : (currentLang === 'zh-Hans' ? item.prevOfferHans : item.prevOfferZh);
                 if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
                 
-                const deskBoxId = `desk-hist-${i}`;
+              const deskBoxId = `desk-hist-${i}`;
                 const deskIconId = `desk-icon-${i}`;
                 
+                // ---------------------------------------------------
+                // 🛠️ [新增] 實質折實波幅 UI 顯示邏輯
+                // ---------------------------------------------------
+                let prevEffValForBadge = parseFloat(item.prevEffPrice) || 0;
+                let currEffValForBadge = parseFloat(item.effectivePrice) || 0;
+                let dropBadgeText = `▼ ${(parseFloat(item.realDiscountPct) || 0).toFixed(1)}%`;
+                
+                if (prevEffValForBadge > currEffValForBadge) {
+                    let amtDiff = prevEffValForBadge - currEffValForBadge;
+                    let pctDiff = (amtDiff / prevEffValForBadge) * 100;
+                    // 強制採用要求的波幅格式: ▼ -$0.6 (-0.2%)
+                    dropBadgeText = `▼ -$${amtDiff.toFixed(1)} (-${pctDiff.toFixed(1)}%)`;
+                }
+                // ---------------------------------------------------
+                
                 const statusBadgeHTML = `
+
                     <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95 mx-auto" onclick="toggleHistoryBox('${deskBoxId}', '${deskIconId}')">
                         <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] font-bold rounded border ${stDict.color} whitespace-nowrap shadow-sm">
                             <span class="${item.statusKey === 'increase' || item.statusKey === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span> ${statusText}
@@ -878,7 +950,6 @@
                 return `
                 <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/30 transition-colors group">
                     <td class="p-3 align-top text-center font-black ${rankClass} whitespace-nowrap">${rankMedal}</td>
-                    <!-- 🟢 將分類設定為 Clickable 並綁定下拉選單 -->
                     <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[90px] cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors" title="${displayCategory}" onclick="event.stopPropagation(); syncFilters('cat', '${safeRawCat}'); window.scrollTo({ top: 0, behavior: 'smooth' });">${displayCategory}</td>
                     <td class="p-3 align-top text-center whitespace-nowrap">${getSmBadge(item.smCode, currentLang)}</td>
                     <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px]" title="${brandName}">${brandName}</td>
@@ -890,9 +961,9 @@
                     <td class="p-3 align-top text-right text-slate-400 dark:text-slate-500 line-through text-[12px] whitespace-nowrap">$${(parseFloat(item.originalPrice) || 0).toFixed(1)}</td>
                     <td class="p-3 align-top text-right font-black text-blue-600 dark:text-blue-400 text-[16px] whitespace-nowrap">$${(parseFloat(item.effectivePrice) || 0).toFixed(1)}</td>
                     <td class="p-3 align-top text-right whitespace-nowrap">
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 shadow-sm">▼ ${(parseFloat(item.realDiscountPct) || 0).toFixed(1)}%</span>
+                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 shadow-sm">${dropBadgeText}</span>
                     </td>
-                    <td class="p-3 align-top text-[11px] leading-tight max-w-[150px] hover:max-w-none truncate hover:whitespace-normal transition-all">
+                    <td class="p-3 align-top text-[11px] leading-tight max-w-[180px]">
                         ${marketStatsHTML}
                         ${otherPricesHTML ? `<div class="text-slate-400 dark:text-slate-500 break-words ${item.hasCompetitors ? 'mt-1.5 pt-1.5 border-t border-slate-100 dark:border-slate-700/50' : ''}" title="${otherPricesHTML}">${otherStrText}: ${otherPricesHTML}</div>` : `<span class="text-slate-400 dark:text-slate-500">-</span>`}
                     </td>
@@ -909,87 +980,99 @@
             title: "ℹ️ 運算機制與聲明",
             close: "我明白",
             content: `
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 數據運算機制大解密</h4>
-                <p class="mb-2">本榜單採用純數學公式進行客觀對比，絕無人工干預：</p>
-                <ul class="list-disc pl-5 space-y-1 mb-3">
-                    <li><b>1. 鎖定數據：</b>每日同步政府「網上價格一覽通」最新數據，防堵缺貨商品歷史殘影。</li>
-                    <li><b>2. 還原折實價：</b>AI 引擎自動拆解「買X件$Y」等綑綁促銷，精算單件真實折合價。</li>
-                    <li><b>3. 識破先加後減與字眼掩飾：</b>無論超市有沒有掛上促銷標籤，系統只看歷史物理對撞！必須確保「今日折實價」嚴格低於<b>「上次歷史快照記錄之折實價」</b>，方可上榜。無情剔除超市抬高原價的假促銷，保證您買得平過尋日。</li>
-                    <li><b>4. 全城公價：</b>結合全城競爭對手定價，運算出公價，並顯示「擊穿市價幅」。</li>
-                    <li><b>5. 平手決勝與公平原則：</b>為精選全城最抵，若跨超市出現折實同價，系統將秉持「公平原則」，優先顯示「原價較低」(定價最老實、無發水標高) 的超市，嚴厲打擊「假原價」掩眼法；若原價亦完全相同，則以超市英文代碼 A-Z 排序決出單一上榜者。</li>
-                </ul>
+              <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 數據運算機制大解密</h4>
+<p class="mb-2">本榜單之排名與數據，均採用純數學公式基於客觀數據進行全自動化比對，絕無任何人為干預或商業偏向。系統核心運算機制如下：</p>
+<ul class="list-disc pl-5 space-y-1 mb-3">
+    <li><b>1. 鎖定數據源頭 (Data Synchronization)：</b>每日同步香港政府「網上價格一覽通」之最新公開數據，確保數據的即時性及準確性，並自動排除缺貨或已下架商品之歷史殘影。</li>
+    <li><b>2. 還原真實折實價 (Price Normalization)：</b>AI 運算引擎會自動拆解「買 X 件 $Y」或「第 X 件半價」等綑綁式促銷邏輯，將所有複雜定價統一精算為「單件真實折合價」，以建立絕對平等的跨超市對比基準。</li>
+    <li><b>3. 嚴格歷史物理對撞 (Historical Price Collision)：</b>系統運算不依賴超市所標示的促銷標籤，純粹基於客觀歷史數據進行比對。必須確保「今日單件折實價」嚴格低於「上次歷史快照記錄之折實價」，<b>且實質跌幅必須大於 $0.05</b>，方能觸發上榜機制。此舉能精準過濾<b>「1仙特價」等數字遊戲及無實質下調的表面促銷</b>，以純數學邏輯確保消費者獲得真正的降價資訊。</li>
+    <li><b>4. 確立「全城平均公價」 (The Market Benchmark)：</b>系統會將全港各大超市該貨品的「常規底價」相加並計算平均值，得出客觀的「全城平均公價」。此指標代表該商品在市場上的常規參考價值，不受單一超市的獨立定價策略所影響。</li>
+    <li><b>5. 雙重數據透視，彰顯客觀公平 (The Fairness Protocol)：</b>系統將透過以下兩項核心運算進行公平比對與排序：
+        <ul class="list-circle pl-5 mt-1 space-y-1">
+            <li><b>量度定價偏離度 (Price Deviation Analysis)：</b> 系統會將超市標示的「原價」與「全城平均公價」進行對比。透過運算兩者之間的數學差異，客觀呈現該超市定價與全城基準的溢價比例，讓消費者清晰掌握其定價水平。</li>
+            <li><b>精算「真實市場降幅」 (Real Market Discount)：</b> 系統在計算最終降幅時，會嚴格採用該超市的「今日折實價」與「全城平均公價」進行直接比對，得出反映真實市場深度的折扣百分比。若跨超市出現折實同價的情況，系統會啟動「公平原則」，<b>優先顯示其標示原價最貼近全城公價（即定價最老實、無刻意抬高底價造數）的超市，從而打擊發水促銷</b>，以純數據邏輯排列出最具參考價值的結果。</li>
+        </ul>
+    </li>
+</ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 歷史狀態判定基準</h4>
-                <p class="mb-2 text-[12px]">系統每日將即時價格與 <b>2025年12月31日以來</b> 的最新<b>歷史快照記錄</b>進行比對，標籤定義如下：</p>
+                <p class="mb-2 text-[12px]">系統每日將即時價格與 <b>2025年12月31日以來</b> 的最新歷史快照記錄進行運算比對，系統標籤嚴格定義如下：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>低於</b> 上次歷史快照記錄之折實價，且定價為全城最平。（註：包含短期促銷與永久調低底價之貨品）</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以來，系統首次記錄到該貨品於此超市之報價。</span></div>
-                    
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 無效促銷</span> <span class="text-slate-600 dark:text-slate-400">超市掛上促銷標籤，但計算後發現單件折實價 <b>大於或等於</b> 上次歷史快照記錄之折實價，毫無實質優惠。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 底價暗升</span> <span class="text-slate-600 dark:text-slate-400">今日折實價 <b>高於</b> 上次歷史快照記錄之折實價。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 換新優惠</span> <span class="text-slate-600 dark:text-slate-400">折實價與上次歷史快照記錄相同，但超市更換了促銷手段 (如送贈品或改變件數)。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日折實價嚴格<b>低於</b>上次歷史快照記錄之折實價，且定價為全城最平。（註：涵蓋短期促銷與永久調低底價之貨品）</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底系統啟動以來，首次記錄到該貨品於此超市之報價。</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 無實質降幅</span> <span class="text-slate-600 dark:text-slate-400">超市掛上促銷標籤，但經計算後，其單件折實價<b>大於或等於</b>上次歷史快照記錄，未有產生實質的價格下調。</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 底價上升</span> <span class="text-slate-600 dark:text-slate-400">今日折實價<b>高於</b>上次歷史快照記錄之折實價。</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 換新優惠</span> <span class="text-slate-600 dark:text-slate-400">折實價與上次歷史快照記錄相同，但更換了促銷手段（如改變贈品或綑綁件數條件）。</span></div>
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 價格維持</span> <span class="text-slate-600 dark:text-slate-400">價格與促銷活動與上次歷史快照記錄完全相同。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免責聲明</h4>
-                <p class="mb-2"><b>1. 資訊僅供參考：</b>所有價格均由電腦基於公開數據自動運算得出。數據可能因分店差異而有別，絕不構成購買建議。結帳前請自行核實實體店標價。</p>
-                <p class="mb-2"><b>2. 數據中立性：</b>本程式不隸屬任何超市，絕不人工干預價格數據，排名純依數學差異客觀排列。</p>
-                <p><b>3. 責任限制：</b>本程式以「現況」提供。對於因數據落差引致之任何損失，本程式及開發團隊概不承擔法律責任。</p>
+                <p class="mb-2"><b>1. 資訊僅供參考：</b>所有價格均由電腦基於公開數據自動運算得出。數據可能因實體分店差異、更新延遲而有別，絕不構成任何購買建議。結帳前請自行核實實體店標價。</p>
+                <p class="mb-2"><b>2. 數據中立性：</b>本程式不隸屬、不代表任何超市集團。系統絕無人工干預價格數據，排名純依數學差異與歷史記錄作客觀排列。</p>
+                <p><b>3. 責任限制：</b>本程式以「現況」提供。對於因數據落差、系統延遲或詮釋差異而引致之任何直接或間接損失，本程式及開發團隊概不承擔法律責任。</p>
             `
         },
         'zh-Hans': {
             title: "ℹ️ 运算机制与声明",
             close: "我明白",
             content: `
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 数据运算机制大解密</h4>
-                <p class="mb-2">本榜单采用纯数学公式进行客观对比，绝无人工干预：</p>
-                <ul class="list-disc pl-5 space-y-1 mb-3">
-                    <li><b>1. 锁定数据：</b>每日同步政府「网上价格一览通」最新数据，防堵缺货商品历史残影。</li>
-                    <li><b>2. 还原折实价：</b>AI 引擎自动拆解「买X件$Y」等捆绑促销，精算单件真实折合价。</li>
-                    <li><b>3. 识破先加后减与字眼掩饰：</b>无论超市有没有挂上促销标签，系统只看历史物理对撞！必须确保「今日折实价」严格低于<b>「上次历史快照记录之折实价」</b>，方可上榜。无情剔除超市抬高原价的假促销，保证您买得比昨天便宜。</li>
-                    <li><b>4. 全城公价：</b>结合全城竞争对手定价，运算出公价，并显示「击穿市价幅」。</li>
-                    <li><b>5. 平手决胜与公平原则：</b>为精选全城最抵，若跨超市出现折实同价，系统将秉持「公平原则」，优先显示「原价较低」(定价最老实、无发水标高) 的超市，严厉打击「假原价」掩眼法；若原价亦完全相同，则以超市英文代码 A-Z 排序决出单一上榜者。</li>
-                </ul>
+               <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 数据运算机制大解密</h4>
+<p class="mb-2">本榜单之排名与数据，均采用纯数学公式基于客观数据进行全自动化比对，绝无任何人为干预或商业偏向。系统核心运算机制如下：</p>
+<ul class="list-disc pl-5 space-y-1 mb-3">
+    <li><b>1. 锁定数据源头 (Data Synchronization)：</b>每日同步香港政府「网上价格一览通」之最新公开数据，确保数据的即时性及准确性，并自动排除缺货或已下架商品之历史残影。</li>
+    <li><b>2. 还原真实折实价 (Price Normalization)：</b>AI 运算引擎会自动拆解「买 X 件 $Y」或「第 X 件半价」等捆绑式促销逻辑，将所有复杂定价统一精算为「单件真实折合价」，以建立绝对平等的跨超市对比基准。</li>
+    <li><b>3. 严格历史物理对撞 (Historical Price Collision)：</b>系统运算不依赖超市所标示的促销标签，纯粹基于客观历史数据进行比对。必须确保「今日单件折实价」严格低于「上次历史快照记录之折实价」，<b>且实质降幅必须大于 $0.05</b>，方能触发上榜机制。此举能精准过滤<b>「1仙特价」等数字游戏及无实质下调的表面促销</b>，以纯数学逻辑确保消费者获得真正的降价资讯。</li>
+    <li><b>4. 确立「全城平均公价」 (The Market Benchmark)：</b>系统会将全港各大超市该货品的「常规底价」相加并计算平均值，得出客观的「全城平均公价」。此指标代表该商品在市场上的常规参考价值，不受单一超市的独立定价策略所影响。</li>
+    <li><b>5. 双重数据透视，彰显客观公平 (The Fairness Protocol)：</b>系统将透过以下两项核心运算进行公平比对与排序：
+        <ul class="list-circle pl-5 mt-1 space-y-1">
+            <li><b>量度定价偏离度 (Price Deviation Analysis)：</b> 系统会将超市标示的「原价」与「全城平均公价」进行对比。透过运算两者之间的数学差异，客观呈现该超市定价与全城基准的溢价比例，让消费者清晰掌握其定价水平。</li>
+            <li><b>精算「真实市场降幅」 (Real Market Discount)：</b> 系统在计算最终降幅时，会严格采用该超市的「今日折实价」与「全城平均公价」进行直接对比，得出反映真实市场深度的折扣百分比。若跨超市出现折实同价的情况，系统会启动「公平原则」，<b>优先显示其标示原价最贴近全城公价（即定价最老实、无刻意抬高底价造数）的超市，从而打击发水促销</b>，以纯数据逻辑排列出最具参考价值的结果。</li>
+        </ul>
+    </li>
+</ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 历史状态判定基准</h4>
-                <p class="mb-2 text-[12px]">系统每日将即时价格与 <b>2025年12月31日以来</b> 的最新<b>历史快照记录</b>进行比对，标签定义如下：</p>
+                <p class="mb-2 text-[12px]">系统每日将即时价格与 <b>2025年12月31日以来</b> 的最新历史快照记录进行运算比对，系统标签严格定义如下：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>低于</b> 上次历史快照记录之折实价，且定价为全城最平。（注：包含短期促销与永久调低底价之货品）</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底以来，系统首次记录到该商品于此超市之报价。</span></div>
-                    
-                   <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 无效促销</span> <span class="text-slate-600 dark:text-slate-400">超市挂上促销标签，但计算后发现单件折实价 <b>大于或等于</b> 上次历史快照记录之折实价，毫无实质优惠。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 底价暗升</span> <span class="text-slate-600 dark:text-slate-400">今日折实价 <b>高于</b> 上次历史快照记录之折实价。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 换新优惠</span> <span class="text-slate-600 dark:text-slate-400">折实价与上次历史快照记录相同，但超市更换了促销手段 (如送赠品或改变件数)。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日折实价严格<b>低于</b>上次历史快照记录之折实价，且定价为全城最平。（注：涵盖短期促销与永久调低底价之货品）</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底系统启动以来，首次记录到该货品于此超市之报价。</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 无实质降幅</span> <span class="text-slate-600 dark:text-slate-400">超市挂上促销标签，但经计算后，其单件折实价<b>大于或等于</b>上次历史快照记录，未有产生实质的价格下调。</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 底价上升</span> <span class="text-slate-600 dark:text-slate-400">今日折实价<b>高于</b>上次历史快照记录之折实价。</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 换新优惠</span> <span class="text-slate-600 dark:text-slate-400">折实价与上次历史快照记录相同，但更换了促销手段（如改变赠品或捆绑件数条件）。</span></div>
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 价格维持</span> <span class="text-slate-600 dark:text-slate-400">价格与促销活动与上次历史快照记录完全相同。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免责声明</h4>
-                <p class="mb-2"><b>1. 资讯仅供参考：</b>所有价格均由电脑基于公开数据自动运算得出。数据可能因分店差异而有别，绝不构成购买建议。结帐前请自行核实实体店标价。</p>
-                <p class="mb-2"><b>2. 数据中立性：</b>本程式不隶属任何超市，绝不人工干预价格数据，排名纯依数学差异客观排列。</p>
-                <p><b>3. 责任限制：</b>本程式以「现况」提供。对于因数据落差引致之任何损失，本程式及开发团队概不承担法律责任。</p>
+                <p class="mb-2"><b>1. 资讯仅供参考：</b>所有价格均由电脑基于公开数据自动运算得出。数据可能因实体分店差异、更新延迟而有别，绝不构成任何购买建议。结帐前请自行核实实体店标价。</p>
+                <p class="mb-2"><b>2. 数据中立性：</b>本程式不隶属、不代表任何超市集团。系统绝无人工干预价格数据，排名纯依数学差异与历史记录作客观排列。</p>
+                <p><b>3. 责任限制：</b>本程式以「现况」提供。对于因数据落差、系统延迟或诠释差异而引致之任何直接或间接损失，本程式及开发团队概不承担法律责任。</p>
             `
         },
         'en': {
             title: "ℹ️ Algorithm & Disclaimer",
             close: "I Understand",
             content: `
-                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 How is it calculated?</h4>
-                <p class="mb-2">Our board uses pure math for objective comparisons, with no manual intervention:</p>
-                <ul class="list-disc pl-5 space-y-1 mb-3">
-                    <li><b>1. Official Data:</b> Synced daily with the government's latest data to avoid "ghost prices" of out-of-stock items.</li>
-                    <li><b>2. True Effective Price:</b> Our AI breaks down promos (e.g., "Buy 2 for $Y") to calculate the true price per item.</li>
-                    <li><b>3. Unmasking Fake Promos:</b> Regardless of whether a promo tag is displayed, our system strictly checks historical data. Today's effective price must be strictly lower than <b>the effective price of the last historical snapshot record</b> to be listed, filtering out fake promotions where base prices are artificially inflated.</li>
-                    <li><b>4. Market Drop:</b> Computes the true market average by combining all competitors' pricing.</li>
-                    <li><b>5. Tie-Breaker & Fairness Rule:</b> To highlight the best deals, if competitors offer the exact same effective price, the system upholds the "Fairness Principle" by prioritizing the supermarket with the <b>lower original price</b> (honest pricing without artificial markups). If both are absolutely identical, it uses the alphabetical order of the supermarket code to select a single winner.</li>
-                </ul>
+              <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 How is it calculated?</h4>
+<p class="mb-2">The rankings and data on this board are generated through automated comparisons using pure mathematical formulas based on objective data. The core mechanisms are as follows:</p>
+<ul class="list-disc pl-5 space-y-1 mb-3">
+    <li><b>1. Data Synchronization:</b> Daily synchronization with the latest public data from the Hong Kong Government's "Online Price Watch" to ensure accuracy and eliminate outdated "ghost prices" of out-of-stock items.</li>
+    <li><b>2. Price Normalization:</b> Our AI engine automatically breaks down bundled promotions (e.g., "Buy X for $Y") to calculate the true effective price per single item.</li>
+    <li><b>3. Historical Price Collision:</b> The system strictly checks historical data instead of relying solely on supermarket promotional tags. Today's effective price must be strictly lower than the effective price of the last historical snapshot record, <b>with a substantive price drop of more than $0.05</b>, to be listed. This effectively filters out <b>1-cent gimmick drops</b> and surface-level promotions with no real price reduction.</li>
+    <li><b>4. The Market Benchmark:</b> The system calculates the objective "Market Average Benchmark" by averaging the "Base Prices" of the product across all major supermarkets. This metric represents the regular market value.</li>
+    <li><b>5. The Fairness Protocol:</b> The system applies two core calculations for fair comparison and sorting:
+        <ul class="list-circle pl-5 mt-1 space-y-1">
+            <li><b>Price Deviation Analysis:</b> Compares the supermarket's stated "Original Price" against the "Market Average Benchmark" to objectively present the premium markup percentage.</li>
+            <li><b>Real Market Discount:</b> Calculates the final discount percentage by strictly comparing the supermarket's "Today's Effective Price" against the "Market Average Benchmark". In the event of identical effective prices across supermarkets, the "Fairness Principle" is activated, prioritizing the supermarket whose stated original price is <b>closest to the market benchmark (i.e., the most honest pricing without artificial markup)</b>, thereby punishing inflated promos and ensuring the most reliable results.</li>
+        </ul>
+    </li>
+</ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 History Status Definitions</h4>
                 <p class="mb-2 text-[12px]">The system compares today's live price with the <b>latest historical snapshot record</b> since Dec 31, 2025. Definitions:</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>lower</b> than the last historical snapshot record, AND it is the lowest price in the market. (Note: Includes short-term promos and permanent price drops).</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is strictly <b>lower</b> than the last historical snapshot record, AND it is the lowest price in the market. (Note: Includes short-term promos and permanent price drops).</span></div>
                     <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since late 2025.</span></div>
-                    
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 Invalid Promo</span> <span class="text-slate-600 dark:text-slate-400">A promo tag is displayed, but the calculated effective price is <b>greater than or equal to</b> the last historical snapshot record. No real savings.</span></div>
+                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 Invalid Promo</span> <span class="text-slate-600 dark:text-slate-400">A promo tag is displayed, but the calculated effective price is <b>greater than or equal to</b> the last historical snapshot record. No real price reduction.</span></div>
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 Base Price Increase</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>higher</b> than the last historical snapshot record.</span></div>
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ Promo Changed</span> <span class="text-slate-600 dark:text-slate-400">Effective price is identical to the last historical snapshot record, but the supermarket changed the promotion terms.</span></div>
                     <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ Maintained</span> <span class="text-slate-600 dark:text-slate-400">Price and promotions are identical to the last historical snapshot record.</span></div>
@@ -997,8 +1080,8 @@
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ Legal Disclaimer</h4>
                 <p class="mb-2"><b>1. For Reference Only:</b> Prices are auto-calculated from public data. Discrepancies may occur due to branch variations. Always verify at the physical store before purchasing.</p>
-                <p class="mb-2"><b>2. Neutrality:</b> We are not affiliated with any supermarkets. Rankings are strictly based on math.</p>
-                <p><b>3. Liability:</b> Provided "AS IS". The developers accept no liability for any losses caused by data discrepancies.</p>
+                <p class="mb-2"><b>2. Neutrality:</b> We are not affiliated with or represent any supermarket group. Rankings are strictly based on math and historical records.</p>
+                <p><b>3. Liability:</b> Provided "AS IS". The developers accept no liability for any direct or indirect losses caused by data discrepancies or interpretation differences.</p>
             `
         }
     };
