@@ -661,7 +661,7 @@
         renderLeaderboard(filtered);
     }
 
-    function populateDropdowns() {
+  function populateDropdowns() {
         const catEls = [document.getElementById('headerCatFilter')].filter(Boolean);
         const smEls = [document.getElementById('headerSmFilter')].filter(Boolean);
         const statusEls = [document.getElementById('headerStatusFilter')].filter(Boolean);
@@ -673,7 +673,7 @@
         
         const otherAllText = currentLang === 'en' ? 'All Items' : (currentLang === 'zh-Hans' ? '全部商品' : '全部貨品');
         const otherHasText = currentLang === 'en' ? 'Has Competitors' : (currentLang === 'zh-Hans' ? '有对手定价' : '有對手定價');
-        const otherBattleText = currentLang === 'en' ? '👑 Battle Winners' : (currentLang === 'zh-Hans' ? '👑 战情霸主 (全城最低+击穿市价)' : '👑 戰情霸主 (全城最低+擊穿市價)');
+        // 🛑 已移除 otherBattleText 變數
 
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
         const smOpts = `<option value="ALL">${smAllText}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
@@ -687,7 +687,8 @@
         const statusOpts = `<option value="ALL">${statusAllText}</option>` + statuses.map(s => `<option value="${s}">${statusI18n[s][currentLang] || statusI18n[s]['zh-Hant']}</option>`).join('');
         statusEls.forEach(el => el.innerHTML = statusOpts);
 
-        const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option><option value="BATTLE_WINNER">${otherBattleText}</option>`;
+        // 🛑 已移除 BATTLE_WINNER 的 option
+        const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option>`;
         otherEls.forEach(el => el.innerHTML = otherOpts);
 
         const safeSm = (fullDataList.length === 0) ? fState.sm : (smCodes.includes(fState.sm) ? fState.sm : 'ALL');
@@ -975,7 +976,7 @@
        
     }
 
-   const calcInfoTexts = {
+ const calcInfoTexts = {
         'zh-Hant': {
             title: "ℹ️ 運算機制與聲明",
             close: "我明白",
@@ -983,27 +984,23 @@
               <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 數據運算機制大解密</h4>
 <p class="mb-2">本榜單之排名與數據，均採用純數學公式基於客觀數據進行全自動化比對，絕無任何人為干預或商業偏向。系統核心運算機制如下：</p>
 <ul class="list-disc pl-5 space-y-1 mb-3">
-    <li><b>1. 鎖定數據源頭 (Data Synchronization)：</b>每日同步香港政府「網上價格一覽通」之最新公開數據，確保數據的即時性及準確性，並自動排除缺貨或已下架商品之歷史殘影。</li>
-    <li><b>2. 還原真實折實價 (Price Normalization)：</b>AI 運算引擎會自動拆解「買 X 件 $Y」或「第 X 件半價」等綑綁式促銷邏輯，將所有複雜定價統一精算為「單件真實折合價」，以建立絕對平等的跨超市對比基準。</li>
-    <li><b>3. 嚴格歷史物理對撞 (Historical Price Collision)：</b>系統運算不依賴超市所標示的促銷標籤，純粹基於客觀歷史數據進行比對。必須確保「今日單件折實價」嚴格低於「上次歷史快照記錄之折實價」，<b>且實質跌幅必須大於 $0.05</b>，方能觸發上榜機制。此舉能精準過濾<b>「1仙特價」等數字遊戲及無實質下調的表面促銷</b>，以純數學邏輯確保消費者獲得真正的降價資訊。</li>
+    <li><b>1. 鎖定數據源頭 (Data Synchronization)：</b>每日同步香港政府「網上價格一覽通」之最新公開定價，並與本系統自家建立及長期維護的「歷史價格資料庫」進行精準對接，確保數據對比的即時性及連貫性。</li>
+    <li><b>2. 還原真實折實價 (Price Normalization)：</b>系統的內置運算程式會自動拆解超市官方提供的促銷字眼（如「Buy X for $Y」或「2nd Half Price」等），將所有複雜定價統一精算為「單件真實折合價」，以建立絕對平等的跨超市對比基準。</li>
+    <li><b>3. 嚴格精算比對 (Precision Collision)：</b>系統的折實價精算嚴格依賴官方促銷標籤為計算基礎。為撇除數學上的浮點數誤差，系統會將所有計算得出的價格，嚴格統一至小數點後 1 位進行客觀比對。必須確保「今日單件折實價」嚴格低於「上次歷史快照記錄」，方能觸發降價上榜，精準過濾「1仙特價」等數字遊戲。</li>
     <li><b>4. 確立「全城平均公價」 (The Market Benchmark)：</b>系統會將全港各大超市該貨品的「常規底價」相加並計算平均值，得出客觀的「全城平均公價」。此指標代表該商品在市場上的常規參考價值，不受單一超市的獨立定價策略所影響。</li>
     <li><b>5. 雙重數據透視，彰顯客觀公平 (The Fairness Protocol)：</b>系統將透過以下兩項核心運算進行公平比對與排序：
         <ul class="list-circle pl-5 mt-1 space-y-1">
-            <li><b>量度定價偏離度 (Price Deviation Analysis)：</b> 系統會將超市標示的「原價」與「全城平均公價」進行對比。透過運算兩者之間的數學差異，客觀呈現該超市定價與全城基準的溢價比例，讓消費者清晰掌握其定價水平。</li>
-            <li><b>精算「真實市場降幅」 (Real Market Discount)：</b> 系統在計算最終降幅時，會嚴格採用該超市的「今日折實價」與「全城平均公價」進行直接比對，得出反映真實市場深度的折扣百分比。若跨超市出現折實同價的情況，系統會啟動「公平原則」，<b>優先顯示其標示原價最貼近全城公價（即定價最老實、無刻意抬高底價造數）的超市，從而打擊發水促銷</b>，以純數據邏輯排列出最具參考價值的結果。</li>
+            <li><b>量度定價偏離度 (Price Deviation Analysis)：</b>系統會將超市標示的「原價」與「全城平均公價」進行對比，客觀呈現該超市定價與全城基準的溢價比例，讓消費者清晰掌握其定價水平。</li>
+            <li><b>精算「真實市場降幅」 (Real Market Discount)：</b>嚴格採用「今日折實價」與「全城平均公價」直接比對，得出反映真實市場深度的折扣百分比。若跨超市出現折實同價，系統底層演算會啟動「公平原則」，優先顯示其標示原價最貼近全城公價（即定價最老實、無刻意抬高底價造數）的超市，從而打擊發水促銷。</li>
         </ul>
     </li>
 </ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 歷史狀態判定基準</h4>
-                <p class="mb-2 text-[12px]">系統每日將即時價格與 <b>2025年12月31日以來</b> 的最新歷史快照記錄進行運算比對，系統標籤嚴格定義如下：</p>
+                <p class="mb-2 text-[12px]">系統結合大數據運算引擎，將全城定價異動精準分級：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日折實價嚴格<b>低於</b>上次歷史快照記錄之折實價，且定價為全城最平。（註：涵蓋短期促銷與永久調低底價之貨品）</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底系統啟動以來，首次記錄到該貨品於此超市之報價。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 無實質降幅</span> <span class="text-slate-600 dark:text-slate-400">超市掛上促銷標籤，但經計算後，其單件折實價<b>大於或等於</b>上次歷史快照記錄，未有產生實質的價格下調。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 底價上升</span> <span class="text-slate-600 dark:text-slate-400">今日折實價<b>高於</b>上次歷史快照記錄之折實價。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 換新優惠</span> <span class="text-slate-600 dark:text-slate-400">折實價與上次歷史快照記錄相同，但更換了促銷手段（如改變贈品或綑綁件數條件）。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 價格維持</span> <span class="text-slate-600 dark:text-slate-400">價格與促銷活動與上次歷史快照記錄完全相同。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日單件折實價嚴格<b>低於</b>上次歷史快照記錄之折實價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自系統啟動以來，首次記錄到該貨品於該超市之報價。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免責聲明</h4>
@@ -1019,27 +1016,23 @@
                <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 数据运算机制大解密</h4>
 <p class="mb-2">本榜单之排名与数据，均采用纯数学公式基于客观数据进行全自动化比对，绝无任何人为干预或商业偏向。系统核心运算机制如下：</p>
 <ul class="list-disc pl-5 space-y-1 mb-3">
-    <li><b>1. 锁定数据源头 (Data Synchronization)：</b>每日同步香港政府「网上价格一览通」之最新公开数据，确保数据的即时性及准确性，并自动排除缺货或已下架商品之历史残影。</li>
-    <li><b>2. 还原真实折实价 (Price Normalization)：</b>AI 运算引擎会自动拆解「买 X 件 $Y」或「第 X 件半价」等捆绑式促销逻辑，将所有复杂定价统一精算为「单件真实折合价」，以建立绝对平等的跨超市对比基准。</li>
-    <li><b>3. 严格历史物理对撞 (Historical Price Collision)：</b>系统运算不依赖超市所标示的促销标签，纯粹基于客观历史数据进行比对。必须确保「今日单件折实价」严格低于「上次历史快照记录之折实价」，<b>且实质降幅必须大于 $0.05</b>，方能触发上榜机制。此举能精准过滤<b>「1仙特价」等数字游戏及无实质下调的表面促销</b>，以纯数学逻辑确保消费者获得真正的降价资讯。</li>
+    <li><b>1. 锁定数据源头 (Data Synchronization)：</b>每日同步香港政府「网上价格一览通」之最新公开定价，并与本系统自家建立及长期维护的「历史价格数据库」进行精准对接，确保数据对比的即时性及连贯性。</li>
+    <li><b>2. 还原真实折实价 (Price Normalization)：</b>系统的内置运算程式会自动拆解超市官方提供的促销字眼（如「Buy X for $Y」或「2nd Half Price」等），将所有复杂定价统一精算为「单件真实折合价」，以建立绝对平等的跨超市对比基准。</li>
+    <li><b>3. 严格精算比对 (Precision Collision)：</b>系统的折实价精算严格依赖官方促销标签为计算基础。为撇除数学上的浮点数误差，系统会将所有计算得出的价格，严格统一至小数点后 1 位进行客观比对。必须确保「今日单件折实价」严格低于「上次历史快照记录」，方能触发降价上榜，精准过滤「1仙特价」等数字游戏。</li>
     <li><b>4. 确立「全城平均公价」 (The Market Benchmark)：</b>系统会将全港各大超市该货品的「常规底价」相加并计算平均值，得出客观的「全城平均公价」。此指标代表该商品在市场上的常规参考价值，不受单一超市的独立定价策略所影响。</li>
     <li><b>5. 双重数据透视，彰显客观公平 (The Fairness Protocol)：</b>系统将透过以下两项核心运算进行公平比对与排序：
         <ul class="list-circle pl-5 mt-1 space-y-1">
-            <li><b>量度定价偏离度 (Price Deviation Analysis)：</b> 系统会将超市标示的「原价」与「全城平均公价」进行对比。透过运算两者之间的数学差异，客观呈现该超市定价与全城基准的溢价比例，让消费者清晰掌握其定价水平。</li>
-            <li><b>精算「真实市场降幅」 (Real Market Discount)：</b> 系统在计算最终降幅时，会严格采用该超市的「今日折实价」与「全城平均公价」进行直接对比，得出反映真实市场深度的折扣百分比。若跨超市出现折实同价的情况，系统会启动「公平原则」，<b>优先显示其标示原价最贴近全城公价（即定价最老实、无刻意抬高底价造数）的超市，从而打击发水促销</b>，以纯数据逻辑排列出最具参考价值的结果。</li>
+            <li><b>量度定价偏离度 (Price Deviation Analysis)：</b>系统会将超市标示的「原价」与「全城平均公价」进行对比，客观呈现该超市定价与全城基准的溢价比例，让消费者清晰掌握其定价水平。</li>
+            <li><b>精算「真实市场降幅」 (Real Market Discount)：</b>严格采用「今日折实价」与「全城平均公价」直接对比，得出反映真实市场深度的折扣百分比。若跨超市出现折实同价，系统底层演算会启动「公平原则」，优先显示其标示原价最贴近全城公价（即定价最老实、无刻意抬高底价造数）的超市，从而打击发水促销。</li>
         </ul>
     </li>
 </ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 历史状态判定基准</h4>
-                <p class="mb-2 text-[12px]">系统每日将即时价格与 <b>2025年12月31日以来</b> 的最新历史快照记录进行运算比对，系统标签严格定义如下：</p>
+                <p class="mb-2 text-[12px]">系统结合大数据运算引擎，将全城定价异动精准分级：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日折实价严格<b>低于</b>上次历史快照记录之折实价，且定价为全城最平。（注：涵盖短期促销与永久调低底价之货品）</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自 2025年底系统启动以来，首次记录到该货品于此超市之报价。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 无实质降幅</span> <span class="text-slate-600 dark:text-slate-400">超市挂上促销标签，但经计算后，其单件折实价<b>大于或等于</b>上次历史快照记录，未有产生实质的价格下调。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 底价上升</span> <span class="text-slate-600 dark:text-slate-400">今日折实价<b>高于</b>上次历史快照记录之折实价。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ 换新优惠</span> <span class="text-slate-600 dark:text-slate-400">折实价与上次历史快照记录相同，但更换了促销手段（如改变赠品或捆绑件数条件）。</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ 价格维持</span> <span class="text-slate-600 dark:text-slate-400">价格与促销活动与上次历史快照记录完全相同。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日单件折实价严格<b>低于</b>上次历史快照记录之折实价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自系统启动以来，首次记录到该货品于该超市之报价。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免责声明</h4>
@@ -1055,27 +1048,23 @@
               <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mb-1">🔢 How is it calculated?</h4>
 <p class="mb-2">The rankings and data on this board are generated through automated comparisons using pure mathematical formulas based on objective data. The core mechanisms are as follows:</p>
 <ul class="list-disc pl-5 space-y-1 mb-3">
-    <li><b>1. Data Synchronization:</b> Daily synchronization with the latest public data from the Hong Kong Government's "Online Price Watch" to ensure accuracy and eliminate outdated "ghost prices" of out-of-stock items.</li>
-    <li><b>2. Price Normalization:</b> Our AI engine automatically breaks down bundled promotions (e.g., "Buy X for $Y") to calculate the true effective price per single item.</li>
-    <li><b>3. Historical Price Collision:</b> The system strictly checks historical data instead of relying solely on supermarket promotional tags. Today's effective price must be strictly lower than the effective price of the last historical snapshot record, <b>with a substantive price drop of more than $0.05</b>, to be listed. This effectively filters out <b>1-cent gimmick drops</b> and surface-level promotions with no real price reduction.</li>
+    <li><b>1. Data Synchronization:</b> Daily synchronization with the latest public data from the Hong Kong Government's "Online Price Watch", integrated with our proprietary and continuously maintained "Historical Price Database" to ensure immediate and continuous data comparisons.</li>
+    <li><b>2. Price Normalization:</b> Our internal calculation program automatically parses supermarket promotional phrases (e.g., "Buy X for $Y" or "2nd Half Price") to calculate the true effective price per single item.</li>
+    <li><b>3. Precision Collision:</b> The effective price calculation strictly relies on official promotional tags. To eliminate floating-point math errors, the system unifies all calculated prices strictly to 1 decimal place for objective comparison. Today's effective price must be strictly lower than the last historical snapshot record to be listed. This effectively filters out 1-cent gimmick drops.</li>
     <li><b>4. The Market Benchmark:</b> The system calculates the objective "Market Average Benchmark" by averaging the "Base Prices" of the product across all major supermarkets. This metric represents the regular market value.</li>
     <li><b>5. The Fairness Protocol:</b> The system applies two core calculations for fair comparison and sorting:
         <ul class="list-circle pl-5 mt-1 space-y-1">
             <li><b>Price Deviation Analysis:</b> Compares the supermarket's stated "Original Price" against the "Market Average Benchmark" to objectively present the premium markup percentage.</li>
-            <li><b>Real Market Discount:</b> Calculates the final discount percentage by strictly comparing the supermarket's "Today's Effective Price" against the "Market Average Benchmark". In the event of identical effective prices across supermarkets, the "Fairness Principle" is activated, prioritizing the supermarket whose stated original price is <b>closest to the market benchmark (i.e., the most honest pricing without artificial markup)</b>, thereby punishing inflated promos and ensuring the most reliable results.</li>
+            <li><b>Real Market Discount:</b> Calculates the final discount percentage by strictly comparing "Today's Effective Price" against the "Market Average Benchmark". In the event of identical effective prices across supermarkets, the "Fairness Principle" is activated by the underlying algorithm, prioritizing the supermarket whose stated original price is closest to the market benchmark (i.e., the most honest pricing without artificial markup).</li>
         </ul>
     </li>
 </ul>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 History Status Definitions</h4>
-                <p class="mb-2 text-[12px]">The system compares today's live price with the <b>latest historical snapshot record</b> since Dec 31, 2025. Definitions:</p>
+                <p class="mb-2 text-[12px]">The system categorizes pricing changes with high precision:</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is strictly <b>lower</b> than the last historical snapshot record, AND it is the lowest price in the market. (Note: Includes short-term promos and permanent price drops).</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since late 2025.</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-orange-600 bg-orange-50 border-orange-200 shrink-0">🟠 Invalid Promo</span> <span class="text-slate-600 dark:text-slate-400">A promo tag is displayed, but the calculated effective price is <b>greater than or equal to</b> the last historical snapshot record. No real price reduction.</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-red-600 bg-red-50 border-red-200 shrink-0">📈 Base Price Increase</span> <span class="text-slate-600 dark:text-slate-400">Today's effective price is <b>higher</b> than the last historical snapshot record.</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-blue-600 bg-blue-50 border-blue-200 shrink-0">🏷️ Promo Changed</span> <span class="text-slate-600 dark:text-slate-400">Effective price is identical to the last historical snapshot record, but the supermarket changed the promotion terms.</span></div>
-                    <div class="flex items-start gap-2 opacity-60"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-slate-500 bg-slate-100 border-slate-200 shrink-0">⏸️ Maintained</span> <span class="text-slate-600 dark:text-slate-400">Price and promotions are identical to the last historical snapshot record.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's single item effective price is strictly <b>lower</b> than the effective price of the last historical snapshot record.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since system launch.</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ Legal Disclaimer</h4>
