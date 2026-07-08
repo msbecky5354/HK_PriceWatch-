@@ -79,14 +79,17 @@
         <div class="px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-wrap items-center gap-2 text-[12px]">
             <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
             <div class="flex items-center gap-1.5">
-                <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all flex items-center gap-1">
-                    <span id="txtBtnPct20">>20% 減幅</span>
+                <button onclick="togglePctFilter(5)" id="btnPct5" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    <span id="txtBtnPct5">≥ 5% 減幅</span>
                 </button>
-                <button onclick="togglePctFilter(30)" id="btnPct30" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    <span id="txtBtnPct30">>30% 減幅</span>
+                <button onclick="togglePctFilter(10)" id="btnPct10" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    <span id="txtBtnPct10">≥ 10% 減幅</span>
                 </button>
-                <button onclick="togglePctFilter(50)" id="btnPct50" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    🔥 <span id="txtBtnPct50">半價以上 (>50%)</span>
+                <button onclick="togglePctFilter(15)" id="btnPct15" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    <span id="txtBtnPct15">≥ 15% 減幅</span>
+                </button>
+                <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                    <span id="txtBtnPct20">≥ 20% 極限劈價</span>
                 </button>
                 <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mx-1"></div>
                 <button onclick="resetToDefaultFilter()" class="px-2 py-1 text-sm bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-all font-bold shadow-sm active:scale-95 flex items-center gap-1">
@@ -151,29 +154,7 @@
         </div>
     </div>
 
-    <div class="text-center pt-2 pb-8 flex-none w-full"> 
-        <button id="miniFooterLinks" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
-                class="text-[11px] text-[#345B8C] dark:text-[#608BC1] hover:underline decoration-slate-300 dark:decoration-slate-600 transition">
-            關於我們、條款及免責聲明
-        </button>
-        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
-            <span id="miniFooterCopy">© 2026 慳真D</span> 
-            <span class="mx-1.5">|</span> 
-            <span id="footerDevTeam">開發團隊: </span>
-            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="hover:text-slate-700 dark:hover:text-slate-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
-        </div>
-    </div>
-
-    <div id="disclaimerModal" class="hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 z-[200] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh] border dark:border-slate-700 transition-colors duration-300">
-            <div class="flex items-center gap-2 mb-4 border-b border-[#E8F0F8] dark:border-slate-700 pb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#345B8C] dark:text-slate-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                <h2 id="disclaimerTitle" class="text-[17px] font-black text-slate-800 dark:text-slate-100 transition-colors">免責聲明及服務條款</h2>
-            </div>        
-            <div id="disclaimerBody" class="overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 pr-1 mb-2 leading-relaxed transition-colors"></div>
-            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" id="modalCloseBtn" class="mt-4 w-full bg-[#345B8C] hover:opacity-90 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold py-3.5 rounded-2xl active:scale-95 transition-transform text-[15px] shadow-sm">我明白及接受</button>
-        </div>
-    </div>
+    <script src="footer.js?v=2"></script>
 
     <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
@@ -198,28 +179,28 @@
     let fullDataList = [];
     let lastUpdatedTime = null;         
     let tdLastUpdatedTime = null;       
-    let currentSort = { column: 'realDiscountPct', dir: 'desc' }; // 嚴格還原預設排序控制權
-    let currentMinPct = 20;
+    let currentSort = { column: 'realDiscountPct', dir: 'desc' }; 
+    let currentMinPct = 0; // 預設 0
     let fState = { cat: 'ALL', sm: 'ALL', status: 'ALL', other: 'ALL' };
 
     const urlParams = new URLSearchParams(window.location.search);
     const targetSm = urlParams.get('sm');
     const targetCat = urlParams.get('cat');
     const targetStatus = urlParams.get('status'); 
-    const targetOther = urlParams.get('other'); // 🟢 新增：精準擷取 other 參數
+    const targetOther = urlParams.get('other');
+    const targetMinDrop = urlParams.get('minDrop'); // 🟢 精準擷取 Dashboard 帶過來嘅百分比門檻
 
     // 完美繼承 Dashboard 傳遞過來的所有戰略視角
-    if (targetSm || targetCat || targetStatus || targetOther) {
+    if (targetSm || targetCat || targetStatus || targetOther || targetMinDrop !== null) {
         if (targetSm) fState.sm = targetSm;
         if (targetCat) fState.cat = targetCat;
         if (targetStatus) fState.status = targetStatus; 
-        // 🟢 解除強制歸零！如果有傳入 other，就跟隨 other；無先至預設 ALL
         if (targetOther) fState.other = targetOther; else fState.other = 'ALL';
-        currentMinPct = 0; 
+        if (targetMinDrop !== null) currentMinPct = parseInt(targetMinDrop); else currentMinPct = 0;
+    } else {
+        currentMinPct = 0; // 預設無門檻
     }
 
-
-    
     const DB_NAME = 'PriceWatchDB';
     const STORE_TRUE_DISCOUNT = 'true_discount_store';
 
@@ -271,16 +252,23 @@
         return c; 
     }
 
-    function getText(content, lang) {
-        if (!content) return '-';
-        let text = '';
-        if (typeof content === 'string') text = content;
-        else if (typeof content === 'object') {
-            text = content[lang] || content['zh-Hant'] || Object.values(content)[0] || '-';
-        } else {
-            text = String(content);
+    // 🟢 核心對接功能：精準提取 flat_raw_data 產生的多語系欄位
+    function getLocalizedText(item, baseKey, lang) {
+        if (!item) return '-';
+        let objVal = item[baseKey];
+        if (objVal && typeof objVal === 'object') {
+            if (lang === 'en' && objVal['en']) return objVal['en'];
+            if (lang === 'zh-Hans' && objVal['zh-Hans']) return objVal['zh-Hans'];
+            return objVal['zh-Hant'] || Object.values(objVal)[0] || '-';
         }
-        return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        if (lang === 'en') {
+            return item[baseKey + 'En'] || item[baseKey + '_en'] || item[baseKey] || '-';
+        } else if (lang === 'zh-Hans') {
+            return item[baseKey + 'Hans'] || item[baseKey + '_zh_hans'] || item[baseKey] || '-';
+        } else {
+            return item[baseKey + 'Hant'] || item[baseKey + '_zh_hant'] || item[baseKey] || '-';
+        }
     }
 
     const statusI18n = {
@@ -413,7 +401,6 @@
 
             if (!finalData || finalData.length === 0) throw new Error("JSON 解析為空，請檢查後端導出格式。");
 
-            // 🟢 核心修改：剔除「次平真降價」及「次平新上架」，強制過濾保留 rn = 1
             finalData = finalData.filter(item => {
                 if (item.rn !== undefined) return parseInt(item.rn) === 1;
                 if (item.route_flag !== undefined) return !String(item.route_flag).includes('secondary');
@@ -427,22 +414,16 @@
                 let hasMarket = false;
                 let isBattleWinner = false;
                 
-                // ---------------------------------------------------
-                // 🛠️ [新增] 修復「永久調低底價」導致的 0% 盲點
-                // ---------------------------------------------------
                 let prevE = parseFloat(item.prevEffPrice) || 0;
                 let currE = parseFloat(item.effectivePrice) || 0;
                 if (prevE > currE) {
                     let hPct = ((prevE - currE) / prevE) * 100;
-                    // 如果原生促銷減幅為 0，則用歷史實質波幅覆寫，以確保排序及平均值統計正確
                     if ((parseFloat(item.realDiscountPct) || 0) === 0) {
                         item.realDiscountPct = hPct; 
                     }
                 }
-                // ---------------------------------------------------
 
                 if (item.otherPricesRaw && item.otherPricesRaw !== '[]' && item.otherPricesRaw !== 'null') {
-
                     try {
                         let opRaw = typeof item.otherPricesRaw === 'string' ? JSON.parse(item.otherPricesRaw) : item.otherPricesRaw;
                         if (Array.isArray(opRaw)) {
@@ -511,11 +492,17 @@
         applyFilters();
     }
 
+    // 🟢 同步 Dashboard 嘅陣列：5, 10, 15, 20
     function updatePctButtonsUI() {
-        [20, 30, 50].forEach(p => {
+        [5, 10, 15, 20].forEach(p => {
             const btn = document.getElementById('btnPct' + p);
-            if (btn) btn.className = (p === 50 ? "px-2 py-1 flex items-center gap-1 " : "px-2 py-1 flex items-center gap-1 ") + 
-                (currentMinPct === p ? "bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all" : "bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold");
+            if (btn) {
+                if (currentMinPct === p) {
+                    btn.className = "px-2 py-1 flex items-center gap-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all";
+                } else {
+                    btn.className = "px-2 py-1 flex items-center gap-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold";
+                }
+            }
         });
     }
 
@@ -530,7 +517,7 @@
         if (filterInput) filterInput.value = '';
         window.history.replaceState({}, document.title, window.location.pathname);
         fState = { cat: 'ALL', sm: 'ALL', status: 'ALL', other: 'ALL' };
-        currentMinPct = 20;
+        currentMinPct = 0; // 🟢 重置還原去無門檻
         populateDropdowns();
         updatePctButtonsUI();
         applyFilters();
@@ -577,7 +564,7 @@
         if (clearBtn) clearBtn.classList.toggle('hidden', kw.length === 0);
 
         let filtered = fullDataList.filter(i => {
-            const name = getText(i.name, currentLang).toLowerCase();
+            const name = getLocalizedText(i, 'name', currentLang).toLowerCase();
             const smNameText = getSmName(i.smCode, currentLang).toLowerCase(); 
             const rawCatValue = typeof i.categoryRaw === 'object' ? (i.categoryRaw['zh-Hant'] || '') : String(i.categoryRaw || '');
             const translatedCatText = getCatName(rawCatValue, currentLang).toLowerCase(); 
@@ -619,7 +606,7 @@
                  valA = parseFloat(valA) || 0;
                  valB = parseFloat(valB) || 0;
             } else if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
-                 valA = getText(a[currentSort.column], currentLang); valB = getText(b[currentSort.column], currentLang);
+                 valA = getLocalizedText(a, currentSort.column, currentLang); valB = getLocalizedText(b, currentSort.column, currentLang);
                  return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
             } else {
                 valA = String(valA || ''); valB = String(valB || '');
@@ -673,7 +660,6 @@
         
         const otherAllText = currentLang === 'en' ? 'All Items' : (currentLang === 'zh-Hans' ? '全部商品' : '全部貨品');
         const otherHasText = currentLang === 'en' ? 'Has Competitors' : (currentLang === 'zh-Hans' ? '有对手定价' : '有對手定價');
-        // 🛑 已移除 otherBattleText 變數
 
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
         const smOpts = `<option value="ALL">${smAllText}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
@@ -687,7 +673,6 @@
         const statusOpts = `<option value="ALL">${statusAllText}</option>` + statuses.map(s => `<option value="${s}">${statusI18n[s][currentLang] || statusI18n[s]['zh-Hant']}</option>`).join('');
         statusEls.forEach(el => el.innerHTML = statusOpts);
 
-        // 🛑 已移除 BATTLE_WINNER 的 option
         const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option>`;
         otherEls.forEach(el => el.innerHTML = otherOpts);
 
@@ -737,7 +722,6 @@
         setTxt('subTitleText', 'Say Goodbye to Fake Promos', '踢走假劈價，一眼看穿真減幅', '踢走假劈价，一眼看穿真减幅');
         setTxt('backBtn', 'Back', '返回', '返回');
         
-        // 頂部控制台三語支援
         setTxt('lblSorting', 'Sorting', '波幅排序 (Sorting)', '波幅排序 (Sorting)');
         setTxt('lblRadar', 'Precision Radar (Name, Brand, ID)', '精確雷達 (支援 Name, Brand, ID)', '精确雷达 (支援 Name, Brand, ID)');
         
@@ -762,10 +746,11 @@
         setTxt('txt-thDiff', 'True Diff', '真・減幅', '真・减幅');
         setTxt('txt-thOther', 'Market View', '全城戰情透視', '全城战情透视');
 
-        setTxt('txtBtnPct20', '> 20% Off', '> 20% 減幅', '> 20% 减幅');
-        
-        setTxt('txtBtnPct30', '> 30% Off', '> 30% 減幅', '> 30% 减幅');
-        setTxt('txtBtnPct50', '🔥 Half Price (>50%)', '🔥 半價以上 (>50%)', '🔥 半价以上 (>50%)');
+        // 🟢 同步多國語言翻譯 (5%, 10%, 15%, 20%)
+        setTxt('txtBtnPct5', '≥ 5% Off', '≥ 5% 減幅', '≥ 5% 减幅');
+        setTxt('txtBtnPct10', '≥ 10% Off', '≥ 10% 減幅', '≥ 10% 减幅');
+        setTxt('txtBtnPct15', '≥ 15% Off', '≥ 15% 減幅', '≥ 15% 减幅');
+        setTxt('txtBtnPct20', '≥ 20% Off', '≥ 20% 極限劈價', '≥ 20% 极限降价');
         setTxt('txtBtnReset', '🔄 Reset', '🔄 重置', '🔄 重置'); 
         
         setTxt('lblSumCount', 'Matched:', '符合條件:', '符合条件:');
@@ -778,7 +763,8 @@
             filterInput.placeholder = lang === 'en' ? 'Enter keyword (e.g., ParknShop Coffee)' : (lang === 'zh-Hans' ? '输入关键字 (例如: 百佳 咖啡)' : '輸入關鍵字 (例如: 百佳 咖啡)');
         }
         
-        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+        // 🟢 對接 window.uiText 字典以供 footer.js 使用 (嚴守父層控制權，杜絕 Hardcode)
+        const uiDict = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : (typeof window.uiText !== 'undefined' ? window.uiText['zh-Hant'] : null);
         const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
         const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
@@ -788,13 +774,11 @@
             setElTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
             setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
             setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+            
+            // 🟢 將 Hardcode 轉交字典，保留 Fallback 以防字典缺失
+            setElTxt('footerDevTeam', uiDict.devTeam || (lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ')));
+            setElTxt('footerDevName', uiDict.devName || (lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅')));
         }
-
-        const devTeam = document.getElementById('footerDevTeam');
-        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
-
-        const devName = document.getElementById('footerDevName');
-        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
 
         populateDropdowns();
         if (typeof updatePctButtonsUI === 'function') updatePctButtonsUI(); 
@@ -833,8 +817,14 @@
             body.innerHTML = list.map((item, i) => {
                 let rankClass = i < 3 ? 'text-amber-500 text-lg' : 'text-slate-400 text-sm';
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
-                let displayName = getText(item.name, currentLang);
-                let brandName = getText(item.brand, currentLang);
+                
+                // 🟢 徹底換上 getLocalizedText 取代舊系統 getText
+                let displayName = getLocalizedText(item, 'name', currentLang);
+                let brandName = getLocalizedText(item, 'brand', currentLang);
+                
+                // 🟢 嚴格對接 data-query 嘅安全字串轉換 (防止單雙引號炒爆 HTML)
+                let safeName = String(displayName).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                let safeBrand = String(brandName).replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 let otherPricesHTML = '';
                 let opRaw = [];
@@ -848,7 +838,6 @@
 
                 let marketStatsHTML = '';
                 if (item.hasCompetitors && item.marketAvgPrice > 0) {
-                    // 定價偏離度渲染邏輯
                     let devVal = parseFloat(item.priceDeviationPct) || 0;
                     let devColor, devSuffix, devPrefix;
                     if (devVal < 0) {
@@ -865,7 +854,6 @@
                         devPrefix = '';
                     }
 
-                    // 市場數據視覺化模塊
                     marketStatsHTML = `
                         <div class="mb-1.5 text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm rounded p-1.5 w-full min-w-[160px]">
                             <div class="flex justify-between items-center pb-1 border-b border-dashed border-slate-200 dark:border-slate-700 mb-1">
@@ -911,9 +899,6 @@
               const deskBoxId = `desk-hist-${i}`;
                 const deskIconId = `desk-icon-${i}`;
                 
-                // ---------------------------------------------------
-                // 🛠️ [新增] 實質折實波幅 UI 顯示邏輯
-                // ---------------------------------------------------
                 let prevEffValForBadge = parseFloat(item.prevEffPrice) || 0;
                 let currEffValForBadge = parseFloat(item.effectivePrice) || 0;
                 let dropBadgeText = `▼ ${(parseFloat(item.realDiscountPct) || 0).toFixed(1)}%`;
@@ -921,10 +906,8 @@
                 if (prevEffValForBadge > currEffValForBadge) {
                     let amtDiff = prevEffValForBadge - currEffValForBadge;
                     let pctDiff = (amtDiff / prevEffValForBadge) * 100;
-                    // 強制採用要求的波幅格式: ▼ -$0.6 (-0.2%)
                     dropBadgeText = `▼ -$${amtDiff.toFixed(1)} (-${pctDiff.toFixed(1)}%)`;
                 }
-                // ---------------------------------------------------
                 
                 const statusBadgeHTML = `
 
@@ -955,7 +938,7 @@
                     <td class="p-3 align-top text-center whitespace-nowrap">${getSmBadge(item.smCode, currentLang)}</td>
                     <td class="p-3 align-top text-[12px] text-slate-500 dark:text-slate-400 truncate max-w-[80px]" title="${brandName}">${brandName}</td>
                     <td class="p-3 align-top font-bold text-[14px]">
-                        <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${brandName.replace(/"/g, '&quot;')} ${displayName.replace(/"/g, '&quot;')} ${item.smCode}" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">${displayName}</a>
+                        <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${safeBrand} ${safeName} ${item.smCode}" class="text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors block cursor-pointer">${displayName}</a>
                         ${currentOfferText ? `<div class="text-[11px] text-red-500 mt-1 flex gap-1 items-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FFB74D] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"></path></svg>${currentOfferText}</div>` : ''}
                     </td>
                     <td class="p-3 align-top text-center">${statusBadgeHTML}</td>

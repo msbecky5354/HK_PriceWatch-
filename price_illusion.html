@@ -26,7 +26,6 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 min-h-[100dvh] flex flex-col transition-colors duration-300">
 
-    <!-- 🚫 手機封鎖結界 -->
     <div class="md:hidden fixed inset-0 z-[9999] bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
         <span class="text-7xl mb-6">🖥️</span>
         <h2 class="text-xl font-black text-white mb-2 tracking-wide">請使用電腦或平板瀏覽</h2>
@@ -77,7 +76,6 @@
             </div>
         </div>
 
-        <!-- 📋 詳細數據核對表 -->
         <div id="tableSection" class="p-4 md:p-6 bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 transition-colors">
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors">
                 
@@ -101,7 +99,6 @@
                         <span id="lblTblUnit" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">件</span>
                     </div>
 
-                    <!-- 🟢 假促銷專屬警告字眼 -->
                     <div id="fakeWarningDiv" class="hidden w-full px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg text-[12px] text-amber-700 dark:text-amber-400 font-medium flex items-start gap-2 shadow-sm mt-1">
                         <span class="text-[14px]">⚠️</span>
                         <span id="fakeWarningText">超市為貨品掛上「特價 / 買多件優惠」等促銷字眼，企圖營造大減價錯覺，但經系統精算後，發現單件折實價大於或等於上次歷史紀錄。實質毫無優惠。</span>
@@ -114,11 +111,9 @@
                             <tr class="bg-slate-50/50 dark:bg-slate-700/50 select-none border-b border-slate-200 dark:border-slate-700 text-[12px] whitespace-nowrap">
                                 <th id="thSm" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">超市</th>
                                 <th id="thCat" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">分類</th>
-                                <!-- 🟢 增加商品名稱寬度 -->
                                 <th id="thName" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 w-[25%] min-w-[200px]">品牌及貨品名稱</th>
                                 <th id="thStatus" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-center">狀態判定</th>
                                 
-                                <!-- 🟢 板塊化整合表頭 -->
                                 <th id="thPrevGroup" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 border-l border-slate-200 dark:border-slate-700">上次歷史紀錄</th>
                                 <th id="thTodayGroup" onclick="handleTableSort('today')" class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700">今日最新狀態 <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span></th>
                                 
@@ -138,19 +133,7 @@
         </div>
     </div>
 
-    <!-- 系統標準 Footer -->
-    <div class="text-center pt-4 pb-8 flex-none w-full"> 
-        <button id="miniFooterLinks" onclick="document.getElementById('calcInfoModal').classList.remove('hidden');" 
-                class="text-[11px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:underline decoration-slate-300 dark:decoration-slate-600 transition">
-            關於我們、條款及免責聲明
-        </button>
-        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 tracking-wide flex items-center justify-center transition-colors">
-            <span id="miniFooterCopy">© 2026 慳真D</span> 
-            <span class="mx-1.5">|</span> 
-            <span id="footerDevTeam">開發團隊: </span>
-            <a id="footerDevName" href="https://www.facebook.com/share/18j3qqx64K/?mibextid=wwXIfr" target="_blank" class="hover:text-slate-700 dark:hover:text-slate-300 underline transition cursor-pointer ml-1">懶人工具駅</a>
-        </div>
-    </div>
+    <script src="footer.js?v=2"></script>
 
     <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border border-red-100 dark:border-red-900/50 max-h-[85vh]" id="calcInfoBox">
@@ -210,7 +193,7 @@
     const radarChart = echarts.init(document.getElementById('radarChart'));
     const scatterChart = echarts.init(document.getElementById('scatterChart'));
 
-    // 🎨 4 級狀態顏色系統 (已更新：橙、紫、綠)
+    // 🎨 4 級狀態顏色系統
     const colorDict = { 
         increase: '#dc2626',   // 📈 價格暗升 (Red)
         pure_fake: '#f97316',  // ⚠️ 純假促銷 (Orange)
@@ -435,10 +418,25 @@
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
     }
 
-    function getText(content, lang) {
-        if (!content) return '-';
-        if (typeof content === 'string') return content;
-        return content[lang] || content['zh-Hant'] || Object.values(content)[0] || '-';
+    // 🟢 核心多語系對接功能：精準提取 flat JSON 產生嘅獨立欄位
+    function getLocalizedText(item, baseKey, lang) {
+        if (!item) return '-';
+        let text = '-';
+        let objVal = item[baseKey];
+        if (objVal && typeof objVal === 'object') {
+            if (lang === 'en' && objVal['en']) text = objVal['en'];
+            else if (lang === 'zh-Hans' && objVal['zh-Hans']) text = objVal['zh-Hans'];
+            else text = objVal['zh-Hant'] || Object.values(objVal)[0] || '-';
+        } else {
+            if (lang === 'en') {
+                text = item[baseKey + 'En'] || item[baseKey + '_en'] || item[baseKey] || '-';
+            } else if (lang === 'zh-Hans') {
+                text = item[baseKey + 'Hans'] || item[baseKey + '_zh_hans'] || item[baseKey] || '-';
+            } else {
+                text = item[baseKey + 'Hant'] || item[baseKey + '_zh_hant'] || item[baseKey] || '-';
+            }
+        }
+        return String(text).replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     function getSmName(code, lang) {
@@ -523,15 +521,20 @@
         setTxt('lblTblCount', lang === 'en' ? 'Matched:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:'));
         setTxt('lblTblUnit', lang === 'en' ? 'Items' : '件');
 
-        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : (typeof uiText !== 'undefined' ? uiText['zh-Hant'] : null);
+        // 🟢 對接 window.uiText 字典以供 footer.js 使用 (嚴守父層控制權，杜絕 Hardcode)
+        const uiDict = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : (typeof window.uiText !== 'undefined' ? window.uiText['zh-Hant'] : null);
+        const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
+
         if (uiDict) {
             setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
             setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+            setTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
+            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
+            setTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+            
+            setTxt('footerDevTeam', uiDict.devTeam || (lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ')));
+            setTxt('footerDevName', uiDict.devName || (lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅')));
         }
-        const devTeam = document.getElementById('footerDevTeam');
-        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
-        const devName = document.getElementById('footerDevName');
-        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
 
         const langData = calcInfoTexts[lang] || calcInfoTexts['zh-Hant'];
         setTxt('calcModalTitle', langData.title);
@@ -727,8 +730,8 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
 
             if (currentSort.col === 'today') {
                 if (todayA === todayB) {
-                    let nameA = String(a.name || '');
-                    let nameB = String(b.name || '');
+                    let nameA = getLocalizedText(a, 'name', lang);
+                    let nameB = getLocalizedText(b, 'name', lang);
                     return nameA.localeCompare(nameB);
                 }
                 return currentSort.dir === 'asc' ? todayA - todayB : todayB - todayA;
@@ -741,8 +744,8 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
                     const claimB = origB > 0 ? ((origB - todayB) / origB) * 100 : 0;
 
                     if (claimA === claimB) {
-                        let nameA = String(a.name || '');
-                        let nameB = String(b.name || '');
+                        let nameA = getLocalizedText(a, 'name', lang);
+                        let nameB = getLocalizedText(b, 'name', lang);
                         return nameA.localeCompare(nameB);
                     }
                     return currentSort.dir === 'asc' ? claimA - claimB : claimB - claimA;
@@ -767,10 +770,12 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             const catClick = `onclick="syncTableFilter('categoryRaw', '${safeRawCat}'); document.getElementById('tblCatFilter').value='${safeRawCat}';"`;
             const catHTML = `<td class="py-3 px-4 align-top text-slate-500 dark:text-slate-400 text-[11px] max-w-[120px] truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors" title="${catName}" ${catClick}>${catName}</td>`;
 
-            const brand = getText(item.brand, lang);
-            const name = getText(item.name, lang);
-            const brandClean = brand.replace(/"/g, '&quot;');
-            const nameClean = name.replace(/"/g, '&quot;');
+            const brand = getLocalizedText(item, 'brand', lang);
+            const name = getLocalizedText(item, 'name', lang);
+            
+            // 🟢 安全字串處理防 XSS 及單引號炒車
+            const safeBrand = String(brand).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeName = String(name).replace(/'/g, "\\'").replace(/"/g, '&quot;');
             
             let prevDateText = 'N/A';
             if (item.last_change_date && item.last_change_date !== 'null' && String(item.last_change_date).trim() !== '') {
@@ -873,7 +878,7 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
                     <td class="py-3 px-4 align-top whitespace-nowrap">${smBadgeHTML}</td>
                     ${catHTML}
                     <td class="py-3 px-4 align-top w-1/4 min-w-[200px]">
-                        <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${brandClean} ${nameClean} ${item.smCode}" class="block group cursor-pointer">
+                        <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${safeBrand} ${safeName} ${item.smCode}" class="block group cursor-pointer">
                             <div class="text-[11px] text-slate-400 dark:text-slate-500 mb-1 group-hover:text-blue-500 transition-colors">${brand}</div>
                             <div class="font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-relaxed group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:underline transition-colors whitespace-normal break-words">${name}</div>
                         </a>
@@ -1065,7 +1070,7 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
 
         // --- 🎯 方案二：散佈圖 (支援 4 色) ---
         let scatterData = data.map(item => ({
-            name: item.name ? getText(item.name, lang) : 'Unknown',
+            name: getLocalizedText(item, 'name', lang),
             smCode: getSmName(item.smCode, lang),
             rawSmCode: item.smCode, 
             productCode: item.code, 
@@ -1161,6 +1166,7 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
     loadIllusionData();
     window.addEventListener('resize', () => { barChart.resize(); radarChart.resize(); scatterChart.resize(); });
 </script>
+
 
 </body>
 </html>

@@ -8,7 +8,6 @@
                 fetch('status.txt?v=' + new Date().getTime())
                     .then(response => response.text())
                     .then(status => {
-                        // 如果 status.txt 入面係 1，即刻踢去維護版面
                         if (status.trim() === '1') {
                             window.location.replace('maintenance.html');
                         }
@@ -60,10 +59,9 @@
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6 px-2 md:px-0 mb-8">
-            
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
                 <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                    <span>🔲</span> <span id="titleTreemap">全城降價戰力版圖</span>
+                    <span>🔲</span> <span id="titleTreemap">全城降價戰力版圖 (常規視角)</span>
                 </div>
                 <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
                     <div id="treemapChart" class="w-full h-[500px] md:h-[600px] lg:h-[650px]"></div>
@@ -73,19 +71,73 @@
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
                 <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
                     <div class="font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <span>🔥</span> <span id="titleHeatmap">全城戰火熱力矩陣</span>
+                        <span>🔥</span> <span id="titleHeatmap">全城戰火熱力矩陣 (常規視角)</span>
                     </div>
                     <div class="flex bg-slate-200 dark:bg-slate-700 p-1 rounded-lg">
-                        <button id="btnHeatModeReal" onclick="switchHeatmapMode('real')" class="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all">📉 自身真降幅</button>
-                        <button id="btnHeatModeMarket" onclick="switchHeatmapMode('market')" class="px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all">⚔️ 擊穿市價幅</button>
+                        <button id="btnHeatModeReal" onclick="switchHeatmapMode('real', false)" class="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all">📉 自身真降幅</button>
+                        <button id="btnHeatModeMarket" onclick="switchHeatmapMode('market', false)" class="px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all">⚔️ 擊穿市價幅</button>
                     </div>
                 </div>
                 <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
                     <div id="heatmapChart" class="w-full h-[500px]"></div>
                 </div>
             </div>
-
         </div>
+
+        <div class="px-2 md:px-0 mb-6 flex flex-col items-center justify-center text-center mt-6 border-t border-slate-200 dark:border-slate-700 pt-8 gap-4">
+            <div class="flex flex-col items-center gap-1">
+                <h2 class="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                    <span class="text-2xl">📊</span> 動態深度折讓分析
+                </h2>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-400">自訂實質降幅門檻，透視各大財團深層定價策略</p>
+            </div>
+            
+            <select id="hcThreshold" onchange="updateHardcoreCharts()" class="border-2 border-blue-200 bg-blue-50 text-blue-700 font-bold px-4 py-2.5 rounded-xl shadow-sm outline-none dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-400 cursor-pointer transition hover:bg-blue-100 dark:hover:bg-blue-900/50 min-w-[240px] text-center">
+                <option value="5">≥ 5% (常規折讓門檻)</option>
+                <option value="10" selected>≥ 10% (深度折讓門檻)</option>
+                <option value="15">≥ 15% (戰略折讓門檻)</option>
+                <option value="20">≥ 20% (極限折讓門檻)</option>
+            </select>
+
+            <div id="hcSummaryBar" class="text-[13px] font-bold mt-1 bg-white dark:bg-slate-800 px-5 py-2.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-wrap justify-center items-center gap-4 md:gap-6 text-slate-600 dark:text-slate-300">
+                <span class="flex items-center gap-1.5">
+                    <span class="text-[15px]">📦</span> <span id="lblHcMatched">符合條件:</span> 
+                    <span id="hcSumCount" class="text-blue-600 dark:text-blue-400 font-black text-[15px]">0</span> <span id="lblHcUnit1" class="text-[12px] font-normal">件</span>
+                </span>
+                <span class="flex items-center gap-1.5 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-3 py-1 rounded-lg border border-red-100 dark:border-red-900/30">
+                    <span class="text-[15px]">📉</span> <span id="lblHcReduced">對比全量減少:</span> 
+                    <span id="hcSumDrop" class="font-black text-[15px]">0</span> <span id="lblHcUnit2" class="text-[12px] font-normal opacity-80">件</span> 
+                    <span class="font-black ml-1">(<span id="hcSumDropPct">0</span>%)</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6 px-2 md:px-0 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-blue-50/30 dark:bg-blue-900/10 font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    <span>🔲</span> <span>實質降價戰力版圖 (門檻過濾)</span>
+                </div>
+                <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
+                    <div id="treemapChartHc" class="w-full h-[500px] md:h-[600px] lg:h-[650px]"></div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-blue-50/30 dark:bg-blue-900/10 flex items-center justify-between">
+                    <div class="font-bold text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <span>🔥</span> <span>實質戰火熱力矩陣 (門檻過濾)</span>
+                    </div>
+                    <div class="flex bg-slate-200 dark:bg-slate-700 p-1 rounded-lg">
+                        <button id="btnHeatModeRealHc" onclick="switchHeatmapMode('real', true)" class="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all">📉 自身真降幅</button>
+                        <button id="btnHeatModeMarketHc" onclick="switchHeatmapMode('market', true)" class="px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all">⚔️ 擊穿市價幅</button>
+                    </div>
+                </div>
+                <div class="p-4 flex-1 flex justify-center items-center bg-slate-50/30 dark:bg-slate-900/30">
+                    <div id="heatmapChartHc" class="w-full h-[500px]"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="footer.js?v=1"></script>
@@ -123,58 +175,86 @@
 
 <script>
     let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+    
     let treemapChart = null;
     let heatmapChart = null;
-    let treemapData = [];
-    let totalItemsCount = 0;
-    let heatmapData = []; 
+    let treemapChartHc = null;
+    let heatmapChartHc = null;
+    
+    let globalNormalizedData = [];
     let currentHeatmapMode = 'real'; 
-
-    window.switchHeatmapMode = function(mode) {
-        currentHeatmapMode = mode;
-        const btnReal = document.getElementById('btnHeatModeReal');
-        const btnMarket = document.getElementById('btnHeatModeMarket');
-        
-        if (mode === 'real') {
-            btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all";
-            btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
-        } else {
-            btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 shadow-sm transition-all";
-            btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
-        }
-        renderHeatmap(); 
-    };
+    let currentHeatmapModeHc = 'real'; 
     
     let mainLastUpdatedTime = null;
     let biLastUpdatedTime = null;
 
-    function openMechanismModal() { document.getElementById('mechanismModal').classList.remove('hidden'); }
-    function closeMechanismModal() { document.getElementById('mechanismModal').classList.add('hidden'); }
-
-    const i18n = {
-        'zh-Hant': { 
-            title: '全局戰情室', sub: '實時監控各大超市降價分佈與火力', back: '返回', 
-            treeTitle: '全城降價戰力版圖', heatTitle: '全城戰火熱力矩陣', loading: '情報匯入中...',
-            ttDrop: '真實降價件數：', ttShare: '火力佔比：', itemUnit: '件', ttAvgDrop: '平均真降幅:'
-        },
-        'zh-Hans': { 
-            title: '全局战情室', sub: '实时监控各大超市降价分布与火力', back: '返回', 
-            treeTitle: '全城降价战力版图', heatTitle: '全城战火热力矩阵', loading: '情报汇入中...',
-            ttDrop: '真实降价件数：', ttShare: '火力占比：', itemUnit: '件', ttAvgDrop: '平均真降幅:'
-        },
-        'en': { 
-            title: 'Command Center', sub: 'Real-time monitoring of discount distribution', back: 'Back', 
-            treeTitle: 'Discount Treemap', heatTitle: 'Warfare Heatmap', loading: 'Loading Data...',
-            ttDrop: 'Real Drop Items:', ttShare: 'Market Share:', itemUnit: 'items', ttAvgDrop: 'Avg. True Drop:'
+    window.switchHeatmapMode = function(mode, isHc) {
+        if (!isHc) {
+            currentHeatmapMode = mode;
+            const btnReal = document.getElementById('btnHeatModeReal');
+            const btnMarket = document.getElementById('btnHeatModeMarket');
+            if (mode === 'real') {
+                btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all";
+                btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
+            } else {
+                btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 shadow-sm transition-all";
+                btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
+            }
+            updateOriginalCharts();
+        } else {
+            currentHeatmapModeHc = mode;
+            const btnReal = document.getElementById('btnHeatModeRealHc');
+            const btnMarket = document.getElementById('btnHeatModeMarketHc');
+            if (mode === 'real') {
+                btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 shadow-sm transition-all";
+                btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
+            } else {
+                btnMarket.className = "px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 shadow-sm transition-all";
+                btnReal.className = "px-3 py-1 text-[11px] font-bold rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all";
+            }
+            updateHardcoreCharts();
         }
     };
 
-    function formatDateTime(date) {
+    function openMechanismModal() { document.getElementById('mechanismModal').classList.remove('hidden'); }
+    function closeMechanismModal() { document.getElementById('mechanismModal').classList.add('hidden'); }
+
+  function formatDateTime(date) {
         if (!date || isNaN(date.getTime())) return '';
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
     }
 
-    function updateLocalLanguage(lang) {
+    const i18n = {
+        'zh-Hant': { 
+            title: '全局戰情室', sub: '實時監控各大超市降價分佈與火力', back: '返回', 
+            treeTitle: '全城降價戰力版圖 (常規視角)', heatTitle: '全城戰火熱力矩陣 (常規視角)', 
+            treeTitleHc: '實質降價戰力版圖 (門檻過濾)', heatTitleHc: '實質戰火熱力矩陣 (門檻過濾)',
+            btnReal: '📉 自身真降幅', btnMarket: '⚔️ 擊穿市價幅',
+            hcSecTitle: '動態深度折讓分析', hcSecDesc: '自訂實質降幅門檻，透視各大財團深層定價策略',
+            opt5: '≥ 5% (常規折讓門檻)', opt10: '≥ 10% (深度折讓門檻)', opt15: '≥ 15% (戰略折讓門檻)', opt20: '≥ 20% (極限折讓門檻)',
+            loading: '情報匯入中...', ttDrop: '真實降價件數：', ttShare: '火力佔比：', itemUnit: '件'
+        },
+        'zh-Hans': { 
+            title: '全局战情室', sub: '实时监控各大超市降价分布与火力', back: '返回', 
+            treeTitle: '全城降价战力版图 (常规视角)', heatTitle: '全城战火热力矩阵 (常规视角)', 
+            treeTitleHc: '实质降价战力版图 (门槛过滤)', heatTitleHc: '实质战火热力矩阵 (门槛过滤)',
+            btnReal: '📉 自身真降幅', btnMarket: '⚔️ 击穿市价幅',
+            hcSecTitle: '动态深度折让分析', hcSecDesc: '自订实质降幅门槛，透视各大财团深层定价策略',
+            opt5: '≥ 5% (常规折让门槛)', opt10: '≥ 10% (深度折让门槛)', opt15: '≥ 15% (战略折让门槛)', opt20: '≥ 20% (极限折让门槛)',
+            loading: '情报汇入中...', ttDrop: '真实降价件数：', ttShare: '火力占比：', itemUnit: '件'
+        },
+        'en': { 
+            title: 'Command Center', sub: 'Real-time monitoring of discount distribution', back: 'Back', 
+            treeTitle: 'Discount Treemap (Base)', heatTitle: 'Warfare Heatmap (Base)', 
+            treeTitleHc: 'Discount Treemap (Filtered)', heatTitleHc: 'Warfare Heatmap (Filtered)',
+            btnReal: '📉 True Drop', btnMarket: '⚔️ Market Drop',
+            hcSecTitle: 'Dynamic Depth Analysis', hcSecDesc: 'Custom drop thresholds to reveal pricing strategies',
+            opt5: '≥ 5% (Base Drop)', opt10: '≥ 10% (Deep Drop)', opt15: '≥ 15% (Strategic Drop)', opt20: '≥ 20% (Extreme Drop)',
+            loading: 'Loading Data...', ttDrop: 'Drop Items:', ttShare: 'Market Share:', itemUnit: 'items'
+        }
+    };
+
+   function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
         const t = i18n[lang] || i18n['zh-Hant'];
@@ -188,8 +268,35 @@
         setTxt('pageTitleText', t.title);
         setTxt('subTitleText', t.sub);
         setTxt('backBtn', t.back);
+
         setTxt('titleTreemap', t.treeTitle);
         setTxt('titleHeatmap', t.heatTitle);
+        setTxt('btnHeatModeReal', t.btnReal);
+        setTxt('btnHeatModeMarket', t.btnMarket);
+        setTxt('btnHeatModeRealHc', t.btnReal);
+        setTxt('btnHeatModeMarketHc', t.btnMarket);
+
+        try { document.getElementById('treemapChartHc').parentElement.previousElementSibling.querySelectorAll('span')[1].innerText = t.treeTitleHc; } catch(e){}
+        try { document.getElementById('heatmapChartHc').parentElement.previousElementSibling.querySelector('div > span:last-child').innerText = t.heatTitleHc; } catch(e){}
+        try { document.querySelector('select#hcThreshold').previousElementSibling.querySelector('h2').innerHTML = `<span class="text-2xl">📊</span> ${t.hcSecTitle}`; } catch(e){}
+        try { document.querySelector('select#hcThreshold').previousElementSibling.querySelector('p').innerText = t.hcSecDesc; } catch(e){}
+
+        const hcSelect = document.getElementById('hcThreshold');
+        if (hcSelect && hcSelect.options.length >= 4) {
+            hcSelect.options[0].text = t.opt5;
+            hcSelect.options[1].text = t.opt10;
+            hcSelect.options[2].text = t.opt15;
+            hcSelect.options[3].text = t.opt20;
+        }
+
+        const lblHcMatchedTxt = lang === 'en' ? 'Matched:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:');
+        const lblHcReducedTxt = lang === 'en' ? 'Filtered:' : (lang === 'zh-Hans' ? '对比全量减少:' : '對比全量減少:');
+        const lblHcUnitTxt = lang === 'en' ? 'items' : '件';
+
+        setTxt('lblHcMatched', lblHcMatchedTxt);
+        setTxt('lblHcReduced', lblHcReducedTxt);
+        setTxt('lblHcUnit1', lblHcUnitTxt);
+        setTxt('lblHcUnit2', lblHcUnitTxt);
 
         const appTitleEl = document.getElementById('appTitle');
         if (appTitleEl) appTitleEl.innerText = appName;
@@ -213,6 +320,27 @@
                 biBadge.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
             }
         }
+
+        // 🟢 終極修復：將最底層 (Under) 嘅 Footer 加入多國語言字典攔截
+        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : null;
+        if (uiDict) {
+            setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
+            setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
+            setTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
+            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
+            setTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
+        } else {
+            setTxt('miniFooterLinks', lang === 'en' ? 'About Us, Terms & Disclaimer' : (lang === 'zh-Hans' ? '关于我们、条款及免责声明' : '關於我們、條款及免責聲明'));
+            setTxt('miniFooterCopy', lang === 'en' ? '© 2026 SmartDeal' : '© 2026 慳真D');
+            setTxt('disclaimerTitle', lang === 'en' ? 'Disclaimer & Terms' : (lang === 'zh-Hans' ? '免责声明及服务条款' : '免責聲明及服務條款'));
+            setTxt('modalCloseBtn', lang === 'en' ? 'I Understand & Accept' : '我明白及接受');
+        }
+
+        const devTeam = document.getElementById('footerDevTeam');
+        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
+
+        const devName = document.getElementById('footerDevName');
+        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅');
 
         const mechText = {
             'zh-Hant': {
@@ -252,9 +380,19 @@
         setTxt('mechR4T', mt.r4t); setElHtml('mechR4D', mt.r4d);
         setTxt('mechCloseBtn', mt.btn);
 
-        if (treemapData.length > 0) renderTreemap();
-        if (heatmapData.length > 0) renderHeatmap();
+
+
+        
+
+        if (globalNormalizedData.length > 0) {
+            updateOriginalCharts();
+            updateHardcoreCharts();
+        }
     }
+
+
+
+
 
     window.addEventListener('languageChanged', (e) => { updateLocalLanguage(e.detail.lang); });
     window.changeLanguage = function(lang) {
@@ -262,8 +400,88 @@
         if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
     };
 
-    function renderTreemap() {
-        if (!treemapChart) return;
+    function processDataForCharts(rawData, threshold) {
+        let treeMapAgg = {};
+        let heatMapAgg = {};
+        let totalItems = 0;
+
+        rawData.forEach(item => {
+            let catRaw = item._catRaw;
+            let smCode = item._smCode;
+
+            if (!treeMapAgg[catRaw]) treeMapAgg[catRaw] = {};
+            if (!treeMapAgg[catRaw][smCode]) treeMapAgg[catRaw][smCode] = { base: 0, filtered: 0 };
+            
+            let heatKey = `${smCode}_${catRaw}`;
+            if (!heatMapAgg[heatKey]) {
+                heatMapAgg[heatKey] = { store: smCode, category: catRaw, baseCount: 0, count: 0, sumReal: 0, sumMarket: 0, marketCount: 0 };
+            }
+
+            treeMapAgg[catRaw][smCode].base++;
+            heatMapAgg[heatKey].baseCount++;
+
+            if (item._normalizedRealDrop >= threshold) {
+                treeMapAgg[catRaw][smCode].filtered++;
+                heatMapAgg[heatKey].count++;
+                heatMapAgg[heatKey].sumReal += item._normalizedRealDrop;
+                
+                if (item._hasComp) {
+                    heatMapAgg[heatKey].sumMarket += item._normalizedMarketDrop;
+                    heatMapAgg[heatKey].marketCount++;
+                }
+                totalItems++;
+            }
+        });
+
+        let treemapData = Object.keys(treeMapAgg).map(cat => ({
+            name: cat,
+            children: Object.keys(treeMapAgg[cat]).map(sm => ({
+                name: sm,
+                value: treeMapAgg[cat][sm].filtered,
+                baseValue: treeMapAgg[cat][sm].base 
+            }))
+        }));
+
+        let heatmapData = Object.values(heatMapAgg).map(agg => ({
+            store: agg.store,
+            category: agg.category,
+            count: agg.count,
+            baseCount: agg.baseCount, 
+            avgDiscount: agg.count > 0 ? (agg.sumReal / agg.count) : 0,
+            avgMarketDrop: agg.marketCount > 0 ? (agg.sumMarket / agg.marketCount) : 0
+        }));
+
+        return { treemapData, heatmapData, totalItems };
+    }
+
+    window.updateHardcoreCharts = function() {
+        const threshold = parseFloat(document.getElementById('hcThreshold').value) || 10;
+        const processed = processDataForCharts(globalNormalizedData, threshold);
+        renderTreemap(treemapChartHc, processed.treemapData, processed.totalItems, threshold);
+        renderHeatmap(heatmapChartHc, processed.heatmapData, currentHeatmapModeHc, threshold);
+
+        const baseCount = globalNormalizedData.length;
+        const currentCount = processed.totalItems;
+        const dropCount = baseCount - currentCount;
+        const dropPct = baseCount > 0 ? ((dropCount / baseCount) * 100).toFixed(1) : 0;
+
+        const countEl = document.getElementById('hcSumCount');
+        const dropEl = document.getElementById('hcSumDrop');
+        const dropPctEl = document.getElementById('hcSumDropPct');
+        
+        if (countEl) countEl.innerText = currentCount;
+        if (dropEl) dropEl.innerText = dropCount;
+        if (dropPctEl) dropPctEl.innerText = dropPct;
+    };
+
+    window.updateOriginalCharts = function() {
+        const processed = processDataForCharts(globalNormalizedData, 0); 
+        renderTreemap(treemapChart, processed.treemapData, processed.totalItems, 0);
+        renderHeatmap(heatmapChart, processed.heatmapData, currentHeatmapMode, 0);
+    };
+
+  function renderTreemap(chartInstance, dataObj, totalItemsCount, minDrop) {
+        if (!chartInstance) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
 
         const twColorMap = {
@@ -274,12 +492,13 @@
         };
 
         const storeAgg = {};
-        treemapData.forEach(cat => {
+        dataObj.forEach(cat => {
             if (cat.children && cat.label?.show !== false) {
                 cat.children.forEach(child => {
                     let smCode = child.name.toUpperCase().trim();
-                    if (!storeAgg[smCode]) storeAgg[smCode] = 0;
-                    storeAgg[smCode] += child.value; 
+                    if (!storeAgg[smCode]) storeAgg[smCode] = { filtered: 0, base: 0 };
+                    storeAgg[smCode].filtered += child.value; 
+                    storeAgg[smCode].base += child.baseValue || child.value;
                 });
             }
         });
@@ -290,12 +509,8 @@
         };
 
         const logoFileMap = {
-            'PARKNSHOP': 'pns',
-            'JASONS': 'marketplace',
-            'AEON': 'aeon',
-            'WELLCOME': 'wellcome',
-            'MANNINGS': 'mannings',
-            'WATSONS': 'watsons'
+            'PARKNSHOP': 'pns', 'JASONS': 'marketplace', 'AEON': 'aeon',
+            'WELLCOME': 'wellcome', 'MANNINGS': 'mannings', 'WATSONS': 'watsons'
         };
 
         const unifiedData = Object.keys(storeAgg).map(smCode => {
@@ -310,46 +525,55 @@
             const fileName = logoFileMap[smCode] || smCode.toLowerCase();
 
             dynamicRich[`logo_${smCode}`] = {
-                backgroundColor: {
-                    image: `https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png`
-                },
-                height: 40,
-                width: 40, 
-                align: 'center'
+                backgroundColor: { image: `https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png` },
+                height: 40, width: 40, align: 'center'
             };
 
             return {
-                name: smCode,
-                value: storeAgg[smCode],
-                itemStyle: { color: hexColor }
+                name: smCode, value: storeAgg[smCode].filtered, baseValue: storeAgg[smCode].base, itemStyle: { color: hexColor }
             };
         });
 
         const option = {
             tooltip: {
                 formatter: function (info) {
-                    const percent = ((info.value / totalItemsCount) * 100).toFixed(1);
-                    return `<div class="font-bold text-slate-800 text-lg mb-1">${info.name}</div>
+                    const smCode = info.name;
+                    let cleanName = typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][smCode] ? supermarketDict[currentLang][smCode] : smCode;
+                    
+                    const fileName = logoFileMap[smCode] || smCode.toLowerCase();
+                    const logoHtml = `<img src="https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;border-radius:2px;display:inline-block;">`;
+
+                    const percent = totalItemsCount > 0 ? ((info.value / totalItemsCount) * 100).toFixed(1) : 0;
+                    
+                    // 🟢 加入多國語言字典判斷
+                    const txtFiltered = currentLang === 'en' ? '💧 Filtered:' : (currentLang === 'zh-Hans' ? '💧 滤走水分:' : '💧 濾走水份:');
+
+                    let filterHtml = '';
+                    if (info.data.baseValue > info.value) {
+                        let diff = info.data.baseValue - info.value;
+                        let pct = ((diff / info.data.baseValue) * 100).toFixed(0);
+                        filterHtml = `<div class="text-[13px] text-red-600 dark:text-red-400 mt-1.5 pt-1.5 border-t border-slate-200 dark:border-slate-700">
+                                        <span class="opacity-90">${txtFiltered}</span> <span class="font-black float-right ml-4">▼ -${diff} ${t.itemUnit} (-${pct}%)</span>
+                                      </div>`;
+                    }
+                    
+                    return `<div class="font-bold text-slate-800 text-lg mb-1 flex items-center">${logoHtml}${cleanName}</div>
                             <div class="text-sm text-slate-500">${t.ttDrop}<span class="text-blue-600 font-black ml-1">${info.value} ${t.itemUnit}</span></div>
-                            <div class="text-sm text-slate-500">${t.ttShare}<span class="font-black ml-1">${percent}%</span></div>`;
+                            <div class="text-sm text-slate-500">${t.ttShare}<span class="font-black ml-1">${percent}%</span></div>
+                            ${filterHtml}`;
                 },
                 backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#e2e8f0', textStyle: { color: '#1e293b' }
             },
             series: [{
                 type: 'treemap', width: '100%', height: '100%', roam: false, nodeClick: false, breadcrumb: { show: false },
-                squareRatio: 1, 
-                itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
+                squareRatio: 1, itemStyle: { borderColor: '#ffffff', borderWidth: 4, gapWidth: 2, borderRadius: 8 },
                 data: unifiedData, 
                 label: {
                     show: true, position: 'inside', align: 'center', 
                     formatter: function(params) {
                         if (params.value < 5) return ''; 
                         let smCode = params.name;
-                        let cleanName = smCode;
-                        
-                        if (typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][smCode]) {
-                            cleanName = supermarketDict[currentLang][smCode];
-                        }
+                        let cleanName = typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][smCode] ? supermarketDict[currentLang][smCode] : smCode;
                         
                         if (params.value < 30) {
                             return `{name|${cleanName}}\n{count|${params.value} ${t.itemUnit}}`; 
@@ -361,17 +585,17 @@
                 }
             }]
         };
-        treemapChart.setOption(option);
+        chartInstance.setOption(option);
 
-        treemapChart.off('dblclick');
-        treemapChart.on('dblclick', function(params) {
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=ALL&other=ALL`;
+        chartInstance.off('dblclick');
+        chartInstance.on('dblclick', function(params) {
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=ALL&other=ALL&minDrop=${minDrop}`;
             window.open(targetUrl, 'TrueDiscountView'); 
         });
     }
 
-    function renderHeatmap() {
-        if (!heatmapChart) return;
+    function renderHeatmap(chartInstance, dataObj, mode, minDrop) {
+        if (!chartInstance) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
         
         const twColorMap = {
@@ -380,7 +604,7 @@
             'fuchsia': '#a21caf', 'pink': '#be185d', 'yellow': '#eab308', 'slate': '#475569'
         };
 
-        const xDataRaw = [...new Set(heatmapData.map(item => String(item.store).toUpperCase().trim()))];
+        const xDataRaw = [...new Set(dataObj.map(item => String(item.store).toUpperCase().trim()))];
         const xData = xDataRaw.map(code => {
             if (window.supermarketDict && window.supermarketDict[currentLang] && window.supermarketDict[currentLang][code]) {
                 return window.supermarketDict[currentLang][code];
@@ -399,24 +623,23 @@
             return hexColor;
         });
 
-        const yData = [...new Set(heatmapData.map(item => item.category))];
-        const yDataRaw = [...new Set(heatmapData.map(item => item.category))];
+        const yData = [...new Set(dataObj.map(item => item.category))];
+        const yDataRaw = [...new Set(dataObj.map(item => item.category))];
 
-        const seriesData = heatmapData.map(item => {
+        const seriesData = dataObj.map(item => {
             const cleanCode = String(item.store).toUpperCase().trim();
             const xIndex = xDataRaw.indexOf(cleanCode);
             const yIndex = yData.indexOf(item.category);
             
             const realDrop = Number((parseFloat(item.avgDiscount) || 0).toFixed(1));
             const marketDrop = Number((parseFloat(item.avgMarketDrop) || 0).toFixed(1));
-            
-            const displayValue = currentHeatmapMode === 'real' ? realDrop : marketDrop;
+            const displayValue = mode === 'real' ? realDrop : marketDrop;
             const itemCount = parseInt(item.count) || 0;
 
-            return [xIndex, yIndex, displayValue, itemCount, realDrop, marketDrop];
+            return [xIndex, yIndex, displayValue, itemCount, realDrop, marketDrop, item.baseCount];
         });
 
-        const colorRange = currentHeatmapMode === 'real' 
+        const colorRange = mode === 'real' 
             ? ['#fef08a', '#f97316', '#b91c1c'] 
             : ['#fef08a', '#fb923c', '#c2410c'];
 
@@ -426,23 +649,44 @@
                 confine: true, 
                 formatter: function (params) {
                     const smName = xData[params.value[0]];
-                    const catName = yData[params.value[1]];
+                    const rawCatName = yData[params.value[1]];
+                    // 🟢 翻譯 Tooltip 裡面的 Category 
+                    const catName = typeof window.categoryDict !== 'undefined' && window.categoryDict[currentLang] && window.categoryDict[currentLang][rawCatName] ? window.categoryDict[currentLang][rawCatName] : rawCatName;
+                    
                     const count = params.value[3];
                     const real = params.value[4].toFixed(1);
                     const market = params.value[5].toFixed(1);
+                    const baseCount = params.value[6]; 
+                    
+                    const txtDropItems = currentLang === 'en' ? '📦 Drop Items:' : (currentLang === 'zh-Hans' ? '📦 降价件数:' : '📦 降價件數:');
+                    const txtFiltered = currentLang === 'en' ? '💧 Filtered:' : (currentLang === 'zh-Hans' ? '💧 滤走水分:' : '💧 濾走水份:');
+                    const txtAvgDrop = currentLang === 'en' ? '📉 Avg True Drop:' : (currentLang === 'zh-Hans' ? '📉 平均真降幅:' : '📉 平均真降幅:');
+                    const txtMarketDrop = currentLang === 'en' ? '⚔️ Market Drop:' : (currentLang === 'zh-Hans' ? '⚔️ 击穿市价幅:' : '⚔️ 擊穿市價幅:');
+                    const txtHint = currentLang === 'en' ? '💡 Double click for details' : (currentLang === 'zh-Hans' ? '💡 双击查看详细清单' : '💡 雙擊查看詳細清單');
+
+                    let filterHtml = '';
+                    if (baseCount > count) {
+                        let diff = baseCount - count;
+                        let pct = ((diff / baseCount) * 100).toFixed(0);
+                        filterHtml = `<div class="flex justify-between items-center mb-1.5 text-[13px] text-slate-600 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded border border-red-100 dark:border-red-900/30">
+                                        <span class="shrink-0 text-red-600 dark:text-red-400">${txtFiltered}</span> 
+                                        <span class="font-black text-red-600 dark:text-red-400 text-right ml-4">▼ -${diff} ${t.itemUnit} (-${pct}%)</span>
+                                      </div>`;
+                    }
                     
                     return `<div class="min-w-[170px] w-full">
                                 <div class="font-bold text-slate-800 text-[14px] mb-2 border-b border-slate-200 pb-1.5">${smName} - ${catName}</div>
                                 <div class="flex justify-between items-center mb-1.5 text-[13px] text-slate-600">
-                                    <span class="shrink-0">📦 降價件數:</span> <span class="font-black text-blue-600 text-right ml-4">${count} 件</span>
+                                    <span class="shrink-0">${txtDropItems}</span> <span class="font-black text-blue-600 text-right ml-4">${count} ${t.itemUnit}</span>
                                 </div>
+                                ${filterHtml}
                                 <div class="flex justify-between items-center mb-1.5 text-[13px] text-slate-600">
-                                    <span class="shrink-0">📉 平均真降幅:</span> <span class="font-black text-red-600 text-right ml-4">▼ ${real}%</span>
+                                    <span class="shrink-0">${txtAvgDrop}</span> <span class="font-black text-red-600 text-right ml-4">▼ ${real}%</span>
                                 </div>
                                 <div class="flex justify-between items-center text-[13px] text-slate-600">
-                                    <span class="shrink-0">⚔️ 擊穿市價幅:</span> <span class="font-black text-orange-600 text-right ml-4">▼ ${market}%</span>
+                                    <span class="shrink-0">${txtMarketDrop}</span> <span class="font-black text-orange-600 text-right ml-4">▼ ${market}%</span>
                                 </div>
-                                <div class="mt-2 pt-1.5 border-t border-slate-200 text-[11px] text-slate-400 text-center font-medium">💡 雙擊查看詳細清單</div>
+                                <div class="mt-2 pt-1.5 border-t border-slate-200 text-[11px] text-slate-400 text-center font-medium">${txtHint}</div>
                             </div>`;
                 },
                 backgroundColor: 'rgba(255, 255, 255, 0.96)', borderColor: '#cbd5e1', borderWidth: 1, padding: 12, shadowColor: 'rgba(0, 0, 0, 0.1)', shadowBlur: 10
@@ -452,28 +696,44 @@
                 type: 'category', data: xData, splitArea: { show: true }, 
                 axisLabel: { fontWeight: 'bold', interval: 0, rotate: 45, fontSize: 11, margin: 12, color: function (value, index) { return xAxisColors[index]; } } 
             },
-            yAxis: { type: 'category', data: yData, splitArea: { show: true }, axisLabel: { fontWeight: 'bold', interval: 0, width: 160, overflow: 'break' } },
+            yAxis: { 
+                type: 'category', 
+                data: yData, 
+                splitArea: { show: true }, 
+                axisLabel: { 
+                    fontWeight: 'bold', interval: 0, width: 160, overflow: 'break',
+                    // 🟢 翻譯 Heatmap 左側 Y-Axis
+                    formatter: function (value) {
+                        if (typeof window.categoryDict !== 'undefined' && window.categoryDict[currentLang] && window.categoryDict[currentLang][value]) {
+                            return window.categoryDict[currentLang][value];
+                        }
+                        return value;
+                    }
+                } 
+            },
             visualMap: {
-                dimension: 2,
-                min: 0, max: 40, calculable: true, orient: 'horizontal', left: 'center', bottom: '0%', 
+                dimension: 2, min: 0, max: 40, calculable: true, orient: 'horizontal', left: 'center', bottom: '0%', 
                 inRange: { color: colorRange }, 
                 text: currentLang === 'en' ? ['High', 'Low'] : ['激減 (高)', '微減 (低)'],
                 textStyle: { color: '#64748b', fontWeight: 'bold', fontSize: 11 }
             },
             series: [{
                 name: '戰況數值', type: 'heatmap', data: seriesData,
-                label: { show: true, formatter: function(params) { return params.value[2].toFixed(1) + '%'; }, color: '#ffffff', fontWeight: 'black', fontSize: 13, textShadowColor: 'rgba(0,0,0,0.4)', textShadowBlur: 3 },
+                label: { 
+                    show: true, 
+                    formatter: function(params) { return params.value[2].toFixed(1) + '%'; }, 
+                    color: '#ffffff', fontWeight: 'black', fontSize: 13, textShadowColor: 'rgba(0,0,0,0.4)', textShadowBlur: 3 
+                },
                 itemStyle: { borderColor: '#ffffff', borderWidth: 3, borderRadius: 6 } 
             }]
         };
-        heatmapChart.setOption(option);
+        chartInstance.setOption(option);
 
-        heatmapChart.off('dblclick');
-        heatmapChart.on('dblclick', function (params) {
+        chartInstance.off('dblclick');
+        chartInstance.on('dblclick', function (params) {
             const rawSmCode = xDataRaw[params.value[0]]; 
             const rawCat = yDataRaw[params.value[1]];
-            
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=ALL&other=ALL`;
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=ALL&other=ALL&minDrop=${minDrop}`;
             window.open(targetUrl, 'TrueDiscountView');
         });
     }
@@ -481,14 +741,33 @@
     document.addEventListener("DOMContentLoaded", () => {
         treemapChart = echarts.init(document.getElementById('treemapChart'));
         heatmapChart = echarts.init(document.getElementById('heatmapChart'));
+        treemapChartHc = echarts.init(document.getElementById('treemapChartHc'));
+        heatmapChartHc = echarts.init(document.getElementById('heatmapChartHc'));
         
         const t = i18n[currentLang] || i18n['zh-Hant'];
         updateLocalLanguage(currentLang);
         
         treemapChart.showLoading({ text: t.loading, color: '#3b82f6', maskColor: 'rgba(255, 255, 255, 0.8)' });
         heatmapChart.showLoading({ text: t.loading, color: '#ef4444', maskColor: 'rgba(255, 255, 255, 0.8)' });
+        treemapChartHc.showLoading({ text: t.loading, color: '#3b82f6', maskColor: 'rgba(255, 255, 255, 0.8)' });
+        heatmapChartHc.showLoading({ text: t.loading, color: '#ef4444', maskColor: 'rgba(255, 255, 255, 0.8)' });
 
         const nocache = new Date().getTime();
+
+        // 加入 Auto-Retry 邏輯
+        async function fetchWithRetry(url, options = {}, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const res = await fetch(url, options);
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    return await res.json();
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                    console.warn(`Fetch 失敗，${delay * Math.pow(2, i)}ms 後進行第 ${i + 1} 次重試...`);
+                    await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+                }
+            }
+        }
 
         fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load main log'))
@@ -509,8 +788,9 @@
             .catch(e => console.warn("戰情室時間紀錄載入失敗", e));
 
         const dataUrl = 'https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_true_discount.json';
-        fetch(`${dataUrl}?v=${nocache}`, { cache: 'no-store' })
-            .then(res => res.json())
+        
+        // 改用 fetchWithRetry 提取數據
+        fetchWithRetry(`${dataUrl}?v=${nocache}`, { cache: 'no-store' })
             .then(payload => {
                 let data = payload;
                 if (!Array.isArray(data) && (data.results || data.data)) data = data.results || data.data;
@@ -518,20 +798,14 @@
                 if (data.length > 0 && data[0].json && data[0].json.true_discount_json) data = data[0].json.true_discount_json;
                 else if (data.length > 0 && data[0].true_discount_json) data = data[0].true_discount_json;
                 else if (data.length > 0 && data[0].json) data = data.map(i => i.json);
-
                 if (data.length === 1 && data[0].true_discount_json) data = data[0].true_discount_json;
 
-                let treeMapAgg = {};
-                let heatMapAgg = {};
-                let totalItems = 0;
-
-                data = data.filter(item => {
-     if (item.rn !== undefined) return parseInt(item.rn) === 1;
-     if (item.route_flag !== undefined) return !String(item.route_flag).includes('secondary');
-     return true;
-});
-
-                data.forEach(item => {
+                // 核心數據標準化 (Normalization)
+                globalNormalizedData = data.filter(item => {
+                    if (item.rn !== undefined && parseInt(item.rn) !== 1) return false;
+                    if (item.route_flag !== undefined && String(item.route_flag).includes('secondary')) return false;
+                    return true;
+                }).map(item => {
                     let smCode = (item.smCode || 'Unknown').toUpperCase().trim();
                     let catRaw = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
                     if (!catRaw) catRaw = '未分類';
@@ -542,8 +816,6 @@
                     if (prevE > currE && realDrop === 0) {
                         realDrop = ((prevE - currE) / prevE) * 100;
                     }
-
-                   
 
                     let marketDrop = parseFloat(item.marketDropPct) || 0;
                     let hasComp = false;
@@ -557,61 +829,41 @@
                         } catch(e) {}
                     }
 
-                    if (!treeMapAgg[catRaw]) treeMapAgg[catRaw] = {};
-                    if (!treeMapAgg[catRaw][smCode]) treeMapAgg[catRaw][smCode] = 0;
-                    treeMapAgg[catRaw][smCode]++;
-                    totalItems++;
-
-                    let heatKey = `${smCode}_${catRaw}`;
-                    if (!heatMapAgg[heatKey]) {
-                        heatMapAgg[heatKey] = { store: smCode, category: catRaw, count: 0, sumReal: 0, sumMarket: 0, marketCount: 0 };
-                    }
-                    heatMapAgg[heatKey].count++;
-                    heatMapAgg[heatKey].sumReal += realDrop;
-                    if (hasComp) {
-                        heatMapAgg[heatKey].sumMarket += marketDrop;
-                        heatMapAgg[heatKey].marketCount++;
-                    }
-                });
-
-                totalItemsCount = totalItems;
-                
-                treemapData = Object.keys(treeMapAgg).map(cat => {
-                    return {
-                        name: cat,
-                        children: Object.keys(treeMapAgg[cat]).map(sm => ({
-                            name: sm,
-                            value: treeMapAgg[cat][sm]
-                        }))
-                    };
-                });
-
-                heatmapData = Object.values(heatMapAgg).map(agg => {
-                    return {
-                        store: agg.store,
-                        category: agg.category,
-                        count: agg.count,
-                        avgDiscount: agg.count > 0 ? (agg.sumReal / agg.count) : 0,
-                        avgMarketDrop: agg.marketCount > 0 ? (agg.sumMarket / agg.marketCount) : 0
-                    };
+                    item._normalizedRealDrop = realDrop;
+                    item._normalizedMarketDrop = marketDrop;
+                    item._smCode = smCode;
+                    item._catRaw = catRaw;
+                    item._hasComp = hasComp;
+                    return item;
                 });
 
                 treemapChart.hideLoading();
                 heatmapChart.hideLoading();
-                renderTreemap();
-                renderHeatmap();
+                treemapChartHc.hideLoading();
+                heatmapChartHc.hideLoading();
+                
+                // 執行渲染
+                updateOriginalCharts();
+                updateHardcoreCharts();
             })
             .catch(e => {
-                console.error("Dashboard Data Fetch Error:", e);
-                treemapChart.hideLoading();
-                heatmapChart.hideLoading();
-                document.getElementById('treemapChart').innerHTML = `<div class="text-red-500 font-bold text-center mt-20">無法載入數據。</div>`;
-                document.getElementById('heatmapChart').innerHTML = `<div class="text-red-500 font-bold text-center mt-20">無法載入數據。</div>`;
+                console.error("Dashboard Data Fetch Error after retries:", e);
+                treemapChart.hideLoading(); heatmapChart.hideLoading(); treemapChartHc.hideLoading(); heatmapChartHc.hideLoading();
+                const errorHtml = `<div class="flex flex-col items-center justify-center mt-20 gap-3">
+                                     <span class="text-red-500 font-bold">⚠️ 網絡連線稍慢，無法載入數據。</span>
+                                     <button onclick="location.reload()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-sm text-slate-700 dark:text-slate-300 font-bold transition shadow-sm active:scale-95">🔄 重新載入</button>
+                                   </div>`;
+                document.getElementById('treemapChart').innerHTML = errorHtml;
+                document.getElementById('heatmapChart').innerHTML = errorHtml;
+                document.getElementById('treemapChartHc').innerHTML = errorHtml;
+                document.getElementById('heatmapChartHc').innerHTML = errorHtml;
             });
 
         window.addEventListener('resize', () => { 
             if(treemapChart) treemapChart.resize(); 
             if(heatmapChart) heatmapChart.resize(); 
+            if(treemapChartHc) treemapChartHc.resize(); 
+            if(heatmapChartHc) heatmapChartHc.resize(); 
         });
     });
 </script>
