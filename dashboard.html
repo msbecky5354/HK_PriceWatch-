@@ -535,9 +535,9 @@
         };
         chartInstance.setOption(option);
 
-        chartInstance.off('dblclick');
+      chartInstance.off('dblclick');
         chartInstance.on('dblclick', function(params) {
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=ALL&other=ALL&minDrop=${minDrop}`;
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=drop&other=ALL&minDrop=${minDrop}`;
             window.open(targetUrl, 'TrueDiscountView'); 
         });
     }
@@ -695,11 +695,11 @@
         };
         chartInstance.setOption(option);
 
-        chartInstance.off('dblclick');
+      chartInstance.off('dblclick');
         chartInstance.on('dblclick', function (params) {
             const rawSmCode = xDataRaw[params.value[0]]; 
             const rawCat = yDataRaw[params.value[1]];
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=ALL&other=ALL&minDrop=${minDrop}`;
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=drop&other=ALL&minDrop=${minDrop}`;
             window.open(targetUrl, 'TrueDiscountView');
         });
     }
@@ -774,11 +774,22 @@
                 else if (data.length > 0 && data[0].json) data = data.map(i => i.json);
                 if (data.length === 1 && data[0].true_discount_json) data = data[0].true_discount_json;
 
-                globalNormalizedData = data.filter(item => {
-                    if (item.rn !== undefined && parseInt(item.rn) !== 1) return false;
-                    if (item.route_flag !== undefined && String(item.route_flag).includes('secondary')) return false;
-                    return true;
-                }).map(item => {
+               globalNormalizedData = data.filter(item => {
+    if (item.rn !== undefined && parseInt(item.rn) !== 1) return false;
+    if (item.route_flag !== undefined && String(item.route_flag).includes('secondary')) return false;
+
+    // 🚀 1. 極速 Key 檢查 (如果你個 JSON 啱啱好有呢兩個名)
+    if (item.status && !String(item.status).includes('真降價')) return false;
+    if (item.priceStatus && !String(item.priceStatus).includes('真降價')) return false;
+
+    // 🚀 2. 終極防 Crash 純數學包底：舊價 <= 新價，代表根本無跌過，即刻踢走！
+    let prevE = parseFloat(item.prevEffPrice) || 0;
+    let currE = parseFloat(item.effectivePrice) || 0;
+    if (prevE <= currE) return false;
+
+    return true;
+}).map(item => {
+    
                     let smCode = (item.smCode || 'Unknown').toUpperCase().trim();
                     let catRaw = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
                     if (!catRaw) catRaw = '未分類';
