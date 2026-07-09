@@ -277,7 +277,7 @@
             if (container) container.innerHTML = `<div class="col-span-full p-10 text-center font-bold text-slate-500 dark:text-slate-400 animate-pulse text-[15px]">${loadingStr}</div>`;
 
             const nocache = new Date().getTime();
-            const dataUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_true_discount.json?v=${nocache}`;
+            const dataUrl = `https://msbecky5354.github.io/JSON/data/bi_true_discount.json?v=${nocache}`;
 
             const dataRes = await fetch(dataUrl, { cache: 'no-store' });
             if (!dataRes.ok) throw new Error("無法取得最新戰情數據");
@@ -541,7 +541,7 @@
         
         const nocache = new Date().getTime();
 
-        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
+        fetch(`https://msbecky5354.github.io/JSON/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load main date'))
             .then(text => {
                 let safeTimeStr = text.trim();
@@ -554,7 +554,7 @@
             })
             .catch(e => console.warn("主時間紀錄載入失敗", e));
 
-        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log_TrueDiscount.txt?v=${nocache}`, { cache: 'no-store' })
+        fetch(`https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load battle date'))
             .then(text => {
                 let safeTimeStr = text.trim();

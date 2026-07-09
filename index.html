@@ -498,7 +498,7 @@
 
                     try {
                         const cb = Date.now();
-                        const snapshotUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/snapshot_${lang}.json?v=${cb}`;
+                        const snapshotUrl = `https://msbecky5354.github.io/JSON/data/snapshot_${lang}.json?v=${cb}`;
                         const snapRes = await fetch(snapshotUrl);
                         if (snapRes.ok) window.snapshotData = window.unwrapData(await snapRes.json());
                     } catch (e) { console.error('語系快照拉取失敗', e); }
@@ -862,8 +862,8 @@
                 window.updateLoadingStatus('check');
                 const cb = Date.now();
                 
-                const logUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${cb}`;
-                const snapshotUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/snapshot_${window.currentLang}.json?v=${cb}`;
+                const logUrl = `https://msbecky5354.github.io/JSON/data/update_log.txt?v=${cb}`;
+                const snapshotUrl = `https://msbecky5354.github.io/JSON/data/snapshot_${window.currentLang}.json?v=${cb}`;
 
                 try {
                     const timeRes = await fetch(logUrl);

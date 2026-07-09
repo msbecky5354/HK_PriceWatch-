@@ -561,7 +561,7 @@
 
         try {
             const nocache = new Date().getTime();
-            const url = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_illusion.json?v=${nocache}`;
+            const url = `https://msbecky5354.github.io/JSON/data/bi_illusion.json?v=${nocache}`;
             const res = await fetch(url);
             let rawData = await res.json();
             
@@ -1149,7 +1149,7 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
 
     document.addEventListener('DOMContentLoaded', () => {
         const nocache = new Date().getTime();
-        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
+        fetch(`https://msbecky5354.github.io/JSON/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load main log'))
             .then(text => {
                 let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 

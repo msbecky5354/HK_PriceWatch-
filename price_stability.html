@@ -426,7 +426,7 @@
         try {
             const nocache = new Date().getTime();
             
-            let tdLogUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log_TrueDiscount.txt?v=${nocache}`;
+            let tdLogUrl = `https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`;
             try {
                 const logRes = await fetch(tdLogUrl);
                 if (logRes.ok) {
@@ -438,7 +438,7 @@
             
             updateLocalLanguage(currentLang);
 
-            const url = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_stability_dashboard.json?v=${nocache}`;
+            const url = `https://msbecky5354.github.io/JSON/data/bi_stability_dashboard.json?v=${nocache}`;
             
             const res = await fetch(url);
             if (!res.ok) throw new Error(`HTTP Error ${res.status}: 找不到檔案。`);

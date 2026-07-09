@@ -474,7 +474,7 @@
             const fileName = logoFileMap[smCode] || smCode.toLowerCase();
 
             dynamicRich[`logo_${smCode}`] = {
-                backgroundColor: { image: `https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png` },
+                backgroundColor: { image: `https://msbecky5354.github.io/JSON/img/${fileName}.png` },
                 height: 40, width: 40, align: 'center'
             };
 
@@ -490,7 +490,7 @@
                     let cleanName = typeof supermarketDict !== 'undefined' && supermarketDict[currentLang] && supermarketDict[currentLang][smCode] ? supermarketDict[currentLang][smCode] : smCode;
                     
                     const fileName = logoFileMap[smCode] || smCode.toLowerCase();
-                    const logoHtml = `<img src="https://raw.githubusercontent.com/msbecky5354/JSON/main/img/${fileName}.png" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;border-radius:2px;display:inline-block;">`;
+                    const logoHtml = `<img src="https://msbecky5354.github.io/JSON/img/${fileName}.png" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;border-radius:2px;display:inline-block;">`;
 
                     const percent = totalItemsCount > 0 ? ((info.value / totalItemsCount) * 100).toFixed(1) : 0;
                     
@@ -730,7 +730,7 @@
             }
         }
 
-        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
+        fetch(`https://msbecky5354.github.io/JSON/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load main log'))
             .then(text => {
                 let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
@@ -739,7 +739,7 @@
             })
             .catch(e => console.warn("主網站時間紀錄載入失敗", e));
 
-        fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log_TrueDiscount.txt?v=${nocache}`, { cache: 'no-store' })
+        fetch(`https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load BI log'))
             .then(text => {
                 let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
@@ -749,7 +749,7 @@
             .catch(e => console.warn("戰情室時間紀錄載入失敗", e));
 
         async function loadTrueDiscountData() {
-            let fallbackUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_true_discount.json?v=${nocache}`;
+            let fallbackUrl = `https://msbecky5354.github.io/JSON/data/bi_true_discount.json?v=${nocache}`;
             let primaryUrl = `https://cdn.jsdelivr.net/gh/msbecky5354/JSON@main/data/bi_true_discount.json`;
             let payload = null;
 

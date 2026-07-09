@@ -316,7 +316,7 @@
             const updateMsg = (msg) => { const el = document.querySelector('#loadingMessage span'); if(el) el.innerText = msg; };
             const nocache = new Date().getTime();
             
-            let mainLogUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log.txt?v=${nocache}`;
+            let mainLogUrl = `https://msbecky5354.github.io/JSON/data/update_log.txt?v=${nocache}`;
             try {
                 const mainLogRes = await fetch(mainLogUrl);
                 if (mainLogRes.ok) {
@@ -326,7 +326,7 @@
                 }
             } catch(e) { console.warn("Main log fetch failed", e); }
 
-            let tdLogUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/update_log_TrueDiscount.txt?v=${nocache}`;
+            let tdLogUrl = `https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`;
             let serverTimeStr = '';
             try {
                 const logRes = await fetch(tdLogUrl);
@@ -358,7 +358,7 @@
                 } else {
                    updateMsg(currentLang === 'en' ? '📥 Downloading Live Data...' : (currentLang === 'zh-Hans' ? '📥 获取最新榜单中...' : '📥 獲取最新榜單中...'));
                     
-                    let fallbackUrl = `https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_true_discount.json?v=${nocache}`;
+                    let fallbackUrl = `https://msbecky5354.github.io/JSON/data/bi_true_discount.json?v=${nocache}`;
                     let primaryUrl = commitSha ? `https://cdn.jsdelivr.net/gh/msbecky5354/JSON@${commitSha}/data/bi_true_discount.json` : fallbackUrl;
                     let rawData = null;
 
@@ -396,7 +396,7 @@
                     await setCachedData(STORE_TRUE_DISCOUNT, serverTimeStr, finalData);
                 }
             } else {
-                 const res = await fetch(`https://raw.githubusercontent.com/msbecky5354/JSON/main/data/bi_true_discount.json?v=${nocache}`);
+                 const res = await fetch(`https://msbecky5354.github.io/JSON/data/bi_true_discount.json?v=${nocache}`);
                  let rawData = await res.json();
                  if (!Array.isArray(rawData) && (rawData.results || rawData.data)) rawData = rawData.results || rawData.data;
                  if (!Array.isArray(rawData)) rawData = [rawData];
