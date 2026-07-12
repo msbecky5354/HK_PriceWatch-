@@ -61,13 +61,20 @@
                 </div>
             </div>
 
-            <div class="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 md:gap-4 flex-1">
-                <select id="hcThreshold" onchange="updateHardcoreCharts()" class="border-2 border-blue-200 bg-blue-50 text-blue-700 font-bold px-3 py-1.5 rounded-lg shadow-sm outline-none dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-400 cursor-pointer transition hover:bg-blue-100 min-w-[200px] text-sm text-center">
-                    <option value="0" selected>全部真降價貨品 (顯示全部)</option>
-                    <option value="5">≥ 5% (降幅門檻)</option>
-                    <option value="10">≥ 10% (降幅門檻)</option>
-                    <option value="15">≥ 15% (降幅門檻)</option>
-                    <option value="20">≥ 20% (降幅門檻)</option>
+            <div class="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 md:gap-3 flex-1">
+                
+                <select id="hcRoleFilter" onchange="updateHardcoreCharts()" class="border-2 border-purple-200 bg-purple-50 text-purple-700 font-bold px-3 py-1.5 rounded-lg shadow-sm outline-none dark:bg-purple-900/30 dark:border-purple-800 dark:text-purple-400 cursor-pointer transition hover:bg-purple-100 min-w-[160px] text-sm text-center">
+                    <option value="ALL" id="optRoleAll" selected>全部降價陣營</option>
+                    <option value="真降價" id="optRoleTrue">📉 真降價 (有競爭)</option>
+                    <option value="獨家降價" id="optRoleExcl">📉 獨家降價 (無競爭)</option>
+                </select>
+
+                <select id="hcThreshold" onchange="updateHardcoreCharts()" class="border-2 border-blue-200 bg-blue-50 text-blue-700 font-bold px-3 py-1.5 rounded-lg shadow-sm outline-none dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-400 cursor-pointer transition hover:bg-blue-100 min-w-[160px] text-sm text-center">
+                    <option value="0" id="opt0" selected>全部門檻 (顯示全部)</option>
+                    <option value="5" id="opt5">≥ 5% (降幅門檻)</option>
+                    <option value="10" id="opt10">≥ 10% (降幅門檻)</option>
+                    <option value="15" id="opt15">≥ 15% (降幅門檻)</option>
+                    <option value="20" id="opt20">≥ 20% (降幅門檻)</option>
                 </select>
 
                 <div id="hcSummaryBar" class="text-[12px] font-bold bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-3 text-slate-600 dark:text-slate-300">
@@ -204,24 +211,27 @@
 
     const i18n = {
         'zh-Hant': { 
-            title: '降價分析看板', sub: '實時視覺化降價分佈，並與真降價數據表進行交叉比對', back: '返回', 
+           title: '降價分析看板 Discount Analytics Dashboard', sub: '實時視覺化降價分佈，並與真降價數據表進行交叉比對', back: '返回', 
             tabTree: '🔲 降價分佈版圖', tabHeat: '🔥 降幅深度熱力矩陣',
             btnReal: '📉 自身真降幅', btnMarket: '⚔️ 擊穿市價幅',
-            opt0: '全部真降價貨品 (顯示全部)', opt5: '≥ 5% (降幅門檻)', opt10: '≥ 10% (降幅門檻)', opt15: '≥ 15% (降幅門檻)', opt20: '≥ 20% (降幅門檻)',
-            loading: '數據匯入中...', ttDrop: '真降價件數：', ttShare: '規模佔比：', itemUnit: '件'
+            opt0: '全部門檻 (顯示全部)', opt5: '≥ 5% (降幅門檻)', opt10: '≥ 10% (降幅門檻)', opt15: '≥ 15% (降幅門檻)', opt20: '≥ 20% (降幅門檻)',
+            optRoleAll: '全部降價陣營', optRoleTrue: '📉 真降價 (有競爭)', optRoleExcl: '📉 獨家降價 (無競爭)',
+            loading: '數據匯入中...', ttDrop: '降價件數：', ttShare: '規模佔比：', itemUnit: '件'
         },
         'zh-Hans': { 
-            title: '降价分析看板', sub: '实时可视化降价分布，并与真降价数据表进行交叉比对', back: '返回', 
+            title: '降价分析看板 Discount Analytics Dashboard', sub: '实时可视化降价分布，并与真降价数据表进行交叉比对', back: '返回', 
             tabTree: '🔲 降价分布版图', tabHeat: '🔥 降幅深度热力矩阵',
             btnReal: '📉 自身真降幅', btnMarket: '⚔️ 击穿市价幅',
-            opt0: '全部真降价商品 (显示全部)', opt5: '≥ 5% (降幅门槛)', opt10: '≥ 10% (降幅门槛)', opt15: '≥ 15% (降幅门槛)', opt20: '≥ 20% (降幅门槛)',
-            loading: '数据汇入中...', ttDrop: '真降价件数：', ttShare: '规模占比：', itemUnit: '件'
+            opt0: '全部门槛 (显示全部)', opt5: '≥ 5% (降幅门槛)', opt10: '≥ 10% (降幅门槛)', opt15: '≥ 15% (降幅门槛)', opt20: '≥ 20% (降幅门槛)',
+            optRoleAll: '全部降价阵营', optRoleTrue: '📉 真降价 (有竞争)', optRoleExcl: '📉 独家降价 (无竞争)',
+            loading: '数据汇入中...', ttDrop: '降价件数：', ttShare: '规模占比：', itemUnit: '件'
         },
         'en': { 
             title: 'Discount Analytics Dashboard', sub: 'Visualizing real-time discount distribution and cross-checking with the True Discount datatable', back: 'Back', 
             tabTree: '🔲 Discount Distribution Treemap', tabHeat: '🔥 Discount Depth Heatmap',
             btnReal: '📉 True Drop', btnMarket: '⚔️ Market Drop',
-            opt0: 'All True Discount Items (Show All)', opt5: '≥ 5% (Discount Threshold)', opt10: '≥ 10% (Discount Threshold)', opt15: '≥ 15% (Discount Threshold)', opt20: '≥ 20% (Discount Threshold)',
+            opt0: 'All Thresholds (Show All)', opt5: '≥ 5% (Threshold)', opt10: '≥ 10% (Threshold)', opt15: '≥ 15% (Threshold)', opt20: '≥ 20% (Threshold)',
+            optRoleAll: 'All Drop Types', optRoleTrue: '📉 True Drop (With Comp)', optRoleExcl: '📉 Exclusive Drop (No Comp)',
             loading: 'Loading Data...', ttDrop: 'Drop Items:', ttShare: 'Market Share:', itemUnit: 'items'
         }
     };
@@ -234,6 +244,13 @@
         const appName = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
         document.title = `${t.title} | ${appName}🔎`;
 
+        // 🟢 精準修復：確保左上角 Logo 名稱會跟隨語言乾淨俐落咁切換！
+        const appTitle = document.getElementById('appTitle');
+        if (appTitle) {
+            appTitle.innerText = appName;
+        }
+
+        // ... (下刪保留原本)
         const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
         const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
         
@@ -254,6 +271,13 @@
             hcSelect.options[2].text = t.opt10;
             hcSelect.options[3].text = t.opt15;
             hcSelect.options[4].text = t.opt20;
+        }
+
+        const roleSelect = document.getElementById('hcRoleFilter');
+        if (roleSelect && roleSelect.options.length >= 3) {
+            roleSelect.options[0].text = t.optRoleAll;
+            roleSelect.options[1].text = t.optRoleTrue;
+            roleSelect.options[2].text = t.optRoleExcl;
         }
 
         const lblHcMatchedTxt = lang === 'en' ? 'Items Matching Criteria:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:');
@@ -305,32 +329,44 @@
         const devName = document.getElementById('footerDevName');
         if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懒人工具駅');
 
-        const mechText = {
+      const mechText = {
             'zh-Hant': {
                 title: '📊 降價分析看板：運算與視覺化聲明',
-                desc: '本看板實時匯總各大超市的「真降價」數據，並轉化為高階視覺化圖表，助您精準洞悉最新的降價分佈與折讓深度：',
-                r1t: '📉 甚麼是「真降價」？', r1d: '系統每日將即時標價與 <b>2025 年 12 月 31 日以來</b> 的最新歷史紀錄進行比對。唯有當「今日折實價」嚴格 <b>低於</b>「上次紀錄之折實價」時，該貨品方會被系統認證為「真降價」，藉此精準過濾表面促銷的營銷錯覺。',
-                r2t: '🔲 降價分佈版圖 (Treemap)', r2d: '圖表中的方塊面積越大，代表該超市符合「真降價」標準的貨品數量越多，直觀反映其投入降價的貨品實質規模。',
-                r3t: '🔥 降幅深度熱力矩陣 (Heatmap)', r3d: '展示各超市在不同貨品分類的整體折讓力度。色塊越深（偏紅），代表該品類的「平均真降幅」越大；色塊越淺（偏黃），代表降幅微弱。',
-                r4t: '⚖️ 重要免責聲明 (Legal Compliance)', r4d: '<p><b>1. 按原樣提供 (As-Is)</b>：本面板數據基於第三方公開資料實時抓取及電腦運算，本程式不保證數據絕對無延遲或零誤差。</p><p><b>2. 第三方數據免責</b>：因零售商隨時更改定價或第三方接口延遲導致之價格落差，本平台概不負責。所有資訊僅供參考，不構成任何消費建議，請以實體店最終標價為準。</p>',
+                desc: '本看板實時匯總各大超市的降價數據，並轉化為高階視覺化圖表，助您精準洞悉最新的降價分佈與折讓深度：',
+                r1t: '📉 降價陣營判定基準', 
+                r1d: '系統每日將標價與 <b>2025 年 12 月 31 日以來</b> 的歷史紀錄比對。必須確保「今日折實價」低於歷史紀錄，且實質降幅 <b>> 1%</b> 方可上榜，並按市場競爭度分為兩大陣營：<div class="mt-2.5 space-y-2"><div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-emerald-600 bg-emerald-50 border-emerald-200 shadow-sm shrink-0">真降價</span> <span class="text-[12px] text-slate-600 dark:text-slate-400">具備<b>對手競爭定價</b>的降價貨品。</span></div><div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shadow-sm shrink-0">獨家降價</span> <span class="text-[12px] text-slate-600 dark:text-slate-400">全港只有<b>一間超市獨家發售</b>的降價貨品。</span></div></div>',
+                r2t: '🔲 降價分佈版圖 (Treemap)', 
+                r2d: '圖表中的方塊面積越大，代表該超市符合條件的貨品數量越多，直觀反映其投入降價的實質規模。',
+                r3t: '🔥 降幅深度熱力矩陣 (Heatmap)', 
+                r3d: '展示各超市在不同貨品分類的整體折讓力度。色塊越深（偏紅），代表該品類的「平均降幅」越大；色塊越淺（偏黃），代表降幅微弱。',
+                r4t: '⚖️ 重要免責聲明 (Legal Compliance)', 
+                r4d: '<p><b>1. 按原樣提供 (As-Is)</b>：本面板數據基於第三方公開資料實時抓取及電腦運算，本程式不保證數據絕對無延遲或零誤差。</p><p><b>2. 第三方數據免責</b>：因零售商隨時更改定價或第三方接口延遲導致之價格落差，本平台概不負責。所有資訊僅供參考，不構成任何消費建議，請以實體店最終標價為準。</p>',
                 btn: '我明白及接受'
             },
             'zh-Hans': {
                 title: '📊 降价分析看板：运算与可视化声明',
-                desc: '本看板实时汇总各大超市的“真降价”数据，并转化为高阶可视化图表，助您精准洞悉最新的降价分布与折让深度：',
-                r1t: '📉 什么是“真降价”？', r1d: '系统每日将即时标价与 <b>2025 年 12 月 31 日以来</b> 的最新历史纪录进行比对。唯有当“今日折实价”严格 <b>低于</b>“上次纪录之折实价”时，该商品方会被系统认证为“真降价”，藉此精准过滤表面促销的营销错觉。',
-                r2t: '🔲 降价分布版图 (Treemap)', r2d: '图表中的方块面积越大，代表该超市符合“真降价”标准的商品数量越多，直观反映其投入降价的商品实质规模。',
-                r3t: '🔥 降幅深度热力矩阵 (Heatmap)', r3d: '展示各超市在不同商品分类的整体折让力度。色块越深（偏红），代表该品类的“平均真降幅”越大；色块越浅（偏黄），代表降幅微弱。',
-                r4t: '⚖️ 重要免责声明 (Legal Compliance)', r4d: '<p><b>1. 按原样提供 (As-Is)</b>：本面板数据基于第三方公开资料实时抓取及电脑运算，本程序不保证数据绝对无延迟或零误差。</p><p><b>2. 第三方数据免责</b>：因零售商随时更改定价或第三方接口延迟导致之价格落差，本平台概不负责。所有资讯仅供参考，不构成任何消费建议，请以实体店最终标价为准。</p>',
+                desc: '本看板实时汇总各大超市的降价数据，并转化为高阶可视化图表，助您精准洞悉最新的降价分布与折让深度：',
+                r1t: '📉 降价阵营判定基准', 
+                r1d: '系统每日将标价与 <b>2025 年 12 月 31 日以来</b> 的历史纪录比对。必须确保“今日折实价”低于历史纪录，且实质降幅 <b>> 1%</b> 方可上榜，并按市场竞争度分为两大阵营：<div class="mt-2.5 space-y-2"><div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-emerald-600 bg-emerald-50 border-emerald-200 shadow-sm shrink-0">真降价</span> <span class="text-[12px] text-slate-600 dark:text-slate-400">具备<b>对手竞争定价</b>的降价商品。</span></div><div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shadow-sm shrink-0">独家降价</span> <span class="text-[12px] text-slate-600 dark:text-slate-400">全港只有<b>一间超市独家发售</b>的降价商品。</span></div></div>',
+                r2t: '🔲 降价分布版图 (Treemap)', 
+                r2d: '图表中的方块面积越大，代表该超市符合条件的商品数量越多，直观反映其投入降价的实质规模。',
+                r3t: '🔥 降幅深度热力矩阵 (Heatmap)', 
+                r3d: '展示各超市在不同商品分类的整体折让力度。色块越深（偏红），代表该品类的“平均降幅”越大；色块越浅（偏黄），代表降幅微弱。',
+                r4t: '⚖️ 重要免责声明 (Legal Compliance)', 
+                r4d: '<p><b>1. 按原样提供 (As-Is)</b>：本面板数据基于第三方公开资料实时抓取及电脑运算，本程序不保证数据绝对无延迟或零误差。</p><p><b>2. 第三方数据免责</b>：因零售商随时更改定价或第三方接口延迟导致之价格落差，本平台概不负责。所有资讯仅供参考，不构成任何消费建议，请以实体店最终标价为准。</p>',
                 btn: '我明白及接受'
             },
             'en': {
                 title: '📊 Discount Analytics Dashboard: Computation Statement',
-                desc: 'This dashboard aggregates real-time "True Discount" data across major supermarkets and converts it into high-level visualizations:',
-                r1t: '📉 What is a "True Discount"?', r1d: 'The system daily compares real-time prices with the latest historical records since <b>Dec 31, 2025</b>. Only when "Today\'s Effective Price" is strictly <b>lower</b> than the "Last Recorded Effective Price" will the item be certified as a "True Discount", precisely filtering out marketing illusions.',
-                r2t: '🔲 Discount Distribution Treemap', r2d: 'The larger the block area, the higher the number of items meeting the "True Discount" standard for that supermarket, reflecting the actual scale of discounted items.',
-                r3t: '🔥 Discount Depth Heatmap', r3d: 'Displays the overall discount intensity across product categories. Darker colors (red) indicate a greater "Average True Discount"; lighter colors (yellow) indicate a weaker price drop.',
-                r4t: '⚖️ Legal Compliance', r4d: '<p><b>1. Provided "As-Is"</b>: Data is based on real-time web scraping and computer calculations. We do not guarantee latency-free or zero-error data.</p><p><b>2. Third-Party Data Exemption</b>: We assume no responsibility for discrepancies caused by retailer changes or API delays. All information is for reference only and does not constitute consumption advice. The final price tag at the physical store prevails.</p>',
+                desc: 'This dashboard aggregates real-time discount data across major supermarkets and converts it into high-level visualizations:',
+                r1t: '📉 Price Drop Categorization', 
+                r1d: 'The system compares real-time prices with the latest historical records since <b>Dec 31, 2025</b>. "Today\'s Effective Price" must be lower than the historical record with a real drop of <b>> 1%</b>. Items are divided into two main categories:<div class="mt-2.5 space-y-2"><div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-emerald-600 bg-emerald-50 border-emerald-200 shadow-sm shrink-0">True Drop</span> <span class="text-[12px] text-slate-600 dark:text-slate-400">Discounted items with <b>competitor pricing</b> in the market.</span></div><div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shadow-sm shrink-0">Exclusive Drop</span> <span class="text-[12px] text-slate-600 dark:text-slate-400">Discounted items <b>exclusively sold at one supermarket</b>.</span></div></div>',
+                r2t: '🔲 Discount Distribution Treemap', 
+                r2d: 'The larger the block area, the higher the number of discounted items for that supermarket, reflecting the actual scale of dropped items.',
+                r3t: '🔥 Discount Depth Heatmap', 
+                r3d: 'Displays the overall discount intensity across product categories. Darker colors (red) indicate a greater average discount; lighter colors (yellow) indicate a weaker price drop.',
+                r4t: '⚖️ Legal Compliance', 
+                r4d: '<p><b>1. Provided "As-Is"</b>: Data is based on real-time web scraping and computer calculations. We do not guarantee latency-free or zero-error data.</p><p><b>2. Third-Party Data Exemption</b>: We assume no responsibility for discrepancies caused by retailer changes or API delays. All information is for reference only and does not constitute consumption advice. The final price tag at the physical store prevails.</p>',
                 btn: 'I Understand & Accept'
             }
         };
@@ -354,12 +390,16 @@
         if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
     };
 
-    function processDataForCharts(rawData, threshold) {
+    // 🟢 核心：過濾引擎加入 Role Filter
+    function processDataForCharts(rawData, threshold, roleFilter) {
         let treeMapAgg = {};
         let heatMapAgg = {};
         let totalItems = 0;
 
         rawData.forEach(item => {
+            // 🛑 陣營過濾：如果揀咗 ALL 就全通，否則比對 item._role
+            if (roleFilter !== 'ALL' && item._role !== roleFilter) return;
+
             let catRaw = item._catRaw;
             let smCode = item._smCode;
 
@@ -405,17 +445,26 @@
             avgMarketDrop: agg.marketCount > 0 ? (agg.sumMarket / agg.marketCount) : 0
         }));
 
-        return { treemapData, heatmapData, totalItems };
+        // 計算 Base (總池大小) 供對比全量減少計算用
+        let totalBaseItems = 0;
+        rawData.forEach(item => {
+            if (roleFilter !== 'ALL' && item._role !== roleFilter) return;
+            totalBaseItems++;
+        });
+
+        return { treemapData, heatmapData, totalItems, totalBaseItems };
     }
 
     window.updateHardcoreCharts = function() {
         const threshold = parseFloat(document.getElementById('hcThreshold').value) || 0;
-        const processed = processDataForCharts(globalNormalizedData, threshold);
+        const roleFilter = document.getElementById('hcRoleFilter').value || 'ALL'; // 🟢 獲取下拉陣營
         
-        renderTreemap(treemapChartHc, processed.treemapData, processed.totalItems, threshold);
-        renderHeatmap(heatmapChartHc, processed.heatmapData, currentHeatmapModeHc, threshold);
+        const processed = processDataForCharts(globalNormalizedData, threshold, roleFilter);
+        
+        renderTreemap(treemapChartHc, processed.treemapData, processed.totalItems, threshold, roleFilter);
+        renderHeatmap(heatmapChartHc, processed.heatmapData, currentHeatmapModeHc, threshold, roleFilter);
 
-        const baseCount = globalNormalizedData.length;
+        const baseCount = processed.totalBaseItems;
         const currentCount = processed.totalItems;
         const dropCount = baseCount - currentCount;
         const dropPct = baseCount > 0 ? ((dropCount / baseCount) * 100).toFixed(1) : 0;
@@ -429,7 +478,7 @@
         if (dropPctEl) dropPctEl.innerText = dropPct;
     };
 
-    function renderTreemap(chartInstance, dataObj, totalItemsCount, minDrop) {
+    function renderTreemap(chartInstance, dataObj, totalItemsCount, minDrop, roleFilter) {
         if (!chartInstance) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
 
@@ -537,12 +586,13 @@
 
       chartInstance.off('dblclick');
         chartInstance.on('dblclick', function(params) {
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=drop&other=ALL&minDrop=${minDrop}`;
-            window.open(targetUrl, 'TrueDiscountView'); 
+            // 🟢 智能跳轉：帶埋 Role Filter 去 True Discount，並鎖死喺同一個 Tab 刷新
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(params.name)}&cat=ALL&status=${encodeURIComponent(roleFilter === 'ALL' ? 'ALL' : roleFilter)}&minDrop=${minDrop}`;
+            window.open(targetUrl, 'SmartDealTrueDiscount'); 
         });
     }
 
-    function renderHeatmap(chartInstance, dataObj, mode, minDrop) {
+    function renderHeatmap(chartInstance, dataObj, mode, minDrop, roleFilter) {
         if (!chartInstance) return;
         const t = i18n[currentLang] || i18n['zh-Hant'];
         
@@ -638,7 +688,6 @@
                 },
                 backgroundColor: 'rgba(255, 255, 255, 0.96)', borderColor: '#cbd5e1', borderWidth: 1, padding: 12, shadowColor: 'rgba(0, 0, 0, 0.1)', shadowBlur: 10
             },
-            // 🚀 解救壓扁 Bug：Top 55 剛好讓出位畀上方色尺，Bottom 95 留足位畀 14px 打斜超市字！
             grid: { top: 55, right: '5%', bottom: 95, left: '2%', containLabel: true }, 
             xAxis: { 
                 type: 'category', data: xData, splitArea: { show: true }, 
@@ -669,7 +718,6 @@
                 name: '戰況數值', type: 'heatmap', data: seriesData,
                 label: { 
                     show: true, 
-                    // 🚀 放棄普通 color，改用 Rich Text (富文本) 引擎強制鎖色！
                     formatter: function(params) { 
                         let val = params.value[2];
                         let txt = val.toFixed(1) + '%';
@@ -699,8 +747,9 @@
         chartInstance.on('dblclick', function (params) {
             const rawSmCode = xDataRaw[params.value[0]]; 
             const rawCat = yDataRaw[params.value[1]];
-            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=drop&other=ALL&minDrop=${minDrop}`;
-            window.open(targetUrl, 'TrueDiscountView');
+            // 🟢 智能跳轉：帶埋 Role Filter 去 True Discount，並鎖死喺同一個 Tab 刷新
+            const targetUrl = `true_discount.html?sm=${encodeURIComponent(rawSmCode)}&cat=${encodeURIComponent(rawCat)}&status=${encodeURIComponent(roleFilter === 'ALL' ? 'ALL' : roleFilter)}&minDrop=${minDrop}`;
+            window.open(targetUrl, 'SmartDealTrueDiscount');
         });
     }
 
@@ -774,22 +823,13 @@
                 else if (data.length > 0 && data[0].json) data = data.map(i => i.json);
                 if (data.length === 1 && data[0].true_discount_json) data = data[0].true_discount_json;
 
-               globalNormalizedData = data.filter(item => {
-    if (item.rn !== undefined && parseInt(item.rn) !== 1) return false;
-    if (item.route_flag !== undefined && String(item.route_flag).includes('secondary')) return false;
-
-    // 🚀 1. 極速 Key 檢查 (如果你個 JSON 啱啱好有呢兩個名)
-    if (item.status && !String(item.status).includes('真降價')) return false;
-    if (item.priceStatus && !String(item.priceStatus).includes('真降價')) return false;
-
-    // 🚀 2. 終極防 Crash 純數學包底：舊價 <= 新價，代表根本無跌過，即刻踢走！
-    let prevE = parseFloat(item.prevEffPrice) || 0;
-    let currE = parseFloat(item.effectivePrice) || 0;
-    if (prevE <= currE) return false;
-
-    return true;
-}).map(item => {
-    
+                globalNormalizedData = data.filter(item => {
+                    // 🚀 放寬：不再使用死板嘅文字 includes('真降價') 阻擋，而是依賴底層邏輯
+                    let prevE = parseFloat(item.prevEffPrice) || 0;
+                    let currE = parseFloat(item.effectivePrice) || 0;
+                    if (prevE <= currE) return false;
+                    return true;
+                }).map(item => {
                     let smCode = (item.smCode || 'Unknown').toUpperCase().trim();
                     let catRaw = typeof item.categoryRaw === 'object' ? (item.categoryRaw['zh-Hant'] || '') : String(item.categoryRaw || '');
                     if (!catRaw) catRaw = '未分類';
@@ -818,6 +858,9 @@
                     item._smCode = smCode;
                     item._catRaw = catRaw;
                     item._hasComp = hasComp;
+                    
+                    // 🟢 核心：捕捉後端輸出的角色
+                    item._role = item.role || '真降價'; 
                     return item;
                 });
 

@@ -31,9 +31,9 @@
     <script src="appUtils.js?v=1"></script>
     <script src="header.js?v=2"></script>
 
-    <div class="max-w-[1400px] w-full mx-auto mt-6 mb-8 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 flex-1">
+    <div class="max-w-[1400px] w-full mx-auto mt-6 mb-8 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 flex-1 flex flex-col">
         
-        <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800">
+        <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800 shrink-0">
             <div class="flex items-center gap-3">
                 <span class="text-2xl">📉</span> 
                 <div class="flex flex-col">
@@ -41,13 +41,12 @@
                         <h1 id="pageTitleText" class="text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">智選真抵榜</h1>
                         <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[12px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="運算機制與免責聲明">ℹ️</button>
                     </div>
-               
                 </div>
             </div>
             <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回</button>
         </div>
 
-        <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-row gap-5 items-start">
+        <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-row gap-5 items-start shrink-0">
             
             <div class="w-1/3 flex flex-col gap-1.5">
                 <label id="lblSorting" class="text-[12px] font-bold text-slate-500 dark:text-slate-400 tracking-wide">波幅排序 (Sorting)</label>
@@ -76,46 +75,59 @@
 
         </div>
 
-        <div class="px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-wrap items-center gap-2 text-[12px]">
-            <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
-            <div class="flex items-center gap-1.5">
-                <button onclick="togglePctFilter(5)" id="btnPct5" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    <span id="txtBtnPct5">≥ 5% 減幅</span>
-                </button>
-                <button onclick="togglePctFilter(10)" id="btnPct10" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    <span id="txtBtnPct10">≥ 10% 減幅</span>
-                </button>
-                <button onclick="togglePctFilter(15)" id="btnPct15" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    <span id="txtBtnPct15">≥ 15% 減幅</span>
-                </button>
-                <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold flex items-center gap-1">
-                    <span id="txtBtnPct20">≥ 20% 極限劈價</span>
-                </button>
-                <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mx-1"></div>
-                <button onclick="resetToDefaultFilter()" class="px-2 py-1 text-sm bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-all font-bold shadow-sm active:scale-95 flex items-center gap-1">
-                    <span id="txtBtnReset">🔄 重置</span>
-                </button>
+        <div class="px-5 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-wrap items-center justify-between gap-2 text-[12px] shrink-0">
+            <div class="flex flex-wrap items-center gap-2">
+                <span id="qsLabel" class="text-slate-500 dark:text-slate-400 font-bold">熱門搜尋:</span>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="togglePctFilter(5)" id="btnPct5" class="px-2 py-1 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 hover:bg-green-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                        <span id="txtBtnPct5">≥ 5% 減幅</span>
+                    </button>
+                    <button onclick="togglePctFilter(10)" id="btnPct10" class="px-2 py-1 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 hover:bg-green-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                        <span id="txtBtnPct10">≥ 10% 減幅</span>
+                    </button>
+                    <button onclick="togglePctFilter(15)" id="btnPct15" class="px-2 py-1 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 hover:bg-green-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                        <span id="txtBtnPct15">≥ 15% 減幅</span>
+                    </button>
+                    <button onclick="togglePctFilter(20)" id="btnPct20" class="px-2 py-1 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 hover:bg-green-100 transition-all shadow-sm font-bold flex items-center gap-1">
+                        <span id="txtBtnPct20">≥ 20% 極限劈價</span>
+                    </button>
+                    <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+                    <button onclick="resetToDefaultFilter()" class="px-2 py-1 text-sm bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-all font-bold shadow-sm active:scale-95 flex items-center gap-1">
+                        <span id="txtBtnReset">🔄 重置</span>
+                    </button>
+                </div>
             </div>
+            
+            <!-- 🟢 新增：前往 Dashboard 的大數據看板按鈕 (推向最右邊) -->
+           <!-- 🟢 新增：前往 Dashboard 的大數據看板按鈕 (智能跳轉/開新 Tab) -->
+            <button onclick="window.open('dashboard.html?lang=' + currentLang, 'SmartDealDashboard')" class="ml-auto px-4 py-1.5 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white rounded-lg font-bold shadow-md transition-all active:scale-95 flex items-center gap-1.5">
+                <span class="text-[14px]">📊</span>
+                <span id="txtBtnDashboard" class="drop-shadow-sm">降價分析看板</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-0.5 opacity-90 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            </button>
         </div>
+      
 
-        <div id="dynamicSummaryBar" class="hidden px-5 py-2.5 bg-blue-50/60 dark:bg-slate-800/80 border-b border-blue-100 dark:border-slate-700 flex flex-wrap items-center gap-6 text-[13px] transition-colors">
+        <div id="dynamicSummaryBar" class="hidden px-5 py-2.5 bg-blue-50/60 dark:bg-slate-800/80 border-b border-blue-100 dark:border-slate-700 flex flex-wrap items-center gap-6 text-[13px] transition-colors shrink-0">
             <div class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
                 <span class="text-[16px]">📦</span> <span id="lblSumCount" class="font-bold">符合條件:</span> <span id="sumCountVal" class="font-black text-blue-600 dark:text-blue-400 text-[15px]">0</span> <span id="lblSumUnit" class="text-slate-500">件</span>
             </div>
-            <div class="flex items-center gap-1.5 text-red-600 dark:text-red-400">
-                <span class="text-[16px]">📉</span> <span id="lblSumDiff" class="font-bold">平均真・減幅:</span> <span id="sumDiffVal" class="font-black text-red-700 dark:text-red-300 text-[15px]">0.0%</span>
+            <!-- 🟢 更新：平均真・減幅 轉為綠色 -->
+            <div class="flex items-center gap-1.5 text-green-600 dark:text-green-400">
+                <span class="text-[16px]">📉</span> <span id="lblSumDiff" class="font-bold">平均真・減幅:</span> <span id="sumDiffVal" class="font-black text-green-700 dark:text-green-300 text-[15px]">0.0%</span>
             </div>
-            <div class="flex items-center gap-1.5 text-orange-600 dark:text-orange-400">
-                <span class="text-[16px]">⚔️</span> <span id="lblSumMarket" class="font-bold">平均擊穿市價:</span> <span id="sumMarketVal" class="font-black text-orange-700 dark:text-orange-300 text-[15px]">0.0%</span>
+            <!-- 🟢 更新：平均擊穿市價 轉為綠色 -->
+            <div class="flex items-center gap-1.5 text-green-600 dark:text-green-400">
+                <span class="text-[16px]">⚔️</span> <span id="lblSumMarket" class="font-bold">平均擊穿市價:</span> <span id="sumMarketVal" class="font-black text-green-700 dark:text-green-300 text-[15px]">0.0%</span>
             </div>
         </div>
 
-        <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
             <h2 id="listTitle" class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">🔥 今日 Top 劈價貨品</h2>
             <span id="dailyUpdateBadge" class="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded font-bold">每日更新</span>
         </div>
 
-       <div class="overflow-x-auto bg-white dark:bg-slate-800 min-h-[500px]">
+        <div class="overflow-x-auto bg-white dark:bg-slate-800 flex-1">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-blue-50/50 dark:bg-slate-700/50 select-none border-b border-blue-100 dark:border-slate-700 text-sm">
@@ -134,7 +146,7 @@
                         <th id="thBrand" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 transition-colors w-20 align-top"><span id="txt-thBrand">品牌</span></th>
                         <th id="thName" onclick="handleSort('name')" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors align-top"><span id="txt-thName">貨品名稱</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300"></span></th>
                         
-                        <th id="thStatus" onclick="handleSort('statusKey')" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors align-top">
+                        <th id="thStatus" onclick="handleSort('role')" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 text-center cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors align-top">
                             <div class="flex items-center justify-center gap-1 mb-1.5"><span id="txt-thStatus">歷史狀態判定</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300"></span></div>
                             <select id="headerStatusFilter" onclick="event.stopPropagation()" onchange="syncFilters('status', this.value)" class="w-full max-w-[140px] mx-auto text-[11px] text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded px-1 py-1 font-normal cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"></select>
                         </th>
@@ -145,12 +157,18 @@
                         
                         <th id="thOther" onclick="handleSort('marketDropPct')" class="py-3 px-3 font-bold text-blue-500 dark:text-blue-400 align-top cursor-pointer hover:bg-blue-100 dark:hover:bg-slate-600 transition-colors">
                             <div class="mb-1.5 flex items-center gap-1"><span id="txt-thOther">全城戰情透視</span> <span class="sort-icon text-[10px] text-blue-400 dark:text-blue-300"></span></div>
-                            <select id="headerOtherFilter" onclick="event.stopPropagation()" onchange="syncFilters('other', this.value)" class="w-full text-[11px] text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded px-1 py-1 font-normal cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"></select>
-                        </th>
+                            </th>
                     </tr>
                 </thead>
                 <tbody id="leaderboardTableBody"></tbody>
             </table>
+            
+            <div id="loadMoreContainer" class="hidden py-6 text-center bg-white dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700">
+                <button onclick="loadMoreRecords()" class="px-6 py-2.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 font-bold rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors shadow-sm active:scale-95 text-[13px] flex items-center gap-2 mx-auto">
+                    <span id="txtBtnLoadMore">⏬ 載入更多 (顯示下 50 項...)</span>
+                </button>
+            </div>
+            
         </div>
     </div>
 
@@ -177,28 +195,27 @@
    <script>
     let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
     let fullDataList = [];
+    let currentFilteredData = []; // 🟢 用於 Pagination
+    let displayLimit = 50; // 🟢 初始載入 50 筆
     let lastUpdatedTime = null;         
     let tdLastUpdatedTime = null;       
     let currentSort = { column: 'realDiscountPct', dir: 'desc' }; 
-    let currentMinPct = 0; // 預設 0
-    let fState = { cat: 'ALL', sm: 'ALL', status: 'ALL', other: 'ALL' };
+    let currentMinPct = 0; 
+    let fState = { cat: 'ALL', sm: 'ALL', status: 'ALL' }; // 🗑️ Removed 'other'
 
     const urlParams = new URLSearchParams(window.location.search);
     const targetSm = urlParams.get('sm');
     const targetCat = urlParams.get('cat');
     const targetStatus = urlParams.get('status'); 
-    const targetOther = urlParams.get('other');
-    const targetMinDrop = urlParams.get('minDrop'); // 🟢 精準擷取 Dashboard 帶過來嘅百分比門檻
+    const targetMinDrop = urlParams.get('minDrop'); 
 
-    // 完美繼承 Dashboard 傳遞過來的所有戰略視角
-    if (targetSm || targetCat || targetStatus || targetOther || targetMinDrop !== null) {
+    if (targetSm || targetCat || targetStatus || targetMinDrop !== null) {
         if (targetSm) fState.sm = targetSm;
         if (targetCat) fState.cat = targetCat;
         if (targetStatus) fState.status = targetStatus; 
-        if (targetOther) fState.other = targetOther; else fState.other = 'ALL';
         if (targetMinDrop !== null) currentMinPct = parseInt(targetMinDrop); else currentMinPct = 0;
     } else {
-        currentMinPct = 0; // 預設無門檻
+        currentMinPct = 0; 
     }
 
     const DB_NAME = 'PriceWatchDB';
@@ -252,7 +269,6 @@
         return c; 
     }
 
-    // 🟢 核心對接功能：精準提取 flat_raw_data 產生的多語系欄位
     function getLocalizedText(item, baseKey, lang) {
         if (!item) return '-';
         let objVal = item[baseKey];
@@ -270,15 +286,6 @@
             return item[baseKey + 'Hant'] || item[baseKey + '_zh_hant'] || item[baseKey] || '-';
         }
     }
-
-    const statusI18n = {
-        'drop': { 'en': '📉 Real Price Drop', 'zh-Hant': '📉 真降價', 'zh-Hans': '📉 真降价', 'color': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' },
-        'fake': { 'en': '🟠 Invalid Promo', 'zh-Hant': '🟠 無實質降幅', 'zh-Hans': '🟠 无实质降幅', 'color': 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800' },
-        'increase': { 'en': '📈 Base Price Increase', 'zh-Hant': '📈 底價上升', 'zh-Hans': '📈 底价上升', 'color': 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800' },
-        'promo_changed': { 'en': '🏷️ Promo Changed', 'zh-Hant': '🏷️ 換新優惠', 'zh-Hans': '🏷️ 换新优惠', 'color': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800' },
-        'maintained': { 'en': '⏸️ Maintained', 'zh-Hant': '⏸️ 價格維持', 'zh-Hans': '⏸️ 价格维持', 'color': 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700' },
-        'new': { 'en': '🆕 Newly Added', 'zh-Hant': '🆕 首次上架', 'zh-Hans': '🆕 首次上架', 'color': 'text-[#345B8C] dark:text-[#6A95CC] bg-[#E8F0F8] dark:bg-slate-700 border-[#345B8C]/20 dark:border-[#6A95CC]/30' }
-    };
 
     function formatDateTime(date) {
         if (!date || isNaN(date.getTime())) return '';
@@ -357,18 +364,16 @@
                     await new Promise(r => setTimeout(r, 50)); 
                 } else {
                    updateMsg(currentLang === 'en' ? '📥 Downloading Live Data...' : (currentLang === 'zh-Hans' ? '📥 获取最新榜单中...' : '📥 獲取最新榜單中...'));
-                    
+                   
                     let fallbackUrl = `https://msbecky5354.github.io/JSON/data/bi_true_discount.json?v=${nocache}`;
                     let primaryUrl = commitSha ? `https://cdn.jsdelivr.net/gh/msbecky5354/JSON@${commitSha}/data/bi_true_discount.json` : fallbackUrl;
                     let rawData = null;
 
                     try {
-                        // 第一重保險：嘗試讀取 jsDelivr CDN
                         const res = await fetch(primaryUrl);
                         if (!res.ok) throw new Error('CDN API Failed');
                         rawData = await res.json();
                     } catch (err) {
-                        // 第二重保險：如果 CDN 未 Sync 完或 404，靜默切換至 GitHub Raw 生肉
                         console.warn("🔄 切換至備用線路 (Fallback to Raw GitHub)...");
                         const fallbackRes = await fetch(fallbackUrl);
                         if (!fallbackRes.ok) throw new Error('Fallback API Failed');
@@ -412,8 +417,9 @@
             if (!finalData || finalData.length === 0) throw new Error("JSON 解析為空，請檢查後端導出格式。");
 
             finalData = finalData.filter(item => {
-                if (item.rn !== undefined) return parseInt(item.rn) === 1;
-                if (item.route_flag !== undefined) return !String(item.route_flag).includes('secondary');
+                if (item.statusKey !== 'drop') return false;
+                if (item.rn !== undefined && parseInt(item.rn) !== 1) return false;
+                if (item.route_flag !== undefined && String(item.route_flag).includes('secondary')) return false;
                 return true;
             });
 
@@ -477,9 +483,7 @@
                     <span class="text-[12px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 max-w-md break-words">${e.message}</span>
                 </div>`;
             const tbody = document.getElementById('leaderboardTableBody');
-            const mbody = document.getElementById('leaderboardMobile');
             if(tbody) tbody.innerHTML = `<tr><td colspan="10">${errorHTML}</td></tr>`;
-            if(mbody) mbody.innerHTML = errorHTML;
         }
     }
 
@@ -502,15 +506,17 @@
         applyFilters();
     }
 
-    // 🟢 同步 Dashboard 嘅陣列：5, 10, 15, 20
+    // 🟢 同步 Dashboard 嘅陣列：5, 10, 15, 20 (已全面轉為 Audit Green)
     function updatePctButtonsUI() {
         [5, 10, 15, 20].forEach(p => {
             const btn = document.getElementById('btnPct' + p);
             if (btn) {
                 if (currentMinPct === p) {
-                    btn.className = "px-2 py-1 flex items-center gap-1 bg-red-600 dark:bg-red-500 border border-red-700 dark:border-red-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all";
+                    // 點擊後嘅 Active 狀態 (深綠色)
+                    btn.className = "px-2 py-1 flex items-center gap-1 bg-green-600 dark:bg-green-500 border border-green-700 dark:border-green-600 rounded-lg text-white font-bold shadow-md scale-105 transition-all";
                 } else {
-                    btn.className = "px-2 py-1 flex items-center gap-1 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-100 transition-all shadow-sm font-bold";
+                    // 平時嘅預設狀態 (淺綠色底)
+                    btn.className = "px-2 py-1 flex items-center gap-1 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 hover:bg-green-100 transition-all shadow-sm font-bold";
                 }
             }
         });
@@ -526,8 +532,8 @@
         const filterInput = document.getElementById('filterInput');
         if (filterInput) filterInput.value = '';
         window.history.replaceState({}, document.title, window.location.pathname);
-        fState = { cat: 'ALL', sm: 'ALL', status: 'ALL', other: 'ALL' };
-        currentMinPct = 0; // 🟢 重置還原去無門檻
+        fState = { cat: 'ALL', sm: 'ALL', status: 'ALL' }; 
+        currentMinPct = 0; 
         populateDropdowns();
         updatePctButtonsUI();
         applyFilters();
@@ -552,7 +558,7 @@
 
     function updateSortUI() {
         document.querySelectorAll('.sort-icon').forEach(el => el.innerText = '');
-        const thMapping = { 'displayRank': 'thRank', 'categoryRaw': 'thCat', 'smCode': 'thSm', 'name': 'thName', 'statusKey': 'thStatus', 'originalPrice': 'thOrig', 'effectivePrice': 'thEff', 'realDiscountPct': 'thDiff', 'marketDropPct': 'thOther' };
+        const thMapping = { 'displayRank': 'thRank', 'categoryRaw': 'thCat', 'smCode': 'thSm', 'name': 'thName', 'role': 'thStatus', 'originalPrice': 'thOrig', 'effectivePrice': 'thEff', 'realDiscountPct': 'thDiff', 'marketDropPct': 'thOther' };
         const thId = thMapping[currentSort.column];
         if (thId) {
             const th = document.getElementById(thId);
@@ -582,15 +588,14 @@
             const matchesKw = name.includes(kw) || smNameText.includes(kw) || translatedCatText.includes(kw);
             const matchesSm = (fState.sm === 'ALL' || i.smCode === fState.sm);
             const matchesCat = (fState.cat === 'ALL' || rawCatValue === fState.cat);
-            const matchesStatus = (fState.status === 'ALL' || i.statusKey === fState.status);
             
-            const matchesOther = (fState.other === 'ALL' || 
-                                 (fState.other === 'HAS_OTHER' && i.hasCompetitors) ||
-                                 (fState.other === 'BATTLE_WINNER' && i.isBattleWinner));
-                                 
+            // 🟢 狀態過濾改為讀取 role
+            const safeRole = i.role || '真降價';
+            const matchesStatus = (fState.status === 'ALL' || safeRole === fState.status);
+            
             const matchesPct = currentMinPct > 0 ? (parseFloat(i.realDiscountPct) >= currentMinPct) : true;
             
-            return matchesKw && matchesSm && matchesCat && matchesStatus && matchesOther && matchesPct;
+            return matchesKw && matchesSm && matchesCat && matchesStatus && matchesPct;
         });
 
         filtered.sort((a, b) => {
@@ -615,7 +620,7 @@
             if (currentSort.column === 'effectivePrice' || currentSort.column === 'originalPrice' || currentSort.column === 'priceDeviationPct') {
                  valA = parseFloat(valA) || 0;
                  valB = parseFloat(valB) || 0;
-            } else if (currentSort.column === 'categoryRaw' || currentSort.column === 'name') {
+            } else if (currentSort.column === 'categoryRaw' || currentSort.column === 'name' || currentSort.column === 'role') {
                  valA = getLocalizedText(a, currentSort.column, currentLang); valB = getLocalizedText(b, currentSort.column, currentLang);
                  return currentSort.dir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
             } else {
@@ -655,21 +660,45 @@
         }
 
         updateSortUI();
-        renderLeaderboard(filtered);
+        
+        // 🟢 觸發分頁渲染引擎
+        currentFilteredData = filtered;
+        displayLimit = 50; 
+        renderLeaderboardChunk();
     }
 
-  function populateDropdowns() {
+    // 🟢 載入更多按鈕邏輯
+    window.loadMoreRecords = function() {
+        displayLimit += 50;
+        renderLeaderboardChunk();
+    }
+
+    // 🟢 分塊渲染引擎 (Pagination)
+    function renderLeaderboardChunk() {
+        const chunk = currentFilteredData.slice(0, displayLimit);
+        renderLeaderboard(chunk);
+        
+        const btnContainer = document.getElementById('loadMoreContainer');
+        if (btnContainer) {
+            if (displayLimit < currentFilteredData.length) {
+                btnContainer.classList.remove('hidden');
+            } else {
+                btnContainer.classList.add('hidden');
+            }
+        }
+    }
+
+    function populateDropdowns() {
         const catEls = [document.getElementById('headerCatFilter')].filter(Boolean);
         const smEls = [document.getElementById('headerSmFilter')].filter(Boolean);
         const statusEls = [document.getElementById('headerStatusFilter')].filter(Boolean);
-        const otherEls = [document.getElementById('headerOtherFilter')].filter(Boolean);
 
         const smAllText = currentLang === 'en' ? 'All Stores' : (currentLang === 'zh-Hans' ? '所有超市' : '所有超市');
         const catAllText = currentLang === 'en' ? 'All Categories' : (currentLang === 'zh-Hans' ? '所有分类' : '所有分類');
-        const statusAllText = currentLang === 'en' ? 'All Status' : (currentLang === 'zh-Hans' ? '所有状态' : '所有狀態');
         
-        const otherAllText = currentLang === 'en' ? 'All Items' : (currentLang === 'zh-Hans' ? '全部商品' : '全部貨品');
-        const otherHasText = currentLang === 'en' ? 'Has Competitors' : (currentLang === 'zh-Hans' ? '有对手定价' : '有對手定價');
+        const statusAllText = currentLang === 'en' ? 'All Status' : (currentLang === 'zh-Hans' ? '所有状态' : '所有狀態');
+        const trueDropText = currentLang === 'en' ? 'True Drop' : (currentLang === 'zh-Hans' ? '真降价' : '真降價');
+        const exclDropText = currentLang === 'en' ? 'Exclusive Drop' : (currentLang === 'zh-Hans' ? '独家降价' : '獨家降價');
 
         const smCodes = [...new Set(fullDataList.map(i => i.smCode))];
         const smOpts = `<option value="ALL">${smAllText}</option>` + smCodes.map(c => `<option value="${c}">${getSmName(c, currentLang)}</option>`).join('');
@@ -679,22 +708,19 @@
         const catOpts = `<option value="ALL">${catAllText}</option>` + rawCategories.map(c => `<option value="${c}">${getCatName(c, currentLang)}</option>`).join('');
         catEls.forEach(el => el.innerHTML = catOpts);
 
-        const statuses = ['drop', 'new']; 
-        const statusOpts = `<option value="ALL">${statusAllText}</option>` + statuses.map(s => `<option value="${s}">${statusI18n[s][currentLang] || statusI18n[s]['zh-Hant']}</option>`).join('');
+        // 🟢 將歷史狀態的下拉選單綁定去 role 陣營
+        const statusOpts = `<option value="ALL">${statusAllText}</option>` +
+                           `<option value="真降價">${trueDropText}</option>` +
+                           `<option value="獨家降價">${exclDropText}</option>`;
         statusEls.forEach(el => el.innerHTML = statusOpts);
-
-        const otherOpts = `<option value="ALL">${otherAllText}</option><option value="HAS_OTHER">${otherHasText}</option>`;
-        otherEls.forEach(el => el.innerHTML = otherOpts);
 
         const safeSm = (fullDataList.length === 0) ? fState.sm : (smCodes.includes(fState.sm) ? fState.sm : 'ALL');
         const safeCat = (fullDataList.length === 0) ? fState.cat : (rawCategories.includes(fState.cat) ? fState.cat : 'ALL');
-        const safeStatus = (fullDataList.length === 0) ? fState.status : (statuses.includes(fState.status) ? fState.status : 'ALL');
-        const safeOther = (fullDataList.length === 0) ? fState.other : fState.other; 
+        const safeStatus = fState.status;
 
         syncFilters('sm', safeSm);
         syncFilters('cat', safeCat);
         syncFilters('status', safeStatus); 
-        syncFilters('other', safeOther);   
     }
     
     function updateLocalLanguage(lang) {
@@ -728,13 +754,11 @@
         
         const setTxt = (id, en, tc, sc) => { const el = document.getElementById(id); if (el) el.innerText = lang === 'en' ? en : (lang === 'zh-Hans' ? sc : tc); };
         
-        setTxt('pageTitleText', 'SmartDeal Board', '智選真抵榜', '智选真抵榜');
-       
+        // 🟢 更新：大標題中英並排
+        setTxt('pageTitleText', 'SmartDeal Board', '智選真抵榜 SmartDeal Board', '智选真抵榜 SmartDeal Board');
         setTxt('backBtn', 'Back', '返回', '返回');
-        
         setTxt('lblSorting', 'Sorting', '波幅排序 (Sorting)', '波幅排序 (Sorting)');
         setTxt('lblRadar', 'Precision Radar (Name, Brand, ID)', '精確雷達 (支援 Name, Brand, ID)', '精确雷达 (支援 Name, Brand, ID)');
-        
         setTxt('qsLabel', 'Quick Search:', '熱門搜尋:', '热门搜索:');
         setTxt('listTitle', '🔥 TODAY\'S TOP DISCOUNTS', '🔥 今日 Top 劈價貨品', '🔥 今日 Top 降价商品');
         
@@ -756,24 +780,29 @@
         setTxt('txt-thDiff', 'True Diff', '真・減幅', '真・减幅');
         setTxt('txt-thOther', 'Market View', '全城戰情透視', '全城战情透视');
 
-        // 🟢 同步多國語言翻譯 (5%, 10%, 15%, 20%)
         setTxt('txtBtnPct5', '≥ 5% Off', '≥ 5% 減幅', '≥ 5% 减幅');
         setTxt('txtBtnPct10', '≥ 10% Off', '≥ 10% 減幅', '≥ 10% 减幅');
         setTxt('txtBtnPct15', '≥ 15% Off', '≥ 15% 減幅', '≥ 15% 减幅');
         setTxt('txtBtnPct20', '≥ 20% Off', '≥ 20% 極限劈價', '≥ 20% 极限降价');
         setTxt('txtBtnReset', '🔄 Reset', '🔄 重置', '🔄 重置'); 
         
+        // 🟢 載入更多按鈕多語系
+        setTxt('txtBtnLoadMore', '⏬ Load More (Next 50...)', '⏬ 載入更多 (顯示下 50 項...)', '⏬ 载入更多 (显示下 50 项...)');
+        
         setTxt('lblSumCount', 'Matched:', '符合條件:', '符合条件:');
         setTxt('lblSumUnit', 'items', '件', '件');
         setTxt('lblSumDiff', 'Avg True Drop:', '平均真・減幅:', '平均真・减幅:');
         setTxt('lblSumMarket', 'Avg Market Drop:', '平均擊穿市價:', '平均击穿市价:');
+
+
+        // 🟢 新增：跳轉 Dashboard 捷徑按鈕嘅多語系
+        setTxt('txtBtnDashboard', 'Analytics Dashboard', '降價分析看板', '降价分析看板');
 
         const filterInput = document.getElementById('filterInput');
         if (filterInput) {
             filterInput.placeholder = lang === 'en' ? 'Enter keyword (e.g., ParknShop Coffee)' : (lang === 'zh-Hans' ? '输入关键字 (例如: 百佳 咖啡)' : '輸入關鍵字 (例如: 百佳 咖啡)');
         }
         
-        // 🟢 對接 window.uiText 字典以供 footer.js 使用 (嚴守父層控制權，杜絕 Hardcode)
         const uiDict = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : (typeof window.uiText !== 'undefined' ? window.uiText['zh-Hant'] : null);
         const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
         const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
@@ -785,7 +814,6 @@
             setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
             setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
             
-            // 🟢 將 Hardcode 轉交字典，保留 Fallback 以防字典缺失
             setElTxt('footerDevTeam', uiDict.devTeam || (lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ')));
             setElTxt('footerDevName', uiDict.devName || (lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅')));
         }
@@ -821,6 +849,9 @@
         const lblAvg = currentLang === 'en' ? 'Market Avg' : (currentLang === 'zh-Hans' ? '全城平均公价' : '全城平均公價');
         const lblDev = currentLang === 'en' ? 'Deviation' : (currentLang === 'zh-Hans' ? '定价偏离度' : '定價偏離度');
         const lblDrop = currentLang === 'en' ? 'Market Drop' : (currentLang === 'zh-Hans' ? '真实市场降幅' : '真實市場降幅');
+        
+        const trueDropText = currentLang === 'en' ? 'True Drop' : (currentLang === 'zh-Hans' ? '真降价' : '真降價');
+        const exclDropText = currentLang === 'en' ? 'Exclusive Drop' : (currentLang === 'zh-Hans' ? '独家降价' : '獨家降價');
 
         const body = document.getElementById('leaderboardTableBody');
         if (body) {
@@ -828,11 +859,9 @@
                 let rankClass = i < 3 ? 'text-amber-500 text-lg' : 'text-slate-400 text-sm';
                 let rankMedal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
                 
-                // 🟢 徹底換上 getLocalizedText 取代舊系統 getText
                 let displayName = getLocalizedText(item, 'name', currentLang);
                 let brandName = getLocalizedText(item, 'brand', currentLang);
                 
-                // 🟢 嚴格對接 data-query 嘅安全字串轉換 (防止單雙引號炒爆 HTML)
                 let safeName = String(displayName).replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 let safeBrand = String(brandName).replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
@@ -881,9 +910,6 @@
                         </div>
                     `;
                 }
-
-                const stDict = statusI18n[item.statusKey] || statusI18n['maintained'];
-                const statusText = stDict[currentLang] || stDict['zh-Hant'];
                 
                 let prevEffText = item.prevEffPrice && parseFloat(item.prevEffPrice) > 0 ? `$${parseFloat(item.prevEffPrice).toFixed(1)}` : '-';
                 let prevBaseText = item.prevBasePrice && parseFloat(item.prevBasePrice) > 0 ? `$${parseFloat(item.prevBasePrice).toFixed(1)}` : '-';
@@ -906,7 +932,7 @@
                 let prevOfferText = currentLang === 'en' && item.prevOfferEn && item.prevOfferEn !== '-' ? item.prevOfferEn : (currentLang === 'zh-Hans' ? item.prevOfferHans : item.prevOfferZh);
                 if (!prevOfferText || prevOfferText === '-' || prevOfferText === 'null') prevOfferText = currentLang === 'en' ? 'None' : '無';
                 
-              const deskBoxId = `desk-hist-${i}`;
+                const deskBoxId = `desk-hist-${i}`;
                 const deskIconId = `desk-icon-${i}`;
                 
                 let prevEffValForBadge = parseFloat(item.prevEffPrice) || 0;
@@ -918,12 +944,19 @@
                     let pctDiff = (amtDiff / prevEffValForBadge) * 100;
                     dropBadgeText = `▼ -$${amtDiff.toFixed(1)} (-${pctDiff.toFixed(1)}%)`;
                 }
-                
-                const statusBadgeHTML = `
 
+                // 🟢 核心對接 2：完美整合 Badge，將狀態字眼二合一 (紫/綠配搭)
+                let safeRole = item.role || '真降價';
+                let isExclusive = safeRole === '獨家降價';
+                let roleDisplayName = isExclusive ? exclDropText : trueDropText;
+                let roleColorClass = isExclusive 
+                    ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800' 
+                    : 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800';
+
+                const statusBadgeHTML = `
                     <div class="inline-flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity active:scale-95 mx-auto" onclick="toggleHistoryBox('${deskBoxId}', '${deskIconId}')">
-                        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] font-bold rounded border ${stDict.color} whitespace-nowrap shadow-sm">
-                            <span class="${item.statusKey === 'increase' || item.statusKey === 'fake' ? 'text-red-500 dark:text-red-400' : 'opacity-70'}">${prevEffText} &rarr;</span> ${statusText}
+                        <span class="inline-flex items-center px-1.5 py-0.5 text-[11px] font-bold rounded border ${roleColorClass} whitespace-nowrap shadow-sm">
+                            <span class="opacity-70 mr-1.5">${prevEffText} &rarr;</span> 📉 ${roleDisplayName}
                         </span>
                         <div class="bg-slate-100 dark:bg-slate-700 rounded-full p-0.5 shadow-sm border border-slate-200 dark:border-slate-600">
                             <svg id="${deskIconId}" class="w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -955,7 +988,8 @@
                     <td class="p-3 align-top text-right text-slate-400 dark:text-slate-500 line-through text-[12px] whitespace-nowrap">$${(parseFloat(item.originalPrice) || 0).toFixed(1)}</td>
                     <td class="p-3 align-top text-right font-black text-blue-600 dark:text-blue-400 text-[16px] whitespace-nowrap">$${(parseFloat(item.effectivePrice) || 0).toFixed(1)}</td>
                     <td class="p-3 align-top text-right whitespace-nowrap">
-                        <span class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-black px-2 py-1 rounded-full border border-red-200 dark:border-red-800 shadow-sm">${dropBadgeText}</span>
+                        <!-- 🟢 更新：降幅 Badge 轉為綠色 -->
+                        <span class="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 font-black px-2 py-1 rounded-full border border-green-200 dark:border-green-800 shadow-sm">${dropBadgeText}</span>
                     </td>
                     <td class="p-3 align-top text-[11px] leading-tight max-w-[180px]">
                         ${marketStatsHTML}
@@ -965,8 +999,6 @@
                 `;
             }).join('');
         }
-
-       
     }
 
  const calcInfoTexts = {
@@ -992,8 +1024,8 @@
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 歷史狀態判定基準</h4>
                 <p class="mb-2 text-[12px]">系統結合大數據運算引擎，將全城定價異動精準分級：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日單件折實價嚴格<b>低於</b>上次歷史快照記錄之折實價。</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自系統啟動以來，首次記錄到該貨品於該超市之報價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-emerald-600 bg-emerald-50 border-emerald-200 shrink-0">📉 真降價</span> <span class="text-slate-600 dark:text-slate-400">今日單件折實價嚴格<b>低於</b>上次歷史快照記錄之折實價，並且具備對手競爭定價。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">📉 獨家降價</span> <span class="text-slate-600 dark:text-slate-400">錄得實質降幅，且全城只有一間超市獨家發售。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免責聲明</h4>
@@ -1024,8 +1056,8 @@
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 历史状态判定基准</h4>
                 <p class="mb-2 text-[12px]">系统结合大数据运算引擎，将全城定价异动精准分级：</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日单件折实价严格<b>低于</b>上次历史快照记录之折实价。</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 首次上架</span> <span class="text-slate-600 dark:text-slate-400">自系统启动以来，首次记录到该货品于该超市之报价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-emerald-600 bg-emerald-50 border-emerald-200 shrink-0">📉 真降价</span> <span class="text-slate-600 dark:text-slate-400">今日单件折实价严格<b>低于</b>上次历史快照记录之折实价，并且具备对手竞争定价。</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">📉 独家降价</span> <span class="text-slate-600 dark:text-slate-400">录得实质降幅，且全城只有一间超市独家发售。</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ 重要免责声明</h4>
@@ -1056,8 +1088,8 @@
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">📊 History Status Definitions</h4>
                 <p class="mb-2 text-[12px]">The system categorizes pricing changes with high precision:</p>
                 <div class="space-y-2 mb-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-green-600 bg-green-50 border-green-200 shrink-0">📉 Real Price Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's single item effective price is strictly <b>lower</b> than the effective price of the last historical snapshot record.</span></div>
-                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-[#345B8C] bg-[#E8F0F8] border-[#6A95CC]/30 shrink-0">🆕 Newly Added</span> <span class="text-slate-600 dark:text-slate-400">First time this product's price at this supermarket is recorded since system launch.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-emerald-600 bg-emerald-50 border-emerald-200 shrink-0">📉 True Drop</span> <span class="text-slate-600 dark:text-slate-400">Today's single item effective price is strictly <b>lower</b> than the effective price of the last historical snapshot record with competitor pricing.</span></div>
+                    <div class="flex items-start gap-2"><span class="px-1.5 py-0.5 text-[10px] font-bold rounded border text-purple-600 bg-purple-50 border-purple-200 shrink-0">📉 Exclusive Drop</span> <span class="text-slate-600 dark:text-slate-400">Real price drop recorded, and the item is exclusively sold at one supermarket.</span></div>
                 </div>
 
                 <h4 class="font-bold text-[14px] text-slate-800 dark:text-slate-100 mt-4 mb-1">⚖️ Legal Disclaimer</h4>
