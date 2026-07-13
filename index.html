@@ -20,7 +20,6 @@
     </script>
 
     <meta charset="UTF-8">
-    <!-- 🚀 修正 1：繁簡體錯字修正、統一英文 Branding 為 HK Smart Price -->
     <meta name="description" content="HK Smart Price 慳真D - 全城超市真・劈價即時追蹤器。踢走假促銷，為你比較百佳、惠康、萬寧、屈臣氏等最新折實價。全自動 AI 運算，完全免費！">
     <meta name="keywords" content="慳真D, 超市格價, 百佳優惠, 惠康減價, 萬寧優惠, 香港超市, 劈價, 免費格價App, HK Smart Price, 懶人工具駅, 免費工具">
     <meta property="og:title" content="慳真D | HK Smart Price">
@@ -56,8 +55,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="HK Smart Price">
     <meta name="mobile-web-app-capable" content="yes">
-   
-    <!-- 🚀 修正 2：已將底部多餘且衝突的 ogTags 徹底刪除 -->
 
     <script src="dbEngine.js?v=1"></script> 
     <script src="dataCore.js?v=1"></script> 
@@ -546,8 +543,7 @@
                 updateText('sendBtnText', dict.send);
                 updatePlaceholder('chatInput', dict.placeholder);
 
-              // 🟢 終極對齊版：強制換行 <span class='block...'>，防止過長出 ...
-                const homeUI = {
+              const homeUI = {
                     'zh-Hant': { 
                         title: "物價情報分析中樞", placeholder: "輸入資料源關鍵字 (例: 可口可樂)...", quickTitle: "情報捷徑", catTitle: "分類目錄瀏覽", b1: "極端差價分析", b2: "最新優惠", b3: "熱搜飲品", b4: "糧食雜貨", 
                         lowestPriceBtn: "最低價追蹤系統<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Lowest Price Tracker</span>",
@@ -566,11 +562,11 @@
                     },
                     'en': { 
                         title: "Price Intelligence Center", placeholder: "Search data source (e.g., Cola)...", quickTitle: "Quick Insights", catTitle: "Browse Categories", b1: "Extreme Gap", b2: "Latest Deals", b3: "Trending Drinks", b4: "Pantry Goods", 
-                        lowestPriceBtn: "Lowest Price Tracker<span class='block text-[10px] font-normal opacity-85 mt-0.5'>最低價追蹤系統</span>",
-                        trueDiscountBtn: "SmartDeal Board<span class='block text-[10px] font-normal opacity-85 mt-0.5'>智選真抵榜</span>", 
-                        commandCenterBtn: "Discount Analytics Dashboard<span class='block text-[10px] font-normal opacity-85 mt-0.5'>降價分析看板</span>", 
-                        priceIllusionBtn: "Price Analytics Report<span class='block text-[10px] font-normal opacity-85 mt-0.5'>價格稽核分析報告</span>", 
-                        priceStabilityBtn: "Price Stability Monitor<span class='block text-[10px] font-normal opacity-85 mt-0.5'>定價穩定監測板</span>" 
+                        lowestPriceBtn: "Lowest Price Tracker<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Real-time Market Updates</span>",
+                        trueDiscountBtn: "SmartDeal Board<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Verified Discounts</span>", 
+                        commandCenterBtn: "Discount Analytics Dashboard<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Market Pricing Matrix</span>", 
+                        priceIllusionBtn: "Price Analytics Report<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Pricing Strategy Audit</span>", 
+                        priceStabilityBtn: "Price Stability Monitor<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Historical Trends</span>" 
                     }
                 };
 
@@ -598,13 +594,11 @@
                         </div>
                         
                         <div class="flex flex-col gap-2.5 mb-1">
-                            <!-- 👑 皇冠級：最低價追蹤系統 (全寬) -->
-                            <button onclick="window.checkDeviceAndRedirect('lowest_price_tracker.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-2.5 text-center bg-gradient-to-r from-[#1e293b] to-[#334155] hover:opacity-90 text-white py-3 px-3 rounded-xl font-bold active:scale-95 transition shadow-md border border-slate-700">
+                            <button onclick="window.checkDeviceAndRedirect('lowest_price_dashboard.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-2.5 text-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-3 px-3 rounded-xl font-bold active:scale-95 transition shadow-md border border-teal-600/50">
                                 <span class="text-xl shrink-0">👑</span>
                                 <div class="drop-shadow-sm tracking-wide leading-tight text-[13px]">${homeUI[activeLang].lowestPriceBtn}</div>
                             </button>
                             
-                            <!-- 📊 原有 4 個 BI 報表 (2x2) -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                 <button onclick="window.checkDeviceAndRedirect('true_discount.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#345B8C] hover:opacity-90 text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#4a76b0]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg><div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].trueDiscountBtn}</div></button>
                                 <button onclick="window.checkDeviceAndRedirect('dashboard.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#D4AF37] hover:bg-[#C5A030] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-md border border-[#B8942E]/50 dark:bg-[#C5A030]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].commandCenterBtn}</div></button>
@@ -838,6 +832,62 @@
 
                 window.executeProductSearch();
             }, 300);
+        };
+
+       // =====================================================================
+        // 🎨 企業級分類圖標註冊表 (支援三語動態攔截與明暗主題變色)
+        // =====================================================================
+        window.getCatStyle = function(catName) {
+            const name = (catName || '').toLowerCase();
+            const svgClass = "w-7 h-7 text-[#345B8C] dark:text-[#608BC1] mb-1.5 transition-colors drop-shadow-sm";
+            let svgIcon = '';
+
+            // 1. 飲品類
+            if (name.includes('drink') || name.includes('beverage') || name.includes('飲') || name.includes('饮')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M15.2 22H8.8a2 2 0 0 1-2-1.79L5 3h14l-1.81 17.21A2 2 0 0 1 15.2 22Z"/><path d="M6 12h12"/></svg>`;
+            }
+            // 2. 糧食雜貨
+            else if (name.includes('rice') || name.includes('meat') || name.includes('米') || name.includes('肉') || name.includes('罐')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="m5 11 4-7"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8c.9 0 1.8-.7 2-1.6l1.7-7.4"/></svg>`;
+            }
+            // 3. 零食餅乾
+            else if (name.includes('snack') || name.includes('cand') || name.includes('零') || name.includes('糖') || name.includes('餅')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><rect width="16" height="16" x="4" y="4" rx="2" ry="2"/><rect width="6" height="6" x="9" y="9" rx="1" ry="1"/></svg>`;
+            }
+            // 4. 家居寵物
+            else if (name.includes('house') || name.includes('pet') || name.includes('家居') || name.includes('寵') || name.includes('宠')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
+            }
+            // 5. 麵食烹調 (🚀 修正：收緊匹配，避免誤判麵包)
+            else if (name.includes('noodle') || name.includes('cook') || name.includes('粉麵') || name.includes('粉面') || name.includes('煮') || name.includes('烹')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`;
+            }
+            // 6. 乳製品蛋類
+            else if (name.includes('dairy') || name.includes('egg') || name.includes('乳') || name.includes('蛋')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>`;
+            }
+            // 7. 烘焙麥片 (🚀 修正：加入麵包、蛋糕、穀類精確匹配)
+            else if (name.includes('baker') || name.includes('cereal') || name.includes('烘') || name.includes('麥') || name.includes('麦') || name.includes('麵包') || name.includes('面包') || name.includes('蛋糕') || name.includes('穀')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M2 22 22 2"/><path d="M16 2a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M8 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M16 10a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M8 16a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/></svg>`;
+            }
+            // 8. 酒類
+            else if (name.includes('beer') || name.includes('wine') || name.includes('酒')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/></svg>`;
+            }
+            // 9. 個人護理
+            else if (name.includes('personal') || name.includes('care') || name.includes('個人') || name.includes('护') || name.includes('護')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6-8 10-8 10z"/><path d="M12 8v4"/><path d="M10 10h4"/></svg>`;
+            }
+            // 10. 嬰兒用品
+            else if (name.includes('baby') || name.includes('milk') || name.includes('嬰') || name.includes('婴') || name.includes('奶')) {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`;
+            }
+            // 預設
+            else {
+                svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>`;
+            }
+
+            return { icon: svgIcon };
         };
 
         window.renderLevel1 = function() {
