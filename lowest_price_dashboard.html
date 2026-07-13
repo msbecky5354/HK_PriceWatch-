@@ -94,6 +94,28 @@
             </div>
         </div>
 
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-6 transition-colors">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="text-[15px]">⚖️</span>
+                <h3 id="txt-mcBarTitle" class="font-black text-[14px] text-slate-700 dark:text-slate-200"></h3>
+            </div>
+            
+            <div class="flex w-full h-6 rounded-full overflow-hidden mb-2.5 shadow-inner bg-slate-100 dark:bg-slate-700">
+                
+              
+                <div id="bar-drop" class="bg-emerald-500 flex items-center justify-center text-white text-[11px] font-black transition-all duration-700" style="width: 0%;">0%</div>
+                  <div id="bar-flat" class="bg-slate-400 flex items-center justify-center text-white text-[11px] font-black transition-all duration-700 border-x border-white/20 dark:border-slate-800/20" style="width: 0%;">0%</div>
+                <div id="bar-up" class="bg-amber-500 flex items-center justify-center text-white text-[11px] font-black transition-all duration-700" style="width: 0%;">0%</div>
+            </div>
+
+            <div class="flex justify-between items-center text-[11px] sm:text-[12px] font-bold px-1">
+                <div class="text-amber-600 dark:text-amber-400 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 shrink-0"></span><span id="txt-mcBarUp" class="truncate"></span> (<span id="txt-pct-up">0%</span>)</div>
+                <div class="text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-slate-400 shrink-0"></span><span id="txt-mcBarFlat" class="truncate"></span> (<span id="txt-pct-flat">0%</span>)</div>
+                <div class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 shrink-0"></span><span id="txt-mcBarDrop" class="truncate"></span> (<span id="txt-pct-drop">0%</span>)</div>
+            </div>
+        </div>
+
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center border-b-4 border-b-emerald-600 dark:border-b-emerald-500 relative overflow-hidden transition-colors cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/80" onclick="applyStateFilter('strategy', 'true_drop')">
                 <div id="txt-mcDropCard" class="text-[11px] text-slate-400 font-bold mb-1 uppercase tracking-wider"></div>
@@ -103,7 +125,7 @@
             
             <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center border-b-4 border-b-slate-400 relative overflow-hidden transition-colors cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/80" onclick="applyStateFilter('strategy', 'flat_beaten')">
                 <div id="txt-mcFlatCard" class="text-[11px] text-slate-500 dark:text-slate-400 font-bold mb-1 uppercase tracking-wider"></div>
-                <div id="countFlatBeaten" class="text-4xl font-black text-slate-600 dark:text-slate-300">...</div>
+                <div id="countFlatBeaten" class="text-4xl font-black text-slate-400 dark:text-slate-400">...</div>
                 <div id="txt-mcFlatDesc" class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-50 dark:bg-slate-900/50 inline-block px-2 py-1 rounded"></div>
             </div>
 
@@ -113,6 +135,9 @@
                 <div id="txt-mcUpDesc" class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-50 dark:bg-slate-900/50 inline-block px-2 py-1 rounded"></div>
             </div>
         </div>
+
+
+        
 
         <div class="relative flex justify-center mb-6 max-w-[1400px] mx-auto w-full px-3 md:px-0">
             <div class="bg-slate-200 dark:bg-slate-700 p-1 rounded-xl flex flex-col sm:flex-row shadow-inner w-full md:w-auto md:inline-flex border border-slate-300 dark:border-slate-600">
@@ -220,7 +245,7 @@
                         <th class="p-3 font-bold w-[250px] sortable-th group pt-4" onclick="handleSort('name')">
                             <span id="txt-thName"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-name">↕</span>
                         </th>
-                        <th class="p-2 font-bold text-center w-32 border-x border-slate-100 dark:border-slate-700">
+                       <th class="p-2 font-bold text-center w-[150px] border-x border-slate-100 dark:border-slate-700">
                             <div class="flex flex-col gap-1.5">
                                 <div class="px-1 text-slate-600 dark:text-slate-400" id="txt-thType"></div>
                                 <select id="selStrategy" onchange="applyStateFilter('strategy', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer text-center">
@@ -278,8 +303,8 @@
                 mcTitle: '同款最低價綜合儀表板 Integrated Price Dashboard',
                 mcSub: '市場定價透視 ｜ 贏家動態拆解 ｜ 每日自動更新',
                 
-                // Tabs
-                tabWinners: '🏆 戰略版圖 (Treemap)',
+              // Tabs
+                tabWinners: '🏆 贏家分佈與定價戰略 (Winners & Pricing)',
                 tabTracker: '⚖️ 霸主角力 (Matrix)',
 
                 // KPI Cards
@@ -321,6 +346,11 @@
                 thDev: '⚖️ 偏離市場',
                 thDrop: '🎯 實質平幾多',
                 mcType: '軌跡標籤',
+
+                mcBarTitle: '全市大盤贏家戰略佔比 (3核分佈)',
+                mcBarDrop: '擴大優勢',
+                mcBarFlat: '維持優勢',
+                mcBarUp: '收窄優勢',
                 
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> 數據維度與聲明',
                 mcModalContent: `<div class="space-y-4">
@@ -340,7 +370,8 @@
                 mcTitle: '同款最低价综合仪表板 Integrated Price Dashboard',
                 mcSub: '市场定价透视 ｜ 赢家动态拆解 ｜ 每日自动更新',
                 
-                tabWinners: '🏆 战略版图 (Treemap)',
+               // Tabs
+                tabWinners: '🏆 赢家分布与定价战略 (Winners & Pricing)',
                 tabTracker: '⚖️ 霸主角力 (Matrix)',
 
                 purifiedDropCard: '📉 扩大价格优势',
@@ -380,6 +411,11 @@
                 thDev: '⚖️ 偏离市场',
                 thDrop: '🎯 实质平几多',
                 mcType: '轨迹标签',
+
+                mcBarTitle: '全市大盘赢家战略占比 (3核分布)',
+                mcBarDrop: '扩大优势',
+                mcBarFlat: '维持优势',
+                mcBarUp: '收窄优势',
                 
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> 数据维度与声明',
                 mcModalContent: `<div class="space-y-4">
@@ -399,8 +435,9 @@
                 mcTitle: 'Integrated Price Dashboard',
                 mcSub: 'Market Pricing Insights | Winner Dynamics | Daily Update',
                 
-                tabWinners: '🏆 Winner Treemap',
-                tabTracker: '⚖️ Diverging Matrix',
+              // Tabs
+                tabWinners: '🏆 Winners & Pricing Strategy',
+                tabTracker: '⚖️ Competitor Matrix',
 
                 purifiedDropCard: '📉 Widening Advantage',
                 purifiedDropDesc: 'Lowest price & effective drop ≤ -1%',
@@ -438,6 +475,11 @@
                 thDev: '⚖️ Deviation',
                 thDrop: '🎯 Real Drop',
                 mcType: 'Strategy Tag',
+
+                mcBarTitle: 'Citywide Winner Strategy Distribution',
+                mcBarDrop: 'Widening Advantage',
+                mcBarFlat: 'Maintained Advantage',
+                mcBarUp: 'Narrowing Advantage',
                 
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Data Dimensions & Disclaimer',
                 mcModalContent: `<div class="space-y-4">
@@ -540,6 +582,11 @@
 
             setTxt('txt-mcTitle', tLocal.mcTitle);
             setTxt('txt-mcSub', tLocal.mcSub);
+
+            setTxt('txt-mcBarTitle', tLocal.mcBarTitle);
+            setTxt('txt-mcBarDrop', tLocal.mcBarDrop);
+            setTxt('txt-mcBarFlat', tLocal.mcBarFlat);
+            setTxt('txt-mcBarUp', tLocal.mcBarUp);
             
             setTxt('btn-tab-winners', tLocal.tabWinners);
             setTxt('btn-tab-tracker', tLocal.tabTracker);
@@ -813,6 +860,35 @@
                 document.getElementById('pillDrop').innerText = `(${summary.true_drop})`;
                 document.getElementById('pillFlat').innerText = `(${summary.flat_beaten})`;
                 document.getElementById('pillUp').innerText = `(${summary.competitive_up})`;
+
+               // --- 動態渲染 Slidebar ---
+                const totalWinners = summary.true_drop + summary.competitive_up + summary.flat_beaten;
+                if (totalWinners > 0) {
+                    const pctDrop = ((summary.true_drop / totalWinners) * 100).toFixed(1);
+                    const pctFlat = ((summary.flat_beaten / totalWinners) * 100).toFixed(1);
+                    const pctUp = ((summary.competitive_up / totalWinners) * 100).toFixed(1);
+
+                    // 更新寬度與內部文字
+                    const barDrop = document.getElementById('bar-drop');
+                    const barFlat = document.getElementById('bar-flat');
+                    const barUp = document.getElementById('bar-up');
+
+                    if(barDrop) { barDrop.style.width = `${pctDrop}%`; barDrop.innerText = pctDrop >= 5 ? `${pctDrop}%` : ''; }
+                    if(barFlat) { barFlat.style.width = `${pctFlat}%`; barFlat.innerText = pctFlat >= 5 ? `${pctFlat}%` : ''; }
+                    if(barUp) { barUp.style.width = `${pctUp}%`; barUp.innerText = pctUp >= 5 ? `${pctUp}%` : ''; }
+
+                    // 更新底部圖例數字
+                    const txtPctDrop = document.getElementById('txt-pct-drop');
+                    const txtPctFlat = document.getElementById('txt-pct-flat');
+                    const txtPctUp = document.getElementById('txt-pct-up');
+                    
+                    if(txtPctDrop) txtPctDrop.innerText = `${pctDrop}%`;
+                    if(txtPctFlat) txtPctFlat.innerText = `${pctFlat}%`;
+                    if(txtPctUp) txtPctUp.innerText = `${pctUp}%`;
+                }
+                // -------------------------
+
+
 
                 updateLocalLanguage(); 
                 document.getElementById('loadingOverlay').style.display = 'none';
