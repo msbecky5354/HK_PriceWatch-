@@ -105,8 +105,6 @@
             </div>
             
             <div class="flex w-full h-6 rounded-full overflow-hidden mb-2.5 shadow-inner bg-slate-100 dark:bg-slate-700">
-                
-              
                 <div id="bar-drop" class="bg-emerald-500 flex items-center justify-center text-white text-[11px] font-black transition-all duration-700" style="width: 0%;">0%</div>
                   <div id="bar-flat" class="bg-slate-400 flex items-center justify-center text-white text-[11px] font-black transition-all duration-700 border-x border-white/20 dark:border-slate-800/20" style="width: 0%;">0%</div>
                 <div id="bar-up" class="bg-amber-500 flex items-center justify-center text-white text-[11px] font-black transition-all duration-700" style="width: 0%;">0%</div>
@@ -118,7 +116,6 @@
                 <div class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 shrink-0"></span><span id="txt-mcBarDrop" class="truncate"></span> (<span id="txt-pct-drop">0%</span>)</div>
             </div>
         </div>
-
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center border-b-4 border-b-emerald-600 dark:border-b-emerald-500 relative overflow-hidden transition-colors cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/80" onclick="applyStateFilter('strategy', 'true_drop')">
@@ -140,13 +137,11 @@
             </div>
         </div>
 
-
-        
-
         <div class="relative flex justify-center mb-6 max-w-[1400px] mx-auto w-full px-3 md:px-0">
             <div class="bg-slate-200 dark:bg-slate-700 p-1 rounded-xl flex flex-col sm:flex-row shadow-inner w-full md:w-auto md:inline-flex border border-slate-300 dark:border-slate-600">
                 <button id="btn-tab-winners" onclick="switchTab('winners')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] bg-white dark:bg-slate-800 shadow-sm text-[#345B8C] dark:text-[#60A5FA] transition-all text-center mb-1 sm:mb-0 sm:mr-1"></button>
-                <button id="btn-tab-tracker" onclick="switchTab('tracker')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center"></button>
+                <button id="btn-tab-tracker" onclick="switchTab('tracker')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center mb-1 sm:mb-0 sm:mr-1"></button>
+                <button id="btn-tab-tiers" onclick="switchTab('tiers')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center"></button>
             </div>
             
             <button onclick="resetFilters()" class="hidden md:flex absolute right-4 lg:right-0 top-1/2 -translate-y-1/2 items-center gap-1.5 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 rounded-lg text-[13px] font-bold transition shadow-sm active:scale-95">
@@ -154,6 +149,7 @@
                 <span id="txt-mcBtnResetTop"></span>
             </button>
         </div>
+
         <div id="view-winners" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 block">
             <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
                 <div class="flex justify-between items-center mb-2">
@@ -188,9 +184,41 @@
             </div>
         </div>
 
+        <div id="view-tiers" class="mb-8 hidden">
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="txt-mcChartTiers" class="text-[15px] font-black text-slate-700 dark:text-slate-100"></h2>
+                </div>
+                <div class="overflow-x-auto no-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                    <thead>
+    <tr class="text-[12px] text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+        <th class="py-3 font-bold" id="th-tier-range"></th>
+        <th class="py-3 font-bold text-center" id="th-tier-down"></th>
+        <th class="py-3 font-bold text-center" id="th-tier-flat"></th>
+        <th class="py-3 font-bold text-center" id="th-tier-up"></th>
+        <th class="py-3 font-bold text-center" id="th-tier-beaten"></th>
+        <th class="py-3 font-bold" id="th-tier-pct"></th>
+    </tr>
+</thead>
+                        <tbody id="tiersTableBody" class="text-[13px]">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div class="bg-white dark:bg-slate-800 p-4 rounded-t-2xl border-x border-t border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-4 transition-colors">
             <div class="flex flex-wrap items-center gap-3 w-full">
-                <input type="text" id="searchInput" placeholder="" class="flex-1 min-w-[200px] px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-colors dark:text-slate-100">
+                <input type="text" id="searchInput" placeholder="搜尋貨品名稱、品牌或分類..." class="flex-1 min-w-[200px] px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-colors dark:text-slate-100">
+                <select id="selPriceRange" onchange="applyStateFilter('priceRange', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-700 dark:text-slate-200 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-sm">
+                    <option value="ALL" id="opt-price-all"></option>
+                    <option value="0-20" id="opt-price-1"></option>
+                    <option value="20-50" id="opt-price-2"></option>
+                    <option value="50-100" id="opt-price-3"></option>
+                    <option value="100-300" id="opt-price-4"></option>
+                    <option value="300+" id="opt-price-5"></option>
+                </select>
                 <div class="flex gap-2">
                     <button onclick="resetFilters()" id="txt-mcBtnReset" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold transition shadow-sm whitespace-nowrap"></button>
                 </div>
@@ -263,9 +291,21 @@
                         <th class="p-3 font-bold text-right w-16 whitespace-nowrap pt-4" id="txt-thOrig"></th>
                         <th class="p-3 font-bold text-right w-20 whitespace-nowrap pt-4" id="txt-thEff"></th>
                         
-                        <th id="th-diff-col" class="p-3 font-bold text-center w-40 whitespace-nowrap sortable-th group pt-4" onclick="handleSort('diff')">
-                            <span id="txt-thDiff"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-diff">↕</span>
-                        </th>
+                        <th id="th-diff-col" class="p-2 font-bold text-center w-40 border-x border-slate-100 dark:border-slate-700">
+    <div class="flex flex-col gap-1.5">
+        <div class="sortable-th group px-1" onclick="handleSort('diff')">
+            <span id="txt-thDiff"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-diff">↕</span>
+        </div>
+        <select id="selTier" onchange="applyStateFilter('tier', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer text-center">
+            <option value="ALL" id="opt-tier-all"></option>
+            <option value="t1" id="opt-tier-1"></option>
+            <option value="t2" id="opt-tier-2"></option>
+            <option value="t3" id="opt-tier-3"></option>
+            <option value="t4" id="opt-tier-4"></option>
+            <option value="t5" id="opt-tier-5"></option>
+        </select>
+    </div>
+</th>
                         
                         <th class="p-3 font-bold text-right w-20 whitespace-nowrap border-l border-slate-200 dark:border-slate-700 pt-4" id="txt-thAvg"></th>
                         <th class="p-3 font-bold text-right w-24 sortable-th group pt-4" onclick="handleSort('dev')">
@@ -307,11 +347,9 @@
                 mcTitle: '同款最低價綜合儀表板 Integrated Price Dashboard',
                 mcSub: '市場定價透視 ｜ 贏家動態拆解 ｜ 每日自動更新',
                 
-              // Tabs
                 tabWinners: '🏆 贏家分佈與定價戰略 (Winners & Pricing)',
                 tabTracker: '⚖️ 霸主角力 (Matrix)',
 
-                // KPI Cards
                 purifiedDropCard: '📉 擴大價格優勢',
                 purifiedDropDesc: '同款最低價，且實質波幅 ≤ -1%',
                 purifiedFlatCard: '🛡️ 維持最低價優勢',
@@ -319,7 +357,6 @@
                 purifiedUpCard: '📈 收窄價格優勢',
                 purifiedUpDesc: '同款最低價，實質波幅 ≥ 1%',
                 
-                // Chart Titles
                 mcChartTreemap: '🏆 同款最低價得主版圖 Winners Treemap',
                 mcChartStacked: '📉 得主定價軌跡拆解 Pricing Trajectory (100%)',
                 mcChartDivSm: '🏪 霸主拔河矩陣 Diverging Matrix',
@@ -328,7 +365,6 @@
                 mcClickToFilter: '單擊過濾',
                 mcClickToCancel: '✕',
                 
-                // Pills
                 mcPillAll: '👑 全部最低價',
                 mcPillDrop: '📉 擴大優勢',
                 mcPillFlat: '🛡️ 鎖定勝局',
@@ -355,6 +391,30 @@
                 mcBarDrop: '擴大優勢',
                 mcBarFlat: '維持優勢',
                 mcBarUp: '收窄優勢',
+
+                tabTiers: '🔍 波幅階梯分佈 (Tiers)',
+                mcChartTiers: '🔍 波幅階梯分佈 (大盤對齊版)',
+                thTierRange: '波幅區間 (Absolute %)',
+                thTierUp: '數量 (Up)',
+                thTierDown: '數量 (Down)',
+                thTierBeaten: '👑 擊穿市價 (Beaten)',
+                thTierTotal: '區間總計 (Total)',
+                thTierPct: '佔【發生波幅總體】比例',
+                thTierFlat: '數量 (Flat)',
+                lblTier1: '微調 (0% - 1%]',
+                lblTier2: '輕微 (1% - 5%]',
+                lblTier3: '顯著 (5% - 8%]',
+                lblTier4: '強烈 (8% - 10%]',
+                lblTier5: '劇烈 (> 10%)',
+                lblTotalRow: '總計 (Total)',
+
+                optPriceAll: '💲 所有價錢',
+                optPrice1: '$20 以下',
+                optPrice2: '$20 - $50',
+                optPrice3: '$50 - $100',
+                optPrice4: '$100 - $300',
+                optPrice5: '$300 以上',
+                optTierAll: '📊 全部波幅',
                 
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> 數據維度與聲明',
                 mcModalContent: `<div class="space-y-4">
@@ -368,13 +428,13 @@
                 miniFooterLinks: '關於我們、條款及免責聲明',
                 miniFooterCopy: '© 2026 慳真D | ',
                 footerDevTeam: '© 2026 慳真D | Developed by: ',
-                footerDevName: 'Lazy Tools Station'
+                footerDevName: 'Lazy Tools Station',
+                txtBtnResetTop: '重置'
             },
             'zh-Hans': {
                 mcTitle: '同款最低价综合仪表板 Integrated Price Dashboard',
                 mcSub: '市场定价透视 ｜ 赢家动态拆解 ｜ 每日自动更新',
                 
-               // Tabs
                 tabWinners: '🏆 赢家分布与定价战略 (Winners & Pricing)',
                 tabTracker: '⚖️ 霸主角力 (Matrix)',
 
@@ -385,7 +445,6 @@
                 purifiedUpCard: '📈 收窄价格优势',
                 purifiedUpDesc: '同款最低价，实质波幅 ≥ 1%',
                 
-                // Chart Titles
                 mcChartTreemap: '🏆 同款最低价得主版图 Winners Treemap',
                 mcChartStacked: '📉 得主定价轨迹拆解 Pricing Trajectory (100%)',
                 mcChartDivSm: '🏪 霸主拔河矩阵 Diverging Matrix',
@@ -420,6 +479,31 @@
                 mcBarDrop: '扩大优势',
                 mcBarFlat: '维持优势',
                 mcBarUp: '收窄优势',
+
+                tabTiers: '🔍 波幅阶梯分布 (Tiers)',
+                mcChartTiers: '🔍 波幅阶梯分布 (大盘对齐版)',
+                thTierRange: '波幅区间 (Absolute %)',
+                thTierUp: '数量 (Up)',
+                thTierDown: '数量 (Down)',
+                thTierBeaten: '👑 击穿市价 (Beaten)',
+                thTierTotal: '区间总计 (Total)',
+                thTierPct: '占【发生波幅总体】比例',
+                thTierFlat: '数量 (Flat)',
+                lblTier1: '微调 (0% - 1%]',
+                lblTier2: '轻微 (1% - 5%]',
+                lblTier3: '显著 (5% - 8%]',
+                lblTier4: '强烈 (8% - 10%]',
+                lblTier5: '剧烈 (> 10%)',
+                lblTotalRow: '总计 (Total)',
+                
+
+                optPriceAll: '💲 所有价钱',
+                optPrice1: '$20 以下',
+                optPrice2: '$20 - $50',
+                optPrice3: '$50 - $100',
+                optPrice4: '$100 - $300',
+                optPrice5: '$300 以上',
+                optTierAll: '📊 全部波幅',
                 
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> 数据维度与声明',
                 mcModalContent: `<div class="space-y-4">
@@ -433,13 +517,13 @@
                 miniFooterLinks: '关于我们、条款及免责声明',
                 miniFooterCopy: '© 2026 悭真D | ',
                 footerDevTeam: '© 2026 悭真D | Developed by: ',
-                footerDevName: 'Lazy Tools Station'
+                footerDevName: 'Lazy Tools Station',
+                txtBtnResetTop: '重置'
             },
             'en': {
                 mcTitle: 'Integrated Price Dashboard',
                 mcSub: 'Market Pricing Insights | Winner Dynamics | Daily Update',
                 
-              // Tabs
                 tabWinners: '🏆 Winners & Pricing Strategy',
                 tabTracker: '⚖️ Competitor Matrix',
 
@@ -484,6 +568,30 @@
                 mcBarDrop: 'Widening Advantage',
                 mcBarFlat: 'Maintained Advantage',
                 mcBarUp: 'Narrowing Advantage',
+
+                tabTiers: '🔍 Variance Tiers',
+                mcChartTiers: '🔍 Variance Tier Distribution',
+                thTierRange: 'Variance Range (Absolute %)',
+                thTierUp: 'Count (Up)',
+                thTierDown: 'Count (Down)',
+                thTierBeaten: '👑 Lowest Price (Beaten)',
+                thTierTotal: 'Tier Total',
+                thTierPct: '% of Total Variances',
+                thTierFlat: 'Count (Flat)',
+                lblTier1: 'Minimal (0% - 1%]',
+                lblTier2: 'Slight (1% - 5%]',
+                lblTier3: 'Noticeable (5% - 8%]',
+                lblTier4: 'Strong (8% - 10%]',
+                lblTier5: 'Drastic (> 10%)',
+                lblTotalRow: 'Total',
+
+                optPriceAll: '💲 All Prices',
+                optPrice1: 'Under $20',
+                optPrice2: '$20 - $50',
+                optPrice3: '$50 - $100',
+                optPrice4: '$100 - $300',
+                optPrice5: 'Above $300',
+                optTierAll: '📊 All Tiers',
                 
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Data Dimensions & Disclaimer',
                 mcModalContent: `<div class="space-y-4">
@@ -497,11 +605,12 @@
                 miniFooterLinks: 'About Us, Terms & Disclaimer',
                 miniFooterCopy: '© 2026 SmartDeal | ',
                 footerDevTeam: '© 2026 SmartDeal | Developed by: ',
-                footerDevName: 'Lazy Tools Station'
+                footerDevName: 'Lazy Tools Station',
+                txtBtnResetTop: 'Reset'
             }
         };
 
-        // 🟢 統一品牌色彩註冊表 (支援 Treemap/Stacked Y軸 及 Diverging Label)
+        // 🟢 統一品牌色彩註冊表
         function getBrandColor(code, isDark) {
             const map = {
                 'PARKNSHOP': isDark ? '#60a5fa' : '#1d4ed8', 
@@ -602,13 +711,11 @@
             setTxt('txt-mcUpCard', tLocal.purifiedUpCard);
             setTxt('txt-mcUpDesc', tLocal.purifiedUpDesc);
             
-            // View 1 (Winners)
             setTxt('txt-mcChartTreemap', tLocal.mcChartTreemap);
             setTxt('txt-mcChartStacked', tLocal.mcChartStacked);
             setTxt('txt-mcClick1', tLocal.mcClickToFilter);
             setTxt('txt-mcClick2', tLocal.mcClickToFilter);
 
-            // View 2 (Tracker Diverging)
             setTxt('txt-mcChartDivSm', tLocal.mcChartDivSm);
             setTxt('txt-mcChartDivCat', tLocal.mcChartDivCat);
             setTxt('txt-mcClick3', tLocal.mcClickToFilter);
@@ -634,6 +741,7 @@
 
             setPlh('searchInput', 'mcSearchPlace');
             setTxt('txt-mcBtnReset', getLocalizedText('mcBtnReset'));
+            setTxt('txt-mcBtnResetTop', tLocal.txtBtnResetTop);
             
             setTxt('txt-show', getLocalizedText('mcShow'));
             setTxt('txt-item', getLocalizedText('mcItem'));
@@ -644,8 +752,31 @@
             setTxt('txt-thCat', getLocalizedText('thCat'));
             setTxt('txt-thBrand', getLocalizedText('thBrand'));
             setTxt('txt-thName', getLocalizedText('thName'));
+
+            setTxt('opt-price-all', tLocal.optPriceAll);
+            setTxt('opt-price-1', tLocal.optPrice1);
+            setTxt('opt-price-2', tLocal.optPrice2);
+            setTxt('opt-price-3', tLocal.optPrice3);
+            setTxt('opt-price-4', tLocal.optPrice4);
+            setTxt('opt-price-5', tLocal.optPrice5);
+
+            setTxt('btn-tab-tiers', tLocal.tabTiers);
+            setTxt('txt-mcChartTiers', tLocal.mcChartTiers);
+            setTxt('th-tier-range', tLocal.thTierRange);
+            setTxt('th-tier-up', tLocal.thTierUp);
+            setTxt('th-tier-down', tLocal.thTierDown);
+            setTxt('th-tier-beaten', tLocal.thTierBeaten);
+            setTxt('th-tier-total', tLocal.thTierTotal);
+            setTxt('th-tier-pct', tLocal.thTierPct);
+            setTxt('th-tier-flat', tLocal.thTierFlat);
+
+            setTxt('opt-tier-all', tLocal.optTierAll);
+setTxt('opt-tier-1', tLocal.lblTier1);
+setTxt('opt-tier-2', tLocal.lblTier2);
+setTxt('opt-tier-3', tLocal.lblTier3);
+setTxt('opt-tier-4', tLocal.lblTier4);
+setTxt('opt-tier-5', tLocal.lblTier5);
             
-            // Footer & Modal Fixes
             setHtml('miniFooterLinks', tLocal.miniFooterLinks);
             setHtml('miniFooterCopy', tLocal.miniFooterCopy);
             setTxt('footerDevTeam', tLocal.footerDevTeam);
@@ -665,6 +796,7 @@
                 syncUI();
                 renderChartsFromFiltered();
                 renderTable();
+                if(currentTab === 'tiers') renderTiersTable();
             }
         }
 
@@ -673,15 +805,15 @@
         let isDarkMode = document.documentElement.classList.contains('dark');
         
         const colorConfig = {
-            'true_drop': { style: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-800' },
-            'competitive_up': { style: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800' },
+            'true_drop': { style: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800' },
+            'competitive_up': { style: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800' },
             'flat_beaten': { style: 'bg-slate-50 text-slate-600 border-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-600' }
         };
 
         const chartColors = {
-            'true_drop': '#0f766e', 
+            'true_drop': '#059669', 
             'flat_beaten': '#94a3b8', 
-            'competitive_up': '#b91c1c' 
+            'competitive_up': '#f59e0b' 
         };
         const divergingColors = [chartColors.true_drop, chartColors.competitive_up];
 
@@ -714,29 +846,34 @@
             catDivergingChart.getZr().on('click', triggerResetCat);
         }
 
-       // 🟢 SPA 分頁無縫切換邏輯 (Tab Switching)
         window.switchTab = function(tabId) {
             currentTab = tabId;
             const btnWinners = document.getElementById('btn-tab-winners');
             const btnTracker = document.getElementById('btn-tab-tracker');
-            
-            const activeClass = "flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] bg-white dark:bg-slate-800 shadow-sm text-[#345B8C] dark:text-[#60A5FA] transition-all text-center";
-            const inactiveClass = "flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center";
+            const btnTiers = document.getElementById('btn-tab-tiers');
+
+            const activeClass = "flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] bg-white dark:bg-slate-800 shadow-sm text-[#345B8C] dark:text-[#60A5FA] transition-all text-center mb-1 sm:mb-0 sm:mr-1 border border-slate-200 dark:border-slate-600";
+            const inactiveClass = "flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center mb-1 sm:mb-0 sm:mr-1 border border-transparent";
+
+            [btnWinners, btnTracker, btnTiers].forEach(btn => { if(btn) btn.className = inactiveClass; });
+            document.getElementById('view-winners').classList.add('hidden');
+            document.getElementById('view-tracker').classList.add('hidden');
+            document.getElementById('view-tiers').classList.add('hidden');
 
             if (tabId === 'winners') {
-                btnWinners.className = activeClass + " mb-1 sm:mb-0 sm:mr-1";
-                btnTracker.className = inactiveClass;
+                if(btnWinners) btnWinners.className = activeClass;
                 document.getElementById('view-winners').classList.remove('hidden');
-                document.getElementById('view-tracker').classList.add('hidden');
                 if(treemapChart) treemapChart.resize();
                 if(stackedBarChart) stackedBarChart.resize();
-            } else {
-                btnWinners.className = inactiveClass + " mb-1 sm:mb-0 sm:mr-1";
-                btnTracker.className = activeClass;
-                document.getElementById('view-winners').classList.add('hidden');
+            } else if (tabId === 'tracker') {
+                if(btnTracker) btnTracker.className = activeClass;
                 document.getElementById('view-tracker').classList.remove('hidden');
                 if(smDivergingChart) smDivergingChart.resize();
                 if(catDivergingChart) catDivergingChart.resize();
+            } else if (tabId === 'tiers') {
+                if(btnTiers) btnTiers.className = activeClass;
+                document.getElementById('view-tiers').classList.remove('hidden');
+                if (typeof renderTiersTable === 'function') renderTiersTable(); 
             }
         };
 
@@ -771,8 +908,98 @@
 
         let allValidItems = []; 
         let filteredData = [];
-        let state = { sm: 'ALL', cat: 'ALL', strategy: 'ALL', search: '', sortCol: null, sortAsc: true, page: 1 };
+        let state = { sm: 'ALL', cat: 'ALL', strategy: 'ALL', priceRange: 'ALL', tier: 'ALL', search: '', sortCol: null, sortAsc: true, page: 1 };
         const rowsPerPage = 50;
+
+       function renderTiersTable() {
+    const tbody = document.getElementById('tiersTableBody');
+    if (!tbody) return;
+
+    const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
+
+    const tiers = [
+        { id: 't1', label: tLocal.lblTier1, max: 1.0, up: 0, down: 0, flat: 0 },
+        { id: 't2', label: tLocal.lblTier2, max: 5.0, up: 0, down: 0, flat: 0 },
+        { id: 't3', label: tLocal.lblTier3, max: 8.0, up: 0, down: 0, flat: 0 },
+        { id: 't4', label: tLocal.lblTier4, max: 10.0, up: 0, down: 0, flat: 0 },
+        { id: 't5', label: tLocal.lblTier5, max: 9999, up: 0, down: 0, flat: 0 }
+    ];
+
+    let totalCount = 0; // 記錄全盤總數
+
+    // 完美掛鈎 SQL 戰略標籤進行分流
+    filteredData.forEach(item => {
+        const absDiff = Math.abs(item.diff);
+        totalCount++;
+
+        for (let t of tiers) {
+            if (absDiff <= t.max) {
+                if (item.strategy === 'flat_beaten') t.flat++;
+                else if (item.strategy === 'competitive_up') t.up++;
+                else if (item.strategy === 'true_drop') t.down++;
+                break;
+            }
+        }
+    });
+    
+    let sumUp = 0, sumDown = 0, sumFlat = 0;
+  
+    let html = '';
+   tiers.forEach(t => {
+        const totalInTier = t.up + t.down + t.flat;
+        const pctOfTotalMoved = totalCount > 0 ? ((totalInTier / totalCount) * 100).toFixed(1) : 0;
+        
+        // 累加總計
+        sumUp += t.up;
+        sumDown += t.down;
+        sumFlat += t.flat;
+       
+    const beatenStr = totalInTier > 0 ? `👑 ${totalInTier}` : '-';
+
+        const barHtml = totalInTier > 0 ? `
+            <div class="flex items-center gap-2">
+                <div class="w-12 text-right font-bold text-slate-600 dark:text-slate-300">${pctOfTotalMoved}%</div>
+                <div class="w-48 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div class="h-full bg-blue-500 rounded-full" style="width: ${pctOfTotalMoved}%"></div>
+                </div>
+            </div>
+        ` : '-';
+
+        // 👇 留意呢度 <td> 嘅次序已經改為 Down -> Flat -> Up 👇
+        html += `
+            <tr class="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <td class="py-4 font-bold text-blue-600 dark:text-blue-400">${t.label}</td>
+                <td class="py-4 text-center font-bold text-emerald-500">${t.down > 0 ? t.down : '-'}</td>
+                <td class="py-4 text-center font-bold text-slate-400 dark:text-slate-500">${t.flat > 0 ? t.flat : '-'}</td>
+                <td class="py-4 text-center font-bold text-amber-500">${t.up > 0 ? '+' + t.up : '-'}</td>
+                <td class="py-4 text-center font-bold text-emerald-600 leading-tight">${beatenStr}</td>
+                <td class="py-4">${barHtml}</td>
+            </tr>
+        `;
+    });
+
+    // 如果有數據，就喺最底加一行粗體嘅「總計」行
+    if (totalCount > 0) {
+        html += `
+            <tr class="border-t-2 border-slate-300 dark:border-slate-600 bg-slate-50/50 dark:bg-slate-800/50">
+                <td class="py-4 font-black text-slate-700 dark:text-slate-200">${tLocal.lblTotalRow || '總計'}</td>
+                <td class="py-4 text-center font-black text-emerald-600">${sumDown}</td>
+                <td class="py-4 text-center font-black text-slate-500">${sumFlat}</td>
+                <td class="py-4 text-center font-black text-amber-600">+${sumUp}</td>
+                <td class="py-4 text-center font-black text-blue-600">👑 ${totalCount}</td>
+                <td class="py-4 font-bold text-slate-500">100.0%</td>
+            </tr>
+        `;
+    } else {
+        html = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
+    }
+    
+    tbody.innerHTML = html;
+
+    if (totalCount === 0) html = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
+    
+    tbody.innerHTML = html;
+}
 
         async function fetchAndProcessData() {
             try {
@@ -865,14 +1092,12 @@
                 document.getElementById('pillFlat').innerText = `(${summary.flat_beaten})`;
                 document.getElementById('pillUp').innerText = `(${summary.competitive_up})`;
 
-               // --- 動態渲染 Slidebar ---
                 const totalWinners = summary.true_drop + summary.competitive_up + summary.flat_beaten;
                 if (totalWinners > 0) {
                     const pctDrop = ((summary.true_drop / totalWinners) * 100).toFixed(1);
                     const pctFlat = ((summary.flat_beaten / totalWinners) * 100).toFixed(1);
                     const pctUp = ((summary.competitive_up / totalWinners) * 100).toFixed(1);
 
-                    // 更新寬度與內部文字
                     const barDrop = document.getElementById('bar-drop');
                     const barFlat = document.getElementById('bar-flat');
                     const barUp = document.getElementById('bar-up');
@@ -881,7 +1106,6 @@
                     if(barFlat) { barFlat.style.width = `${pctFlat}%`; barFlat.innerText = pctFlat >= 5 ? `${pctFlat}%` : ''; }
                     if(barUp) { barUp.style.width = `${pctUp}%`; barUp.innerText = pctUp >= 5 ? `${pctUp}%` : ''; }
 
-                    // 更新底部圖例數字
                     const txtPctDrop = document.getElementById('txt-pct-drop');
                     const txtPctFlat = document.getElementById('txt-pct-flat');
                     const txtPctUp = document.getElementById('txt-pct-up');
@@ -890,9 +1114,6 @@
                     if(txtPctFlat) txtPctFlat.innerText = `${pctFlat}%`;
                     if(txtPctUp) txtPctUp.innerText = `${pctUp}%`;
                 }
-                // -------------------------
-
-
 
                 updateLocalLanguage(); 
                 document.getElementById('loadingOverlay').style.display = 'none';
@@ -932,6 +1153,8 @@
             if (type === 'cat') state.cat = value;
             if (type === 'strategy') state.strategy = value;
             if (type === 'search') state.search = value;
+            if (type === 'priceRange') state.priceRange = value;
+            if (type === 'tier') state.tier = value;
             state.page = 1;
             syncUI();
             applyFiltersCore();
@@ -953,12 +1176,20 @@
             const indCat = document.getElementById('indCat');
             if (state.cat !== 'ALL') { indCat.innerHTML = `<span class="font-black">${getCatName(state.cat)}</span> ${tLocal.mcClickToCancel}`; indCat.classList.remove('hidden'); }
             else { indCat.classList.add('hidden'); }
+
+            const selPrice = document.getElementById('selPriceRange');
+            if (selPrice) selPrice.value = state.priceRange;
+
+            const selTier = document.getElementById('selTier');
+if (selTier) selTier.value = state.tier;
         }
 
         function resetFilters() {
             state.sm = 'ALL'; state.cat = 'ALL'; state.strategy = 'ALL'; state.search = '';
             document.getElementById('searchInput').value = '';
             state.sortCol = null; state.sortAsc = true;
+            state.priceRange = 'ALL';
+            state.tier = 'ALL';
             document.querySelectorAll('.sort-icon').forEach(el => {
                 el.innerHTML = '↕';
                 el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
@@ -977,11 +1208,34 @@
                 const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
                 const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm; 
                 const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat; 
-                return matchKw && matchSt && matchSm && matchCat;
+                
+                let matchPrice = true;
+                if (state.priceRange !== 'ALL') {
+                    const p = item.curr; 
+                    if (state.priceRange === '0-20') matchPrice = p <= 20;
+                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
+                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
+                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
+                    else if (state.priceRange === '300+') matchPrice = p > 300;
+                }
+                // ⬇️ 新增的波幅階梯 (Tier) 過濾邏輯
+    let matchTier = true;
+    if (state.tier !== 'ALL') {
+        const absDiff = Math.abs(item.diff);
+        if (state.tier === 't1') matchTier = absDiff > 0 && absDiff <= 1.0;
+        else if (state.tier === 't2') matchTier = absDiff > 1.0 && absDiff <= 5.0;
+        else if (state.tier === 't3') matchTier = absDiff > 5.0 && absDiff <= 8.0;
+        else if (state.tier === 't4') matchTier = absDiff > 8.0 && absDiff <= 10.0;
+        else if (state.tier === 't5') matchTier = absDiff > 10.0;
+    }
+                
+               // ⬇️ 記得最後 return 埋 matchTier
+    return matchKw && matchSt && matchSm && matchCat && matchPrice && matchTier;
             });
 
             renderChartsFromFiltered();
             renderTable();
+            if(currentTab === 'tiers') renderTiersTable();
         }
 
         function renderChartsFromFiltered() {
@@ -996,14 +1250,23 @@
 
             const kw = state.search.toLowerCase();
             
-            // 🟢 安全的扁平化獨立過濾邏輯 (避免 TypeError)
             const chartDataSm = allValidItems.filter(item => {
                 const name = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
                 const brand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
                 const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
                 const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat;
                 const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
-                return matchKw && matchCat && matchSt;
+                
+                let matchPrice = true;
+                if (state.priceRange !== 'ALL') {
+                    const p = item.curr;
+                    if (state.priceRange === '0-20') matchPrice = p <= 20;
+                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
+                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
+                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
+                    else if (state.priceRange === '300+') matchPrice = p > 300;
+                }
+                return matchKw && matchCat && matchSt && matchPrice;
             });
 
             const chartDataCat = allValidItems.filter(item => {
@@ -1012,7 +1275,17 @@
                 const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
                 const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm;
                 const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
-                return matchKw && matchSm && matchSt;
+                
+                let matchPrice = true;
+                if (state.priceRange !== 'ALL') {
+                    const p = item.curr;
+                    if (state.priceRange === '0-20') matchPrice = p <= 20;
+                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
+                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
+                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
+                    else if (state.priceRange === '300+') matchPrice = p > 300;
+                }
+                return matchKw && matchSm && matchSt && matchPrice;
             });
 
             const baseDataForStacked = allValidItems.filter(item => {
@@ -1021,7 +1294,17 @@
                 const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
                 const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm;
                 const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat;
-                return matchKw && matchSm && matchCat;
+                
+                let matchPrice = true;
+                if (state.priceRange !== 'ALL') {
+                    const p = item.curr;
+                    if (state.priceRange === '0-20') matchPrice = p <= 20;
+                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
+                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
+                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
+                    else if (state.priceRange === '300+') matchPrice = p > 300;
+                }
+                return matchKw && matchSm && matchCat && matchPrice;
             });
 
             const trackerSmStats = {};
@@ -1043,9 +1326,6 @@
             const legendFlat = tLocal.mcPillFlat.replace('🛡️ ', '');
             const legendUp = tLocal.mcPillUp.replace('📈 ', '');
 
-            // ==========================================
-            // 📊 1. Treemap (Winners)
-            // ==========================================
             const logoFileMap = {
                 'PARKNSHOP': 'pns', 
                 'JASONS': 'marketplace', 
@@ -1130,9 +1410,6 @@
                 }]
             }, true);
 
-            // ==========================================
-            // 📊 2. Stacked Bar (Winners)
-            // ==========================================
             const sortedSms = Object.keys(smBehaviors).filter(sm => smBehaviors[sm].total >= 1).sort((a, b) => smBehaviors[b].total - smBehaviors[a].total);
 
             const yAxisDataObj = sortedSms.map(sm => {
@@ -1155,9 +1432,6 @@
                 ]
             });
 
-            // ==========================================
-            // 📊 3. Diverging SM Bar (Tracker)
-            // ==========================================
             const finalSmCodes = Object.keys(trackerSmStats).sort((a, b) => (trackerSmStats[a]?.true_drop || 0) - (trackerSmStats[b]?.true_drop || 0)); 
             const divSmSeries = { true_drop: [], competitive_up: [] };
             finalSmCodes.forEach(sm => {
@@ -1187,9 +1461,6 @@
                 ]
             });
 
-            // ==========================================
-            // 📊 4. Diverging Cat Bar (Tracker)
-            // ==========================================
             const catArray = Object.keys(catStats).map(cat => ({ name: cat, total: catStats[cat].true_drop + catStats[cat].competitive_up + catStats[cat].flat_beaten, stats: catStats[cat] }));
             catArray.sort((a, b) => b.total - a.total);
             const topCats = catArray.slice(0, 10).reverse(); 
@@ -1358,6 +1629,20 @@
                 setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
             }
         }
+
+        function updateLangUI(activeId) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.className = "px-3 py-1.5 text-xs font-bold rounded-md text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 lang-btn";
+            });
+            const activeBtn = document.getElementById(activeId);
+            if (activeBtn) activeBtn.className = "px-3 py-1.5 text-xs font-bold rounded-md bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm lang-btn";
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            if (currentLang === 'zh-Hans') updateLangUI('btn-hans');
+            else if (currentLang === 'en') updateLangUI('btn-en');
+            else updateLangUI('btn-hant');
+        });
 
         function closeCalcInfoModal() {
             const modal = document.getElementById('calcInfoModal');
