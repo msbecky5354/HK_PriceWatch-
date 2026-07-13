@@ -1598,7 +1598,7 @@ if (selTier) selTier.value = state.tier;
                         </div>
                     </td>
                     
-                    <td class="p-3 text-right font-bold text-slate-400 line-through decoration-slate-300 dark:decoration-slate-600">${displayBase > 0 ? '$'+displayBase.toFixed(1) : '-'}</td>
+                    <td class="p-3 text-right font-bold text-slate-400 line-through decoration-slate-300 dark:decoration-slate-600">${item.prev > 0 ? '$' + item.prev.toFixed(1) : '-'}</td>
                     <td class="p-3 text-right font-black text-emerald-600 dark:text-emerald-400 text-[14px] whitespace-nowrap">$${item.curr.toFixed(1)}</td>
                     
                     <td class="p-3 ${hideDiffClass}">${microBarHtml}</td>
