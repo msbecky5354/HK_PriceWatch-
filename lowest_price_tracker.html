@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最低價追蹤系統 | 慳真D🔎</title>
+    
+    <script src="lang.js?v=20"></script>
+    <script src="lang_tw.js?v=20"></script>
+    <script src="lang_gb.js?v=20"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#345B8C' } } } }
+    </script>
+    <style>
+        .v-pill { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+        .theme-all { background: #f8fafc; border-color: #94a3b8; color: #334155; }
+        .theme-all.active { background: #1e293b; color: white; box-shadow: 0 3px 8px rgba(30, 41, 59, 0.25); }
+        .theme-red { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+        .theme-red.active { background: #b91c1c; color: white; box-shadow: 0 3px 8px rgba(185, 28, 28, 0.25); }
+        .theme-teal { background: #f0fdfa; border-color: #5eead4; color: #0f766e; }
+        .theme-teal.active { background: #0f766e; color: white; box-shadow: 0 3px 8px rgba(15, 118, 110, 0.25); }
+        .theme-grey { background: #f8fafc; border-color: #cbd5e1; color: #475569; }
+        .theme-grey.active { background: #475569; color: white; box-shadow: 0 3px 8px rgba(71, 85, 105, 0.25); }
+        
+        .dark .theme-all { background: #1e293b; border-color: #334155; color: #cbd5e1; }
+        .dark .theme-all.active { background: #cbd5e1; color: #0f172a; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); }
+        .dark .theme-red { background: #450a0a; border-color: #7f1d1d; color: #fca5a5; }
+        .dark .theme-red.active { background: #ef4444; color: white; }
+        .dark .theme-teal { background: #134e4a; border-color: #115e59; color: #5eead4; }
+        .dark .theme-teal.active { background: #14b8a6; color: white; }
+        .dark .theme-grey { background: #334155; border-color: #475569; color: #94a3b8; }
+        .dark .theme-grey.active { background: #94a3b8; color: #0f172a; }
+
+        .sortable-th { cursor: pointer; user-select: none; transition: background-color 0.2s; }
+        .sortable-th:hover { background-color: rgba(241, 245, 249, 0.5); }
+        .dark .sortable-th:hover { background-color: rgba(51, 65, 85, 0.5); }
+        .dblclick-cell { transition: all 0.2s; cursor: pointer; }
+        .dblclick-cell:hover { background-color: rgba(248, 250, 252, 0.8); box-shadow: inset 0 0 0 1px #cbd5e1; }
+        .dark .dblclick-cell:hover { background-color: rgba(30, 41, 59, 0.8); box-shadow: inset 0 0 0 1px #475569; }
+        th { white-space: nowrap; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-[100dvh] flex flex-col">
+
+    <script src="header.js?v=9"></script>
+
+    <div class="max-w-[1400px] w-full mx-auto mt-6 mb-8 flex-1 flex flex-col px-4 md:px-6">
+
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 text-2xl">👑</div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 id="txt-mcTitle" class="text-xl font-black text-slate-800 dark:text-slate-100 leading-tight tracking-tight">最低價追蹤系統</h1>
+                        <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[11px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="數據維度與聲明">ℹ️</button>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1">
+                        <p id="txt-mcSub" class="text-[11px] text-slate-500 dark:text-slate-400 font-bold">動態降價排序 ｜ 分類獨立欄位 ｜ 一鍵重置</p>
+                        <span id="dailyUpdateBadge" class="text-[10px] bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-1.5 py-0.5 rounded font-bold shadow-sm">每日更新</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center border-b-4 border-b-teal-600 dark:border-b-teal-500 relative overflow-hidden transition-colors">
+                <div id="txt-mcDropCard" class="text-[11px] text-slate-400 font-bold mb-1 uppercase tracking-wider">📉 實質減價最平 (真降價)</div>
+                <div id="countTrueDrop" class="text-4xl font-black text-teal-700 dark:text-teal-400">...</div>
+                <div id="txt-mcDropDesc" class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-50 dark:bg-slate-900/50 inline-block px-2 py-1 rounded">同款最平，且實質波幅 ≤ -1%</div>
+            </div>
+            
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center border-b-4 border-b-slate-400 relative overflow-hidden transition-colors">
+                <div id="txt-mcFlatCard" class="text-[11px] text-slate-500 dark:text-slate-400 font-bold mb-1 uppercase tracking-wider">🛡️ 價格維持 & 微調 (護城河)</div>
+                <div id="countFlatBeaten" class="text-4xl font-black text-slate-600 dark:text-slate-300">...</div>
+                <div id="txt-mcFlatDesc" class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-50 dark:bg-slate-900/50 inline-block px-2 py-1 rounded">同款最平，且無實質波幅 (介乎 ±1%)</div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center border-b-4 border-b-red-600 dark:border-b-red-500 relative overflow-hidden transition-colors">
+                <div id="txt-mcUpCard" class="text-[11px] text-slate-400 font-bold mb-1 uppercase tracking-wider">📈 實質加價最平 (霸權加價)</div>
+                <div id="countTrueUp" class="text-4xl font-black text-red-700 dark:text-red-400">...</div>
+                <div id="txt-mcUpDesc" class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-50 dark:bg-slate-900/50 inline-block px-2 py-1 rounded">同款最平，且實質波幅 ≥ 1%</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 id="txt-mcSmChart" class="text-[15px] font-black text-slate-700 dark:text-slate-100">🏪 霸主拔河矩陣</h2>
+                    <span id="txt-mcClickToFilter1" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded border border-slate-200 dark:border-slate-600">支援雙擊過濾</span>
+                </div>
+                <div id="smDivergingChart" class="w-full h-[400px]"></div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-[15px] font-black text-slate-700 dark:text-slate-100"><span id="txt-mcCatChart">🛒 十大戰區角力</span> <span id="catDrillTitle" class="text-slate-500 font-normal ml-1 text-sm"></span></h2>
+                    <span id="txt-mcClickToFilter2" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded border border-slate-200 dark:border-slate-600">支援雙擊過濾</span>
+                </div>
+                <div id="catDivergingChart" class="w-full h-[400px]"></div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-t-2xl border-x border-t border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-4 transition-colors">
+            <div class="flex flex-wrap items-center gap-3 w-full">
+                <input type="text" id="searchInput" placeholder="搜尋貨品名稱、品牌或分類..." class="flex-1 min-w-[200px] px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-colors dark:text-slate-100">
+                <div class="flex gap-2">
+                    <button onclick="resetFilters()" id="txt-mcBtnReset" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold transition shadow-sm whitespace-nowrap">
+                        🧹 重置過濾
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex gap-2 flex-wrap" id="macroPills">
+                <button class="v-pill theme-all active" onclick="applyStateFilter('strategy', 'ALL')"><span id="txt-mcPillAll">👑 顯示全部霸主</span> <span id="pillAll" class="ml-1 opacity-75">...</span></button>
+                <button class="v-pill theme-teal" onclick="applyStateFilter('strategy', 'true_drop')"><span id="txt-mcPillDrop">📉 真降價明細</span> <span id="pillDrop" class="ml-1 opacity-75">...</span></button>
+                <button class="v-pill theme-grey" onclick="applyStateFilter('strategy', 'flat_beaten')"><span id="txt-mcPillFlat">🛡️ 護城河明細</span> <span id="pillFlat" class="ml-1 opacity-75">...</span></button>
+                <button class="v-pill theme-red" onclick="applyStateFilter('strategy', 'competitive_up')"><span id="txt-mcPillUp">📈 霸權加價明細</span> <span id="pillUp" class="ml-1 opacity-75">...</span></button>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 dark:bg-slate-800/80 p-3 border-x border-t border-slate-200 dark:border-slate-700 flex items-center justify-between z-10 relative transition-colors">
+            <div class="text-sm text-slate-500 dark:text-slate-400 font-bold flex items-center flex-wrap gap-2">
+                <span id="txt-show">顯示</span> <span id="pageStart" class="text-slate-800 dark:text-slate-200">0</span> <span id="txt-item">-</span> <span id="pageEnd" class="text-slate-800 dark:text-slate-200">0</span> <span id="txt-total">條，共</span> <span id="totalItems" class="text-slate-800 dark:text-white text-lg">0</span>
+                <span id="indSm" class="ml-2 text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-700 px-2 py-0.5 rounded border border-slate-300 dark:border-slate-600 hidden shadow-sm text-xs"></span>
+                <span id="indCat" class="text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-700 px-2 py-0.5 rounded border border-slate-300 dark:border-slate-600 hidden shadow-sm text-xs"></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="prevBtn" class="px-3 py-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm transition shadow-sm dark:text-slate-200">←</button>
+                <span id="pageNumbers" class="px-3 py-1.5 text-sm font-bold text-slate-500 dark:text-slate-400">1 / 1</span>
+                <button id="nextBtn" class="px-3 py-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm transition shadow-sm dark:text-slate-200">→</button>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-b-2xl overflow-x-auto min-h-[500px] relative shadow-sm transition-colors">
+            <div id="loadingOverlay" class="absolute inset-0 bg-white/90 dark:bg-slate-800/90 flex flex-col items-center justify-center z-10">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-600 dark:border-slate-300 mb-3"></div>
+                <span id="txt-loading" class="font-bold text-slate-600 dark:text-slate-300 text-sm">數據讀取中...</span>
+            </div>
+
+            <table class="w-full text-left border-collapse min-w-[1300px]">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-700/50 text-[11px] text-slate-500 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-600 align-top">
+                        <th class="p-3 pl-5 font-bold w-12 text-center pt-4">#</th>
+                        <th class="p-2 font-bold w-28">
+                            <div class="flex flex-col gap-1.5">
+                                <div class="sortable-th group px-1" onclick="handleSort('sm')"><span id="txt-thSm">超市</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal" id="sort-sm">↕</span></div>
+                                <select id="selSm" onchange="applyStateFilter('sm', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer">
+                                    <option value="ALL">ALL</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th class="p-2 font-bold w-[180px]">
+                            <div class="flex flex-col gap-1.5">
+                                <div class="sortable-th group px-1" onclick="handleSort('cat')"><span id="txt-thCat">分類</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal" id="sort-cat">↕</span></div>
+                                <select id="selCat" onchange="applyStateFilter('cat', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer">
+                                    <option value="ALL">ALL</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th class="p-3 font-bold w-[180px] sortable-th group pt-4" onclick="handleSort('brand')">
+                            <span id="txt-thBrand">品牌 / 促銷優惠</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-brand">↕</span>
+                        </th>
+                        <th class="p-3 font-bold w-[250px] sortable-th group pt-4" onclick="handleSort('name')">
+                            <span id="txt-thName">貨品名稱</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-name">↕</span>
+                        </th>
+                        <th class="p-2 font-bold text-center w-32 border-x border-slate-100 dark:border-slate-700">
+                            <div class="flex flex-col gap-1.5">
+                                <div class="px-1 text-slate-600 dark:text-slate-400" id="txt-thType">戰略標籤</div>
+                                <select id="selStrategy" onchange="applyStateFilter('strategy', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer text-center">
+                                    <option value="ALL" id="opt-all">👑 所有戰略</option>
+                                    <option value="true_drop" id="opt-drop">📉 真降價</option>
+                                    <option value="flat_beaten" id="opt-flat">🛡️ 價格維持</option>
+                                    <option value="competitive_up" id="opt-up">📈 競爭加價</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th class="p-3 font-bold text-right w-16 whitespace-nowrap pt-4" id="txt-thOrig">原價</th>
+                        <th class="p-3 font-bold text-right w-20 whitespace-nowrap pt-4" id="txt-thEff">今日折實</th>
+                        <th class="p-3 font-bold text-right w-16 whitespace-nowrap sortable-th group pt-4" onclick="handleSort('diff')">
+                            <span id="txt-thDiff">波幅</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-diff">↕</span>
+                        </th>
+                        <th class="p-3 font-bold text-right w-20 whitespace-nowrap border-l border-slate-200 dark:border-slate-700 pt-4" id="txt-thAvg">全城均價</th>
+                        <th class="p-3 font-bold text-right w-24 sortable-th group pt-4" onclick="handleSort('dev')">
+                            <span id="txt-thDev">⚖️ 定價偏離</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-dev">↕</span>
+                        </th>
+                        <th class="p-3 pr-5 font-bold text-right w-24 sortable-th group pt-4" onclick="handleSort('realDrop')">
+                            <span id="txt-thDrop">🎯 真實降幅</span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-realDrop">↕</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" class="text-[13px]"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border dark:border-slate-700 max-h-[85vh]" id="calcInfoBox">
+            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-[#F8F8F8] dark:bg-slate-900/50 shrink-0">
+                <h3 id="calcModalTitle" class="text-[16px] font-black text-[#345B8C] dark:text-slate-100 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    數據維度與聲明
+                </h3>
+                <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
+                <div id="calcModalContent"></div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
+                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-[#345B8C] hover:opacity-90 text-white font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition">我明白</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="footer.js?v=9"></script>
+
+    <script>
+        let tdLastUpdatedTime = null;
+        let currentLang = window.currentLang || localStorage.getItem('appLang') || 'zh-Hant';
+
+        function getLocalizedText(key) {
+            return (window.uiText && window.uiText[currentLang] && window.uiText[currentLang][key]) ? window.uiText[currentLang][key] : key;
+        }
+
+        function formatDateTime(date) {
+            if (!date || isNaN(date.getTime())) return '';
+            return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+        }
+
+        function getSmName(code) {
+            let c = (code || '').toUpperCase();
+            if (window.supermarketDict && window.supermarketDict[currentLang] && window.supermarketDict[currentLang][c]) return window.supermarketDict[currentLang][c];
+            return c;
+        }
+
+        function getCatName(rawCat) {
+            let c = (rawCat || '').trim();
+            if (window.categoryDict && window.categoryDict[currentLang] && window.categoryDict[currentLang][c]) return window.categoryDict[currentLang][c];
+            return c;
+        }
+
+        function getSmBadge(code) {
+            let name = getSmName(code);
+            let style = (window.supermarketStyleDict && window.supermarketStyleDict[code]) ? window.supermarketStyleDict[code] : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' };
+            return `<span onclick="event.stopPropagation(); applyStateFilter('sm', '${code}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
+        }
+
+        function getSmColorHex(code, isDark) {
+            const smMap = {
+                'WELLCOME': isDark ? '#f87171' : '#b91c1c', 
+                'PARKNSHOP': isDark ? '#60a5fa' : '#1d4ed8', 
+                'WATSONS': isDark ? '#2dd4bf' : '#0f766e', 
+                'MANNINGS': isDark ? '#fb923c' : '#f97316', 
+                'JASONS': isDark ? '#34d399' : '#047857', 
+                'MARKETPLACE': isDark ? '#34d399' : '#047857',
+                'AEON': isDark ? '#e879f9' : '#a21caf', 
+                'SASA': isDark ? '#f472b6' : '#be185d', 
+                'DCHFOOD': isDark ? '#facc15' : '#ca8a04', 
+                'LUNGFUNG': isDark ? '#f87171' : '#b91c1c',
+                'USELECT': isDark ? '#60a5fa' : '#1d4ed8'
+            };
+            return smMap[code] || (isDark ? '#cbd5e1' : '#475569'); 
+        }
+
+        window.changeLanguage = function(lang) {
+            currentLang = lang;
+            localStorage.setItem('appLang', lang);
+            if (typeof globalChangeLang === 'function') globalChangeLang(lang);
+            updateLocalLanguage();
+        }
+
+        function updateLocalLanguage() {
+            document.title = getLocalizedText('mcTitle') + ' | ' + (getLocalizedText('title') || '慳真D');
+            
+            const appTitle = document.getElementById('appTitle');
+            if(appTitle) appTitle.innerText = currentLang === 'en' ? 'SmartDeal' : (currentLang === 'zh-Hans' ? '悭真D' : '慳真D');
+
+            const pageSubtitle = document.getElementById('todayStatusLabel');
+            if(pageSubtitle) {
+                const prefix = currentLang === 'en' ? 'Updated: ' : (currentLang === 'zh-Hans' ? '更新于: ' : '更新於: ');
+                pageSubtitle.innerText = (tdLastUpdatedTime && !isNaN(tdLastUpdatedTime.getTime()))
+                    ? prefix + formatDateTime(tdLastUpdatedTime)
+                    : getLocalizedText('mcTitle');
+            }
+
+            const dailyBadge = document.getElementById('dailyUpdateBadge');
+            if (dailyBadge) {
+                if (tdLastUpdatedTime && !isNaN(tdLastUpdatedTime.getTime())) {
+                    const tdPrefix = currentLang === 'en' ? 'Updated: ' : (currentLang === 'zh-Hans' ? '更新于: ' : '更新於: ');
+                    dailyBadge.innerText = tdPrefix + formatDateTime(tdLastUpdatedTime);
+                } else {
+                    dailyBadge.innerText = currentLang === 'en' ? 'Daily Update' : (currentLang === 'zh-Hans' ? '每日更新' : '每日更新');
+                }
+            }
+
+            const setTxt = (id, key) => { const el = document.getElementById(id); if (el) el.innerText = getLocalizedText(key); };
+            const setPlh = (id, key) => { const el = document.getElementById(id); if (el) el.placeholder = getLocalizedText(key); };
+            const setHtml = (id, key) => { const el = document.getElementById(id); if (el) el.innerHTML = getLocalizedText(key); };
+
+            setTxt('txt-mcTitle', 'mcTitle');
+            setTxt('txt-mcSub', 'mcSub');
+            setTxt('txt-mcDropCard', 'mcDropCard');
+            setTxt('txt-mcDropDesc', 'mcDropDesc');
+            setTxt('txt-mcFlatCard', 'mcFlatCard');
+            setTxt('txt-mcFlatDesc', 'mcFlatDesc');
+            setTxt('txt-mcUpCard', 'mcUpCard');
+            setTxt('txt-mcUpDesc', 'mcUpDesc');
+            setTxt('txt-mcSmChart', 'mcSmChart');
+            setTxt('txt-mcCatChart', 'mcCatChart');
+            setTxt('txt-mcClickToFilter1', 'mcClickToFilter');
+            setTxt('txt-mcClickToFilter2', 'mcClickToFilter');
+            setPlh('searchInput', 'mcSearchPlace');
+            setTxt('txt-mcBtnReset', 'mcBtnReset');
+            setTxt('txt-mcInfoBtn', 'mcInfoBtn');
+            
+            setTxt('txt-mcPillAll', 'mcPillAll');
+            setTxt('txt-mcPillDrop', 'mcPillDrop');
+            setTxt('txt-mcPillFlat', 'mcPillFlat');
+            setTxt('txt-mcPillUp', 'mcPillUp');
+
+            setTxt('txt-show', 'mcShow');
+            setTxt('txt-item', 'mcItem');
+            setTxt('txt-total', 'mcTotal');
+            setTxt('txt-loading', 'mcLoading');
+
+            setTxt('txt-thSm', 'thSm');
+            setTxt('txt-thCat', 'thCat');
+            setTxt('txt-thBrand', 'thBrand');
+            setTxt('txt-thName', 'thName');
+            setTxt('txt-thType', 'thType');
+            setTxt('txt-thOrig', 'thOrig');
+            setTxt('txt-thEff', 'thEff');
+            setTxt('txt-thDiff', 'thDiff');
+            setTxt('txt-thAvg', 'mcAvgBase'); 
+            setTxt('txt-thDev', 'mcDev');
+            setTxt('txt-thDrop', 'mcRealDrop');
+
+            const optAllSt = document.getElementById('opt-all'); if(optAllSt) optAllSt.innerText = getLocalizedText('mcOptAllSt');
+            const optDrop = document.getElementById('opt-drop'); if(optDrop) optDrop.innerText = getLocalizedText('mcOptDrop');
+            const optFlat = document.getElementById('opt-flat'); if(optFlat) optFlat.innerText = getLocalizedText('mcOptFlat');
+            const optUp = document.getElementById('opt-up'); if(optUp) optUp.innerText = getLocalizedText('mcOptUp');
+
+            setTxt('miniFooterLinks', 'miniFooterLinks');
+            setTxt('miniFooterCopy', 'miniFooterCopy');
+            setTxt('disclaimerTitle', 'disclaimerTitle');
+            
+            const dbElement = document.getElementById('disclaimerBody');
+            if(dbElement && getLocalizedText('disclaimerText') !== 'disclaimerText') dbElement.innerHTML = getLocalizedText('disclaimerText');
+            
+            setTxt('modalCloseBtn', 'modalBtn');
+            setTxt('footerDevTeam', 'footerDevTeam');
+            setTxt('footerDevName', 'footerDevName');
+
+            setHtml('calcModalTitle', 'mcModalTitle');
+            setHtml('calcModalContent', 'mcModalContent');
+            setTxt('calcModalCloseBtn', 'mcModalBtn');
+            
+            if(allValidItems.length > 0) {
+                populateDropdowns();
+                syncUI();
+                renderChartsFromFiltered();
+                renderTable();
+            }
+        }
+
+        window.addEventListener('languageChanged', (e) => { updateLocalLanguage(); });
+
+        let isDarkMode = document.documentElement.classList.contains('dark');
+        const stateColors = ['#0f766e', '#b91c1c']; 
+
+        const colorConfig = {
+            'true_drop': { style: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-800' },
+            'competitive_up': { style: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800' },
+            'flat_beaten': { style: 'bg-slate-50 text-slate-600 border-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-600' }
+        };
+
+        let smChart, catChart;
+
+        function initCharts() {
+            if(smChart) smChart.dispose();
+            if(catChart) catChart.dispose();
+            smChart = echarts.init(document.getElementById('smDivergingChart'), isDarkMode ? 'dark' : null);
+            catChart = echarts.init(document.getElementById('catDivergingChart'), isDarkMode ? 'dark' : null);
+            
+            smChart.on('dblclick', function (params) { if (params.name) applyStateFilter('sm', params.name); });
+            smChart.getZr().on('dblclick', function (event) { if (!event.target) applyStateFilter('sm', 'ALL'); });
+            catChart.on('dblclick', function (params) { if (params.name) applyStateFilter('cat', params.name); });
+            catChart.getZr().on('dblclick', function (event) { if (!event.target) applyStateFilter('cat', 'ALL'); });
+        }
+
+        const buildTooltip = function(statsMap) {
+            return function (params) {
+                const origCode = params[0].name; 
+                const name = getSmName(origCode) || getCatName(origCode) || origCode;
+                let html = `<div class="font-bold border-b border-slate-200 dark:border-slate-600 pb-1 mb-1">${name}</div>`;
+                let dynamicTotal = 0;
+                params.forEach(p => {
+                    const val = Math.abs(p.value);
+                    if(val > 0) { html += `${p.marker} ${p.seriesName}: <b>${val}</b><br/>`; dynamicTotal += val; }
+                });
+                const flatCount = statsMap[origCode] ? statsMap[origCode].flat_beaten : 0;
+                if (flatCount > 0 || dynamicTotal > 0) {
+                    html += `<div style="margin-top:4px; padding-top:4px; border-top:1px dashed #e2e8f0;">
+                                <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#94a3b8;"></span> <span class="text-slate-600 dark:text-slate-300">${getLocalizedText('mcPillFlat')}:</span> <b class="text-slate-700 dark:text-slate-100">${flatCount}</b>
+                             </div>`;
+                }
+                const grandTotal = dynamicTotal + flatCount;
+                html += `<div class="mt-1 pt-1 border-t border-slate-100 dark:border-slate-600 text-xs text-slate-500 dark:text-slate-400">Total: <b>${grandTotal}</b></div>`;
+                return html;
+            };
+        };
+
+        const getXAxisConfig = () => ({
+            type: 'value',
+            axisLabel: { formatter: (value) => Math.abs(value), color: isDarkMode ? '#94a3b8' : '#64748b' },
+            splitLine: { lineStyle: { type: 'dashed', color: isDarkMode ? '#334155' : '#e2e8f0' } }
+        });
+
+        let allValidItems = []; 
+        let filteredData = [];
+        let state = { sm: 'ALL', cat: 'ALL', strategy: 'ALL', search: '', sortCol: null, sortAsc: true, page: 1 };
+        const rowsPerPage = 50;
+
+        async function fetchAndProcessData() {
+            try {
+                initCharts();
+                const nocache = new Date().getTime();
+                
+                let tdLogUrl = `https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`;
+                try {
+                    const logRes = await fetch(tdLogUrl);
+                    if (logRes.ok) {
+                        let serverTimeStr = (await logRes.text()).trim();
+                        let safeTimeStr = serverTimeStr.replace(/-/g, '/').replace('T', ' '); 
+                        tdLastUpdatedTime = new Date(safeTimeStr);
+                    }
+                } catch(e) { console.warn("Time fetch failed"); }
+
+                const res = await fetch(`https://msbecky5354.github.io/JSON/data/bi_lowestprice.json?v=${nocache}`, { cache: 'no-store' });
+                let rawData = await res.json();
+                
+                let data = [];
+                if (Array.isArray(rawData)) {
+                    if (rawData.length > 0 && rawData[0].snapshot_data) data = rawData[0].snapshot_data;
+                    else if (rawData.length > 0 && rawData[0].json && rawData[0].json.snapshot_data) data = rawData[0].json.snapshot_data;
+                    else data = rawData.map(r => r.json || r);
+                } else if (rawData && rawData.snapshot_data) {
+                    data = rawData.snapshot_data;
+                } else if (rawData && rawData.data) {
+                    data = rawData.data;
+                } else {
+                    data = [rawData];
+                }
+                if (data.length === 1 && Array.isArray(data[0])) data = data[0];
+                
+                if (!data || data.length === 0) throw new Error("JSON is empty.");
+
+                const summary = { true_drop: 0, competitive_up: 0, flat_beaten: 0 };
+                allValidItems = []; 
+
+                data.forEach(winnerItem => {
+                    const sm = (winnerItem.sm || 'OTHER').toUpperCase();
+                    if (sm === 'ZTORE') return;
+                    
+                    const catRaw = winnerItem.c1 || '未分類';
+                    const currEff = parseFloat(winnerItem.ce_p) || 0;
+                    const currBase = parseFloat(winnerItem.cb_p) || 0;
+                    const prevEff = parseFloat(winnerItem.pe_p) || 0;
+                    
+                    let strategy = 'normal_change';
+                    if (winnerItem.macroGroup === 'NEW_ADDED') strategy = 'normal_change';
+                    else if (winnerItem.macroGroup === 'MACRO_DOWN') strategy = 'true_drop';
+                    else if (winnerItem.macroGroup === 'MACRO_UP') strategy = 'competitive_up';
+                    else strategy = 'flat_beaten';
+
+                    if (strategy !== 'normal_change') {
+                        summary[strategy]++;
+                        const diffPct = parseFloat(winnerItem.diff) || 0;
+                        
+                        // 🚀 關鍵修復：重新綁定均價與波幅變數
+                        const marketAvgBase = parseFloat(winnerItem.m_avg) || parseFloat(winnerItem.market_avg_base_price) || 0;
+                        const devPct = marketAvgBase > 0 ? ((currBase - marketAvgBase) / marketAvgBase) * 100 : 0;
+                        const realDropPct = marketAvgBase > 0 ? ((marketAvgBase - currEff) / marketAvgBase) * 100 : 0;
+                        
+                        let nameEn = winnerItem.name_en || winnerItem.n || '';
+                        let nameTc = winnerItem.n || '';
+                        let nameSc = winnerItem.name_zh_hans || nameTc;
+                        
+                        let brandEn = winnerItem.brand_name_en || winnerItem.b || '';
+                        let brandTc = winnerItem.b || '無品牌';
+                        let brandSc = winnerItem.brand_name_hans || brandTc;
+
+                        let offerEn = winnerItem.offer_en || winnerItem.co || '-';
+                        let offerTc = winnerItem.co || '-';
+                        let offerSc = winnerItem.offer_hans || offerTc;
+
+                        // 🌟 終極 BUG 修復：將 avgBase, dev, realDrop 重新塞入 data array！
+                        allValidItems.push({
+                            sm: sm, catRaw: catRaw, 
+                            nameEn: nameEn, nameTc: nameTc, nameSc: nameSc,
+                            brandEn: brandEn, brandTc: brandTc, brandSc: brandSc,
+                            offerEn: offerEn, offerTc: offerTc, offerSc: offerSc,
+                            strategy: strategy, prev: prevEff, curr: currEff, currBase: currBase, diff: diffPct,
+                            avgBase: marketAvgBase, dev: devPct, realDrop: realDropPct
+                        });
+                    }
+                });
+
+                document.getElementById('countTrueDrop').innerText = summary.true_drop;
+                document.getElementById('countTrueUp').innerText = summary.competitive_up;
+                document.getElementById('countFlatBeaten').innerText = summary.flat_beaten;
+                document.getElementById('pillAll').innerText = `(${summary.true_drop + summary.competitive_up + summary.flat_beaten})`;
+                document.getElementById('pillDrop').innerText = `(${summary.true_drop})`;
+                document.getElementById('pillFlat').innerText = `(${summary.flat_beaten})`;
+                document.getElementById('pillUp').innerText = `(${summary.competitive_up})`;
+
+                updateLocalLanguage(); 
+                document.getElementById('loadingOverlay').style.display = 'none';
+
+            } catch (err) {
+                console.error("Data Fetch Error:", err);
+                const errLabel = currentLang === 'en' ? 'Data Load Failed' : (currentLang === 'zh-Hans' ? '数据加载失败' : '數據載入失敗');
+                document.getElementById('loadingOverlay').innerHTML = `<span class='text-red-500 font-bold'>${errLabel}</span>`;
+            }
+        }
+
+        function populateDropdowns() {
+            const uniqueSms = [...new Set(allValidItems.map(i => i.sm))].sort();
+            const uniqueCatsRaw = [...new Set(allValidItems.map(i => i.catRaw))].sort();
+
+            const selSm = document.getElementById('selSm');
+            selSm.innerHTML = `<option value="ALL">ALL</option>`;
+            uniqueSms.forEach(sm => selSm.add(new Option(getSmName(sm), sm)));
+
+            const selCat = document.getElementById('selCat');
+            selCat.innerHTML = `<option value="ALL">ALL</option>`;
+            uniqueCatsRaw.forEach(cat => selCat.add(new Option(getCatName(cat), cat)));
+            
+            document.getElementById('selSm').value = state.sm;
+            document.getElementById('selCat').value = state.cat;
+            document.getElementById('selStrategy').value = state.strategy;
+        }
+
+        function applyStateFilter(type, value) {
+            if (type === 'sm') state.sm = value;
+            if (type === 'cat') state.cat = value;
+            if (type === 'strategy') state.strategy = value;
+            if (type === 'search') state.search = value;
+            state.page = 1;
+            syncUI();
+            applyFiltersCore();
+        }
+
+        function syncUI() {
+            document.querySelectorAll('#macroPills .v-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.getAttribute('onclick').includes(`('${state.strategy}')`));
+            });
+            document.getElementById('selSm').value = state.sm;
+            document.getElementById('selCat').value = state.cat;
+            document.getElementById('selStrategy').value = state.strategy;
+            
+            const indSm = document.getElementById('indSm');
+            if (state.sm !== 'ALL') { indSm.innerHTML = `<span class="font-black">${getSmName(state.sm)}</span> ${getLocalizedText('mcClickToCancel')}`; indSm.classList.remove('hidden'); }
+            else { indSm.classList.add('hidden'); }
+            
+            const indCat = document.getElementById('indCat');
+            if (state.cat !== 'ALL') { indCat.innerHTML = `<span class="font-black">${getCatName(state.cat)}</span> ${getLocalizedText('mcClickToCancel')}`; indCat.classList.remove('hidden'); }
+            else { indCat.classList.add('hidden'); }
+        }
+
+        function resetFilters() {
+            state.sm = 'ALL'; state.cat = 'ALL'; state.strategy = 'ALL'; state.search = '';
+            document.getElementById('searchInput').value = '';
+            state.sortCol = null; state.sortAsc = true;
+            document.querySelectorAll('.sort-icon').forEach(el => {
+                el.innerHTML = '↕';
+                el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
+                el.classList.add('text-slate-300', 'dark:text-slate-500', 'font-normal');
+            });
+            syncUI();
+            applyFiltersCore();
+        }
+
+        function applyFiltersCore() {
+            const kw = state.search.toLowerCase();
+            filteredData = allValidItems.filter(item => {
+                const name = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
+                const brand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
+                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
+                const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
+                const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm; 
+                const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat; 
+                return matchKw && matchSt && matchSm && matchCat;
+            });
+
+            renderChartsFromFiltered();
+            renderTable();
+        }
+
+        function renderChartsFromFiltered() {
+            const smStats = {};
+            const catStats = {};
+            const chartDataSm = allValidItems.filter(i => (state.cat === 'ALL' ? true : i.catRaw === state.cat) && (state.strategy === 'ALL' ? true : i.strategy === state.strategy));
+            const chartDataCat = allValidItems.filter(i => (state.sm === 'ALL' ? true : i.sm === state.sm) && (state.strategy === 'ALL' ? true : i.strategy === state.strategy));
+
+            chartDataSm.forEach(i => {
+                if (!smStats[i.sm]) smStats[i.sm] = { true_drop: 0, competitive_up: 0, flat_beaten: 0 };
+                smStats[i.sm][i.strategy]++;
+            });
+            chartDataCat.forEach(i => {
+                if (!catStats[i.catRaw]) catStats[i.catRaw] = { true_drop: 0, competitive_up: 0, flat_beaten: 0 };
+                catStats[i.catRaw][i.strategy]++;
+            });
+
+            const finalSmCodes = Object.keys(smStats).sort((a, b) => (smStats[a]?.true_drop || 0) - (smStats[b]?.true_drop || 0)); 
+            const smSeries = { true_drop: [], competitive_up: [] };
+            finalSmCodes.forEach(sm => {
+                smSeries.true_drop.push(-(smStats[sm]?.true_drop || 0));
+                smSeries.competitive_up.push(smStats[sm]?.competitive_up || 0);
+            });
+
+            const legendTexts = [getLocalizedText('mcPillDrop').replace('📉 ', ''), getLocalizedText('mcPillUp').replace('📈 ', '')];
+
+            smChart.setOption({
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: buildTooltip(smStats) },
+                legend: { data: legendTexts, bottom: 0, textStyle: { color: isDarkMode ? '#cbd5e1' : '#475569' } },
+                grid: { left: '2%', right: '4%', bottom: '10%', top: '5%', containLabel: true },
+                xAxis: getXAxisConfig(), 
+                yAxis: { 
+                    type: 'category', 
+                    data: finalSmCodes, 
+                    axisLabel: { 
+                        fontWeight: 'bold', 
+                        formatter: function(value) { return getSmName(value); },
+                        color: function(value) { return getSmColorHex(value, isDarkMode); }, 
+                        cursor: 'pointer' 
+                    } 
+                },
+                color: stateColors,
+                series: [
+                    { name: legendTexts[0], type: 'bar', stack: 'total', data: smSeries.true_drop },
+                    { name: legendTexts[1], type: 'bar', stack: 'total', data: smSeries.competitive_up }
+                ]
+            });
+
+            const catArray = Object.keys(catStats).map(cat => ({ name: cat, total: catStats[cat].true_drop + catStats[cat].competitive_up + catStats[cat].flat_beaten, stats: catStats[cat] }));
+            catArray.sort((a, b) => b.total - a.total);
+            const topCats = catArray.slice(0, 10).reverse(); 
+            const catNames = topCats.map(c => ({ value: getCatName(c.name), name: c.name })); 
+            
+            const catSeries = { true_drop: [], competitive_up: [] };
+            topCats.forEach(c => {
+                catSeries.true_drop.push(-c.stats.true_drop);
+                catSeries.competitive_up.push(c.stats.competitive_up);
+            });
+
+            catChart.setOption({
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: buildTooltip(catStats) },
+                legend: { data: legendTexts, bottom: 0, textStyle: { color: isDarkMode ? '#cbd5e1' : '#475569' } },
+                grid: { left: '2%', right: '4%', bottom: '10%', top: '5%', containLabel: true },
+                xAxis: getXAxisConfig(), 
+                yAxis: { type: 'category', data: catNames, axisLabel: { fontWeight: 'bold', color: isDarkMode ? '#cbd5e1' : '#475569', cursor: 'pointer' } },
+                color: stateColors,
+                series: [
+                    { name: legendTexts[0], type: 'bar', stack: 'total', data: catSeries.true_drop },
+                    { name: legendTexts[1], type: 'bar', stack: 'total', data: catSeries.competitive_up }
+                ]
+            });
+            
+            document.getElementById('catDrillTitle').innerText = state.sm !== 'ALL' ? `(${getLocalizedText('mcFilteredSm')}${getSmName(state.sm)})` : "";
+        }
+
+        function handleSort(col) {
+            if (state.sortCol === col) { state.sortAsc = !state.sortAsc; } 
+            else { state.sortCol = col; state.sortAsc = true; }
+            document.querySelectorAll('.sort-icon').forEach(el => {
+                el.innerHTML = '↕';
+                el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
+                el.classList.add('text-slate-300', 'dark:text-slate-500', 'font-normal');
+            });
+            const activeIcon = document.getElementById(`sort-${col}`);
+            if (activeIcon) {
+                activeIcon.innerHTML = state.sortAsc ? '↑' : '↓';
+                activeIcon.classList.remove('text-slate-300', 'dark:text-slate-500', 'font-normal');
+                activeIcon.classList.add('text-slate-500', 'dark:text-slate-300', 'font-black');
+            }
+            state.page = 1;
+            renderTable();
+        }
+
+        function renderTable() {
+            if (state.sortCol) {
+                filteredData.sort((a, b) => {
+                    let valA = a[state.sortCol]; let valB = b[state.sortCol];
+                    if(state.sortCol === 'name') { valA = currentLang === 'en' ? a.nameEn : (currentLang === 'zh-Hans' ? a.nameSc : a.nameTc); valB = currentLang === 'en' ? b.nameEn : (currentLang === 'zh-Hans' ? b.nameSc : b.nameTc); }
+                    if(state.sortCol === 'brand') { valA = currentLang === 'en' ? a.brandEn : (currentLang === 'zh-Hans' ? a.brandSc : a.brandTc); valB = currentLang === 'en' ? b.brandEn : (currentLang === 'zh-Hans' ? b.brandSc : b.brandTc); }
+                    if(state.sortCol === 'sm') { valA = getSmName(a.sm); valB = getSmName(b.sm); }
+                    if(state.sortCol === 'cat') { valA = getCatName(a.catRaw); valB = getCatName(b.catRaw); }
+
+                    if (typeof valA === 'string') return state.sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                    else return state.sortAsc ? valA - valB : valB - valA;
+                });
+            }
+
+            const total = filteredData.length;
+            const totalPages = Math.ceil(total / rowsPerPage) || 1;
+            if (state.page > totalPages) state.page = totalPages;
+
+            const startIdx = (state.page - 1) * rowsPerPage;
+            const endIdx = Math.min(startIdx + rowsPerPage, total);
+            const currentChunk = filteredData.slice(startIdx, endIdx);
+
+            let html = '';
+            currentChunk.forEach((item, index) => {
+                const conf = colorConfig[item.strategy];
+                const lblConf = item.strategy === 'true_drop' ? getLocalizedText('mcOptDrop') : (item.strategy === 'competitive_up' ? getLocalizedText('mcOptUp') : getLocalizedText('mcOptFlat'));
+                
+                const diffNum = item.diff;
+                let diffColor = diffNum <= -1.0 ? 'text-teal-700 dark:text-teal-400' : (diffNum >= 1.0 ? 'text-red-700 dark:text-red-400' : 'text-slate-400');
+                let diffSign = diffNum > 0 ? '+' : '';
+
+                const dName = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
+                const dBrand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
+                const dOffer = currentLang === 'en' ? item.offerEn : (currentLang === 'zh-Hans' ? item.offerSc : item.offerTc);
+
+                const avgBase = item.avgBase || 0;
+                const devPct = item.dev || 0;
+                const realDropPct = item.realDrop || 0;
+                
+                const devColor = devPct > 0 ? 'text-red-700 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/30 dark:border-red-800' : (devPct < 0 ? 'text-teal-700 bg-teal-50 border-teal-200 dark:text-teal-400 dark:bg-teal-900/30 dark:border-teal-800' : 'text-slate-500 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700');
+                const devSign = devPct > 0 ? '+' : '';
+                
+                const dropColor = realDropPct > 0 ? 'text-teal-700 dark:text-teal-400 font-black' : (realDropPct < 0 ? 'text-red-600 dark:text-red-400' : 'text-slate-400');
+                const dropSign = realDropPct > 0 ? '↓ ' : (realDropPct < 0 ? '↑ ' : '');
+
+                html += `
+                <tr class="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="p-3 pl-5 text-center text-slate-400 dark:text-slate-500 font-bold text-[11px]">${startIdx + index + 1}</td>
+                    <td class="p-3 dblclick-cell" title="Double-click to filter" ondblclick="applyStateFilter('sm', '${item.sm}')">${getSmBadge(item.sm)}</td>
+                    <td class="p-3 text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider dblclick-cell" title="Double-click to filter" ondblclick="applyStateFilter('cat', '${item.catRaw}')">${getCatName(item.catRaw)}</td>
+                    <td class="p-3">
+                        <div class="font-bold text-slate-700 dark:text-slate-200 text-xs">${dBrand}</div>
+                        <div class="text-[10px] text-red-600 dark:text-red-400 font-bold mt-0.5 max-w-[150px] truncate" title="${dOffer}">${dOffer !== '-' ? '🏷️ ' + dOffer : '-'}</div>
+                    </td>
+                    <td class="p-3 font-bold text-slate-800 dark:text-slate-100">${dName}</td>
+                    <td class="p-3 text-center dblclick-cell border-x border-slate-100 dark:border-slate-700" title="Double-click to filter" ondblclick="applyStateFilter('strategy', '${item.strategy}')">
+                        <span class="px-2 py-1 border rounded font-black text-[11px] ${conf.style} pointer-events-none shadow-sm">${lblConf}</span>
+                    </td>
+                    <td class="p-3 text-right font-bold text-slate-400 line-through decoration-slate-300 dark:decoration-slate-600">${item.prev > 0 ? '$'+item.prev.toFixed(1) : '-'}</td>
+                    <td class="p-3 text-right font-black text-slate-800 dark:text-white text-[14px] whitespace-nowrap">$${item.curr.toFixed(1)}</td>
+                    <td class="p-3 text-right font-black ${diffColor} text-[12px]">${item.prev > 0 ? diffSign + item.diff.toFixed(1) + '%' : '-'}</td>
+                    
+                    <td class="p-3 text-right font-bold text-slate-500 border-l border-slate-200 dark:border-slate-700 whitespace-nowrap">${avgBase > 0 ? '$' + avgBase.toFixed(1) : '-'}</td>
+                    <td class="p-3 text-right"><span class="px-1.5 py-0.5 border rounded font-bold text-[11px] ${avgBase > 0 ? devColor : 'text-slate-500 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700'}">${avgBase > 0 ? devSign + devPct.toFixed(1) + '%' : '-'}</span></td>
+                    <td class="p-3 pr-5 text-right font-bold ${avgBase > 0 ? dropColor : 'text-slate-400'} text-[13px]">${avgBase > 0 ? dropSign + Math.abs(realDropPct).toFixed(1) + '%' : '-'}</td>
+                </tr>`;
+            });
+
+            if (total === 0) html = `<tr><td colspan="12" class="p-10 text-center text-slate-400 font-bold">${getLocalizedText('mcNoData')}</td></tr>`;
+
+            document.getElementById('tableBody').innerHTML = html;
+            document.getElementById('pageStart').innerText = total === 0 ? 0 : startIdx + 1;
+            document.getElementById('pageEnd').innerText = endIdx;
+            document.getElementById('totalItems').innerText = total;
+            document.getElementById('pageNumbers').innerText = `${state.page} / ${totalPages}`;
+
+            document.getElementById('prevBtn').disabled = state.page === 1;
+            document.getElementById('nextBtn').disabled = state.page === totalPages;
+        }
+
+        function openCalcInfoModal() {
+            const modal = document.getElementById('calcInfoModal');
+            const box = document.getElementById('calcInfoBox');
+            if (modal && box) {
+                modal.classList.remove('hidden');
+                setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+            }
+        }
+
+        function closeCalcInfoModal() {
+            const modal = document.getElementById('calcInfoModal');
+            const box = document.getElementById('calcInfoBox');
+            if (modal && box) {
+                modal.classList.add('opacity-0');
+                box.classList.remove('scale-100'); box.classList.add('scale-95');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => applyStateFilter('search', e.target.value));
+        document.getElementById('prevBtn').addEventListener('click', () => { if(state.page > 1) { state.page--; renderTable(); } });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(state.page < Math.ceil(filteredData.length / rowsPerPage)) { state.page++; renderTable(); } });
+
+        const observer = new MutationObserver(() => {
+            let newDark = document.documentElement.classList.contains('dark');
+            if (newDark !== isDarkMode) {
+                isDarkMode = newDark;
+                initCharts();
+                renderChartsFromFiltered();
+            }
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        fetchAndProcessData();
+    </script>
+</body>
+</html>

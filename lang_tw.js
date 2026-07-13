@@ -160,8 +160,60 @@ window.uiText['zh-Hant'] = {
     dailyUpdateBadge: "每日更新",
     thRank: "排名", thCat: "分類", thSm: "超市", thBrand: "品牌", thName: "貨品名稱", thType: "優惠類型", thOrig: "原價", thEff: "折實價", thDiff: "真・減幅", thOther: "其他超市定價",
     typeDiscount: "📉 真降價", typePromo: "🏷️ 促銷優惠", 
-    noData: "暫時未有數據 🤷‍♂️", origPriceStr: "原價", fail: "讀取數據失敗"
-};
+    noData: "暫時未有數據 🤷‍♂️", origPriceStr: "原價", fail: "讀取數據失敗",
+
+
+    mcTitle: "最低價追蹤系統",
+    mcSub: "動態降價排序 ｜ 分類獨立欄位 ｜ 一鍵重置",
+    mcDropCard: "📉 實質減價最平 (真降價)",
+    mcDropDesc: "同款最平，且實質波幅 ≤ -1%",
+    mcFlatCard: "🛡️ 價格維持 & 微調 (護城河)",
+    mcFlatDesc: "同款最平，且無實質波幅 (介乎 ±1%)",
+    mcUpCard: "📈 實質加價最平 (霸權加價)",
+    mcUpDesc: "同款最平，且實質波幅 ≥ 1%",
+    mcSmChart: "🏪 霸主拔河矩陣",
+    mcCatChart: "🛒 十大戰區角力",
+    mcSearchPlace: "搜尋貨品名稱、品牌或分類...",
+    mcBtnReset: "🧹 重置過濾",
+    mcInfoBtn: "數據維度與聲明",
+    
+    mcPillAll: "👑 顯示全部霸主",
+    mcPillDrop: "📉 真降價明細",
+    mcPillFlat: "🛡️ 護城河明細",
+    mcPillUp: "📈 霸權加價明細",
+    mcOptAllSt: "👑 所有戰略",
+    mcOptDrop: "📉 真降價",
+    mcOptFlat: "🛡️ 價格維持",
+    mcOptUp: "📈 競爭加價",
+    
+    mcClickToFilter: "支援雙擊過濾",
+    mcFilteredSm: "已過濾超市: ",
+    mcFilteredCat: "已過濾分類: ",
+    mcClickToCancel: "(點擊圖表空白處取消)",
+    mcShow: "顯示 ",
+    mcItem: " - ",
+    mcTotal: " 條，共 ",
+    mcLoading: "數據解碼與運算中...",
+    mcNoData: "查無符合條件的明細",
+    mcAvgBase: "全城均價",
+    mcDev: "定價偏離",
+    mcRealDrop: "真實降幅",
+
+    // 全新競爭大前提聲明
+    mcModalTitle: "ℹ️ 數據維度與聲明",
+    mcModalBtn: "我明白",
+    mcModalContent: `<p class="mb-4 text-[13px] text-slate-600 dark:text-slate-300">本看板之核心目的，係追蹤並展示「成功擊敗市場所有競爭對手、奪得全城最低價霸主地位」的貨品。只要商品在跨商戶格價中勝出，無論其自身價格此刻是加價、減價或維持不變，均會收錄於此。系統進一步對比勝出霸主自身的歷史價格波幅，劃分為以下四大核心戰略維度：</p>
+                     <ul class="space-y-4">
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">👑</span><div><b class="text-slate-700 dark:text-slate-200">全部霸主總數：</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">當前在跨商戶價格競爭中成功勝出、奪得絕對最低價的商品總量。</span></div></li>
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">📉</span><div><b class="text-teal-700 dark:text-teal-400">真降價明細：</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">勝出霸主中，今日折實價對比其歷史紀錄錄得實質跌幅 (≤ -1%) 的商品。</span></div></li>
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">🛡️</span><div><b class="text-slate-600 dark:text-slate-300">護城河明細 (維持不變)：</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">勝出霸主中，價格維持穩定 (波幅在 ±1% 內)，死守市場低線不退讓的商品。</span></div></li>
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">📈</span><div><b class="text-red-700 dark:text-red-400">霸權加價明細：</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">勝出霸主中，雖然定價依然平過所有對手，但對比自身歷史紀錄其實已經暗中加價 (≥ 1%) 的商品。</span></div></li>
+                     </ul>
+                     <p class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700 text-xs text-slate-400">引述聲明：有關底層原始數據對撞、促銷價還原及核心運算機制，請引述及參閱【智選真抵榜 (True Discount Report)】之權威聲明。</p>`
+
+
+
+                    };
 
 window.supermarketDict = window.supermarketDict || {};
 window.supermarketDict['zh-Hant'] = { 

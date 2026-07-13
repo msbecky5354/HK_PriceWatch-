@@ -130,8 +130,58 @@ window.uiText['en'] = {
     qsLabel: "Quick Search:", qs1: "Cola", qs2: "Noodles", qs3: "PARKnSHOP", qs4: "Wellcome",
     listTitle: "🔥 Today's Top Discounts", dailyUpdateBadge: "Daily Update",
     thRank: "Rank", thCat: "Category", thSm: "Store", thBrand: "Brand", thName: "Product Name", thType: "Offer Type", thOrig: "Original", thEff: "Effective", thDiff: "True Diff", thOther: "Other Prices",
-    typeDiscount: "📉 True Drop", typePromo: "🏷️ Promo Offer", noData: "No Data Found 🤷‍♂️", origPriceStr: "Orig.", fail: "Load Failed"
-};
+    typeDiscount: "📉 True Drop", typePromo: "🏷️ Promo Offer", noData: "No Data Found 🤷‍♂️", origPriceStr: "Orig.", fail: "Load Failed",
+
+
+   mcTitle: "Lowest Price Tracker",
+    mcSub: "Dynamic Sorting | Independent Categories | 1-Click Reset",
+    mcDropCard: "📉 True Drop",
+    mcDropDesc: "Lowest, actual drop ≤ -1%",
+    mcFlatCard: "🛡️ Price Moat",
+    mcFlatDesc: "Lowest, unchanged (±1%)",
+    mcUpCard: "📈 Price Hike",
+    mcUpDesc: "Lowest, actual hike ≥ 1%",
+    mcSmChart: "🏪 Supermarket Force",
+    mcCatChart: "🛒 Top 10 Categories",
+    mcSearchPlace: "Search product, brand or category...",
+    mcBtnReset: "🧹 Reset Filters",
+    mcInfoBtn: "Metrics & Disclaimer",
+    
+    mcPillAll: "👑 All Records",
+    mcPillDrop: "📉 True Drop",
+    mcPillFlat: "🛡️ Price Moat",
+    mcPillUp: "📈 Price Hike",
+    mcOptAllSt: "👑 All Strategies",
+    mcOptDrop: "📉 True Drop",
+    mcOptFlat: "🛡️ Price Moat",
+    mcOptUp: "📈 Price Hike",
+    
+    mcClickToFilter: "Double-click to filter",
+    mcFilteredSm: "Filtered Store: ",
+    mcFilteredCat: "Filtered Category: ",
+    mcClickToCancel: "(Click chart blank space to cancel)",
+    mcShow: "Showing ",
+    mcItem: " to ",
+    mcTotal: " items, Total ",
+    mcLoading: "Calculating Price Data...",
+    mcNoData: "No Records Found",
+    mcAvgBase: "Market Avg",
+    mcDev: "Deviation",
+    mcRealDrop: "Real Drop",
+    
+    // 全新競爭大前提聲明
+    mcModalTitle: "ℹ️ Metrics & Disclaimer",
+    mcModalBtn: "I Understand",
+    mcModalContent: `<p class="mb-4 text-[13px] text-slate-600 dark:text-slate-300">The primary purpose of this dashboard is to track and present products that have successfully defeated all market competitors to secure the absolute "Lowest Price" (Winner-take-all) status in the city. As long as a product wins the cross-merchant price comparison, it will be listed here regardless of whether its own price has increased, decreased, or remained unchanged. The system further analyzes the historical price fluctuations of these winners, categorizing them into four strategic dimensions:</p>
+                     <ul class="space-y-4">
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">👑</span><div><b class="text-slate-700 dark:text-slate-200">All Records:</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">The total volume of products currently holding the absolute lowest price after winning cross-merchant competition.</span></div></li>
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">📉</span><div><b class="text-teal-700 dark:text-teal-400">True Drop Items:</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">Among the winners, these products have recorded a genuine price decrease (≤ -1%) compared to their own historical records.</span></div></li>
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">🛡️</span><div><b class="text-slate-600 dark:text-slate-300">Price Moat (Unchanged):</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">Among the winners, these products maintain a stable price (fluctuations within ±1%), holding the baseline against competitors.</span></div></li>
+                        <li class="flex gap-3"><span class="shrink-0 text-2xl">📈</span><div><b class="text-red-700 dark:text-red-400">Price Hike Items:</b><br><span class="text-slate-500 dark:text-slate-400 text-xs">Among the winners, these products remain the cheapest available option in the market, but have actually increased in price (≥ 1%) compared to their own historical baseline.</span></div></li>
+                     </ul>
+                     <p class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700 text-xs text-slate-400">Declaration: For details regarding the underlying data collision and price normalization algorithms, please refer to the official declaration in the 【True Discount Report】.</p>`
+
+                    };
 
 window.supermarketDict = window.supermarketDict || {};
 window.supermarketDict['en'] = { 
