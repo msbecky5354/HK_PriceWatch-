@@ -21,6 +21,7 @@
     <script src="lang.js?v=21"></script>
     <script src="lang_tw.js?v=21"></script>
     <script src="lang_gb.js?v=21"></script>
+    <script src="footer.js?v=10"></script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
@@ -351,7 +352,7 @@
         </div>
     </div>
 
-    <script src="footer.js?v=9"></script>
+    
 
     <script>
         let tdLastUpdatedTime = null;
@@ -423,10 +424,7 @@ const localI18n = {
                     <div class="flex gap-3"><div class="text-xl">📈</div><div><div class="font-bold text-amber-700 dark:text-amber-400">收窄價格優勢 (實質加價)：</div><div class="text-slate-500">勝出商品中，雖然定價依然平過所有對手，但對比自身歷史紀錄其實已經暗中加價 (≥ 1%) 的商品。</div></div></div>
                     <p class="text-xs text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-700">引述聲明：有關底層原始數據對撞、促銷價還原及核心運算機制，請引述及參閱【智選真抵榜 (True Discount Report)】之權威聲明。</p>
                 </div>`,
-                miniFooterLinks: '關於我們、條款及免責聲明',
-                miniFooterCopy: '© 2026 慳真D | ',
-                footerDevTeam: '© 2026 慳真D | Developed by: ',
-                footerDevName: 'Lazy Tools Station',
+               
                 txtBtnResetTop: '重置',
                 
                 thPriceInsights: '定價情報',
@@ -522,10 +520,7 @@ const localI18n = {
                     <div class="flex gap-3"><div class="text-xl">📈</div><div><div class="font-bold text-amber-700 dark:text-amber-400">收窄价格优势 (实质加价)：</div><div class="text-slate-500">胜出商品中，虽然定价依然平过所有对手，但对比自身历史纪录其实已经暗中加价 (≥ 1%) 的商品。</div></div></div>
                     <p class="text-xs text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-700">引述声明：有关底层原始数据对撞、促销价还原及核心运算机制，请引述及参阅【智选真抵榜 (True Discount Report)】之权威声明。</p>
                 </div>`,
-                miniFooterLinks: '关于我们、条款及免责声明',
-                miniFooterCopy: '© 2026 悭真D | ',
-                footerDevTeam: '© 2026 悭真D | Developed by: ',
-                footerDevName: 'Lazy Tools Station',
+               
                 txtBtnResetTop: '重置',
                 
                 thPriceInsights: '定价情报',
@@ -621,10 +616,7 @@ const localI18n = {
                     <div class="flex gap-3"><div class="text-xl">📈</div><div><div class="font-bold text-amber-700 dark:text-amber-400">Narrowing Advantage (Effective Rise):</div><div class="text-slate-500">Winning products that are still the cheapest, but have actually increased in price (≥ 1%) compared to their history.</div></div></div>
                     <p class="text-xs text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-700">Disclaimer: For details on underlying data matching, promotional price normalization, and core calculation mechanisms, please refer to the authoritative statement of the [True Discount Report].</p>
                 </div>`,
-                miniFooterLinks: 'About Us, Terms & Disclaimer',
-                miniFooterCopy: '© 2026 SmartDeal | ',
-                footerDevTeam: '© 2026 SmartDeal | Developed by: ',
-                footerDevName: 'Lazy Tools Station',
+                
                 txtBtnResetTop: 'Reset',
                 
                 thPriceInsights: 'Price Insights',
@@ -860,14 +852,7 @@ const localI18n = {
             setTxt('opt-tier-4', tLocal.lblTier4);
             setTxt('opt-tier-5', tLocal.lblTier5);
             
-            setHtml('miniFooterLinks', tLocal.miniFooterLinks);
-            setHtml('miniFooterCopy', tLocal.miniFooterCopy);
-            setTxt('footerDevTeam', tLocal.footerDevTeam);
-            setTxt('footerDevName', tLocal.footerDevName);
-            
-            const dbElement = document.getElementById('disclaimerBody');
-            if(dbElement) dbElement.innerHTML = tLocal.miniFooterLinks;
-            
+           
             setTxt('modalCloseBtn', getLocalizedText('modalBtn'));
 
             setHtml('calcModalTitle', tLocal.mcModalTitle);
