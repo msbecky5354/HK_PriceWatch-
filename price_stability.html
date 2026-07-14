@@ -111,15 +111,15 @@
                     </div>
 
                     <table class="w-full text-left border-collapse">
-                        <thead>
+                       <thead>
                             <tr class="bg-blue-50/40 dark:bg-slate-700/40 select-none border-b border-blue-100 dark:border-slate-700 text-[12px] whitespace-nowrap">
-                                <th id="thSm" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400">超市</th>
-                                <th id="thCat" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400">分類</th>
-                                <th id="thBrand" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400">品牌</th>
-                                <th id="thName" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400 w-1/4 min-w-[200px]">貨品名稱</th>
-                                <th id="thPrice" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400 text-right">鎖定售價</th>
-                                <th id="thDate" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400 text-center">最後異動日期</th>
-                                <th id="thDays" class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400 text-right">凍結日數 (▼)</th>
+                                <th id="thSm" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 w-16 text-center">超市</th>
+                                <th id="thCat" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 w-20">分類</th>
+                                <th id="thBrand" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 w-20">品牌</th>
+                                <th id="thName" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 w-[30%] min-w-[180px]">貨品名稱</th>
+                                <th id="thPrice" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 text-right w-20">鎖定售價</th>
+                                <th id="thDate" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 text-center w-24">最後異動日期</th>
+                                <th id="thDays" class="py-3 px-2 font-bold text-blue-600 dark:text-blue-400 text-right w-24">凍結日數 (▼)</th>
                             </tr>
                         </thead>
                         <tbody id="drillDownTableBody" class="text-[13px]"></tbody>
@@ -225,7 +225,9 @@
             itemCount: '貨品總數', days: '日',
             bucket1: '< 7日', bucket2: '8-30日', bucket3: '31-90日', bucket4: '91-180日', bucket5: '> 180日',
             thSm: '超市', thCat: '分類', thBrand: '品牌', thName: '貨品名稱', thPrice: '鎖定售價', thDate: '最後異動日期', thDays: '凍結日數 (▼)',
-            btnPrev: '◀ 上一頁', btnNext: '下一頁 ▶', emptyData: '沒有符合條件的鎖價貨品', titleDrillTable: '鎖價貨品實體清單'
+            btnPrev: '◀ 上一頁', btnNext: '下一頁 ▶', emptyData: '沒有符合條件的鎖價貨品', titleDrillTable: '鎖價貨品實體清單',
+            // 🌟 新增：圖表 Hover 提示多語系
+            hintBar: '👆 點擊藍色區塊下鑽數據', hintArea: '👆 點擊節點下鑽數據', hintRose: '👆 點擊瓣葉下鑽數據'
         },
         'zh-Hans': {
             pageTitle: '定价稳定监测板', subTitle: '全自动追踪「价格维持」与「零波动」商品',
@@ -238,7 +240,9 @@
             itemCount: '商品总数', days: '日',
             bucket1: '< 7日', bucket2: '8-30日', bucket3: '31-90日', bucket4: '91-180日', bucket5: '> 180日',
             thSm: '超市', thCat: '分类', thBrand: '品牌', thName: '商品名称', thPrice: '锁定售价', thDate: '最后异动日期', thDays: '冻结日数 (▼)',
-            btnPrev: '◀ 上一页', btnNext: '下一页 ▶', emptyData: '没有符合条件的锁价商品', titleDrillTable: '锁价商品实体清单'
+            btnPrev: '◀ 上一页', btnNext: '下一页 ▶', emptyData: '没有符合条件的锁价商品', titleDrillTable: '锁价商品实体清单',
+            // 🌟 新增：图表 Hover 提示多语系
+            hintBar: '👆 点击蓝色区块下钻数据', hintArea: '👆 点击节点下钻数据', hintRose: '👆 点击瓣叶下钻数据'
         },
         'en': {
             pageTitle: 'Pricing Stability Monitor', subTitle: 'Auto-track Maintained & Zero-Volatility Items',
@@ -251,7 +255,9 @@
             itemCount: 'Total Items', days: 'Days',
             bucket1: '< 7 Days', bucket2: '8-30 Days', bucket3: '31-90 Days', bucket4: '91-180 Days', bucket5: '> 180 Days',
             thSm: 'Store', thCat: 'Category', thBrand: 'Brand', thName: 'Product Name', thPrice: 'Locked Price', thDate: 'Last Changed Date', thDays: 'Days Locked (▼)',
-            btnPrev: '◀ Prev', btnNext: 'Next ▶', emptyData: 'No matching locked-price items', titleDrillTable: 'Locked-Price Items List'
+            btnPrev: '◀ Prev', btnNext: 'Next ▶', emptyData: 'No matching locked-price items', titleDrillTable: 'Locked-Price Items List',
+            // 🌟 新增：圖表 Hover 提示多語系
+            hintBar: '👆 Click blue area to drill down', hintArea: '👆 Click node to drill down', hintRose: '👆 Click petal to drill down'
         }
     };
 
@@ -374,12 +380,17 @@
         
         const txt = i18n[currentLang] || i18n['zh-Hant'];
         
-        // 🌟 1. 網頁標題 (純字典對接)
+        // 1. 網頁 Tab 標題 (純字典對接)
         const appNameStr = (typeof uiText !== 'undefined' && uiText[lang] && uiText[lang].appName) ? uiText[lang].appName : (lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D'));
         document.title = `${txt.pageTitle} | ${appNameStr}🔎`;
         
         const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
         
+        // 🌟 補回被錯手刪除的翻譯：大標題與副標題！
+        setElTxt('pageTitleText', txt.pageTitle);
+        setElTxt('subTitleText', txt.subTitle);
+
+        // 其他 UI 元素翻譯
         setElTxt('loadingTxt', txt.loading);
         setElTxt('backBtn', txt.backBtn);
         setElTxt('titleBar', txt.titleBar);
@@ -399,17 +410,31 @@
         setElTxt('btnNextPage', txt.btnNext);
         setElTxt('btnPrevPageTop', txt.btnPrev);
         setElTxt('btnNextPageTop', txt.btnNext);
-        setElTxt('txtEmptyData', txt.emptyData);
-// 🌟 2. 只管好 Dashboard 自己範圍內的 Badge
+        setElTxt('txtEmptyData', txt.emptyData); // 原有的行
+        
+        // 🌟 新增：將圖表 Hover 提示綁定字典渲染
+        setElTxt('hintBarChart', txt.hintBar);
+        setElTxt('hintAreaChart', txt.hintArea);
+        setElTxt('hintRoseChart', txt.hintRose);
+
+        // 🌟 補回並修復 Badge 翻譯邏輯 (無數據時顯示對應語言的 "載入中")
         const dailyBadge = document.getElementById('dailyUpdateBadge');
         if (dailyBadge) {
-            // ... 中間啲 badge 邏輯 ...
+            if (tdLastUpdatedTime && !isNaN(tdLastUpdatedTime.getTime())) {
+                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
+                dailyBadge.innerText = prefix + formatDateTime(tdLastUpdatedTime);
+            } else {
+                dailyBadge.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
+            }
         }
+
+        // 確保過濾標籤會跟隨語言切換
+        if (typeof renderFilterTags === 'function') renderFilterTags(); 
 
         if (rawDashboardData) {
             if(charts.bar) { charts.bar.dispose(); charts.area.dispose(); charts.rose.dispose(); }
             renderCharts(rawDashboardData);
-            loadDrillDownTable(); 
+            if (typeof loadDrillDownTable === 'function') loadDrillDownTable(); 
         }
     }
 
@@ -464,11 +489,12 @@
                 if (resTable.ok) {
                     const rawTable = await resTable.json();
                     let rawList = rawTable.file_content || rawTable;
-                    if (Array.isArray(rawList)) {
+                   if (Array.isArray(rawList)) {
                         globalDrillDownData = rawList.map(item => ({
                             ...item,
-                            brand: item.brand_zh_hant,
-                            name: item.name_zh_hant,
+                            // ✅ 解析新架構的 JSON Object，兼容英/繁/簡
+                            brand: item.brand || item.brand_zh_hant,  
+                            name: item.name || item.name_zh_hant,     
                             effectivePrice: item.current_effective_price
                         }));
                     }
@@ -521,23 +547,22 @@
     function renderFilterTags() {
         const container = document.getElementById('filterTagsContainer');
         const tableSection = document.getElementById('drillDownTableSection');
-        
-        // 🌟 防彈安全鎖：如果 HTML 漏咗容器，直接中止，絕不 Crash 拖死系統！
-        if (!container || !tableSection) {
-            console.error("找不到 filterTagsContainer，請檢查 HTML！");
-            return; 
-        }
+        if (!container || !tableSection) return; 
 
         container.innerHTML = '';
         let hasFilter = false;
 
+        // 🌟 動態翻譯標籤前綴
+        let lblSm = currentLang === 'en' ? 'Store:' : (currentLang === 'zh-Hans' ? '超市:' : '超市:');
+        let lblCat = currentLang === 'en' ? 'Category:' : (currentLang === 'zh-Hans' ? '分类:' : '分類:');
+        let lblBucket = currentLang === 'en' ? 'Duration:' : (currentLang === 'zh-Hans' ? '周期:' : '週期:');
+
         if (tableState.smCode) {
-        
             hasFilter = true;
             let displaySm = getSmName(tableState.smCode, currentLang);
             container.innerHTML += `
                 <button onclick="clearTableFilter('supermarket')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm flex items-center gap-1 group">
-                    <span class="opacity-70">超市:</span> ${displaySm} <span class="group-hover:scale-110 ml-0.5">✕</span>
+                    <span class="opacity-70">${lblSm}</span> ${displaySm} <span class="group-hover:scale-110 ml-0.5">✕</span>
                 </button>
             `;
         }
@@ -547,7 +572,7 @@
             let displayCat = getCatName(tableState.categoryRaw, currentLang);
             container.innerHTML += `
                 <button onclick="clearTableFilter('category')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm flex items-center gap-1 group">
-                    <span class="opacity-70">分類:</span> ${displayCat} <span class="group-hover:scale-110 ml-0.5">✕</span>
+                    <span class="opacity-70">${lblCat}</span> ${displayCat} <span class="group-hover:scale-110 ml-0.5">✕</span>
                 </button>
             `;
         }
@@ -556,7 +581,7 @@
             hasFilter = true;
             container.innerHTML += `
                 <button onclick="clearTableFilter('bucket')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:border-indigo-800 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm flex items-center gap-1 group">
-                    <span class="opacity-70">週期:</span> ${tableState.bucketLabel} <span class="group-hover:scale-110 ml-0.5">✕</span>
+                    <span class="opacity-70">${lblBucket}</span> ${tableState.bucketLabel} <span class="group-hover:scale-110 ml-0.5">✕</span>
                 </button>
             `;
         }
@@ -662,8 +687,11 @@
         }
     }
 
-    function renderDrillDownTable(data) {
+  function renderDrillDownTable(data) {
         const tbody = document.getElementById('drillDownTableBody');
+        
+        // 🌟 新增：動態判斷「日數」的單位
+        const daysUnit = currentLang === 'en' ? ' Days' : ' 日';
         
         tbody.innerHTML = data.map(item => {
             const smBadgeHTML = getSmBadge(item.supermarket_code, currentLang);
@@ -685,13 +713,13 @@
 
             return `
                 <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-blue-50/30 dark:hover:bg-slate-800/80 transition-colors group">
-                    <td class="py-3 px-4 align-top whitespace-nowrap">${smBadgeHTML}</td>
-                    <td class="py-3 px-4 align-top text-slate-500 dark:text-slate-400 text-[11px] max-w-[120px] truncate" title="${catName}">${catName}</td>
-                    <td class="py-3 px-4 align-top text-[11px] text-slate-400 dark:text-slate-500 truncate max-w-[100px]" title="${brand}">${brand}</td>
-                    <td class="py-3 px-4 align-top w-1/4 min-w-[200px] font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-relaxed group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors whitespace-normal break-words">${name}</td>
-                    <td class="py-3 px-4 align-top text-right font-black text-slate-800 dark:text-slate-100 whitespace-nowrap">$${effPrice.toFixed(1)}</td>
-                    <td class="py-3 px-4 align-top text-center text-[11px] text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">${dateText}</td>
-                    <td class="py-3 px-4 align-top text-right text-[14px] ${daysClass} whitespace-nowrap">${item.days_locked} 日</td>
+                    <td class="py-3 px-2 align-top text-center whitespace-nowrap">${smBadgeHTML}</td>
+                    <td class="py-3 px-2 align-top text-slate-500 dark:text-slate-400 text-[11px] max-w-[90px] truncate" title="${catName}">${catName}</td>
+                    <td class="py-3 px-2 align-top text-[11px] text-slate-400 dark:text-slate-500 truncate max-w-[80px]" title="${brand}">${brand}</td>
+                    <td class="py-3 px-2 align-top w-[30%] min-w-[180px] font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-relaxed group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors whitespace-normal break-words">${name}</td>
+                    <td class="py-3 px-2 align-top text-right font-black text-slate-800 dark:text-slate-100 whitespace-nowrap">$${effPrice.toFixed(1)}</td>
+                    <td class="py-3 px-2 align-top text-center text-[11px] text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">${dateText}</td>
+                    <td class="py-3 px-2 align-top text-right text-[14px] ${daysClass} whitespace-nowrap">${item.days_locked}${daysUnit}</td>
                 </tr>
             `;
         }).join('');
@@ -744,21 +772,30 @@
         renderRoseChart(finalData.module_volatility);
     }
 
-    function renderBarChart(data) {
+ function renderBarChart(data) {
         const chartDom = document.getElementById('stabilityBarChart');
         charts.bar = echarts.init(chartDom);
         const txt = i18n[currentLang];
 
         let smNames = [], maintainedPct = [], anomalyPct = [];
+        
+        // 🌟 1. 宣告全局變數，準備以極低成本進行動態加總
+        let totalMaintained = 0;
+        let totalAnomaly = 0;
+
         data.forEach(item => {
             if (item.smCode === 'ZTORE' || item.totalCount === 0) return;
 
             let translatedName = getSmName(item.smCode, currentLang);
             smNames.push(translatedName);
             
+            // 🌟 2. 在現有迴圈中順手累加各超市的絕對數量
+            totalMaintained += (item.maintainedCount || 0);
+            totalAnomaly += (item.anomalyCount || 0);
+
             let mPct = ((item.maintainedCount / item.totalCount) * 100).toFixed(1);
             let aPct = ((item.anomalyCount / item.totalCount) * 100).toFixed(1);
-            // 🎯 將 rawSmCode 封裝入數據層，供 Click 事件精準提取
+            
             maintainedPct.push({ value: mPct, rawSmCode: item.smCode, rawMaintained: item.maintainedCount });
             anomalyPct.push({ value: aPct, rawSmCode: item.smCode, rawAnomaly: item.anomalyCount });
         });
@@ -776,7 +813,17 @@
                             <div class="text-[12px] flex justify-between gap-4"><span class="text-orange-600">⚠️ ${txt.legAnomaly}:</span> <span>${aData.rawAnomaly} (${aData.value}%)</span></div>`;
                 }
             },
-            legend: { data: [txt.legMaintained, txt.legAnomaly], bottom: 0 },
+            legend: { 
+                data: [txt.legMaintained, txt.legAnomaly], 
+                bottom: 0,
+                // 🌟 3. 動態注入加總數字到圖例 (Legend) 中，並加入千位數撇號 (toLocaleString)
+                formatter: function (name) {
+                    if (name === txt.legMaintained) return `${name} : ${totalMaintained.toLocaleString()}`;
+                    if (name === txt.legAnomaly) return `${name} : ${totalAnomaly.toLocaleString()}`;
+                    return name;
+                },
+                textStyle: { fontWeight: 'bold', color: '#475569' } // 稍微加粗讓總數更為突出
+            },
             grid: { left: '3%', right: '4%', bottom: '10%', top: '5%', containLabel: true },
             xAxis: { type: 'value', max: 100, axisLabel: { formatter: '{value}%' } },
             yAxis: { type: 'category', data: smNames, axisLabel: { fontWeight: 'bold' } },
@@ -798,12 +845,11 @@
         // 🔗 聯動監聽：點擊棒形圖觸發超市過濾
         charts.bar.off('click');
         charts.bar.on('click', function(params) {
-            // 點擊任何區塊皆鎖定該行代表的超市
             if (params.data && params.data.rawSmCode) {
                 tableState.smCode = params.data.rawSmCode;
                 tableState.page = 1;
-                renderFilterTags();
-                loadDrillDownTable();
+                if(typeof renderFilterTags === 'function') renderFilterTags();
+                if(typeof loadDrillDownTable === 'function') loadDrillDownTable();
                 setTimeout(() => document.getElementById('drillDownTableSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
             }
         });
