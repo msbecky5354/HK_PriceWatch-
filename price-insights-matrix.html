@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-HK" class="dark">
+<head>
+    <script>
+        (function() {
+            try {
+                fetch('status.txt?v=' + new Date().getTime())
+                    .then(response => response.text())
+                    .then(status => {
+                        if (status.trim() === '1') window.location.replace('maintenance.html');
+                    })
+                    .catch(error => console.error('無法讀取系統狀態:', error));
+            } catch(e) {}
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1400, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>慳真D | 市場定價透視與隱性通脹分析</title>
+    
+    <script src="lang.js?v=11"></script>
+    <script src="lang_tw.js?v=11"></script>
+    <script src="lang_gb.js?v=11"></script>
+    <script src="alertSystem.js?v=3"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            darkMode: 'class', 
+            theme: { 
+                extend: { 
+                    colors: { 
+                        brand: '#2563eb',
+                        corporateBlue: '#0072B2', 
+                        corporateAlert: '#D55E00' 
+                    } 
+                } 
+            } 
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        ::-webkit-scrollbar { width: 0.5rem; height: 0.5rem; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 9999px; }
+       
+        thead th { position: sticky; top: 0; z-index: 10; background-color: #f8fafc; }
+        .dark thead th { background-color: #1e293b; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-[100dvh] flex flex-col">
+
+    <script src="appUtils.js?v=1"></script>
+    <script src="header.js?v=2"></script>
+
+    <div class="max-w-[1400px] w-full mx-auto mt-6 mb-8 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 flex-1 flex flex-col">
+        
+        <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-800 shrink-0">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">👁️‍🗨️</span> 
+                <div class="flex flex-col">
+                   <div class="flex items-center gap-2">
+                        <h1 id="pageTitleText" class="text-xl font-bold text-slate-800 dark:text-slate-100 leading-tight">市場定價透視與隱性通脹分析</h1>
+                        <span class="text-[10px] font-bold text-blue-500 border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 rounded px-1.5 py-0.5" id="badgeText">進階數據洞察</span>
+                        <button onclick="openCalcInfoModal()" class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-[12px] font-bold hover:bg-blue-200 transition-colors shadow-sm" title="數據洞察導航">ℹ️</button>
+                    </div>
+                </div>
+            </div>
+            <button id="backBtn" onclick="window.location.href='index.html?lang=' + currentLang" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-[13px] font-bold text-slate-600 dark:text-slate-300 transition active:scale-95 shadow-sm">返回首頁</button>
+        </div>
+
+        <div class="p-5 flex flex-col gap-6 flex-grow">
+            <section class="bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 p-4 flex flex-col h-[55vh] w-full shrink-0 shadow-sm transition-colors">
+                <header class="mb-3 flex flex-col gap-2">
+                    <h2 class="text-[16px] font-bold text-slate-800 dark:text-slate-100" id="matrixTitle">市場定價波動率與波及廣度矩陣</h2>
+                    <p class="text-[12px] text-slate-500 dark:text-slate-400" id="matrixDesc">X軸：板塊波及率 | Y軸：平均價格偏差幅度 | 氣泡大小：商品樣本量</p>
+                    <div id="breadcrumb" class="text-[12px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-slate-900/50 p-2 rounded-lg border border-blue-100 dark:border-slate-700 inline-block w-fit mt-1">
+                    </div>
+                </header>
+                <div id="scatterChart" class="w-full flex-grow relative"></div>
+            </section>
+
+            <section class="bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col w-full flex-grow overflow-hidden shadow-sm transition-colors">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                    <h3 class="text-[14px] font-bold text-slate-800 dark:text-slate-100" id="gridTitle">當前視圖明細數據 (Data Grid)</h3>
+                </div>
+                <div class="table-container flex-grow">
+                    <table class="w-full text-[13px] text-left text-slate-600 dark:text-slate-300">
+                        <thead class="text-[11px] text-slate-500 dark:text-slate-400 uppercase bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                            <tr>
+                                <th scope="col" class="px-5 py-3 font-bold" id="thCat">分類層級名稱</th>
+                                <th scope="col" class="px-5 py-3 font-bold text-right" id="thTotal">樣本總數</th>
+                                <th scope="col" class="px-5 py-3 font-bold text-right" id="thImpacted">偏差商品數</th>
+                                <th scope="col" class="px-5 py-3 font-bold text-right" id="thRate">板塊波及率</th>
+                                <th scope="col" class="px-5 py-3 font-bold text-right" id="thDev">平均價格偏差</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody" class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="footer.js?v=2"></script>
+
+    <div id="calcInfoModal" class="fixed inset-0 z-[150] hidden bg-slate-900/40 dark:bg-slate-900/80 flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col border border-blue-100 dark:border-blue-900/50 max-h-[85vh]" id="calcInfoBox">
+            <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-blue-50/50 dark:bg-blue-900/10 shrink-0">
+                <h3 id="calcModalTitle" class="text-[16px] font-black text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    數據洞察導航
+                </h3>
+                <button onclick="closeCalcInfoModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 active:scale-90 transition">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto text-[13px] text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed no-scrollbar">
+                <div id="calcModalContent"></div>
+            </div>
+            <div class="px-5 py-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
+                <button onclick="closeCalcInfoModal()" id="calcModalCloseBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition">我明白</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================================
+        // [1] 微前端區域化獨立字典 (Micro-frontend Local i18n Dictionary)
+        // ============================================================================
+        const localI18nDict = {
+            'zh-Hant': {
+                pageTitleText: '市場定價透視與隱性通脹分析 Pricing Insights & Inflation Matrix', badgeText: '進階數據洞察', backBtn: '返回首頁',
+                matrixTitle: '市場定價波動率與波及廣度矩陣', matrixDesc: 'X軸：板塊波及率 | Y軸：平均價格偏差幅度 | 氣泡大小：商品樣本量',
+                gridTitle: '當前視圖明細數據 (Data Grid)',
+                thCat: '分類層級名稱', thTotal: '樣本總數', thImpacted: '偏差商品數', thRate: '板塊波及率', thDev: '平均價格偏差',
+                bcLevel1: '層級 1：總覽 (宏觀分類)', bcLevel2: '層級 2：', bcLevel3: '層級 3：',
+                chartXAxis: '板塊波及率 (%)', chartYAxis: '平均價格偏差 (%)', chartBase: '數據基準', chartItems: '項商品', chartImpacted: '項錄得偏差', chartClickHint: '點擊圖形以執行維度下鑽 (Drill-down)', noDataText: '當前視圖無相關數據紀錄'
+            },
+            'zh-Hans': {
+                pageTitleText: '市场定价透视与隐性通胀分析 Pricing Insights & Inflation Matrix', badgeText: '进阶数据洞察', backBtn: '返回首页',
+                matrixTitle: '市场定价波动率与波及广度矩阵', matrixDesc: 'X轴：板块波及率 | Y轴：平均价格偏差幅度 | 气泡大小：商品样本量',
+                gridTitle: '当前视图明细数据 (Data Grid)',
+                thCat: '分类层级名称', thTotal: '样本总数', thImpacted: '偏差商品数', thRate: '板块波及率', thDev: '平均价格偏差',
+                bcLevel1: '层级 1：总览 (宏观分类)', bcLevel2: '层级 2：', bcLevel3: '层级 3：',
+                chartXAxis: '板块波及率 (%)', chartYAxis: '平均价格偏差 (%)', chartBase: '数据基准', chartItems: '项商品', chartImpacted: '项录得偏差', chartClickHint: '点击图形以执行维度下钻 (Drill-down)', noDataText: '当前视图无相关数据纪录'
+            },
+            'en': {
+                pageTitleText: 'Pricing Insights & Inflation Matrix', badgeText: 'Pro Analytics', backBtn: 'Back to Home',
+                matrixTitle: 'Pricing Volatility & Breadth Matrix', matrixDesc: 'X-Axis: Impact Rate | Y-Axis: Avg Price Deviation | Bubble: SKU Volume',
+                gridTitle: 'Current View Data Grid',
+                thCat: 'Category Name', thTotal: 'Total SKUs', thImpacted: 'Impacted SKUs', thRate: 'Impact Rate', thDev: 'Avg Deviation',
+                bcLevel1: 'Level 1: Macro Overview', bcLevel2: 'Level 2: ', bcLevel3: 'Level 3: ',
+                chartXAxis: 'Impact Rate (%)', chartYAxis: 'Avg Price Deviation (%)', chartBase: 'Data Base', chartItems: 'items', chartImpacted: 'impacted', chartClickHint: 'Click bubble to Drill-down', noDataText: 'No data records in current view'
+            }
+        };
+
+        // ============================================================================
+        // 🎯 新增：BI 數據洞察導航專屬多語系字典
+        // ============================================================================
+        const calcInfoTexts = {
+            'zh-Hant': {
+                title: "數據洞察導航 (Data Insights Navigation)", close: "我明白",
+                content: `
+                    <div class="space-y-4 text-[13px]">
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> 市場定價波動率與波及廣度矩陣 (散佈氣泡圖)</h4>
+                            <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">宏觀展示特定分類內，錄得實質加價之商品佔比（X軸：波及率）及其平均加價幅度（Y軸：偏差幅度）。氣泡大小代表該分類的商品總數。</span></div>
+                            <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">尋找圖表右上方嘅巨大氣泡。當波及率 > 30% 且 平均偏差 > 5%（橙紅色氣泡），代表該板塊正面臨「系統性通脹風險」，超市極可能正進行全線加價。藍色氣泡則代表價格處於基準穩定區。點擊氣泡可執行維度下鑽 (Drill-down) 深入觀看子分類。</span></div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> 當前視圖明細數據 (Data Grid)</h4>
+                            <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">圖表解碼：</span> <span class="text-slate-600 dark:text-slate-300">配合上方圖表的下鑽層級，精確列出系統底層運算的各項量度指標，包含樣本總數及偏差商品數。</span></div>
+                            <div><span class="font-bold text-emerald-600 dark:text-emerald-400">點樣運用：</span> <span class="text-slate-600 dark:text-slate-300">透過列表，您可以快速核對邊啲微觀分類（例如「烘焙用料」）正在拉高整體的通脹指標。紅色高亮行代表該子分類已觸發通脹警報，可作為採購決策的重要避險參考。</span></div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-2 flex items-center gap-1.5"><span>📐</span> 底層運算邏輯與基準 (Underlying Logic)</h4>
+                            <div class="text-slate-600 dark:text-slate-300 space-y-2">
+                                <p><strong>板塊波及率 (Impact Rate)：</strong> 偏差商品數 ÷ 有效商品總數 × 100%。此量度能有效排除單一極端值的統計干擾。</p>
+                                <p><strong>系統性通脹風險 (Corporate Alert)：</strong> 當波及率 > 30% 且 平均偏差 > 5% 時觸發，反映供應鏈成本整體上漲。</p>
+                                <p><strong>基準穩定區 (Baseline Stable)：</strong> 未達上述雙重閾值之板塊，判定為常規戰略定價調整。</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'zh-Hans': {
+                title: "数据洞察导航 (Data Insights Navigation)", close: "我明白",
+                content: `
+                    <div class="space-y-4 text-[13px]">
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> 市场定价波动率与波及广度矩阵 (散布气泡图)</h4>
+                            <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">宏观展示特定分类内，录得实质加价之商品占比（X轴：波及率）及其平均加价幅度（Y轴：偏差幅度）。气泡大小代表该分类的商品总数。</span></div>
+                            <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">寻找图表右上方的巨大气泡。当波及率 > 30% 且 平均偏差 > 5%（橙红色气泡），代表该板块正面临「系统性通胀风险」，超市极可能正进行全线加价。蓝色气泡则代表价格处于基准稳定区。点击气泡可执行维度下钻 (Drill-down) 深入观看子分类。</span></div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> 当前视图明细数据 (Data Grid)</h4>
+                            <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">图表解码：</span> <span class="text-slate-600 dark:text-slate-300">配合上方图表的下钻层级，精确列出系统底层运算的各项量度指标，包含样本总数及偏差商品数。</span></div>
+                            <div><span class="font-bold text-emerald-600 dark:text-emerald-400">怎样运用：</span> <span class="text-slate-600 dark:text-slate-300">透过列表，您可以快速核对哪些微观分类（例如「烘焙用料」）正在拉高整体的通胀指标。红色高亮行代表该子分类已触发通胀警报，可作为采购决策的重要避险参考。</span></div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-2 flex items-center gap-1.5"><span>📐</span> 底层运算逻辑与基准 (Underlying Logic)</h4>
+                            <div class="text-slate-600 dark:text-slate-300 space-y-2">
+                                <p><strong>板块波及率 (Impact Rate)：</strong> 偏差商品数 ÷ 有效商品总数 × 100%。此量度能有效排除单一极端值的统计干扰。</p>
+                                <p><strong>系统性通胀风险 (Corporate Alert)：</strong> 当波及率 > 30% 且 平均偏差 > 5% 时触发，反映供应链成本整体上涨。</p>
+                                <p><strong>基准稳定区 (Baseline Stable)：</strong> 未达上述双重阈值之板块，判定为常规战略定价调整。</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'en': {
+                title: "Data Insights Navigation", close: "I Understand",
+                content: `
+                    <div class="space-y-4 text-[13px]">
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>1️⃣</span> Pricing Volatility & Breadth Matrix (Bubble Chart)</h4>
+                            <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">A macro view of the percentage of items with actual price increases (X-Axis: Impact Rate) and their average increase (Y-Axis: Deviation). Bubble size represents total SKUs.</span></div>
+                            <div><span class="font-bold text-emerald-600 dark:text-emerald-400">How to Use:</span> <span class="text-slate-600 dark:text-slate-300">Look for large bubbles in the top-right. When Impact Rate > 30% and Avg Deviation > 5% (orange-red), the sector faces a "Systemic Inflation Risk." Blue bubbles indicate baseline stability. Click bubbles to drill down into sub-categories.</span></div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-1.5 flex items-center gap-1.5"><span>2️⃣</span> Current View Data Grid</h4>
+                            <div class="mb-1.5"><span class="font-bold text-blue-600 dark:text-blue-400">Chart Decoding:</span> <span class="text-slate-600 dark:text-slate-300">Accurately lists the underlying metrics, including total sample size and impacted items, synced with the chart's drill-down level.</span></div>
+                            <div><span class="font-bold text-emerald-600 dark:text-emerald-400">How to Use:</span> <span class="text-slate-600 dark:text-slate-300">Quickly verify which micro-categories (e.g., "Baking Ingredients") are driving up inflation metrics. Red highlighted rows indicate triggered inflation alerts, serving as a vital reference for procurement.</span></div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-black text-slate-800 dark:text-slate-100 mb-2 flex items-center gap-1.5"><span>📐</span> Underlying Logic & Criteria</h4>
+                            <div class="text-slate-600 dark:text-slate-300 space-y-2">
+                                <p><strong>Impact Rate:</strong> Impacted SKUs ÷ Total Valid SKUs × 100%. Eliminates noise from single extreme outliers.</p>
+                                <p><strong>Corporate Alert:</strong> Triggered when Impact Rate > 30% & Deviation > 5%, reflecting overall supply chain cost hikes.</p>
+                                <p><strong>Baseline Stable:</strong> Categories below thresholds, considered routine pricing adjustments.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // 🎯 Modal 控制函數
+        window.openCalcInfoModal = function() {
+            const modal = document.getElementById('calcInfoModal');
+            const box = document.getElementById('calcInfoBox');
+            if (modal && box) {
+                modal.classList.remove('hidden');
+                setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+            }
+        }
+        window.closeCalcInfoModal = function() {
+            const modal = document.getElementById('calcInfoModal');
+            const box = document.getElementById('calcInfoBox');
+            if (modal && box) {
+                modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            }
+        }
+
+        let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+        const MIN_ITEMS_THRESHOLD = 3;
+        
+        let globalRawData = []; 
+        let globalCleanedData = [];
+        let currentLevel = 1; 
+        let selectedCat1 = '';
+        let selectedCat2 = '';
+        let myChart = null;
+
+        // ============================================================================
+        // [2] 跨語系生命週期綁定 (Cross-domain i18n Lifecycle Binding)
+        // ============================================================================
+        
+        function updateLocalLanguage(lang) {
+            currentLang = lang;
+            
+            // --- 2.1 本地 BI 矩陣靜態術語替換 ---
+            const dict = localI18nDict[lang] || localI18nDict['zh-Hant'];
+            document.title = (lang === 'en' ? "Pricing Insights | SmartDeal" : (lang === 'zh-Hans' ? "悭真D | 市场定价透视" : "慳真D | 市場定價透視"));
+            
+            const keys = Object.keys(dict);
+            keys.forEach(key => {
+                const el = document.getElementById(key);
+                if (el && !key.startsWith('bc') && !key.startsWith('chart') && !key.startsWith('noData')) {
+                    el.innerHTML = dict[key]; 
+                }
+            });
+
+            // --- 2.2 更新 Modal 字典 ---
+            const modalData = calcInfoTexts[lang] || calcInfoTexts['zh-Hant'];
+            const modalTitleEl = document.getElementById('calcModalTitle');
+            const modalContentEl = document.getElementById('calcModalContent');
+            const modalBtnEl = document.getElementById('calcModalCloseBtn');
+            
+            if (modalTitleEl) modalTitleEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> ${modalData.title}`;
+            if (modalContentEl) modalContentEl.innerHTML = modalData.content;
+            if (modalBtnEl) modalBtnEl.innerText = modalData.close;
+            
+            // --- 2.3 強制觸發數據重組與圖表重繪 (修復 Data Grid 繁體殘留) ---
+            if (globalRawData && globalRawData.length > 0) {
+                processData(globalRawData); 
+                updateView();               
+            }
+        }
+
+        window.changeLanguage = function(lang) {
+            if (typeof updateLocalLanguage === 'function') updateLocalLanguage(lang); 
+        };
+
+        window.addEventListener('languageChanged', (e) => {
+            updateLocalLanguage(e.detail.lang || localStorage.getItem('appLang') || 'zh-Hant');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { 
+            const chartDom = document.getElementById('scatterChart');
+            myChart = echarts.init(chartDom);
+            window.addEventListener('resize', () => myChart.resize());
+            
+            updateLocalLanguage(currentLang);
+            initDashboard(); 
+        });
+
+        // ============================================================================
+        // [3] BI 核心數據處理與動態重繪 (BI Core Logic & Redraw)
+        // ============================================================================
+        async function initDashboard() {
+            try {
+                const githubRawUrl = 'https://msbecky5354.github.io/JSON/data/bi_illusion.json';
+                const response = await fetch(githubRawUrl + '?v=' + new Date().getTime());
+                if (!response.ok) throw new Error('Data fetch failed');
+                
+                window.globalLastUpdatedTime = new Date();
+                if (typeof renderHeaderLang === 'function') renderHeaderLang();
+
+                globalRawData = await response.json(); 
+                processData(globalRawData); 
+                updateView(); 
+            } catch (error) {
+                console.error("Dashboard Failed:", error);
+                document.getElementById('scatterChart').innerHTML = `<div class="flex items-center justify-center h-full text-corporateAlert font-bold">Data Connection Failed. Please try again.</div>`;
+            }
+        }
+
+        // 🎯 核心修復：加入與 price_illusion.html 相同的全域分類字典翻譯引擎
+        function getCatName(rawCat, lang) {
+            if (!rawCat) return lang === 'en' ? 'Others' : '其他';
+            
+            // 情況 A：處理如果 API 傳回的是多語系 Object 的情況 (防禦性編程)
+            if (typeof rawCat === 'object') {
+                if (lang === 'en' && rawCat['en']) return rawCat['en'];
+                if (lang === 'zh-Hans' && rawCat['zh-Hans']) return rawCat['zh-Hans'];
+                return rawCat['zh-Hant'] || Object.values(rawCat)[0] || '其他';
+            }
+            
+            // 情況 B：處理 API 傳回純繁體字串的情況 (透過 lang.js 內的 categoryDict 進行物理映射)
+            let c = String(rawCat).trim();
+            if (window.categoryDict && window.categoryDict[lang] && window.categoryDict[lang][c]) {
+                return window.categoryDict[lang][c];
+            }
+            return c; 
+        }
+
+        function processData(rawData) {
+            if (!Array.isArray(rawData)) return;
+            globalCleanedData = rawData.map(item => {
+                const prev = parseFloat(item.prevBasePrice);
+                const curr = parseFloat(item.originalPrice);
+                const isIncreased = (!isNaN(prev) && !isNaN(curr) && prev > 0 && curr > prev);
+                const increasePct = isIncreased ? ((curr - prev) / prev) * 100 : 0;
+
+                // 🚀 升級版多語系解析器：全面套用 getCatName 進行物理映射，徹底消滅殘留繁體
+                let c1 = getCatName(item.categoryRaw || item.cat1, currentLang);
+                let c2 = getCatName(item.cat2, currentLang);
+                let c3 = getCatName(item.cat3, currentLang);
+                
+                // 動態處理 "其他" 的副分類命名
+                const otherStr = currentLang === 'en' ? 'Others' : (currentLang === 'zh-Hans' ? '其他' : '其他');
+                if (c2 === '其他' || c2 === 'Others' || c2 === otherStr) c2 = `${c1} (Sub)`;
+                if (c3 === '其他' || c3 === 'Others' || c3 === otherStr) c3 = c2;
+
+                return { cat1: c1, cat2: c2, cat3: c3, isIncreased: isIncreased, increasePct: increasePct };
+            });
+        }
+
+        function updateView() {
+            renderBreadcrumb();
+            const aggregatedData = aggregateDataForCurrentLevel();
+            renderECharts(aggregatedData);
+            renderDataTable(aggregatedData); 
+        }
+
+        function renderBreadcrumb() {
+            const dict = localI18nDict[currentLang] || localI18nDict['zh-Hant'];
+            const bc = document.getElementById('breadcrumb');
+            let html = `<span class="cursor-pointer hover:text-blue-500 transition underline decoration-dashed underline-offset-4" onclick="jumpToLevel(1)">${dict.bcLevel1}</span>`;
+            if (currentLevel >= 2) {
+                html += ` <span class="mx-2 text-slate-400">❯</span> <span class="cursor-pointer hover:text-blue-500 transition underline decoration-dashed underline-offset-4" onclick="jumpToLevel(2)">${dict.bcLevel2}${selectedCat1}</span>`;
+            }
+            if (currentLevel === 3) {
+                html += ` <span class="mx-2 text-slate-400">❯</span> <span class="text-slate-800 dark:text-slate-100 font-bold">${dict.bcLevel3}${selectedCat2}</span>`;
+            }
+            bc.innerHTML = html;
+        }
+
+        window.jumpToLevel = function(level) {
+            currentLevel = level;
+            if (level === 1) { selectedCat1 = ''; selectedCat2 = ''; }
+            if (level === 2) { selectedCat2 = ''; }
+            updateView();
+        }
+
+        function aggregateDataForCurrentLevel() {
+            const stats = {};
+            globalCleanedData.forEach(item => {
+                if (currentLevel === 2 && item.cat1 !== selectedCat1) return;
+                if (currentLevel === 3 && item.cat2 !== selectedCat2) return;
+
+                let targetCat = currentLevel === 1 ? item.cat1 : (currentLevel === 2 ? item.cat2 : item.cat3);
+                if (!stats[targetCat]) stats[targetCat] = { name: targetCat, total: 0, inc: 0, sumPct: 0 };
+                
+                stats[targetCat].total += 1;
+                if (item.isIncreased) { stats[targetCat].inc += 1; stats[targetCat].sumPct += item.increasePct; }
+            });
+
+            const result = [];
+            for (const key in stats) {
+                const s = stats[key];
+                if (s.total >= MIN_ITEMS_THRESHOLD && s.inc > 0) {
+                    result.push({ name: s.name, value: [((s.inc / s.total) * 100).toFixed(1), (s.sumPct / s.inc).toFixed(2), s.total, s.inc] });
+                }
+            }
+            return result;
+        }
+
+        function renderECharts(scatterData) {
+            const dict = localI18nDict[currentLang] || localI18nDict['zh-Hant'];
+            const isDark = document.documentElement.classList.contains('dark');
+            const axisTextColor = isDark ? '#94A3B8' : '#64748B'; 
+            const splitLineColor = isDark ? '#334155' : '#E2E8F0'; 
+            
+            let maxX = -Infinity, minX = Infinity, maxY = -Infinity, minY = Infinity;
+            scatterData.forEach(d => {
+                const x = parseFloat(d.value[0]), y = parseFloat(d.value[1]);
+                if (x > maxX) maxX = x; if (x < minX) minX = x;
+                if (y > maxY) maxY = y; if (y < minY) minY = y;
+            });
+
+            const option = {
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: isDark ? 'rgba(30, 41, 59, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+                    borderColor: isDark ? '#475569' : '#CBD5E1',
+                    textStyle: { color: isDark ? '#F1F5F9' : '#334155' },
+                    formatter: function (p) {
+                        const d = p.data;
+                        const drillDownHint = currentLevel < 3 ? `<br/><span class="text-blue-500 font-bold text-[11px] mt-2 inline-block">👆 ${dict.chartClickHint}</span>` : '';
+                        return `<div class="font-sans p-1">
+                                  <strong class="text-[15px] text-[#0072B2]">${d.name}</strong><br/><br/>
+                                  ${dict.chartXAxis.replace(' (%)','')} : <span class="font-black">${d.value[0]}%</span><br/>
+                                  ${dict.chartYAxis.replace(' (%)','')} : <span class="text-[#D55E00] font-black">+${d.value[1]}%</span><br/>
+                                  <hr class="my-2 border-slate-300 dark:border-slate-600"/>
+                                  <span class="text-[11px] text-slate-500 dark:text-slate-400">${dict.chartBase}: ${d.value[2]} ${dict.chartItems}, ${d.value[3]} ${dict.chartImpacted}.</span>
+                                  ${drillDownHint}
+                                </div>`;
+                    }
+                },
+                xAxis: { 
+                    type: 'value', name: dict.chartXAxis, nameLocation: 'middle', nameGap: 30, min: 0, max: 100, 
+                    nameTextStyle: { color: axisTextColor, fontWeight: 'bold' },
+                    splitLine: { lineStyle: { color: splitLineColor, type:'dashed' } },
+                    axisLabel: { formatter: '{value}%', color: axisTextColor }
+                },
+                yAxis: { 
+                    type: 'value', name: dict.chartYAxis, 
+                    nameTextStyle: { color: axisTextColor, fontWeight: 'bold' },
+                    splitLine: { lineStyle: { color: splitLineColor, type:'dashed' } }, 
+                    axisLabel: { formatter: '{value}%', color: axisTextColor } 
+                },
+                series: [{
+                    type: 'scatter',
+                    symbolSize: data => Math.min(Math.max(data[2] * (currentLevel === 1 ? 0.3 : 1), 20), 100), 
+                    itemStyle: { 
+                        color: p => (parseFloat(p.data.value[0]) > 30 && parseFloat(p.data.value[1]) > 5) ? '#D55E00' : '#0072B2',
+                        opacity: 0.85, borderColor: isDark ? '#0F172A' : '#FFFFFF', borderWidth: 1.5
+                    },
+                    label: { 
+                        show: true, position: 'top', color: axisTextColor, fontSize: 11, hideOverlap: true,
+                        formatter: p => {
+                            const x = parseFloat(p.data.value[0]), y = parseFloat(p.data.value[1]);
+                            return (x === maxX || x === minX || y === maxY || y === minY) ? p.name : ''; 
+                        }
+                    },
+                    emphasis: {
+                        focus: 'series',
+                        label: { show: true, formatter: '{b}', color: isDark ? '#FFFFFF' : '#0F172A', backgroundColor: isDark ? 'rgba(15,23,42,0.8)' : 'rgba(241,245,249,0.9)', padding: [4, 8], borderRadius: 4 }
+                    },
+                    data: scatterData
+                }]
+            };
+
+            myChart.setOption(option, true); 
+            myChart.off('click');
+            myChart.on('click', function (params) {
+                if (currentLevel === 1) { selectedCat1 = params.data.name; currentLevel = 2; updateView(); } 
+                else if (currentLevel === 2) { selectedCat2 = params.data.name; currentLevel = 3; updateView(); }
+            });
+        }
+
+        function renderDataTable(data) {
+            const dict = localI18nDict[currentLang] || localI18nDict['zh-Hant'];
+            const tbody = document.getElementById('dataTableBody');
+            const sortedData = [...data].sort((a, b) => parseFloat(b.value[0]) !== parseFloat(a.value[0]) ? parseFloat(b.value[0]) - parseFloat(a.value[0]) : parseFloat(b.value[1]) - parseFloat(a.value[1]));
+
+            let rowsHtml = '';
+            sortedData.forEach(d => {
+                const isAlert = parseFloat(d.value[0]) > 30 && parseFloat(d.value[1]) > 5;
+                const rowStyleClass = isAlert ? 'bg-[#D55E00]/5 hover:bg-[#D55E00]/10 text-slate-800 dark:text-slate-100' : 'hover:bg-slate-100 dark:hover:bg-slate-700/50';
+                const alertTextClass = isAlert ? 'text-[#D55E00] font-bold' : '';
+
+                rowsHtml += `
+                    <tr class="transition-colors ${rowStyleClass}">
+                        <td class="px-5 py-3 font-bold whitespace-nowrap">${d.name}</td>
+                        <td class="px-5 py-3 text-right">${d.value[2]}</td>
+                        <td class="px-5 py-3 text-right">${d.value[3]}</td>
+                        <td class="px-5 py-3 text-right ${alertTextClass}">${parseFloat(d.value[0]).toFixed(1)}%</td>
+                        <td class="px-5 py-3 text-right ${alertTextClass}">+${parseFloat(d.value[1]).toFixed(2)}%</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = rowsHtml || `<tr><td colspan="5" class="px-5 py-8 text-center text-slate-500">${dict.noDataText}</td></tr>`;
+        }
+    </script>
+</body>
+</html>
