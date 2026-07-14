@@ -60,7 +60,6 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .micro-bar { transition: width 0.5s ease-in-out; }
 
-        /* Tabs Style */
         .dashboard-tab {
             padding: 10px 20px; font-weight: 900; font-size: 14px; border-bottom: 3px solid transparent; 
             cursor: pointer; transition: all 0.3s ease; color: #64748b;
@@ -143,11 +142,6 @@
                 <button id="btn-tab-tracker" onclick="switchTab('tracker')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center mb-1 sm:mb-0 sm:mr-1"></button>
                 <button id="btn-tab-tiers" onclick="switchTab('tiers')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center"></button>
             </div>
-            
-            <button onclick="resetFilters()" class="hidden md:flex absolute right-4 lg:right-0 top-1/2 -translate-y-1/2 items-center gap-1.5 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 rounded-lg text-[13px] font-bold transition shadow-sm active:scale-95">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-                <span id="txt-mcBtnResetTop"></span>
-            </button>
         </div>
 
         <div id="view-winners" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 block">
@@ -192,15 +186,15 @@
                 <div class="overflow-x-auto no-scrollbar">
                     <table class="w-full text-left border-collapse min-w-[800px]">
                     <thead>
-    <tr class="text-[12px] text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
-        <th class="py-3 font-bold" id="th-tier-range"></th>
-        <th class="py-3 font-bold text-center" id="th-tier-down"></th>
-        <th class="py-3 font-bold text-center" id="th-tier-flat"></th>
-        <th class="py-3 font-bold text-center" id="th-tier-up"></th>
-        <th class="py-3 font-bold text-center" id="th-tier-beaten"></th>
-        <th class="py-3 font-bold" id="th-tier-pct"></th>
-    </tr>
-</thead>
+                        <tr class="text-[12px] text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+                            <th class="py-3 font-bold" id="th-tier-range"></th>
+                            <th class="py-3 font-bold text-center" id="th-tier-down"></th>
+                            <th class="py-3 font-bold text-center" id="th-tier-flat"></th>
+                            <th class="py-3 font-bold text-center" id="th-tier-up"></th>
+                            <th class="py-3 font-bold text-center" id="th-tier-beaten"></th>
+                            <th class="py-3 font-bold" id="th-tier-pct"></th>
+                        </tr>
+                    </thead>
                         <tbody id="tiersTableBody" class="text-[13px]">
                         </tbody>
                     </table>
@@ -209,20 +203,6 @@
         </div>
 
         <div class="bg-white dark:bg-slate-800 p-4 rounded-t-2xl border-x border-t border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-4 transition-colors">
-            <div class="flex flex-wrap items-center gap-3 w-full">
-                <input type="text" id="searchInput" placeholder="搜尋貨品名稱、品牌或分類..." class="flex-1 min-w-[200px] px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-colors dark:text-slate-100">
-                <select id="selPriceRange" onchange="applyStateFilter('priceRange', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-700 dark:text-slate-200 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-sm">
-                    <option value="ALL" id="opt-price-all"></option>
-                    <option value="0-20" id="opt-price-1"></option>
-                    <option value="20-50" id="opt-price-2"></option>
-                    <option value="50-100" id="opt-price-3"></option>
-                    <option value="100-300" id="opt-price-4"></option>
-                    <option value="300+" id="opt-price-5"></option>
-                </select>
-                <div class="flex gap-2">
-                    <button onclick="resetFilters()" id="txt-mcBtnReset" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold transition shadow-sm whitespace-nowrap"></button>
-                </div>
-            </div>
             
             <div class="flex gap-2 flex-wrap" id="macroPills">
                 <button class="v-pill theme-all active" onclick="applyStateFilter('strategy', 'ALL')"><span id="txt-mcPillAll"></span> <span id="pillAll" class="ml-1 opacity-75">...</span></button>
@@ -230,13 +210,66 @@
                 <button class="v-pill theme-grey" onclick="applyStateFilter('strategy', 'flat_beaten')"><span id="txt-mcPillFlat"></span> <span id="pillFlat" class="ml-1 opacity-75">...</span></button>
                 <button class="v-pill theme-red" onclick="applyStateFilter('strategy', 'competitive_up')"><span id="txt-mcPillUp"></span> <span id="pillUp" class="ml-1 opacity-75">...</span></button>
             </div>
+
+            <div class="flex flex-wrap items-center gap-3 w-full bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                    <span id="txt-filter-label"></span>
+                </span>
+                <input type="text" id="searchInput" placeholder="搜尋貨品名稱、品牌或分類..." class="flex-1 min-w-[150px] px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-[13px] transition-colors dark:text-slate-100 shadow-sm">
+                
+                <select id="selSm" onchange="applyStateFilter('sm', this.value)" class="text-[13px] font-bold p-1.5 border border-slate-200 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[100px] shadow-sm">
+                    <option value="ALL">所有超市</option>
+                </select>
+                
+                <div class="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-md shadow-sm p-0.5">
+                    <select id="selCat" onchange="applyStateFilter('cat', this.value)" class="text-[13px] font-bold p-1 bg-transparent text-blue-700 dark:text-blue-400 outline-none cursor-pointer min-w-[100px]">
+                        <option value="ALL">所有分類</option>
+                    </select>
+                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                    <select id="selCat2" onchange="applyStateFilter('cat2', this.value)" class="text-[13px] font-bold p-1 bg-transparent text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[100px]" disabled>
+                        <option value="ALL">所有次分類</option>
+                    </select>
+                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                    <select id="selCat3" onchange="applyStateFilter('cat3', this.value)" class="text-[13px] font-bold p-1 bg-transparent text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[100px]" disabled>
+                        <option value="ALL">所有細分類</option>
+                    </select>
+                </div>
+
+                <select id="selStrategy" onchange="applyStateFilter('strategy', this.value)" class="text-[13px] font-bold p-1.5 border border-slate-200 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[100px] shadow-sm">
+                    <option value="ALL" id="opt-all">所有狀態</option>
+                    <option value="true_drop" id="opt-drop">擴大優勢</option>
+                    <option value="flat_beaten" id="opt-flat">鎖定勝局</option>
+                    <option value="competitive_up" id="opt-up">收窄優勢</option>
+                </select>
+                
+                <select id="selDev" onchange="applyStateFilter('dev', this.value)" class="text-[13px] font-bold p-1.5 border border-slate-200 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[110px] shadow-sm">
+                    <option value="ALL" id="opt-dev-all">所有偏離度</option>
+                    <option value="below_0" id="opt-dev-discount">&lt; 0% (平過市價)</option>
+                    <option value="above_0" id="opt-dev-premium">&gt; 0% (貴過市價)</option>
+                </select>
+                
+                <select id="selDrop" onchange="applyStateFilter('drop', this.value)" class="text-[13px] font-bold p-1.5 border border-slate-200 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[110px] shadow-sm">
+                    <option value="ALL" id="opt-drop-all">所有降幅</option>
+                    <option value="drop_any" id="opt-drop-any">有實質降價</option>
+                    <option value="drop_10" id="opt-drop-10">&gt; 10% 降幅</option>
+                </select>
+
+                <select id="selPriceRange" onchange="applyStateFilter('priceRange', this.value)" class="text-[13px] font-bold p-1.5 border border-slate-200 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer min-w-[100px] shadow-sm">
+                    <option value="ALL" id="opt-price-all"></option>
+                    <option value="0-20" id="opt-price-1"></option>
+                    <option value="20-50" id="opt-price-2"></option>
+                    <option value="50-100" id="opt-price-3"></option>
+                    <option value="100-300" id="opt-price-4"></option>
+                    <option value="300+" id="opt-price-5"></option>
+                </select>
+                <button onclick="resetFilters()" id="txt-mcBtnReset" class="px-4 py-1.5 bg-rose-50 dark:bg-rose-900/30 hover:bg-rose-100 dark:hover:bg-rose-800/50 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-700/50 rounded-md text-[13px] font-bold transition shadow-sm whitespace-nowrap shrink-0"></button>
+            </div>
         </div>
 
         <div class="bg-slate-50 dark:bg-slate-800/80 p-3 border-x border-t border-slate-200 dark:border-slate-700 flex items-center justify-between z-10 relative transition-colors">
             <div class="text-sm text-slate-500 dark:text-slate-400 font-bold flex items-center flex-wrap gap-2">
                 <span id="txt-show"></span> <span id="pageStart" class="text-slate-800 dark:text-slate-200">0</span> <span id="txt-item">-</span> <span id="pageEnd" class="text-slate-800 dark:text-slate-200">0</span> <span id="txt-total"></span> <span id="totalItems" class="text-slate-800 dark:text-white text-lg">0</span>
-                <span id="indSm" class="ml-2 text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-700 px-2 py-0.5 rounded border border-slate-300 dark:border-slate-600 hidden shadow-sm text-xs cursor-pointer hover:bg-slate-100" onclick="applyStateFilter('sm', 'ALL')"></span>
-                <span id="indCat" class="text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-700 px-2 py-0.5 rounded border border-slate-300 dark:border-slate-600 hidden shadow-sm text-xs cursor-pointer hover:bg-slate-100" onclick="applyStateFilter('cat', 'ALL')"></span>
             </div>
             <div class="flex items-center gap-2">
                 <button id="prevBtn" class="px-3 py-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm transition shadow-sm dark:text-slate-200">←</button>
@@ -251,68 +284,48 @@
                 <span id="txt-loading" class="font-bold text-slate-600 dark:text-slate-300 text-sm"></span>
             </div>
 
-            <table class="w-full text-left border-collapse min-w-[1300px]">
+            <table class="w-full text-left border-collapse min-w-[1000px] table-fixed">
                 <thead>
-                    <tr class="bg-slate-50 dark:bg-slate-700/50 text-[11px] text-slate-500 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-600 align-top">
-                        <th class="p-3 pl-5 font-bold w-12 text-center pt-4">#</th>
-                        <th class="p-2 font-bold w-28">
-                            <div class="flex flex-col gap-1.5">
-                                <div class="sortable-th group px-1" onclick="handleSort('sm')"><span id="txt-thSm"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal" id="sort-sm">↕</span></div>
-                                <select id="selSm" onchange="applyStateFilter('sm', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer">
-                                    <option value="ALL">ALL</option>
-                                </select>
-                            </div>
+                    <tr class="bg-slate-50 dark:bg-slate-700/50 text-[11px] text-slate-500 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-600 align-middle">
+                        <th class="p-3 font-bold w-12 text-center align-top pt-4">#</th>
+                        <th class="p-3 font-bold w-24 sortable-th group whitespace-nowrap overflow-hidden align-top pt-4" onclick="handleSort('sm')">
+                            <span id="txt-thSm"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 font-normal" id="sort-sm">↕</span>
                         </th>
-                        <th class="p-2 font-bold w-[160px]">
-                            <div class="flex flex-col gap-1.5">
-                                <div class="sortable-th group px-1" onclick="handleSort('cat')"><span id="txt-thCat"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal" id="sort-cat">↕</span></div>
-                                <select id="selCat" onchange="applyStateFilter('cat', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer">
-                                    <option value="ALL">ALL</option>
-                                </select>
-                            </div>
-                        </th>
-                        <th class="p-3 font-bold w-[160px] sortable-th group pt-4" onclick="handleSort('brand')">
-                            <span id="txt-thBrand"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-brand">↕</span>
-                        </th>
-                        <th class="p-3 font-bold w-[250px] sortable-th group pt-4" onclick="handleSort('name')">
-                            <span id="txt-thName"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-name">↕</span>
-                        </th>
-                       <th class="p-2 font-bold text-center w-[150px] border-x border-slate-100 dark:border-slate-700">
-                            <div class="flex flex-col gap-1.5">
-                                <div class="px-1 text-slate-600 dark:text-slate-400" id="txt-thType"></div>
-                                <select id="selStrategy" onchange="applyStateFilter('strategy', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer text-center">
-                                    <option value="ALL" id="opt-all"></option>
-                                    <option value="true_drop" id="opt-drop"></option>
-                                    <option value="flat_beaten" id="opt-flat"></option>
-                                    <option value="competitive_up" id="opt-up"></option>
-                                </select>
-                            </div>
-                        </th>
-                        <th class="p-3 font-bold text-right w-16 whitespace-nowrap pt-4" id="txt-thOrig"></th>
-                        <th class="p-3 font-bold text-right w-20 whitespace-nowrap pt-4" id="txt-thEff"></th>
                         
-                        <th id="th-diff-col" class="p-2 font-bold text-center w-40 border-x border-slate-100 dark:border-slate-700">
-    <div class="flex flex-col gap-1.5">
-        <div class="sortable-th group px-1" onclick="handleSort('diff')">
-            <span id="txt-thDiff"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-diff">↕</span>
-        </div>
-        <select id="selTier" onchange="applyStateFilter('tier', this.value)" class="w-full text-xs p-1 border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer text-center">
-            <option value="ALL" id="opt-tier-all"></option>
-            <option value="t1" id="opt-tier-1"></option>
-            <option value="t2" id="opt-tier-2"></option>
-            <option value="t3" id="opt-tier-3"></option>
-            <option value="t4" id="opt-tier-4"></option>
-            <option value="t5" id="opt-tier-5"></option>
-        </select>
-    </div>
-</th>
-                        
-                        <th class="p-3 font-bold text-right w-20 whitespace-nowrap border-l border-slate-200 dark:border-slate-700 pt-4" id="txt-thAvg"></th>
-                        <th class="p-3 font-bold text-right w-24 sortable-th group pt-4" onclick="handleSort('dev')">
-                            <span id="txt-thDev"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-dev">↕</span>
+                        <th class="hidden" onclick="handleSort('cat2')">Cat2</th>
+                        <th class="hidden" onclick="handleSort('cat3')">Cat3</th>
+
+                        <th class="p-3 font-bold w-48 whitespace-nowrap overflow-hidden align-top pt-4">
+                            <div class="flex flex-col gap-1.5">
+                                <div class="cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 p-1 -ml-1 rounded transition-colors inline-flex items-center w-max text-slate-700 dark:text-slate-200" onclick="handleSort('cat')">
+                                    <span id="txt-thCat"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 font-normal ml-1" id="sort-cat">↕</span>
+                                </div>
+                                <div class="flex gap-4 text-[10px] text-slate-400 font-normal normal-case tracking-normal">
+                                    <span class="cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 flex items-center transition-colors" onclick="handleSort('cat2')">
+                                        <span id="txt-thCat2"></span> <span class="sort-icon ml-0.5 text-[10px]" id="sort-cat2">↕</span>
+                                    </span>
+                                    <span class="cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 flex items-center transition-colors" onclick="handleSort('cat3')">
+                                        <span id="txt-thCat3"></span> <span class="sort-icon ml-0.5 text-[10px]" id="sort-cat3">↕</span>
+                                    </span>
+                                </div>
+                            </div>
                         </th>
-                        <th class="p-3 pr-5 font-bold text-right w-24 sortable-th group pt-4" onclick="handleSort('realDrop')">
-                            <span id="txt-thDrop"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-300 font-normal ml-1" id="sort-realDrop">↕</span>
+                        
+                        <th class="p-3 font-bold w-32 sortable-th group whitespace-nowrap overflow-hidden align-top pt-4" onclick="handleSort('brand')">
+                            <span id="txt-thBrand"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 font-normal ml-1" id="sort-brand">↕</span>
+                        </th>
+                        <th class="p-3 font-bold sortable-th group w-full align-top pt-4" onclick="handleSort('name')">
+                            <span id="txt-thName"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 font-normal ml-1" id="sort-name">↕</span>
+                        </th>
+                        <th class="p-3 font-bold text-center w-28 border-x border-slate-100 dark:border-slate-700 whitespace-nowrap align-top pt-4">
+                            <span id="txt-thType"></span>
+                        </th>
+                        <th class="p-3 font-bold text-right w-32 whitespace-nowrap overflow-hidden align-top pt-4" id="txt-thPriceInsights"></th>
+                        <th id="th-diff-col" class="p-3 font-bold text-center w-36 border-x border-slate-100 dark:border-slate-700 sortable-th group whitespace-nowrap overflow-hidden align-top pt-4" onclick="handleSort('diff')">
+                            <span id="txt-thDiff"></span> <span class="sort-icon text-slate-300 dark:text-slate-500 font-normal ml-1" id="sort-diff">↕</span>
+                        </th>
+                        <th class="p-3 font-bold text-center w-48 sortable-th group whitespace-nowrap overflow-hidden align-top pt-4" id="txt-thMarketIntel" onclick="handleSort('dev')">
+                            全城戰情透視 <span class="sort-icon text-slate-300 dark:text-slate-500 font-normal ml-1" id="sort-dev">↕</span>
                         </th>
                     </tr>
                 </thead>
@@ -341,57 +354,42 @@
     <script>
         let tdLastUpdatedTime = null;
         let currentLang = window.currentLang || localStorage.getItem('appLang') || 'zh-Hant';
-
-        const localI18n = {
+const localI18n = {
             'zh-Hant': {
                 mcTitle: '同款最低價綜合儀表板 Integrated Price Dashboard',
                 mcSub: '市場定價透視 ｜ 贏家動態拆解 ｜ 每日自動更新',
-                
                 tabWinners: '🏆 贏家分佈與定價戰略 (Winners & Pricing)',
                 tabTracker: '⚖️ 霸主角力 (Matrix)',
-
                 purifiedDropCard: '📉 擴大價格優勢',
                 purifiedDropDesc: '同款最低價，且實質波幅 ≤ -1%',
                 purifiedFlatCard: '🛡️ 維持最低價優勢',
                 purifiedFlatDesc: '同款最低價，無實質波幅 (介乎 ±1%)',
                 purifiedUpCard: '📈 收窄價格優勢',
                 purifiedUpDesc: '同款最低價，實質波幅 ≥ 1%',
-                
                 mcChartTreemap: '🏆 同款最低價得主版圖 Winners Treemap',
                 mcChartStacked: '📉 得主定價軌跡拆解 Pricing Trajectory (100%)',
                 mcChartDivSm: '🏪 霸主拔河矩陣 Diverging Matrix',
                 mcChartDivCat: '🛒 十大戰區角力 Category Dynamics',
-                
                 mcClickToFilter: '單擊過濾',
                 mcClickToCancel: '✕',
-                
                 mcPillAll: '👑 全部最低價',
                 mcPillDrop: '📉 擴大優勢',
                 mcPillFlat: '🛡️ 鎖定勝局',
                 mcPillUp: '📈 收窄優勢',
-                
                 mcFilteredCat: '已過濾分類: ',
                 mcFilteredSm: '已過濾超市: ',
                 mcSuffixAll: '(全部)',
                 mcSuffixDrop: '(擴大優勢)',
                 mcSuffixFlat: '(鎖定勝局)',
                 mcSuffixUp: '(收窄優勢)',
-                
                 mcTableTitle: '數據提取及分析中...',
                 mcNoData: '沒有符合的記錄',
-                thOrig: '上期折實',
-                thEff: '本期折實',
                 thDiff: '價格波幅 (Micro Bar)',
-                thAvg: '全城均價',
-                thDev: '⚖️ 偏離市場',
-                thDrop: '🎯 實質平幾多',
-                mcType: '軌跡標籤',
-
+                thType: '軌跡標籤',
                 mcBarTitle: '全市大盤贏家戰略佔比 (3核分佈)',
                 mcBarDrop: '擴大優勢',
                 mcBarFlat: '維持優勢',
                 mcBarUp: '收窄優勢',
-
                 tabTiers: '🔍 波幅階梯分佈 (Tiers)',
                 mcChartTiers: '🔍 波幅階梯分佈 (大盤對齊版)',
                 thTierRange: '波幅區間 (Absolute %)',
@@ -407,7 +405,6 @@
                 lblTier4: '強烈 (8% - 10%]',
                 lblTier5: '劇烈 (> 10%)',
                 lblTotalRow: '總計 (Total)',
-
                 optPriceAll: '💲 所有價錢',
                 optPrice1: '$20 以下',
                 optPrice2: '$20 - $50',
@@ -415,7 +412,6 @@
                 optPrice4: '$100 - $300',
                 optPrice5: '$300 以上',
                 optTierAll: '📊 全部波幅',
-                
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> 數據維度與聲明',
                 mcModalContent: `<div class="space-y-4">
                     <p>本看板之核心目的，係追蹤並展示「成功擊敗市場所有競爭對手、奪得全城最低價地位」的貨品。只要商品在跨商戶格價中勝出，無論其自身價格此刻是加價、減價或維持不變，均會收錄於此。系統進一步對比勝出者自身的歷史價格波幅，劃分以下四大核心戰略維度：</p>
@@ -429,57 +425,70 @@
                 miniFooterCopy: '© 2026 慳真D | ',
                 footerDevTeam: '© 2026 慳真D | Developed by: ',
                 footerDevName: 'Lazy Tools Station',
-                txtBtnResetTop: '重置'
+                txtBtnResetTop: '重置',
+                
+                thPriceInsights: '定價情報',
+                lblFilter: '過濾條件:',
+                lblPrevEff: '上期折實:',
+                lblPrevBase: '上期底價:',
+                lblPrevOffer: '上期優惠:',
+                thMarketIntel: '全城戰情透視',
+                lblAvgBase: '全城平均公價',
+                lblDev: '定價偏離度',
+                lblDrop: '真實市場降幅',
+                
+                optDevAll: '所有偏離度',
+                optDevDiscount: '< 0% (平過市價)',
+                optDevPremium: '> 0% (貴過市價)',
+                optDropAll: '所有降幅',
+                optDropAny: '有實質降價',
+                optDrop10: '> 10% 降幅',
+                thCat2: '次分類',
+                thCat3: '細分類',
+                
+                /* --- 🌟 新增：防 Hardcode 下拉選單及按鈕文字 --- */
+                optAllSm: '所有超市',
+                optAllCat: '所有分類',
+                optAllCat2: '所有次分類',
+                optAllCat3: '所有細分類',
+                btnExpand: '展開',
+                btnCollapse: '收起'
             },
             'zh-Hans': {
                 mcTitle: '同款最低价综合仪表板 Integrated Price Dashboard',
                 mcSub: '市场定价透视 ｜ 赢家动态拆解 ｜ 每日自动更新',
-                
                 tabWinners: '🏆 赢家分布与定价战略 (Winners & Pricing)',
                 tabTracker: '⚖️ 霸主角力 (Matrix)',
-
                 purifiedDropCard: '📉 扩大价格优势',
                 purifiedDropDesc: '同款最低价，且实质波幅 ≤ -1%',
                 purifiedFlatCard: '🛡️ 维持最低价优势',
                 purifiedFlatDesc: '同款最低价，无实质波幅 (介乎 ±1%)',
                 purifiedUpCard: '📈 收窄价格优势',
                 purifiedUpDesc: '同款最低价，实质波幅 ≥ 1%',
-                
                 mcChartTreemap: '🏆 同款最低价得主版图 Winners Treemap',
                 mcChartStacked: '📉 得主定价轨迹拆解 Pricing Trajectory (100%)',
                 mcChartDivSm: '🏪 霸主拔河矩阵 Diverging Matrix',
                 mcChartDivCat: '🛒 十大战区角力 Category Dynamics',
-
                 mcClickToFilter: '单击过滤',
                 mcClickToCancel: '✕',
-                
                 mcPillAll: '👑 全部最低价',
                 mcPillDrop: '📉 扩大优势',
                 mcPillFlat: '🛡️ 锁定胜局',
                 mcPillUp: '📈 收窄优势',
-                
                 mcFilteredCat: '已过滤分类: ',
                 mcFilteredSm: '已过滤超市: ',
                 mcSuffixAll: '(全部)',
                 mcSuffixDrop: '(扩大优势)',
                 mcSuffixFlat: '(锁定胜局)',
                 mcSuffixUp: '(收窄优势)',
-                
                 mcTableTitle: '数据提取及分析中...',
                 mcNoData: '没有符合的记录',
-                thOrig: '上期折实',
-                thEff: '本期折实',
                 thDiff: '价格波幅 (Micro Bar)',
-                thAvg: '全城均价',
-                thDev: '⚖️ 偏离市场',
-                thDrop: '🎯 实质平几多',
-                mcType: '轨迹标签',
-
+                thType: '轨迹标签',
                 mcBarTitle: '全市大盘赢家战略占比 (3核分布)',
                 mcBarDrop: '扩大优势',
                 mcBarFlat: '维持优势',
                 mcBarUp: '收窄优势',
-
                 tabTiers: '🔍 波幅阶梯分布 (Tiers)',
                 mcChartTiers: '🔍 波幅阶梯分布 (大盘对齐版)',
                 thTierRange: '波幅区间 (Absolute %)',
@@ -495,8 +504,6 @@
                 lblTier4: '强烈 (8% - 10%]',
                 lblTier5: '剧烈 (> 10%)',
                 lblTotalRow: '总计 (Total)',
-                
-
                 optPriceAll: '💲 所有价钱',
                 optPrice1: '$20 以下',
                 optPrice2: '$20 - $50',
@@ -504,7 +511,6 @@
                 optPrice4: '$100 - $300',
                 optPrice5: '$300 以上',
                 optTierAll: '📊 全部波幅',
-                
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> 数据维度与声明',
                 mcModalContent: `<div class="space-y-4">
                     <p>本看板之核心目的，系追踪并展示「成功击败市场所有竞争对手、夺得全城最低价地位」的货品。只要商品在跨商户格价中胜出，无论其自身价格此刻是加价、减价或维持不变，均会收录于此。系统进一步对比胜出者自身的历史价格波幅，划分以下四大核心战略维度：</p>
@@ -518,57 +524,70 @@
                 miniFooterCopy: '© 2026 悭真D | ',
                 footerDevTeam: '© 2026 悭真D | Developed by: ',
                 footerDevName: 'Lazy Tools Station',
-                txtBtnResetTop: '重置'
+                txtBtnResetTop: '重置',
+                
+                thPriceInsights: '定价情报',
+                lblFilter: '过滤条件:',
+                lblPrevEff: '上期折实:',
+                lblPrevBase: '上期底价:',
+                lblPrevOffer: '上期优惠:',
+                thMarketIntel: '全城战情透视',
+                lblAvgBase: '全城平均公价',
+                lblDev: '定价偏离度',
+                lblDrop: '真实市场降幅',
+                
+                optDevAll: '所有偏离度',
+                optDevDiscount: '< 0% (平过市价)',
+                optDevPremium: '> 0% (贵过市价)',
+                optDropAll: '所有降幅',
+                optDropAny: '有实质降价',
+                optDrop10: '> 10% 降幅',
+                thCat2: '次分类',
+                thCat3: '细分类',
+                
+                /* --- 🌟 新增：防 Hardcode 下拉选单及按鈕文字 --- */
+                optAllSm: '所有超市',
+                optAllCat: '所有分类',
+                optAllCat2: '所有次分类',
+                optAllCat3: '所有细分类',
+                btnExpand: '展开',
+                btnCollapse: '收起'
             },
             'en': {
                 mcTitle: 'Integrated Price Dashboard',
                 mcSub: 'Market Pricing Insights | Winner Dynamics | Daily Update',
-                
                 tabWinners: '🏆 Winners & Pricing Strategy',
                 tabTracker: '⚖️ Competitor Matrix',
-
                 purifiedDropCard: '📉 Widening Advantage',
                 purifiedDropDesc: 'Lowest price & effective drop ≤ -1%',
                 purifiedFlatCard: '🛡️ Maintained Advantage',
                 purifiedFlatDesc: 'Lowest price & variance within ±1%',
                 purifiedUpCard: '📈 Narrowing Advantage',
                 purifiedUpDesc: 'Lowest price & effective rise ≥ 1%',
-                
                 mcChartTreemap: '🏆 Lowest Price Winners Treemap',
                 mcChartStacked: '📉 Winners Pricing Trajectory (100%)',
                 mcChartDivSm: '🏪 Winners Diverging Matrix',
                 mcChartDivCat: '🛒 Top 10 Category Dynamics',
-
                 mcClickToFilter: 'Click to Filter',
                 mcClickToCancel: '✕',
-                
                 mcPillAll: '👑 All Winners',
                 mcPillDrop: '📉 Widening',
                 mcPillFlat: '🛡️ Maintained',
                 mcPillUp: '📈 Narrowing',
-                
                 mcFilteredCat: 'Filtered Category: ',
                 mcFilteredSm: 'Filtered Supermarket: ',
                 mcSuffixAll: '(All)',
                 mcSuffixDrop: '(Widening)',
                 mcSuffixFlat: '(Maintained)',
                 mcSuffixUp: '(Narrowing)',
-                
                 mcTableTitle: 'Extracting and analyzing data...',
                 mcNoData: 'No matching records found',
-                thOrig: 'Prev Net',
-                thEff: 'Curr Net',
                 thDiff: 'Price Variance (Micro Bar)',
-                thAvg: 'Market Avg',
-                thDev: '⚖️ Deviation',
-                thDrop: '🎯 Real Drop',
-                mcType: 'Strategy Tag',
-
+                thType: 'Strategy Tag',
                 mcBarTitle: 'Citywide Winner Strategy Distribution',
                 mcBarDrop: 'Widening Advantage',
                 mcBarFlat: 'Maintained Advantage',
                 mcBarUp: 'Narrowing Advantage',
-
                 tabTiers: '🔍 Variance Tiers',
                 mcChartTiers: '🔍 Variance Tier Distribution',
                 thTierRange: 'Variance Range (Absolute %)',
@@ -584,7 +603,6 @@
                 lblTier4: 'Strong (8% - 10%]',
                 lblTier5: 'Drastic (> 10%)',
                 lblTotalRow: 'Total',
-
                 optPriceAll: '💲 All Prices',
                 optPrice1: 'Under $20',
                 optPrice2: '$20 - $50',
@@ -592,7 +610,6 @@
                 optPrice4: '$100 - $300',
                 optPrice5: 'Above $300',
                 optTierAll: '📊 All Tiers',
-                
                 mcModalTitle: '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Data Dimensions & Disclaimer',
                 mcModalContent: `<div class="space-y-4">
                     <p>The core objective of this dashboard is to track and display products that have "successfully defeated all competitors in the market to claim the absolute lowest price". As long as a product wins the cross-merchant price comparison, it will be included here, regardless of whether its own price has increased, decreased, or remained unchanged. The system further categorizes them into four core strategic dimensions based on historical price volatility:</p>
@@ -606,11 +623,37 @@
                 miniFooterCopy: '© 2026 SmartDeal | ',
                 footerDevTeam: '© 2026 SmartDeal | Developed by: ',
                 footerDevName: 'Lazy Tools Station',
-                txtBtnResetTop: 'Reset'
+                txtBtnResetTop: 'Reset',
+                
+                thPriceInsights: 'Price Insights',
+                lblFilter: 'Filters:',
+                lblPrevEff: 'Prev Net:',
+                lblPrevBase: 'Prev Base:',
+                lblPrevOffer: 'Prev Offer:',
+                thMarketIntel: 'Market Intel',
+                lblAvgBase: 'Market Avg Base',
+                lblDev: 'Market Deviation',
+                lblDrop: 'Real Market Drop',
+                
+                optDevAll: 'All Deviations',
+                optDevDiscount: '< 0% (Cheaper)',
+                optDevPremium: '> 0% (Pricier)',
+                optDropAll: 'All Drops',
+                optDropAny: 'Any Real Drop',
+                optDrop10: '> 10% Drop',
+                thCat2: 'Sub Cat',
+                thCat3: 'Detail Cat',
+                
+                /* --- 🌟 新增：防 Hardcode 下拉選單及按鈕文字 --- */
+                optAllSm: 'All Supermarkets',
+                optAllCat: 'All Categories',
+                optAllCat2: 'All Sub Categories',
+                optAllCat3: 'All Detail Categories',
+                btnExpand: 'Expand',
+                btnCollapse: 'Collapse'
             }
         };
 
-        // 🟢 統一品牌色彩註冊表
         function getBrandColor(code, isDark) {
             const map = {
                 'PARKNSHOP': isDark ? '#60a5fa' : '#1d4ed8', 
@@ -638,23 +681,50 @@
             return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
         }
 
-        function getSmName(code) {
+    function getSmName(code) {
             let c = (code || '').toUpperCase();
-            if (window.supermarketDict && window.supermarketDict[currentLang] && window.supermarketDict[currentLang][c]) return window.supermarketDict[currentLang][c];
-            return c;
-        }
-
-        function getCatName(rawCat) {
-            let c = (rawCat || '').trim();
-            if (window.categoryDict && window.categoryDict[currentLang] && window.categoryDict[currentLang][c]) return window.categoryDict[currentLang][c];
-            return c;
+            let name = c;
+            // 🌟 100% 信任外部字典，徹底移除所有 .replace 清洗邏輯
+            if (window.supermarketDict && window.supermarketDict[currentLang] && window.supermarketDict[currentLang][c]) {
+                name = window.supermarketDict[currentLang][c];
+            }
+            return name; 
         }
 
         function getSmBadge(code) {
             let name = getSmName(code);
             let style = (window.supermarketStyleDict && window.supermarketStyleDict[code]) ? window.supermarketStyleDict[code] : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' };
-            return `<span onclick="event.stopPropagation(); applyStateFilter('sm', '${code}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-2.5 py-1 text-[11px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} whitespace-nowrap shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block">${name}</span>`;
+            
+            // 🌟 UI 佈局微調：px-2 改為 px-1.5，text-[11px] 改為 text-[10px]
+            return `<span onclick="event.stopPropagation(); applyStateFilter('sm', '${code}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-1.5 py-1 text-[10px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block whitespace-normal text-center leading-[1.15] max-w-[85px] break-words align-middle">${name}</span>`;
         }
+     function getCatName(rawCat, level = 1) {
+    let c = (rawCat || '').trim();
+    if (c === '-') return '-';
+
+    // 1. 保留原本字典 (如果有寫)
+    if (window.categoryDict && window.categoryDict[currentLang] && window.categoryDict[currentLang][c]) {
+        return window.categoryDict[currentLang][c];
+    }
+
+    // 2. 終極絕招：直接由 JSON API 數據度抽對應嘅英文！(免 Hardcode)
+    if (currentLang === 'en') {
+        const match = allValidItems.find(i => 
+            (level === 1 && i.catRaw === c) || 
+            (level === 2 && i.cat2Raw === c) || 
+            (level === 3 && i.cat3Raw === c)
+        );
+        if (match) {
+            if (level === 1 && match.catEn) return match.catEn;
+            if (level === 2 && match.cat2En) return match.cat2En;
+            if (level === 3 && match.cat3En) return match.cat3En;
+        }
+    }
+    
+    return c; // 兜底出返原本文字
+}
+
+      
 
         window.changeLanguage = function(lang) {
             currentLang = lang;
@@ -731,13 +801,12 @@
             setTxt('opt-flat', tLocal.mcPillFlat);
             setTxt('opt-up', tLocal.mcPillUp);
 
-            setTxt('txt-thOrig', tLocal.thOrig);
-            setTxt('txt-thEff', tLocal.thEff);
+            setTxt('txt-thPriceInsights', tLocal.thPriceInsights);
+            setTxt('txt-thMarketIntel', tLocal.thMarketIntel);
+            setTxt('txt-filter-label', tLocal.lblFilter);
+
             setTxt('txt-thDiff', tLocal.thDiff);
-            setTxt('txt-thAvg', tLocal.thAvg);
-            setTxt('txt-thDev', tLocal.thDev);
-            setTxt('txt-thDrop', tLocal.thDrop);
-            setTxt('txt-thType', tLocal.mcType);
+            setTxt('txt-thType', tLocal.thType);
 
             setPlh('searchInput', 'mcSearchPlace');
             setTxt('txt-mcBtnReset', getLocalizedText('mcBtnReset'));
@@ -750,6 +819,8 @@
             
             setTxt('txt-thSm', getLocalizedText('thSm'));
             setTxt('txt-thCat', getLocalizedText('thCat'));
+            setTxt('txt-thCat2', tLocal.thCat2);
+            setTxt('txt-thCat3', tLocal.thCat3);
             setTxt('txt-thBrand', getLocalizedText('thBrand'));
             setTxt('txt-thName', getLocalizedText('thName'));
 
@@ -759,6 +830,13 @@
             setTxt('opt-price-3', tLocal.optPrice3);
             setTxt('opt-price-4', tLocal.optPrice4);
             setTxt('opt-price-5', tLocal.optPrice5);
+            
+            setTxt('opt-dev-all', tLocal.optDevAll);
+            setTxt('opt-dev-discount', tLocal.optDevDiscount);
+            setTxt('opt-dev-premium', tLocal.optDevPremium);
+            setTxt('opt-drop-all', tLocal.optDropAll);
+            setTxt('opt-drop-any', tLocal.optDropAny);
+            setTxt('opt-drop-10', tLocal.optDrop10);
 
             setTxt('btn-tab-tiers', tLocal.tabTiers);
             setTxt('txt-mcChartTiers', tLocal.mcChartTiers);
@@ -771,11 +849,11 @@
             setTxt('th-tier-flat', tLocal.thTierFlat);
 
             setTxt('opt-tier-all', tLocal.optTierAll);
-setTxt('opt-tier-1', tLocal.lblTier1);
-setTxt('opt-tier-2', tLocal.lblTier2);
-setTxt('opt-tier-3', tLocal.lblTier3);
-setTxt('opt-tier-4', tLocal.lblTier4);
-setTxt('opt-tier-5', tLocal.lblTier5);
+            setTxt('opt-tier-1', tLocal.lblTier1);
+            setTxt('opt-tier-2', tLocal.lblTier2);
+            setTxt('opt-tier-3', tLocal.lblTier3);
+            setTxt('opt-tier-4', tLocal.lblTier4);
+            setTxt('opt-tier-5', tLocal.lblTier5);
             
             setHtml('miniFooterLinks', tLocal.miniFooterLinks);
             setHtml('miniFooterCopy', tLocal.miniFooterCopy);
@@ -908,104 +986,80 @@ setTxt('opt-tier-5', tLocal.lblTier5);
 
         let allValidItems = []; 
         let filteredData = [];
-        let state = { sm: 'ALL', cat: 'ALL', strategy: 'ALL', priceRange: 'ALL', tier: 'ALL', search: '', sortCol: null, sortAsc: true, page: 1 };
+        let state = { sm: 'ALL', cat: 'ALL', cat2: 'ALL', cat3: 'ALL', strategy: 'ALL', dev: 'ALL', drop: 'ALL', priceRange: 'ALL', search: '', sortCol: null, sortAsc: true, page: 1 };
         const rowsPerPage = 50;
 
-       function renderTiersTable() {
-    const tbody = document.getElementById('tiersTableBody');
-    if (!tbody) return;
-
-    const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
-
-    const tiers = [
-        { id: 't1', label: tLocal.lblTier1, max: 1.0, up: 0, down: 0, flat: 0 },
-        { id: 't2', label: tLocal.lblTier2, max: 5.0, up: 0, down: 0, flat: 0 },
-        { id: 't3', label: tLocal.lblTier3, max: 8.0, up: 0, down: 0, flat: 0 },
-        { id: 't4', label: tLocal.lblTier4, max: 10.0, up: 0, down: 0, flat: 0 },
-        { id: 't5', label: tLocal.lblTier5, max: 9999, up: 0, down: 0, flat: 0 }
-    ];
-
-    let totalCount = 0; // 記錄全盤總數
-
-    // 完美掛鈎 SQL 戰略標籤進行分流
-    filteredData.forEach(item => {
-        const absDiff = Math.abs(item.diff);
-        totalCount++;
-
-        for (let t of tiers) {
-            if (absDiff <= t.max) {
-                if (item.strategy === 'flat_beaten') t.flat++;
-                else if (item.strategy === 'competitive_up') t.up++;
-                else if (item.strategy === 'true_drop') t.down++;
-                break;
+        function renderTiersTable() {
+            const tbody = document.getElementById('tiersTableBody');
+            if (!tbody) return;
+            const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
+            const tiers = [
+                { id: 't1', label: tLocal.lblTier1, max: 1.0, up: 0, down: 0, flat: 0 },
+                { id: 't2', label: tLocal.lblTier2, max: 5.0, up: 0, down: 0, flat: 0 },
+                { id: 't3', label: tLocal.lblTier3, max: 8.0, up: 0, down: 0, flat: 0 },
+                { id: 't4', label: tLocal.lblTier4, max: 10.0, up: 0, down: 0, flat: 0 },
+                { id: 't5', label: tLocal.lblTier5, max: 9999, up: 0, down: 0, flat: 0 }
+            ];
+            let totalCount = 0; 
+            filteredData.forEach(item => {
+                const absDiff = Math.abs(item.diff);
+                totalCount++;
+                for (let t of tiers) {
+                    if (absDiff <= t.max) {
+                        if (item.strategy === 'flat_beaten') t.flat++;
+                        else if (item.strategy === 'competitive_up') t.up++;
+                        else if (item.strategy === 'true_drop') t.down++;
+                        break;
+                    }
+                }
+            });
+            let sumUp = 0, sumDown = 0, sumFlat = 0;
+            let html = '';
+            tiers.forEach(t => {
+                const totalInTier = t.up + t.down + t.flat;
+                const pctOfTotalMoved = totalCount > 0 ? ((totalInTier / totalCount) * 100).toFixed(1) : 0;
+                sumUp += t.up; sumDown += t.down; sumFlat += t.flat;
+                const beatenStr = totalInTier > 0 ? `👑 ${totalInTier}` : '-';
+                const barHtml = totalInTier > 0 ? `
+                    <div class="flex items-center gap-2">
+                        <div class="w-12 text-right font-bold text-slate-600 dark:text-slate-300">${pctOfTotalMoved}%</div>
+                        <div class="w-48 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 rounded-full" style="width: ${pctOfTotalMoved}%"></div>
+                        </div>
+                    </div>
+                ` : '-';
+                html += `
+                    <tr class="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                        <td class="py-4 font-bold text-blue-600 dark:text-blue-400">${t.label}</td>
+                        <td class="py-4 text-center font-bold text-emerald-500">${t.down > 0 ? t.down : '-'}</td>
+                        <td class="py-4 text-center font-bold text-slate-400 dark:text-slate-500">${t.flat > 0 ? t.flat : '-'}</td>
+                        <td class="py-4 text-center font-bold text-amber-500">${t.up > 0 ? '+' + t.up : '-'}</td>
+                        <td class="py-4 text-center font-bold text-emerald-600 leading-tight">${beatenStr}</td>
+                        <td class="py-4">${barHtml}</td>
+                    </tr>
+                `;
+            });
+            if (totalCount > 0) {
+                html += `
+                    <tr class="border-t-2 border-slate-300 dark:border-slate-600 bg-slate-50/50 dark:bg-slate-800/50">
+                        <td class="py-4 font-black text-slate-700 dark:text-slate-200">${tLocal.lblTotalRow || '總計'}</td>
+                        <td class="py-4 text-center font-black text-emerald-600">${sumDown}</td>
+                        <td class="py-4 text-center font-black text-slate-500">${sumFlat}</td>
+                        <td class="py-4 text-center font-black text-amber-600">+${sumUp}</td>
+                        <td class="py-4 text-center font-black text-blue-600">👑 ${totalCount}</td>
+                        <td class="py-4 font-bold text-slate-500">100.0%</td>
+                    </tr>
+                `;
+            } else {
+                html = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
             }
+            tbody.innerHTML = html;
         }
-    });
-    
-    let sumUp = 0, sumDown = 0, sumFlat = 0;
-  
-    let html = '';
-   tiers.forEach(t => {
-        const totalInTier = t.up + t.down + t.flat;
-        const pctOfTotalMoved = totalCount > 0 ? ((totalInTier / totalCount) * 100).toFixed(1) : 0;
-        
-        // 累加總計
-        sumUp += t.up;
-        sumDown += t.down;
-        sumFlat += t.flat;
-       
-    const beatenStr = totalInTier > 0 ? `👑 ${totalInTier}` : '-';
-
-        const barHtml = totalInTier > 0 ? `
-            <div class="flex items-center gap-2">
-                <div class="w-12 text-right font-bold text-slate-600 dark:text-slate-300">${pctOfTotalMoved}%</div>
-                <div class="w-48 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                    <div class="h-full bg-blue-500 rounded-full" style="width: ${pctOfTotalMoved}%"></div>
-                </div>
-            </div>
-        ` : '-';
-
-        // 👇 留意呢度 <td> 嘅次序已經改為 Down -> Flat -> Up 👇
-        html += `
-            <tr class="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <td class="py-4 font-bold text-blue-600 dark:text-blue-400">${t.label}</td>
-                <td class="py-4 text-center font-bold text-emerald-500">${t.down > 0 ? t.down : '-'}</td>
-                <td class="py-4 text-center font-bold text-slate-400 dark:text-slate-500">${t.flat > 0 ? t.flat : '-'}</td>
-                <td class="py-4 text-center font-bold text-amber-500">${t.up > 0 ? '+' + t.up : '-'}</td>
-                <td class="py-4 text-center font-bold text-emerald-600 leading-tight">${beatenStr}</td>
-                <td class="py-4">${barHtml}</td>
-            </tr>
-        `;
-    });
-
-    // 如果有數據，就喺最底加一行粗體嘅「總計」行
-    if (totalCount > 0) {
-        html += `
-            <tr class="border-t-2 border-slate-300 dark:border-slate-600 bg-slate-50/50 dark:bg-slate-800/50">
-                <td class="py-4 font-black text-slate-700 dark:text-slate-200">${tLocal.lblTotalRow || '總計'}</td>
-                <td class="py-4 text-center font-black text-emerald-600">${sumDown}</td>
-                <td class="py-4 text-center font-black text-slate-500">${sumFlat}</td>
-                <td class="py-4 text-center font-black text-amber-600">+${sumUp}</td>
-                <td class="py-4 text-center font-black text-blue-600">👑 ${totalCount}</td>
-                <td class="py-4 font-bold text-slate-500">100.0%</td>
-            </tr>
-        `;
-    } else {
-        html = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
-    }
-    
-    tbody.innerHTML = html;
-
-    if (totalCount === 0) html = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
-    
-    tbody.innerHTML = html;
-}
 
         async function fetchAndProcessData() {
             try {
                 initCharts();
                 const nocache = new Date().getTime();
-                
                 let tdLogUrl = `https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`;
                 try {
                     const logRes = await fetch(tdLogUrl);
@@ -1044,8 +1098,9 @@ setTxt('opt-tier-5', tLocal.lblTier5);
                     
                     const catRaw = winnerItem.c1 || '未分類';
                     const currEff = parseFloat(winnerItem.ce_p) || 0;
-                    const currBase = parseFloat(winnerItem.cb_p) || 0;
                     const prevEff = parseFloat(winnerItem.pe_p) || 0;
+                    const prevBase = parseFloat(winnerItem.pb_p) || 0;
+                    const currBase = parseFloat(winnerItem.cb_p) || 0; 
                     
                     let strategy = 'normal_change';
                     if (winnerItem.macroGroup === 'NEW_ADDED') strategy = 'normal_change';
@@ -1056,7 +1111,6 @@ setTxt('opt-tier-5', tLocal.lblTier5);
                     if (strategy !== 'normal_change') {
                         summary[strategy]++;
                         const diffPct = parseFloat(winnerItem.diff) || 0;
-                        
                         const marketAvgBase = parseFloat(winnerItem.m_avg) || parseFloat(winnerItem.market_avg_base_price) || 0;
                         const devPct = marketAvgBase > 0 ? ((currBase - marketAvgBase) / marketAvgBase) * 100 : 0;
                         const realDropPct = marketAvgBase > 0 ? ((marketAvgBase - currEff) / marketAvgBase) * 100 : 0;
@@ -1072,13 +1126,33 @@ setTxt('opt-tier-5', tLocal.lblTier5);
                         let offerEn = winnerItem.offer_en || winnerItem.co || '-';
                         let offerTc = winnerItem.co || '-';
                         let offerSc = winnerItem.offer_hans || offerTc;
+                        
+                        let pOfferEn = (winnerItem.prevOfferEn && winnerItem.prevOfferEn !== 'null' && winnerItem.prevOfferEn !== '') ? winnerItem.prevOfferEn : '-';
+                        let pOfferTc = (winnerItem.prevOfferZh && winnerItem.prevOfferZh !== 'null' && winnerItem.prevOfferZh !== '') ? winnerItem.prevOfferZh : '-';
+                        if (pOfferTc === '-') {
+                            pOfferTc = (winnerItem.po_tc && winnerItem.po_tc !== 'null' && winnerItem.po_tc !== '') ? winnerItem.po_tc : '-';
+                        }
+                        let pOfferSc = (winnerItem.prevOfferHans && winnerItem.prevOfferHans !== 'null' && winnerItem.prevOfferHans !== '') ? winnerItem.prevOfferHans : pOfferTc;
+                        if (pOfferSc === '-' && winnerItem.po_sc && winnerItem.po_sc !== 'null' && winnerItem.po_sc !== '') {
+                            pOfferSc = winnerItem.po_sc;
+                        }
 
-                        allValidItems.push({
-                            sm: sm, catRaw: catRaw, 
+                      const cat2Raw = winnerItem.c2 || '-';
+const cat3Raw = winnerItem.c3 || '-';
+
+// 🌟 自動提取 n8n JSON 嘅英文欄位 (兼容常見 Key)
+const catEn = winnerItem.c1_en || winnerItem.cat_en || winnerItem.cat1_en || catRaw;
+const cat2En = winnerItem.c2_en || winnerItem.cat2_en || cat2Raw;
+const cat3En = winnerItem.c3_en || winnerItem.cat3_en || cat3Raw;
+
+                       allValidItems.push({
+    sm: sm, catRaw: catRaw, catEn: catEn, cat2Raw: cat2Raw, cat2En: cat2En, cat3Raw: cat3Raw, cat3En: cat3En,
+   
                             nameEn: nameEn, nameTc: nameTc, nameSc: nameSc,
                             brandEn: brandEn, brandTc: brandTc, brandSc: brandSc,
                             offerEn: offerEn, offerTc: offerTc, offerSc: offerSc,
-                            strategy: strategy, prev: prevEff, curr: currEff, currBase: currBase, diff: diffPct,
+                            pOfferEn: pOfferEn, pOfferTc: pOfferTc, pOfferSc: pOfferSc,
+                            strategy: strategy, prev: prevEff, prevBase: prevBase, curr: currEff, currBase: currBase, diff: diffPct,
                             avgBase: marketAvgBase, dev: devPct, realDrop: realDropPct
                         });
                     }
@@ -1117,9 +1191,7 @@ setTxt('opt-tier-5', tLocal.lblTier5);
 
                 updateLocalLanguage(); 
                 document.getElementById('loadingOverlay').style.display = 'none';
-
                 applyStateFilter('strategy', 'ALL');
-
             } catch (err) {
                 console.error("Data Fetch Error:", err);
                 const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
@@ -1127,34 +1199,111 @@ setTxt('opt-tier-5', tLocal.lblTier5);
             }
         }
 
-        function populateDropdowns() {
-            const uniqueSms = [...new Set(allValidItems.map(i => i.sm))].sort();
-            const uniqueCatsRaw = [...new Set(allValidItems.map(i => i.catRaw))].sort();
+        // ==========================================
+        // 🌟 手風琴展開邏輯
+        // ==========================================
+        window.toggleSubCat = function(targetId, btnElement) {
+    const txtCollapse = currentLang === 'en' ? 'Collapse' : '收起';
+    const txtExpand = currentLang === 'en' ? 'Expand' : '展開';
+    const targetDiv = document.getElementById(targetId);
+    if (!targetDiv) return;
+    if (targetDiv.classList.contains('hidden')) {
+        targetDiv.classList.remove('hidden');
+        btnElement.innerHTML = `<span class="icon font-black text-blue-600 dark:text-blue-400">▴</span> <span class="text-blue-700 dark:text-blue-300">${txtCollapse}</span>`;
+        btnElement.classList.add('bg-blue-50', 'border-blue-300', 'text-blue-700', 'dark:bg-blue-900/30', 'dark:border-blue-700', 'dark:text-blue-300');
+        btnElement.classList.remove('bg-white', 'border-slate-300', 'text-slate-600', 'dark:bg-slate-700', 'dark:border-slate-600', 'dark:text-slate-300');
+    } else {
+        targetDiv.classList.add('hidden');
+        btnElement.innerHTML = `<span class="icon font-black">▾</span> ${txtExpand}`;
+        btnElement.classList.remove('bg-blue-50', 'border-blue-300', 'text-blue-700', 'dark:bg-blue-900/30', 'dark:border-blue-700', 'dark:text-blue-300');
+        btnElement.classList.add('bg-white', 'border-slate-300', 'text-slate-600', 'dark:bg-slate-700', 'dark:border-slate-600', 'dark:text-slate-300');
+    }
+};
 
-            const selSm = document.getElementById('selSm');
-            selSm.innerHTML = `<option value="ALL">ALL</option>`;
-            uniqueSms.forEach(sm => selSm.add(new Option(getSmName(sm), sm)));
-
-            const selCat = document.getElementById('selCat');
-            selCat.innerHTML = `<option value="ALL">ALL</option>`;
-            uniqueCatsRaw.forEach(cat => selCat.add(new Option(getCatName(cat), cat)));
+        // ==========================================
+        // 🌟 點擊儲存格自動過濾 (Click-to-Filter)
+        // ==========================================
+        window.quickFilterCat = function(c1, c2, c3) {
+            state.cat = c1;
+            state.cat2 = c2;
+            state.cat3 = c3;
+            state.page = 1;
             
-            document.getElementById('selSm').value = state.sm;
-            document.getElementById('selCat').value = state.cat;
-            document.getElementById('selStrategy').value = state.strategy;
+            updateCascadingDropdowns();
+            syncUI();
+            applyFiltersCore();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // ==========================================
+        // 🌟 級聯下拉選單邏輯
+        // ==========================================
+       function populateDropdowns() {
+    const txtAllSm = currentLang === 'en' ? 'All Supermarkets' : '所有超市';
+    const txtAllCat = currentLang === 'en' ? 'All Categories' : '所有分類';
+    
+    const uniqueSms = [...new Set(allValidItems.map(i => i.sm))].sort();
+    const selSm = document.getElementById('selSm');
+    selSm.innerHTML = `<option value="ALL">${txtAllSm}</option>`;
+    uniqueSms.forEach(sm => selSm.add(new Option(getSmName(sm), sm)));
+
+    const uniqueCats = [...new Set(allValidItems.map(i => i.catRaw))].sort();
+    const selCat = document.getElementById('selCat');
+    selCat.innerHTML = `<option value="ALL">${txtAllCat}</option>`;
+    uniqueCats.forEach(cat => selCat.add(new Option(getCatName(cat, 1), cat)));
+    
+    updateCascadingDropdowns();
+}
+
+        function updateCascadingDropdowns() {
+            const selCat2 = document.getElementById('selCat2');
+            const selCat3 = document.getElementById('selCat3');
+            const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
+          const allCat2Text = currentLang === 'en' ? 'All Sub Categories' : `所有${tLocal.thCat2}`;
+          const allCat3Text = currentLang === 'en' ? 'All Detail Categories' : `所有${tLocal.thCat3}`;
+            
+            if (state.cat === 'ALL') {
+                selCat2.innerHTML = `<option value="ALL">${allCat2Text}</option>`;
+                selCat2.disabled = true;
+                selCat3.innerHTML = `<option value="ALL">${allCat3Text}</option>`;
+                selCat3.disabled = true;
+                state.cat2 = 'ALL';
+                state.cat3 = 'ALL';
+            } else {
+                const validCat2s = [...new Set(allValidItems.filter(i => i.catRaw === state.cat && i.cat2Raw && i.cat2Raw !== '-').map(i => i.cat2Raw))].sort();
+                selCat2.innerHTML = `<option value="ALL">${allCat2Text}</option>`;
+                validCat2s.forEach(c2 => selCat2.add(new Option(getCatName(c2, 2), c2)));
+                selCat2.disabled = validCat2s.length === 0;
+                selCat2.value = validCat2s.includes(state.cat2) ? state.cat2 : 'ALL';
+                state.cat2 = selCat2.value;
+
+                if (state.cat2 === 'ALL') {
+                    selCat3.innerHTML = `<option value="ALL">${allCat3Text}</option>`;
+                    selCat3.disabled = true;
+                    state.cat3 = 'ALL';
+                } else {
+                    const validCat3s = [...new Set(allValidItems.filter(i => i.catRaw === state.cat && i.cat2Raw === state.cat2 && i.cat3Raw && i.cat3Raw !== '-').map(i => i.cat3Raw))].sort();
+                    selCat3.innerHTML = `<option value="ALL">${allCat3Text}</option>`;
+                    validCat3s.forEach(c3 => selCat3.add(new Option(getCatName(c3, 3), c3)));
+                    selCat3.disabled = validCat3s.length === 0;
+                    selCat3.value = validCat3s.includes(state.cat3) ? state.cat3 : 'ALL';
+                    state.cat3 = selCat3.value;
+                }
+            }
         }
 
         function applyStateFilter(type, value) {
-            if (type === 'sm') state.sm = value;
-            if (type === 'sm' && value !== 'ALL') {
-                const found = allValidItems.find(i => getSmName(i.sm) === value || i.sm === value);
-                if(found) state.sm = found.sm;
-            }
-            if (type === 'cat') state.cat = value;
-            if (type === 'strategy') state.strategy = value;
-            if (type === 'search') state.search = value;
-            if (type === 'priceRange') state.priceRange = value;
-            if (type === 'tier') state.tier = value;
+            if (type === 'sm') { state.sm = value; }
+            if (type === 'strategy') { state.strategy = value; }
+            if (type === 'dev') { state.dev = value; }
+            if (type === 'drop') { state.drop = value; }
+            if (type === 'search') { state.search = value; }
+            if (type === 'priceRange') { state.priceRange = value; }
+            
+            if (type === 'cat') { state.cat = value; state.cat2 = 'ALL'; state.cat3 = 'ALL'; updateCascadingDropdowns(); }
+            if (type === 'cat2') { state.cat2 = value; state.cat3 = 'ALL'; updateCascadingDropdowns(); }
+            if (type === 'cat3') { state.cat3 = value; }
+            
             state.page = 1;
             syncUI();
             applyFiltersCore();
@@ -1166,35 +1315,23 @@ setTxt('opt-tier-5', tLocal.lblTier5);
             });
             document.getElementById('selSm').value = state.sm;
             document.getElementById('selCat').value = state.cat;
+            document.getElementById('selCat2').value = state.cat2;
+            document.getElementById('selCat3').value = state.cat3;
             document.getElementById('selStrategy').value = state.strategy;
+            document.getElementById('selDev').value = state.dev;
+            document.getElementById('selDrop').value = state.drop;
             
-            const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
-            const indSm = document.getElementById('indSm');
-            if (state.sm !== 'ALL') { indSm.innerHTML = `<span class="font-black">${getSmName(state.sm)}</span> ${tLocal.mcClickToCancel}`; indSm.classList.remove('hidden'); }
-            else { indSm.classList.add('hidden'); }
-            
-            const indCat = document.getElementById('indCat');
-            if (state.cat !== 'ALL') { indCat.innerHTML = `<span class="font-black">${getCatName(state.cat)}</span> ${tLocal.mcClickToCancel}`; indCat.classList.remove('hidden'); }
-            else { indCat.classList.add('hidden'); }
-
             const selPrice = document.getElementById('selPriceRange');
             if (selPrice) selPrice.value = state.priceRange;
-
-            const selTier = document.getElementById('selTier');
-if (selTier) selTier.value = state.tier;
         }
 
         function resetFilters() {
-            state.sm = 'ALL'; state.cat = 'ALL'; state.strategy = 'ALL'; state.search = '';
+            state.sm = 'ALL'; state.cat = 'ALL'; state.cat2 = 'ALL'; state.cat3 = 'ALL'; 
+            state.strategy = 'ALL'; state.search = ''; state.dev = 'ALL'; state.drop = 'ALL'; state.priceRange = 'ALL';
             document.getElementById('searchInput').value = '';
             state.sortCol = null; state.sortAsc = true;
-            state.priceRange = 'ALL';
-            state.tier = 'ALL';
-            document.querySelectorAll('.sort-icon').forEach(el => {
-                el.innerHTML = '↕';
-                el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
-                el.classList.add('text-slate-300', 'dark:text-slate-500', 'font-normal');
-            });
+            document.querySelectorAll('.sort-icon').forEach(el => { el.innerHTML = '↕'; el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black'); el.classList.add('text-slate-300', 'dark:text-slate-500', 'font-normal'); });
+            updateCascadingDropdowns();
             syncUI();
             applyFiltersCore();
         }
@@ -1204,11 +1341,14 @@ if (selTier) selTier.value = state.tier;
             filteredData = allValidItems.filter(item => {
                 const name = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
                 const brand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
-                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
+                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw);
                 const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
                 const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm; 
-                const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat; 
                 
+                const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat; 
+                const matchCat2 = state.cat2 === 'ALL' ? true : item.cat2Raw === state.cat2;
+                const matchCat3 = state.cat3 === 'ALL' ? true : item.cat3Raw === state.cat3;
+
                 let matchPrice = true;
                 if (state.priceRange !== 'ALL') {
                     const p = item.curr; 
@@ -1218,21 +1358,17 @@ if (selTier) selTier.value = state.tier;
                     else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
                     else if (state.priceRange === '300+') matchPrice = p > 300;
                 }
-                // ⬇️ 新增的波幅階梯 (Tier) 過濾邏輯
-    let matchTier = true;
-    if (state.tier !== 'ALL') {
-        const absDiff = Math.abs(item.diff);
-        if (state.tier === 't1') matchTier = absDiff > 0 && absDiff <= 1.0;
-        else if (state.tier === 't2') matchTier = absDiff > 1.0 && absDiff <= 5.0;
-        else if (state.tier === 't3') matchTier = absDiff > 5.0 && absDiff <= 8.0;
-        else if (state.tier === 't4') matchTier = absDiff > 8.0 && absDiff <= 10.0;
-        else if (state.tier === 't5') matchTier = absDiff > 10.0;
-    }
-                
-               // ⬇️ 記得最後 return 埋 matchTier
-    return matchKw && matchSt && matchSm && matchCat && matchPrice && matchTier;
-            });
 
+                let matchDev = true;
+                if (state.dev === 'below_0') matchDev = item.dev < 0;
+                else if (state.dev === 'above_0') matchDev = item.dev > 0;
+                
+                let matchDrop = true;
+                if (state.drop === 'drop_any') matchDrop = item.realDrop > 0;
+                else if (state.drop === 'drop_10') matchDrop = item.realDrop > 10;
+                
+                return matchKw && matchSt && matchSm && matchCat && matchCat2 && matchCat3 && matchDev && matchDrop && matchPrice;
+            });
             renderChartsFromFiltered();
             renderTable();
             if(currentTab === 'tiers') renderTiersTable();
@@ -1248,64 +1384,32 @@ if (selTier) selTier.value = state.tier;
                 smStats[i.sm] = (smStats[i.sm] || 0) + 1;
             });
 
+            // 確保 Charts 過濾與 Table 過濾同步
             const kw = state.search.toLowerCase();
             
-            const chartDataSm = allValidItems.filter(item => {
+            const baseFilter = (item) => {
                 const name = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
                 const brand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
-                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
-                const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat;
+                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw);
                 const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
-                
+                const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat; 
+                const matchCat2 = state.cat2 === 'ALL' ? true : item.cat2Raw === state.cat2;
+                const matchCat3 = state.cat3 === 'ALL' ? true : item.cat3Raw === state.cat3;
+                let matchDev = true;
+                if (state.dev === 'below_0') matchDev = item.dev < 0; else if (state.dev === 'above_0') matchDev = item.dev > 0;
+                let matchDrop = true;
+                if (state.drop === 'drop_any') matchDrop = item.realDrop > 0; else if (state.drop === 'drop_10') matchDrop = item.realDrop > 10;
                 let matchPrice = true;
                 if (state.priceRange !== 'ALL') {
-                    const p = item.curr;
-                    if (state.priceRange === '0-20') matchPrice = p <= 20;
-                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
-                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
-                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
-                    else if (state.priceRange === '300+') matchPrice = p > 300;
+                    const p = item.curr; 
+                    if (state.priceRange === '0-20') matchPrice = p <= 20; else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50; else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100; else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300; else if (state.priceRange === '300+') matchPrice = p > 300;
                 }
-                return matchKw && matchCat && matchSt && matchPrice;
-            });
-
-            const chartDataCat = allValidItems.filter(item => {
-                const name = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
-                const brand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
-                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
-                const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm;
-                const matchSt = state.strategy === 'ALL' ? true : item.strategy === state.strategy;
-                
-                let matchPrice = true;
-                if (state.priceRange !== 'ALL') {
-                    const p = item.curr;
-                    if (state.priceRange === '0-20') matchPrice = p <= 20;
-                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
-                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
-                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
-                    else if (state.priceRange === '300+') matchPrice = p > 300;
-                }
-                return matchKw && matchSm && matchSt && matchPrice;
-            });
-
-            const baseDataForStacked = allValidItems.filter(item => {
-                const name = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
-                const brand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
-                const matchKw = name.toLowerCase().includes(kw) || brand.toLowerCase().includes(kw) || getSmName(item.sm).toLowerCase().includes(kw) || getCatName(item.catRaw).toLowerCase().includes(kw);
-                const matchSm = state.sm === 'ALL' ? true : item.sm === state.sm;
-                const matchCat = state.cat === 'ALL' ? true : item.catRaw === state.cat;
-                
-                let matchPrice = true;
-                if (state.priceRange !== 'ALL') {
-                    const p = item.curr;
-                    if (state.priceRange === '0-20') matchPrice = p <= 20;
-                    else if (state.priceRange === '20-50') matchPrice = p > 20 && p <= 50;
-                    else if (state.priceRange === '50-100') matchPrice = p > 50 && p <= 100;
-                    else if (state.priceRange === '100-300') matchPrice = p > 100 && p <= 300;
-                    else if (state.priceRange === '300+') matchPrice = p > 300;
-                }
-                return matchKw && matchSm && matchCat && matchPrice;
-            });
+                return matchKw && matchSt && matchCat && matchCat2 && matchCat3 && matchDev && matchDrop && matchPrice;
+            };
+            
+            const chartDataSm = allValidItems.filter(item => baseFilter(item));
+            const chartDataCat = allValidItems.filter(item => baseFilter(item) && (state.sm === 'ALL' ? true : item.sm === state.sm));
+            const baseDataForStacked = chartDataCat;
 
             const trackerSmStats = {};
             chartDataSm.forEach(i => {
@@ -1326,25 +1430,8 @@ if (selTier) selTier.value = state.tier;
             const legendFlat = tLocal.mcPillFlat.replace('🛡️ ', '');
             const legendUp = tLocal.mcPillUp.replace('📈 ', '');
 
-            const logoFileMap = {
-                'PARKNSHOP': 'pns', 
-                'JASONS': 'marketplace', 
-                'AEON': 'aeon',
-                'WELLCOME': 'wellcome', 
-                'MANNINGS': 'mannings', 
-                'WATSONS': 'watsons',
-                'SASA': 'SaSa',
-                'DCHFOOD': 'DCH_Food',
-                'LUNGFUNG': 'lungfung'
-            };
-
-            const logoSizeMap = {
-                'SASA': { width: 55, height: 20 },
-                'DCHFOOD': { width: 60, height: 24 },
-                'LUNGFUNG': { width: 60, height: 20 },
-                'DEFAULT': { width: 32, height: 32 }
-            };
-
+            const logoFileMap = { 'PARKNSHOP': 'pns', 'JASONS': 'marketplace', 'AEON': 'aeon', 'WELLCOME': 'wellcome', 'MANNINGS': 'mannings', 'WATSONS': 'watsons', 'SASA': 'SaSa', 'DCHFOOD': 'DCH_Food', 'LUNGFUNG': 'lungfung' };
+            const logoSizeMap = { 'SASA': { width: 55, height: 20 }, 'DCHFOOD': { width: 60, height: 24 }, 'LUNGFUNG': { width: 60, height: 20 }, 'DEFAULT': { width: 32, height: 32 } };
             const dynamicRich = {
                 name: { fontSize: 13, fontWeight: 'bold', color: '#ffffff', align: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowBlur: 3, lineHeight: 16 },
                 count: { fontSize: 11, fontWeight: 'bold', color: '#ffffff', align: 'center', backgroundColor: 'rgba(0,0,0,0.3)', padding: [2, 4], borderRadius: 4, marginTop: 4, lineHeight: 12 }
@@ -1360,16 +1447,10 @@ if (selTier) selTier.value = state.tier;
                     backgroundColor: { image: `https://msbecky5354.github.io/JSON/img/${fileName}.png` },
                     width: size.width, height: size.height, align: 'center'
                 };
-
                 return { name: getSmName(smCode), value: smStats[sm], smCode: smCode, richKey: richKey };
             });
 
-            const treemapColorMap = {
-                'ALL': ['#93C5FD', '#60A5FA', '#3B82F6', '#2563EB'], 
-                'true_drop': ['#A7F3D0', '#34D399', '#10B981', '#059669'], 
-                'competitive_up': ['#FDE68A', '#FCD34D', '#F59E0B', '#D97706'], 
-                'flat_beaten': ['#CBD5E1', '#94A3B8', '#64748B', '#475569'] 
-            };
+            const treemapColorMap = { 'ALL': ['#93C5FD', '#60A5FA', '#3B82F6', '#2563EB'], 'true_drop': ['#A7F3D0', '#34D399', '#10B981', '#059669'], 'competitive_up': ['#FDE68A', '#FCD34D', '#F59E0B', '#D97706'], 'flat_beaten': ['#CBD5E1', '#94A3B8', '#64748B', '#475569'] };
             const currentTreemapColor = treemapColorMap[state.strategy] || treemapColorMap['ALL'];
 
             const titleEl = document.getElementById('txt-mcChartTreemap');
@@ -1412,9 +1493,7 @@ if (selTier) selTier.value = state.tier;
 
             const sortedSms = Object.keys(smBehaviors).filter(sm => smBehaviors[sm].total >= 1).sort((a, b) => smBehaviors[b].total - smBehaviors[a].total);
 
-            const yAxisDataObj = sortedSms.map(sm => {
-                return { value: getSmName(sm), textStyle: { color: getBrandColor(sm, isDarkMode) } };
-            });
+            const yAxisDataObj = sortedSms.map(sm => { return { value: getSmName(sm), textStyle: { color: getBrandColor(sm, isDarkMode) } }; });
             const pctDown = sortedSms.map(sm => ((smBehaviors[sm].true_drop / smBehaviors[sm].total) * 100).toFixed(1));
             const pctFlat = sortedSms.map(sm => ((smBehaviors[sm].flat_beaten / smBehaviors[sm].total) * 100).toFixed(1));
             const pctUp = sortedSms.map(sm => ((smBehaviors[sm].competitive_up / smBehaviors[sm].total) * 100).toFixed(1));
@@ -1444,33 +1523,17 @@ if (selTier) selTier.value = state.tier;
                 legend: { data: [legendDrop, legendUp], bottom: 0, textStyle: { color: isDarkMode ? '#cbd5e1' : '#475569' } },
                 grid: { left: '2%', right: '4%', bottom: '10%', top: '5%', containLabel: true },
                 xAxis: getXAxisConfig(), 
-                yAxis: { 
-                    type: 'category', 
-                    data: finalSmCodes, 
-                    axisLabel: { 
-                        fontWeight: 'bold', 
-                        formatter: function(value) { return getSmName(value); },
-                        color: function(value) { return getBrandColor(value, isDarkMode); }, 
-                        cursor: 'pointer' 
-                    } 
-                },
+                yAxis: { type: 'category', data: finalSmCodes, axisLabel: { fontWeight: 'bold', formatter: function(value) { return getSmName(value); }, color: function(value) { return getBrandColor(value, isDarkMode); }, cursor: 'pointer' } },
                 color: divergingColors,
-                series: [
-                    { name: legendDrop, type: 'bar', stack: 'total', data: divSmSeries.true_drop },
-                    { name: legendUp, type: 'bar', stack: 'total', data: divSmSeries.competitive_up }
-                ]
+                series: [ { name: legendDrop, type: 'bar', stack: 'total', data: divSmSeries.true_drop }, { name: legendUp, type: 'bar', stack: 'total', data: divSmSeries.competitive_up } ]
             });
 
             const catArray = Object.keys(catStats).map(cat => ({ name: cat, total: catStats[cat].true_drop + catStats[cat].competitive_up + catStats[cat].flat_beaten, stats: catStats[cat] }));
             catArray.sort((a, b) => b.total - a.total);
             const topCats = catArray.slice(0, 10).reverse(); 
             const catNames = topCats.map(c => ({ value: getCatName(c.name), name: c.name })); 
-            
             const divCatSeries = { true_drop: [], competitive_up: [] };
-            topCats.forEach(c => {
-                divCatSeries.true_drop.push(-c.stats.true_drop);
-                divCatSeries.competitive_up.push(c.stats.competitive_up);
-            });
+            topCats.forEach(c => { divCatSeries.true_drop.push(-c.stats.true_drop); divCatSeries.competitive_up.push(c.stats.competitive_up); });
 
             catDivergingChart.setOption({
                 tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: buildDivergingTooltip(catStats) },
@@ -1479,10 +1542,7 @@ if (selTier) selTier.value = state.tier;
                 xAxis: getXAxisConfig(), 
                 yAxis: { type: 'category', data: catNames, axisLabel: { fontWeight: 'bold', color: isDarkMode ? '#cbd5e1' : '#475569', cursor: 'pointer' } },
                 color: divergingColors,
-                series: [
-                    { name: legendDrop, type: 'bar', stack: 'total', data: divCatSeries.true_drop },
-                    { name: legendUp, type: 'bar', stack: 'total', data: divCatSeries.competitive_up }
-                ]
+                series: [ { name: legendDrop, type: 'bar', stack: 'total', data: divCatSeries.true_drop }, { name: legendUp, type: 'bar', stack: 'total', data: divCatSeries.competitive_up } ]
             });
             
             document.getElementById('catDrillTitle').innerText = state.cat !== 'ALL' ? `(${tLocal.mcFilteredCat}${getCatName(state.cat)})` : "";
@@ -1492,6 +1552,7 @@ if (selTier) selTier.value = state.tier;
         function handleSort(col) {
             if (state.sortCol === col) { state.sortAsc = !state.sortAsc; } 
             else { state.sortCol = col; state.sortAsc = true; }
+            
             document.querySelectorAll('.sort-icon').forEach(el => {
                 el.innerHTML = '↕';
                 el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
@@ -1510,21 +1571,37 @@ if (selTier) selTier.value = state.tier;
         function renderTable() {
             if (state.sortCol) {
                 filteredData.sort((a, b) => {
-                    let valA = a[state.sortCol]; let valB = b[state.sortCol];
-                    if(state.sortCol === 'name') { valA = currentLang === 'en' ? a.nameEn : (currentLang === 'zh-Hans' ? a.nameSc : a.nameTc); valB = currentLang === 'en' ? b.nameEn : (currentLang === 'zh-Hans' ? b.nameSc : b.nameTc); }
-                    if(state.sortCol === 'brand') { valA = currentLang === 'en' ? a.brandEn : (currentLang === 'zh-Hans' ? a.brandSc : a.brandTc); valB = currentLang === 'en' ? b.brandEn : (currentLang === 'zh-Hans' ? b.brandSc : b.brandTc); }
-                    if(state.sortCol === 'sm') { valA = getSmName(a.sm); valB = getSmName(b.sm); }
-                    if(state.sortCol === 'cat') { valA = getCatName(a.catRaw); valB = getCatName(b.catRaw); }
-
-                    if (typeof valA === 'string') return state.sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                    else return state.sortAsc ? valA - valB : valB - valA;
+                    let res = 0;
+                    if(state.sortCol === 'cat') { 
+                        res = a.catRaw.localeCompare(b.catRaw);
+                        if (res === 0) res = a.cat2Raw.localeCompare(b.cat2Raw);
+                        if (res === 0) res = a.cat3Raw.localeCompare(b.cat3Raw);
+                    }
+                    else if(state.sortCol === 'cat2') { 
+                        res = a.cat2Raw.localeCompare(b.cat2Raw);
+                        if (res === 0) res = a.cat3Raw.localeCompare(b.cat3Raw);
+                    }
+                    else if(state.sortCol === 'cat3') { res = a.cat3Raw.localeCompare(b.cat3Raw); }
+                    else if(state.sortCol === 'name') { 
+                        let valA = currentLang === 'en' ? a.nameEn : (currentLang === 'zh-Hans' ? a.nameSc : a.nameTc);
+                        let valB = currentLang === 'en' ? b.nameEn : (currentLang === 'zh-Hans' ? b.nameSc : b.nameTc);
+                        res = valA.localeCompare(valB); 
+                    }
+                    else if(state.sortCol === 'brand') { 
+                        let valA = currentLang === 'en' ? a.brandEn : (currentLang === 'zh-Hans' ? a.brandSc : a.brandTc);
+                        let valB = currentLang === 'en' ? b.brandEn : (currentLang === 'zh-Hans' ? b.brandSc : b.brandTc);
+                        res = valA.localeCompare(valB); 
+                    }
+                    else if(state.sortCol === 'sm') { res = getSmName(a.sm).localeCompare(getSmName(b.sm)); }
+                    else { res = a[state.sortCol] - b[state.sortCol]; }
+                    return state.sortAsc ? res : -res;
                 });
             }
 
             const total = filteredData.length;
             const totalPages = Math.ceil(total / rowsPerPage) || 1;
             if (state.page > totalPages) state.page = totalPages;
-
+            
             const startIdx = (state.page - 1) * rowsPerPage;
             const endIdx = Math.min(startIdx + rowsPerPage, total);
             const currentChunk = filteredData.slice(startIdx, endIdx);
@@ -1540,76 +1617,127 @@ if (selTier) selTier.value = state.tier;
 
             let html = '';
             currentChunk.forEach((item, index) => {
-                const conf = colorConfig[item.strategy];
+                const conf = colorConfig[item.strategy] || colorConfig['flat_beaten'];
                 let lblConf = '未知';
                 if(item.strategy === 'true_drop') lblConf = tLocal.mcPillDrop;
                 if(item.strategy === 'competitive_up') lblConf = tLocal.mcPillUp;
                 if(item.strategy === 'flat_beaten') lblConf = tLocal.mcPillFlat;
                 
                 const diffNum = item.diff;
-                let diffTextColor = 'text-slate-400';
+                let diffTextColor = 'text-slate-400 dark:text-slate-500';
                 let diffSign = '';
                 
                 if (diffNum <= -1.0) { diffTextColor = 'text-emerald-600 dark:text-emerald-400'; diffSign = ''; }
                 else if (diffNum >= 1.0) { diffTextColor = 'text-amber-500 dark:text-amber-400'; diffSign = '+'; }
 
                 const microBarHtml = `
-                    <div class="flex items-center justify-center w-full min-w-[120px] ${hideDiffClass}">
+                    <div class="flex items-center justify-center w-full ${hideDiffClass}">
                         <div class="w-1/2 flex justify-end pr-2">
-                            <div class="h-1.5 bg-emerald-500 dark:bg-emerald-400 rounded-sm micro-bar" style="width: ${diffNum < 0 ? Math.min(Math.abs(diffNum)*2.5, 100) : 0}%;"></div>
+                            <div class="h-1.5 bg-emerald-500 dark:bg-emerald-400 rounded-sm micro-bar" style="width: ${diffNum < 0 ? Math.min(Math.abs(diffNum)*1.5, 100) : 0}%;"></div>
                         </div>
-                        <div class="w-14 text-center text-[11px] font-black ${diffTextColor}">${diffNum !== 0 ? diffSign + diffNum.toFixed(1) + '%' : '-'}</div>
+                        <div class="w-16 text-center text-[11px] font-black ${diffTextColor}">${diffNum !== 0 ? diffSign + diffNum.toFixed(1) + '%' : '-'}</div>
                         <div class="w-1/2 flex justify-start pl-2">
-                            <div class="h-1.5 bg-amber-500 dark:bg-amber-400 rounded-sm micro-bar" style="width: ${diffNum > 0 ? Math.min(diffNum*2.5, 100) : 0}%;"></div>
+                            <div class="h-1.5 bg-amber-500 dark:bg-amber-400 rounded-sm micro-bar" style="width: ${diffNum > 0 ? Math.min(diffNum*1.5, 100) : 0}%;"></div>
                         </div>
                     </div>
                 `;
 
+                const devColor = item.dev > 0 ? 'text-amber-600 dark:text-amber-400' : (item.dev < 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400');
+                const devSign = item.dev > 0 ? '+' : '';
+                const dropColor = item.realDrop > 0 ? 'text-emerald-700 dark:text-emerald-400' : (item.realDrop < 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400');
+                const dropSign = item.realDrop > 0 ? '↓ ' : (item.realDrop < 0 ? '↑ ' : '');
+
                 const dName = currentLang === 'en' ? item.nameEn : (currentLang === 'zh-Hans' ? item.nameSc : item.nameTc);
                 const dBrand = currentLang === 'en' ? item.brandEn : (currentLang === 'zh-Hans' ? item.brandSc : item.brandTc);
                 const dOffer = currentLang === 'en' ? item.offerEn : (currentLang === 'zh-Hans' ? item.offerSc : item.offerTc);
-
-                const avgBase = item.avgBase || 0;
-                const devPct = item.dev || 0;
-                const realDropPct = item.realDrop || 0;
-                
-                const devColor = devPct > 0 ? 'text-amber-600 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-900/30 dark:border-amber-800' : (devPct < 0 ? 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:border-emerald-800' : 'text-slate-500 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700');
-                const devSign = devPct > 0 ? '+' : '';
-                
-                const dropColor = realDropPct > 0 ? 'text-emerald-700 dark:text-emerald-400 font-black' : (realDropPct < 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400');
-                const dropSign = realDropPct > 0 ? '↓ ' : (realDropPct < 0 ? '↑ ' : '');
-
-                const displayBase = item.currBase > 0 ? item.currBase : item.curr;
+                const pOffer = currentLang === 'en' ? item.pOfferEn : (currentLang === 'zh-Hans' ? item.pOfferSc : item.pOfferTc);
+                const tC1 = getCatName(item.catRaw, 1);
+const tC2 = getCatName(item.cat2Raw, 2);
+const tC3 = getCatName(item.cat3Raw, 3);
 
                 html += `
                 <tr class="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="p-3 pl-5 text-center text-slate-400 dark:text-slate-500 font-bold text-[11px]">${startIdx + index + 1}</td>
-                    <td class="p-3 dblclick-cell" title="Double-click to filter" ondblclick="applyStateFilter('sm', '${item.sm}')">${getSmBadge(item.sm)}</td>
-                    <td class="p-3 text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider dblclick-cell" title="Double-click to filter" ondblclick="applyStateFilter('cat', '${item.catRaw}')">${getCatName(item.catRaw)}</td>
-                    <td class="p-3">
-                        <div class="font-bold text-slate-700 dark:text-slate-200 text-xs">${dBrand}</div>
-                        <div class="text-[10px] text-red-600 dark:text-red-400 font-bold mt-0.5 max-w-[150px] truncate" title="${dOffer}">${dOffer !== '-' ? '🏷️ ' + dOffer : '-'}</div>
+                    <td class="p-3 font-bold text-center text-slate-400 dark:text-slate-500 text-[11px] align-top pt-5">${startIdx + index + 1}</td>
+                    <td class="p-3 align-top pt-5 whitespace-nowrap overflow-hidden">${getSmBadge(item.sm)}</td>
+
+                    <th class="hidden">${item.cat2Raw}</th>
+                    <th class="hidden">${item.cat3Raw}</th>
+
+                    <td class="p-3 text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider align-top">
+                        <div class="flex items-start justify-between gap-2 mt-1">
+                            <span class="truncate max-w-[130px] cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors" title="點擊過濾此主分類" onclick="quickFilterCat('${item.catRaw}', 'ALL', 'ALL')">${tC1}</span>
+                            
+                            ${(item.cat2Raw !== '-' && item.cat2Raw !== '') ? `
+                            <button onclick="event.stopPropagation(); toggleSubCat('subcat-${index}', this)" class="shrink-0 text-[10px] bg-white hover:bg-slate-100 text-slate-600 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded shadow-sm border border-slate-300 dark:border-slate-600 transition-all font-bold flex items-center gap-1 -mt-0.5">
+                                <span class="icon font-black">▾</span> ${currentLang === 'en' ? 'Expand' : '展開'}
+                            </button>
+                            ` : ''}
+                        </div>
+                        
+                        ${(item.cat2Raw !== '-' && item.cat2Raw !== '') ? `
+                        <div id="subcat-${index}" class="hidden mt-2 pt-2 border-t border-slate-200 dark:border-slate-700 border-dashed text-[10px] bg-slate-50 dark:bg-slate-900/50 p-2 rounded space-y-1 normal-case tracking-normal">
+                            <div class="flex items-start gap-1 text-slate-600 dark:text-slate-300">
+                                <span class="text-slate-300 dark:text-slate-600 font-black">└</span> 
+                                <span class="font-black shrink-0">${tLocal.thCat2}：</span>
+                                <span class="break-words flex-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer hover:underline transition-colors" title="點擊過濾此次分類" onclick="quickFilterCat('${item.catRaw}', '${item.cat2Raw}', 'ALL')">${tC2}</span>
+                            </div>
+                            ${(item.cat3Raw !== '-' && item.cat3Raw !== '') ? `
+                            <div class="flex items-start gap-1 text-slate-600 dark:text-slate-300 ml-3">
+                                <span class="text-slate-300 dark:text-slate-600 font-black">└</span> 
+                                <span class="font-black shrink-0">${tLocal.thCat3}：</span>
+                                <span class="break-words flex-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer hover:underline transition-colors" title="點擊過濾此細分類" onclick="quickFilterCat('${item.catRaw}', '${item.cat2Raw}', '${item.cat3Raw}')">${tC3}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ` : ''}
                     </td>
-                    <td class="p-3 font-bold text-slate-800 dark:text-slate-100">${dName}</td>
+
+                    <td class="p-3 align-top pt-5 overflow-hidden">
+                        <div class="font-bold text-slate-700 dark:text-slate-200 text-xs truncate w-full">${dBrand}</div>
+                        ${dOffer !== '-' ? `<div class="text-[10px] text-red-600 dark:text-red-400 font-bold mt-0.5 truncate w-full" title="${dOffer}">🏷️ ${dOffer}</div>` : ''}
+                    </td>
                     
-                    <td class="p-2 md:p-3 text-center dblclick-cell border-x border-slate-100 dark:border-slate-700 align-middle" title="Double-click to filter" ondblclick="applyStateFilter('strategy', '${item.strategy}')">
-                        <div class="flex justify-center items-center">
-                            <span class="px-2.5 py-1 border rounded font-black text-[11px] ${conf.style} pointer-events-none shadow-sm whitespace-nowrap tracking-wide min-w-[80px]">${lblConf}</span>
+                    <td class="p-3 font-bold text-slate-800 dark:text-slate-100 align-top pt-5 w-full">
+                        <div class="truncate lg:whitespace-normal break-words w-full" title="${dName}">${dName}</div>
+                    </td>
+                    
+                    <td class="p-3 text-center border-x border-slate-100 dark:border-slate-700 align-top pt-5 dblclick-cell" title="Double-click to filter" ondblclick="applyStateFilter('strategy', '${item.strategy}')">
+                        <div class="flex justify-center">
+                            <span class="px-2.5 py-1 border rounded font-black text-[11px] ${conf.style} pointer-events-none shadow-sm min-w-[80px]">${lblConf}</span>
                         </div>
                     </td>
                     
-                    <td class="p-3 text-right font-bold text-slate-400 line-through decoration-slate-300 dark:decoration-slate-600">${item.prev > 0 ? '$' + item.prev.toFixed(1) : '-'}</td>
-                    <td class="p-3 text-right font-black text-emerald-600 dark:text-emerald-400 text-[14px] whitespace-nowrap">$${item.curr.toFixed(1)}</td>
+                    <td class="p-3 text-right align-top pt-4 overflow-hidden border-l border-slate-100 dark:border-slate-700">
+                        <div class="font-black text-emerald-600 dark:text-emerald-400 text-[15px] whitespace-nowrap">$${item.curr.toFixed(1)}</div>
+                        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 whitespace-nowrap leading-tight flex flex-col items-end">
+                            <span>${tLocal.lblPrevEff} ${item.prev > 0 ? '$' + item.prev.toFixed(1) : '-'}</span>
+                            <span>${tLocal.lblPrevBase} ${item.prevBase > 0 ? '$' + item.prevBase.toFixed(1) : '-'}</span>
+                        </div>
+                        <div class="text-[9px] text-slate-400 mt-1 truncate w-full ml-auto text-right" title="${pOffer}">${tLocal.lblPrevOffer} ${pOffer !== '-' ? pOffer : '-'}</div>
+                    </td>
                     
-                    <td class="p-3 ${hideDiffClass}">${microBarHtml}</td>
+                    <td class="p-3 align-top pt-5 overflow-hidden border-l border-slate-100 dark:border-slate-700 ${hideDiffClass}">${microBarHtml}</td>
                     
-                    <td class="p-3 text-right font-bold text-slate-500 border-l border-slate-200 dark:border-slate-700 whitespace-nowrap">${avgBase > 0 ? '$' + avgBase.toFixed(1) : '-'}</td>
-                    <td class="p-3 text-right"><span class="px-1.5 py-0.5 border rounded font-bold text-[11px] ${avgBase > 0 ? devColor : 'text-slate-500 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700'}">${avgBase > 0 ? devSign + devPct.toFixed(1) + '%' : '-'}</span></td>
-                    <td class="p-3 pr-5 text-right font-bold ${avgBase > 0 ? dropColor : 'text-slate-400'} text-[13px]">${avgBase > 0 ? dropSign + Math.abs(realDropPct).toFixed(1) + '%' : '-'}</td>
+                    <td class="p-2 border-l border-slate-100 dark:border-slate-700 align-top pt-4 w-48">
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded p-1.5 shadow-sm min-w-[150px]">
+                            <div class="flex justify-between items-center mb-1 text-[10px]">
+                                <span class="text-slate-500 dark:text-slate-400">📊 ${tLocal.lblAvgBase}</span>
+                                <span class="font-bold text-slate-700 dark:text-slate-200">${item.avgBase > 0 ? '$' + item.avgBase.toFixed(1) : '-'}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1 text-[10px] border-t border-slate-100 dark:border-slate-700 border-dashed pt-1">
+                                <span class="text-slate-500 dark:text-slate-400">⚖️ ${tLocal.lblDev}</span>
+                                <span class="font-bold ${devColor}">${item.avgBase > 0 ? devSign + item.dev.toFixed(1) + '%' : '-'}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-[10px]">
+                                <span class="text-slate-500 dark:text-slate-400">🎯 ${tLocal.lblDrop}</span>
+                                <span class="font-bold ${dropColor}">${item.avgBase > 0 ? dropSign + Math.abs(item.realDrop).toFixed(1) + '%' : '-'}</span>
+                            </div>
+                        </div>
+                    </td>
                 </tr>`;
             });
 
-            if (total === 0) html = `<tr><td colspan="12" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
+            if (total === 0) html = `<tr><td colspan="9" class="p-10 text-center text-slate-400 font-bold">${tLocal.mcNoData}</td></tr>`;
 
             document.getElementById('tableBody').innerHTML = html;
             document.getElementById('pageStart').innerText = total === 0 ? 0 : startIdx + 1;
@@ -1617,8 +1745,8 @@ if (selTier) selTier.value = state.tier;
             document.getElementById('totalItems').innerText = total;
             document.getElementById('pageNumbers').innerText = `${state.page} / ${totalPages}`;
 
-            document.getElementById('prevBtn').disabled = state.page === 1;
-            document.getElementById('nextBtn').disabled = state.page === totalPages;
+            document.getElementById('prevBtn').disabled = state.page === 1 || totalPages === 0;
+            document.getElementById('nextBtn').disabled = state.page === totalPages || totalPages === 0;
         }
 
         function openCalcInfoModal() {
