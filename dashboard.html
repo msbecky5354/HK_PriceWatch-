@@ -242,21 +242,18 @@
         }
     };
 
-    function updateLocalLanguage(lang) {
+   function updateLocalLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('appLang', lang);
         const t = i18n[lang] || i18n['zh-Hant'];
 
-        const appName = lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D');
-        document.title = `${t.title} | ${appName}🔎`;
+        // 🌟 1. 網頁標題 (純字典對接，不再寫死)
+        const appNameStr = (typeof uiText !== 'undefined' && uiText[lang] && uiText[lang].appName) ? uiText[lang].appName : (lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D'));
+        document.title = `${t.title} | ${appNameStr}🔎`;
 
-        // 🟢 精準修復：確保左上角 Logo 名稱會跟隨語言乾淨俐落咁切換！
-        const appTitle = document.getElementById('appTitle');
-        if (appTitle) {
-            appTitle.innerText = appName;
-        }
+        // 🌟 2. 徹底切除對 appTitle 同 todayStatusLabel 的越權干預！
+        // (已全數刪除，交還畀 header.js 專屬大腦處理)
 
-        // ... (下刪保留原本)
         const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
         const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
         
@@ -286,25 +283,11 @@
             roleSelect.options[2].text = t.optRoleExcl;
         }
 
-        const lblHcMatchedTxt = lang === 'en' ? 'Items Matching Criteria:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:');
-        const lblHcReducedTxt = lang === 'en' ? 'Reduction:' : (lang === 'zh-Hans' ? '对比全量减少:' : '對比全量減少:');
-        const lblHcUnitTxt = lang === 'en' ? 'items' : '件';
+        setTxt('lblHcMatched', lang === 'en' ? 'Items Matching Criteria:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:'));
+        setTxt('lblHcReduced', lang === 'en' ? 'Reduction:' : (lang === 'zh-Hans' ? '对比全量减少:' : '對比全量減少:'));
+        setTxt('lblHcUnit1', lang === 'en' ? 'items' : '件');
 
-        setTxt('lblHcMatched', lblHcMatchedTxt);
-        setTxt('lblHcReduced', lblHcReducedTxt);
-        setTxt('lblHcUnit1', lblHcUnitTxt);
-        setTxt('lblHcUnit2', lblHcUnitTxt);
-
-        const statusLabel = document.getElementById('todayStatusLabel');
-        if (statusLabel) {
-            if (mainLastUpdatedTime && !isNaN(mainLastUpdatedTime.getTime())) {
-                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
-                statusLabel.innerText = prefix + formatDateTime(mainLastUpdatedTime);
-            } else {
-                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
-            }
-        }
-
+        // 🌟 3. 只管好 Dashboard 自己範圍內的 Badge 時間更新 (戰情更新於...)
         const biBadge = document.getElementById('biUpdateBadge');
         if (biBadge) {
             if (biLastUpdatedTime && !isNaN(biLastUpdatedTime.getTime())) {
@@ -315,27 +298,10 @@
             }
         }
 
-        const uiDict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : null;
-        if (uiDict) {
-            setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
-            setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
-            setTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
-            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
-            setTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
-        } else {
-            setTxt('miniFooterLinks', lang === 'en' ? 'About Us, Terms & Disclaimer' : (lang === 'zh-Hans' ? '关于我们、条款及免责声明' : '關於我們、條款及免責聲明'));
-            setTxt('miniFooterCopy', lang === 'en' ? '© 2026 SmartDeal' : '© 2026 慳真D');
-            setTxt('disclaimerTitle', lang === 'en' ? 'Disclaimer & Terms' : (lang === 'zh-Hans' ? '免责声明及服务条款' : '免責聲明及服務條款'));
-            setTxt('modalCloseBtn', lang === 'en' ? 'I Understand & Accept' : '我明白及接受');
-        }
-
-        const devTeam = document.getElementById('footerDevTeam');
-        if (devTeam) devTeam.innerText = lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ');
-
-        const devName = document.getElementById('footerDevName');
-        if (devName) devName.innerText = lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懒人工具駅');
-
-      const mechText = {
+       
+        
+        const mechText = {
+          
             'zh-Hant': {
                 title: '📊 降價分析看板：運算與視覺化聲明',
                 desc: '本看板實時匯總各大超市的降價數據，並轉化為高階視覺化圖表，助您精準洞悉最新的降價分佈與折讓深度：',
@@ -804,10 +770,16 @@
             .then(text => {
                 let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
                 mainLastUpdatedTime = new Date(safeTimeStr);
+                
+                // 🌟 新增：將主系統時間交畀全域，並呼叫 Header 自行渲染！
+                window.globalLastUpdatedTime = mainLastUpdatedTime;
+                if (typeof window.renderHeaderLang === 'function') window.renderHeaderLang();
+                
                 updateLocalLanguage(currentLang);
             })
             .catch(e => console.warn("主網站時間紀錄載入失敗", e));
 
+            
         fetch(`https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load BI log'))
             .then(text => {

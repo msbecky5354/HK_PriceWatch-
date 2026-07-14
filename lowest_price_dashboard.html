@@ -730,36 +730,31 @@ const localI18n = {
             updateLocalLanguage();
         }
 
-        function updateLocalLanguage() {
+    function updateLocalLanguage() {
             const tLocal = localI18n[currentLang] || localI18n['zh-Hant'];
             
-            document.title = `${tLocal.mcTitle} | ${currentLang === 'en' ? 'SmartDeal' : (currentLang === 'zh-Hans' ? '悭真D' : '慳真D')}`;
-            
-            const appTitle = document.getElementById('appTitle');
-            if(appTitle) appTitle.innerText = currentLang === 'en' ? 'SmartDeal' : (currentLang === 'zh-Hans' ? '悭真D' : '慳真D');
+            // 🌟 1. 網頁標題：對接全域 lang.js，零硬編碼
+            document.title = `${tLocal.mcTitle} | ${getLocalizedText('appName')}`;
 
-            const pageSubtitle = document.getElementById('todayStatusLabel');
-            if(pageSubtitle) {
-                const prefix = currentLang === 'en' ? 'Updated: ' : (currentLang === 'zh-Hans' ? '更新于: ' : '更新於: ');
-                pageSubtitle.innerText = (tdLastUpdatedTime && !isNaN(tdLastUpdatedTime.getTime()))
-                    ? prefix + formatDateTime(tdLastUpdatedTime)
-                    : tLocal.mcTitle;
-            }
+            // 🌟 2. [已徹底刪除] 絕不越權干預 appTitle 與 todayStatusLabel！交還給 header.js 自理！
 
+            // 🌟 3. 只管好 Dashboard 自己範圍內的 Badge (對接全域 lang.js)
             const dailyBadge = document.getElementById('dailyUpdateBadge');
             if (dailyBadge) {
                 if (tdLastUpdatedTime && !isNaN(tdLastUpdatedTime.getTime())) {
-                    const tdPrefix = currentLang === 'en' ? 'Updated: ' : (currentLang === 'zh-Hans' ? '更新于: ' : '更新于: ');
-                    dailyBadge.innerText = tdPrefix + formatDateTime(tdLastUpdatedTime);
+                    dailyBadge.innerText = getLocalizedText('lblUpdatePrefix') + formatDateTime(tdLastUpdatedTime);
                 } else {
-                    dailyBadge.innerText = currentLang === 'en' ? 'Daily Update' : (currentLang === 'zh-Hans' ? '每日更新' : '每日更新');
+                    dailyBadge.innerText = getLocalizedText('lblDailyUpdate');
                 }
             }
 
             const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
+         
             const setPlh = (id, key) => { const el = document.getElementById(id); if (el) el.placeholder = getLocalizedText(key); };
             const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
-
+            
+            // ... (下方的 setTxt 邏輯保持不變) ...
+            
             setTxt('txt-mcTitle', tLocal.mcTitle);
             setTxt('txt-mcSub', tLocal.mcSub);
 
@@ -1051,12 +1046,16 @@ const localI18n = {
                 initCharts();
                 const nocache = new Date().getTime();
                 let tdLogUrl = `https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`;
-                try {
+             try {
                     const logRes = await fetch(tdLogUrl);
                     if (logRes.ok) {
                         let serverTimeStr = (await logRes.text()).trim();
                         let safeTimeStr = serverTimeStr.replace(/-/g, '/').replace('T', ' '); 
                         tdLastUpdatedTime = new Date(safeTimeStr);
+                        
+                        // ❌ 之前這裡錯了，漏了 'td' 並且放錯了位置
+                        window.globalLastUpdatedTime = tdLastUpdatedTime;
+                        if (typeof window.renderHeaderLang === 'function') window.renderHeaderLang();
                     }
                 } catch(e) { console.warn("Time fetch failed"); }
 

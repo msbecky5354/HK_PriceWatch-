@@ -93,10 +93,19 @@
                     <select id="tblCatFilter" onchange="syncTableFilter('categoryRaw', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[12px] font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer"></select>
                     <select id="tblStatusFilter" onchange="syncTableFilter('statusKey', this.value)" class="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-[12px] font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer"></select>
                     
-                    <div class="ml-auto flex items-center gap-1.5 bg-red-50 dark:bg-slate-900/80 px-3 py-1.5 rounded-lg border border-red-100 dark:border-slate-700 shadow-sm">
-                        <span id="lblTblCount" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">符合條件:</span>
-                        <span id="tblTotalCount" class="text-red-600 dark:text-red-400 text-[16px] font-black leading-none">0</span>
-                        <span id="lblTblUnit" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">件</span>
+                  <div class="ml-auto flex flex-wrap items-center justify-end gap-2">
+                        <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm text-[12px]">
+                            <span id="lblTblPage" class="font-bold text-slate-500 dark:text-slate-400">頁數:</span>
+                            <span id="tblCurrentPage" class="font-black text-slate-700 dark:text-slate-200">1</span>
+                            <span class="text-slate-400 mx-0.5">/</span>
+                            <span id="tblTotalPages" class="font-black text-slate-700 dark:text-slate-200">1</span>
+                        </div>
+
+                        <div class="flex items-center gap-1.5 bg-red-50 dark:bg-slate-900/80 px-3 py-1.5 rounded-lg border border-red-100 dark:border-slate-700 shadow-sm">
+                            <span id="lblTblCount" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">符合條件:</span>
+                            <span id="tblTotalCount" class="text-red-600 dark:text-red-400 text-[16px] font-black leading-none">0</span>
+                            <span id="lblTblUnit" class="text-[12px] font-bold text-slate-500 dark:text-slate-400">件</span>
+                        </div>
                     </div>
 
                     <div id="fakeWarningDiv" class="hidden w-full px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg text-[12px] text-amber-700 dark:text-amber-400 font-medium flex items-start gap-2 shadow-sm mt-1">
@@ -107,23 +116,30 @@
 
                 <div class="overflow-x-auto min-h-[300px]">
                     <table class="w-full text-left border-collapse">
-                        <thead>
+                       <thead>
                             <tr class="bg-slate-50/50 dark:bg-slate-700/50 select-none border-b border-slate-200 dark:border-slate-700 text-[12px] whitespace-nowrap">
-                                <th id="thSm" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">超市</th>
-                                <th id="thCat" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">分類</th>
-                                <th id="thName" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 w-[25%] min-w-[200px]">品牌及貨品名稱</th>
-                                <th id="thStatus" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-center">狀態判定</th>
+                                <th id="thSm" class="py-3 px-2 font-bold text-slate-500 dark:text-slate-300 w-16 text-center">超市</th>
+                                <th id="thCat" class="py-3 px-2 font-bold text-slate-500 dark:text-slate-300 w-20">分類</th>
+                                <th id="thName" class="py-3 px-2 font-bold text-slate-500 dark:text-slate-300 w-[20%] min-w-[160px]">品牌及貨品名稱</th>
+                                <th id="thStatus" class="py-3 px-2 font-bold text-slate-500 dark:text-slate-300 text-center w-24">狀態判定</th>
                                 
-                                <th id="thPrevGroup" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 border-l border-slate-200 dark:border-slate-700">上次歷史紀錄</th>
-                                <th id="thTodayGroup" onclick="handleTableSort('today')" class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700">今日最新狀態 <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span></th>
+                                <th id="thPrevGroup" class="py-3 px-2 font-bold text-slate-500 dark:text-slate-300 border-l border-slate-200 dark:border-slate-700 w-32">上次歷史紀錄</th>
+                                <th id="thTodayGroup" onclick="handleTableSort('today')" class="py-3 px-2 font-bold text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700 w-32">今日最新狀態 <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span></th>
                                 
-                                <th id="thDiff" onclick="handleTableSort('diff')" class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700">差價幅 <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500">▼</span></th>
-                                <th id="thMarketAvg" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300 text-right border-l border-slate-200 dark:border-slate-700">全城公價</th>
-                                <th id="thOtherPrices" class="py-3 px-4 font-bold text-slate-500 dark:text-slate-300">其他超市定價(折實)</th>
+                                <th id="thDiff" onclick="handleTableSort('diff')" class="py-3 px-2 font-bold text-slate-800 dark:text-slate-100 text-right cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border-l border-slate-200 dark:border-slate-700 w-20">差價幅 <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500">▼</span></th>
+                                <th id="thMarketAvg" class="py-3 px-2 font-bold text-slate-500 dark:text-slate-300 text-right border-l border-slate-200 dark:border-slate-700 w-20">全城公價</th>
+                                <th id="thOtherPrices" class="py-3 px-3 font-bold text-slate-500 dark:text-slate-300">其他超市定價(折實)</th>
                             </tr>
                         </thead>
                         <tbody id="illusionTableBody" class="text-[13px]"></tbody>
                     </table>
+                    
+                    <div id="loadMoreContainer" class="hidden py-6 text-center bg-white dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700">
+                        <button onclick="loadMoreIllusionRecords()" class="px-6 py-2.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 font-bold rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors shadow-sm active:scale-95 text-[13px] flex items-center gap-2 mx-auto">
+                            <span id="txtBtnLoadMore">⏬ 載入更多 (顯示下 50 項...)</span>
+                        </button>
+                    </div>
+
                     <div id="tableEmptyState" class="hidden p-12 text-center text-slate-400 dark:text-slate-500 font-bold flex flex-col items-center gap-2">
                         <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
                         <span id="txtEmptyData">沒有符合條件的數據</span>
@@ -183,8 +199,12 @@
         return ((1 - dist / maxLen) * 100).toFixed(1);
     }
 
-    let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
+   let currentLang = (typeof window.currentLang !== 'undefined') ? window.currentLang : (localStorage.getItem('appLang') || 'zh-Hant');
     let globalIllusionData = [];
+    
+    // 🌟 新增：用於 Pagination 的變數
+    let currentFilteredIllusionData = []; 
+    let displayLimit = 50;
     
     let tableFilters = { smCode: 'ALL', statusKey: 'ALL', categoryRaw: 'ALL', productCode: null };
     let currentSort = { col: 'diff', dir: 'desc' };
@@ -476,23 +496,13 @@
         localStorage.setItem('appLang', lang);
         
         const txt = i18n[lang] || i18n['zh-Hant'];
-        document.title = `${txt.pageTitle} | ${lang === 'en' ? 'SmartDeal' : '慳真D'}`;
         
-        const appTitle = document.getElementById('appTitle');
-        if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : '慳真D';
+        // 🌟 1. 網頁標題 (純字典對接，不再寫死)
+        const appNameStr = (typeof uiText !== 'undefined' && uiText[lang] && uiText[lang].appName) ? uiText[lang].appName : (lang === 'en' ? 'SmartDeal' : (lang === 'zh-Hans' ? '悭真D' : '慳真D'));
+        document.title = `${txt.pageTitle} | ${appNameStr}🔎`;
         
-        const statusLabel = document.getElementById('todayStatusLabel');
-        if (statusLabel) {
-            if (window.mainLastUpdatedTime && !isNaN(window.mainLastUpdatedTime.getTime())) {
-                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
-                statusLabel.innerText = prefix + formatDateTime(window.mainLastUpdatedTime);
-            } else {
-                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '载入中...');
-            }
-        }
-        
-        const langSel = document.getElementById('langSelector');
-        if (langSel) langSel.value = lang;
+        // 🌟 2. 徹底切除對 appTitle 同 todayStatusLabel 的越權干預！
+        // (已全數刪除，交還畀 header.js 專屬大腦處理)
 
         const setTxt = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
         
@@ -515,27 +525,23 @@
         const thTodayGroup = document.getElementById('thTodayGroup');
         if(thTodayGroup) thTodayGroup.innerHTML = `${txt.thTodayGroup} <span id="sort-icon-today" class="ml-1 text-[10px] text-blue-500"></span>`;
         const thDiff = document.getElementById('thDiff');
-        if(thDiff) thDiff.innerHTML = `${txt.thDiff} <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500"></span>`;
+        if(thDiff) thDiff.innerHTML = `${txt.thDiff} <span id="sort-icon-diff" class="ml-1 text-[10px] text-blue-500">▼</span>`;
         
         setTxt('titleTable', txt.titleTable); setTxt('txtClearFilter', txt.clearFilter); setTxt('txtEmptyData', txt.emptyData);
-        setTxt('lblTblCount', lang === 'en' ? 'Matched:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:'));
+       setTxt('lblTblCount', lang === 'en' ? 'Matched:' : (lang === 'zh-Hans' ? '符合条件:' : '符合條件:'));
         setTxt('lblTblUnit', lang === 'en' ? 'Items' : '件');
+        
+        // 🌟 新增：頁數標籤的多語系對接
+        setTxt('lblTblPage', lang === 'en' ? 'Page:' : (lang === 'zh-Hans' ? '页数:' : '頁數:'));
+        
+        
+        // 🌟 新增：載入更多按鈕的多語系
+        setTxt('txtBtnLoadMore', lang === 'en' ? '⏬ Load More (Next 50...)' : (lang === 'zh-Hans' ? '⏬ 载入更多 (显示下 50 项...)' : '⏬ 載入更多 (顯示下 50 項...)'));
 
-        // 🟢 對接 window.uiText 字典以供 footer.js 使用 (嚴守父層控制權，杜絕 Hardcode)
-        const uiDict = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : (typeof window.uiText !== 'undefined' ? window.uiText['zh-Hant'] : null);
-        const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
+        // 🌟 3. 徹底切除對 Footer 的越權干預！
+        // (已全數刪除 miniFooterLinks, disclaimer 等 UI 渲染邏輯，交還畀 footer.js 處理)
 
-        if (uiDict) {
-            setTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
-            setTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
-            setTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
-            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
-            setTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
-            
-            setTxt('footerDevTeam', uiDict.devTeam || (lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ')));
-            setTxt('footerDevName', uiDict.devName || (lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅')));
-        }
-
+        // 僅保留本頁面自有的 Modal 渲染
         const langData = calcInfoTexts[lang] || calcInfoTexts['zh-Hant'];
         setTxt('calcModalTitle', langData.title);
         const contentEl = document.getElementById('calcModalContent');
@@ -548,7 +554,6 @@
             applyTableFilters();
         }
     }
-
     window.changeLanguage = function(lang) {
         if (typeof globalChangeLang === 'function') globalChangeLang(lang);
         updateLocalLanguage(lang); 
@@ -666,11 +671,11 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
         applyTableFilters();
     };
 
-    function applyTableFilters() {
+   function applyTableFilters() {
         let filtered = globalIllusionData.filter(item => {
             if (tableFilters.smCode !== 'ALL' && item.smCode !== tableFilters.smCode) return false;
             
-            // 🟢 實裝包底過濾機制
+            // 🟢 包底過濾機制
             if (tableFilters.statusKey !== 'ALL') {
                 if (tableFilters.statusKey === 'fake_all') {
                     if (!['pure_fake', 'disguise', 'tweak'].includes(item.refinedStatus)) return false;
@@ -703,23 +708,21 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             clearBtn.classList.add('hidden');
         }
 
-        renderTableData(filtered, currentLang);
+        // 🌟 1. 將過濾結果交給分頁引擎
+        currentFilteredIllusionData = filtered;
+        displayLimit = 50;
+        renderTableDataChunk();
     }
 
-    function renderTableData(filteredData, lang) {
-        const tbody = document.getElementById('illusionTableBody');
-        const emptyState = document.getElementById('tableEmptyState');
-        const txt = i18n[lang];
+    // 🌟 2. 載入更多按鈕觸發器
+    window.loadMoreIllusionRecords = function() {
+        displayLimit += 50;
+        renderTableDataChunk();
+    };
 
-        if (filteredData.length === 0) {
-            tbody.innerHTML = '';
-            emptyState.classList.remove('hidden');
-            return;
-        }
-        emptyState.classList.add('hidden');
-
-        filteredData.sort((a, b) => {
-            // 🟢 強制使用畫面顯示的 1 位小數進行運算，確保排序與視覺完全一致
+    // 🌟 3. 分塊與排序引擎
+    function renderTableDataChunk() {
+        currentFilteredIllusionData.sort((a, b) => {
             const todayA = parseFloat((parseFloat(a.effectivePrice) || 0).toFixed(1));
             const prevA = parseFloat((parseFloat(a.prevEffPrice) || 0).toFixed(1));
             const diffA = prevA > 0 ? (todayA - prevA) / prevA : 0;
@@ -730,8 +733,8 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
 
             if (currentSort.col === 'today') {
                 if (todayA === todayB) {
-                    let nameA = getLocalizedText(a, 'name', lang);
-                    let nameB = getLocalizedText(b, 'name', lang);
+                    let nameA = getLocalizedText(a, 'name', currentLang);
+                    let nameB = getLocalizedText(b, 'name', currentLang);
                     return nameA.localeCompare(nameB);
                 }
                 return currentSort.dir === 'asc' ? todayA - todayB : todayB - todayA;
@@ -744,8 +747,8 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
                     const claimB = origB > 0 ? ((origB - todayB) / origB) * 100 : 0;
 
                     if (claimA === claimB) {
-                        let nameA = getLocalizedText(a, 'name', lang);
-                        let nameB = getLocalizedText(b, 'name', lang);
+                        let nameA = getLocalizedText(a, 'name', currentLang);
+                        let nameB = getLocalizedText(b, 'name', currentLang);
                         return nameA.localeCompare(nameB);
                     }
                     return currentSort.dir === 'asc' ? claimA - claimB : claimB - claimA;
@@ -754,12 +757,58 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             }
         });
 
+       // ... (上方原有的 sort 邏輯保持不變) ...
+
+        // 🌟 新增：計算總頁數與當前進度 (每頁 50 件)
+        const totalItems = currentFilteredIllusionData.length;
+        const totalPages = Math.ceil(totalItems / 50) || 1;
+        const currentPage = Math.ceil(displayLimit / 50);
+        const actualCurrentPage = currentPage > totalPages ? totalPages : currentPage;
+
+        const elCurrentPage = document.getElementById('tblCurrentPage');
+        const elTotalPages = document.getElementById('tblTotalPages');
+        if (elCurrentPage) elCurrentPage.innerText = actualCurrentPage;
+        if (elTotalPages) elTotalPages.innerText = totalPages;
+
+        // 截取頭 N 筆資料交給 DOM 渲染
+        const chunk = currentFilteredIllusionData.slice(0, displayLimit);
+        renderTableData(chunk, currentLang);
+        
+  
+        
+
+       
+
+        // 控制「載入更多」按鈕顯示狀態
+        const btnContainer = document.getElementById('loadMoreContainer');
+        if (btnContainer) {
+            if (displayLimit < currentFilteredIllusionData.length) {
+                btnContainer.classList.remove('hidden');
+            } else {
+                btnContainer.classList.add('hidden');
+            }
+        }
+    }
+
+    // 🌟 4. 純淨渲染函數 (只負責排版)
+    function renderTableData(chunkData, lang) {
+        const tbody = document.getElementById('illusionTableBody');
+        const emptyState = document.getElementById('tableEmptyState');
+        const txt = i18n[lang];
+
+        if (currentFilteredIllusionData.length === 0) {
+            tbody.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            return;
+        }
+        emptyState.classList.add('hidden');
+
         const thTodayIcon = document.getElementById('sort-icon-today');
         const thDiffIcon = document.getElementById('sort-icon-diff');
         if(thTodayIcon) thTodayIcon.innerText = currentSort.col === 'today' ? (currentSort.dir === 'asc' ? '▲' : '▼') : '';
         if(thDiffIcon) thDiffIcon.innerText = currentSort.col === 'diff' ? (currentSort.dir === 'asc' ? '▲' : '▼') : '';
 
-       tbody.innerHTML = filteredData.map(item => {
+        tbody.innerHTML = chunkData.map(item => {
             let smBadgeHTML = getSmBadge(item.smCode, lang);
             smBadgeHTML = smBadgeHTML.replace('<span class="', `<span onclick="syncTableFilter('smCode', '${item.smCode}'); document.getElementById('tblSmFilter').value='${item.smCode}';" class="cursor-pointer hover:opacity-70 transition-opacity active:scale-95 `);
 
@@ -768,12 +817,12 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             
             const safeRawCat = rawCat.replace(/'/g, "\\'");
             const catClick = `onclick="syncTableFilter('categoryRaw', '${safeRawCat}'); document.getElementById('tblCatFilter').value='${safeRawCat}';"`;
-            const catHTML = `<td class="py-3 px-4 align-top text-slate-500 dark:text-slate-400 text-[11px] max-w-[120px] truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors" title="${catName}" ${catClick}>${catName}</td>`;
+            
+            // 🌟 縮窄分類欄位：px-4 -> px-2, max-w-[120px] -> max-w-[90px]
+            const catHTML = `<td class="py-3 px-2 align-top text-slate-500 dark:text-slate-400 text-[11px] max-w-[90px] truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors" title="${catName}" ${catClick}>${catName}</td>`;
 
             const brand = getLocalizedText(item, 'brand', lang);
             const name = getLocalizedText(item, 'name', lang);
-            
-            // 🟢 安全字串處理防 XSS 及單引號炒車
             const safeBrand = String(brand).replace(/'/g, "\\'").replace(/"/g, '&quot;');
             const safeName = String(name).replace(/'/g, "\\'").replace(/"/g, '&quot;');
             
@@ -795,7 +844,6 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             const prevBase = parseFloat(item.prevBasePrice) || 0;
             const todayBase = parseFloat(item.originalPrice) || 0;
 
-            // 🟢 嚴格採用 UI 顯示的一位小數精度進行數學運算 (WYSIWYG)
             const prev = parseFloat(rawPrev.toFixed(1));
             const today = parseFloat(rawToday.toFixed(1));
 
@@ -804,7 +852,7 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             
             const gapSign = gapPct > 0 ? '+' : '';
             const gapColor = gapPct > 0 ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400';
-            // 🟢 4 級狀態文字與顏色對接
+            
             let statusTxt = '';
             let statusColor = '';
             if (item.refinedStatus === 'pure_fake') {
@@ -824,7 +872,6 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             const statusClick = `onclick="syncTableFilter('statusKey', '${item.refinedStatus}'); document.getElementById('tblStatusFilter').value='${item.refinedStatus}';"`;
             const statusBadgeHTML = `<span class="px-2 py-1 text-[11px] font-bold rounded border ${statusColor} shadow-sm cursor-pointer hover:opacity-75 transition-opacity active:scale-95 inline-block whitespace-nowrap" ${statusClick}>${statusTxt}</span>`;
 
-           // 🟢 數學鐵證：印出相似度 Audit Trail (三語修正)
             const similarityTxt = lang === 'en' ? 'Similarity' : '相似度';
             
             let auditHTML = '';
@@ -855,48 +902,47 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
             const marketAvgText = marketAvgPrice > 0 ? `$${marketAvgPrice.toFixed(1)}` : '-';
             const otherPricesText = otherPricesHTML ? otherPricesHTML : '-';
 
+            // 🌟 縮窄歷史與今日狀態的最小寬度：min-w-[150px] -> min-w-[130px]
             const prevGroupHTML = `
-                <div class="flex flex-col gap-1.5 text-[11px] min-w-[150px]">
+                <div class="flex flex-col gap-1.5 text-[11px] min-w-[130px]">
                     <div class="flex justify-between"><span class="text-slate-400">📅 ${txt.lblDate}</span> <span class="text-slate-500 dark:text-slate-400 font-medium">${prevDateText}</span></div>
                     <div class="flex justify-between"><span class="text-slate-400">🏷️ ${txt.lblBase}</span> <span class="text-slate-400 line-through">${prevBaseText}</span></div>
-                    <div class="flex justify-between items-start gap-2"><span class="text-slate-400 shrink-0">🎁 ${txt.lblOffer}</span> <span class="text-slate-500 dark:text-slate-400 truncate max-w-[110px]" title="${finalPrevOffer}">${finalPrevOffer}</span></div>
+                    <div class="flex justify-between items-start gap-2"><span class="text-slate-400 shrink-0">🎁 ${txt.lblOffer}</span> <span class="text-slate-500 dark:text-slate-400 truncate max-w-[90px]" title="${finalPrevOffer}">${finalPrevOffer}</span></div>
                     <div class="flex justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-slate-700/50"><span class="text-slate-500 dark:text-slate-400 font-bold">💰 ${txt.lblEff}</span> <span class="text-slate-600 dark:text-slate-300 font-black text-[13px]">$${prev.toFixed(1)}</span></div>
                 </div>
             `;
 
             const todayGroupHTML = `
-                <div class="flex flex-col gap-1.5 text-[11px] min-w-[150px]">
+                <div class="flex flex-col gap-1.5 text-[11px] min-w-[130px]">
                     <div class="flex justify-between invisible pointer-events-none"><span class="text-slate-400">📅 ${txt.lblDate}</span> <span>-</span></div>
                     <div class="flex justify-between"><span class="text-slate-400">🏷️ ${txt.lblBase}</span> <span class="text-slate-400 line-through">${todayBaseText}</span></div>
-                    <div class="flex justify-between items-start gap-2"><span class="text-slate-400 shrink-0">🎁 ${txt.lblOffer}</span> <span class="text-amber-600 dark:text-amber-500 font-medium truncate max-w-[110px]" title="${finalTodayOffer}">${finalTodayOffer}</span></div>
+                    <div class="flex justify-between items-start gap-2"><span class="text-slate-400 shrink-0">🎁 ${txt.lblOffer}</span> <span class="text-amber-600 dark:text-amber-500 font-medium truncate max-w-[90px]" title="${finalTodayOffer}">${finalTodayOffer}</span></div>
                     <div class="flex justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-slate-700/50"><span class="text-slate-800 dark:text-slate-100 font-bold">💰 ${txt.lblEff}</span> <span class="text-red-600 dark:text-red-400 font-black text-[14px]">$${today.toFixed(1)}</span></div>
                 </div>
             `;
             
+            // 🌟 縮窄所有 px-4 -> px-2，將超市置中，並強制釋放右方空間
             return `
                 <tr class="border-b border-red-100/50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors">
-                    <td class="py-3 px-4 align-top whitespace-nowrap">${smBadgeHTML}</td>
+                    <td class="py-3 px-2 align-top text-center whitespace-nowrap">${smBadgeHTML}</td>
                     ${catHTML}
-                    <td class="py-3 px-4 align-top w-1/4 min-w-[200px]">
+                    <td class="py-3 px-2 align-top w-[20%] min-w-[160px]">
                         <a href="javascript:void(0)" onclick="goToProductSearch(this.getAttribute('data-query'))" data-query="${safeBrand} ${safeName} ${item.smCode}" class="block group cursor-pointer">
                             <div class="text-[11px] text-slate-400 dark:text-slate-500 mb-1 group-hover:text-blue-500 transition-colors">${brand}</div>
                             <div class="font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-relaxed group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:underline transition-colors whitespace-normal break-words">${name}</div>
                         </a>
                     </td>
-                    <td class="py-3 px-4 align-top text-center">
+                    <td class="py-3 px-2 align-top text-center">
                         <div class="flex flex-col items-center justify-center">
                             ${statusBadgeHTML}
                             ${auditHTML}
                         </div>
                     </td>
-                    
-                    <td class="py-3 px-4 align-top border-l border-slate-100 dark:border-slate-700/50 bg-slate-50/30 dark:bg-slate-800/30">${prevGroupHTML}</td>
-                    <td class="py-3 px-4 align-top border-l border-slate-100 dark:border-slate-700/50 bg-red-50/20 dark:bg-red-900/10">${todayGroupHTML}</td>
-                    
-                    <td class="py-3 px-4 align-top text-right font-black ${gapColor} border-l border-slate-100 dark:border-slate-700/50 whitespace-nowrap">${gapSign}${gapPct}%</td>
-                    
-                    <td class="py-3 px-4 align-top text-right font-bold text-orange-600 dark:text-orange-400 border-l border-slate-100 dark:border-slate-700/50 whitespace-nowrap">${marketAvgText}</td>
-                    <td class="py-3 px-4 align-top text-[11px] text-slate-500 dark:text-slate-400 min-w-[140px] whitespace-normal leading-relaxed max-w-[200px] break-words">${otherPricesText}</td>
+                    <td class="py-3 px-2 align-top border-l border-slate-100 dark:border-slate-700/50 bg-slate-50/30 dark:bg-slate-800/30">${prevGroupHTML}</td>
+                    <td class="py-3 px-2 align-top border-l border-slate-100 dark:border-slate-700/50 bg-red-50/20 dark:bg-red-900/10">${todayGroupHTML}</td>
+                    <td class="py-3 px-2 align-top text-right font-black ${gapColor} border-l border-slate-100 dark:border-slate-700/50 whitespace-nowrap">${gapSign}${gapPct}%</td>
+                    <td class="py-3 px-2 align-top text-right font-bold text-orange-600 dark:text-orange-400 border-l border-slate-100 dark:border-slate-700/50 whitespace-nowrap">${marketAvgText}</td>
+                    <td class="py-3 px-2 align-top text-[11px] text-slate-500 dark:text-slate-400 min-w-[140px] whitespace-normal leading-relaxed break-words">${otherPricesText}</td>
                 </tr>
             `;
         }).join('');
@@ -1147,13 +1193,17 @@ if (data.length > 0 && data[0].json) data = data.map(i => i.json);
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
         const nocache = new Date().getTime();
         fetch(`https://msbecky5354.github.io/JSON/data/update_log.txt?v=${nocache}`, { cache: 'no-store' })
             .then(res => res.ok ? res.text() : Promise.reject('Failed to load main log'))
             .then(text => {
                 let safeTimeStr = text.trim().replace(/-/g, '/').replace('T', ' '); 
-                window.mainLastUpdatedTime = new Date(safeTimeStr);
+                
+                // 🌟 新增：將主系統時間交畀全域，並呼叫 Header 自行渲染！
+                window.globalLastUpdatedTime = new Date(safeTimeStr);
+                if (typeof window.renderHeaderLang === 'function') window.renderHeaderLang();
+                
                 if (typeof window.currentLang !== 'undefined') updateLocalLanguage(window.currentLang);
                 else updateLocalLanguage(currentLang);
             })

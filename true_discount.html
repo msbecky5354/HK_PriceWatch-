@@ -323,16 +323,24 @@
             const updateMsg = (msg) => { const el = document.querySelector('#loadingMessage span'); if(el) el.innerText = msg; };
             const nocache = new Date().getTime();
             
+        // 🌟 第一部分：獲取 Main Log (✅ 綁定全域，供 header.js 使用！)
+            // ⚠️ 總指揮，就係漏咗下面呢行宣告 URL 嘅 Code！
             let mainLogUrl = `https://msbecky5354.github.io/JSON/data/update_log.txt?v=${nocache}`;
+            
             try {
                 const mainLogRes = await fetch(mainLogUrl);
                 if (mainLogRes.ok) {
                     let mainTimeStr = (await mainLogRes.text()).trim();
                     let safeMainTimeStr = mainTimeStr.replace(/-/g, '/').replace('T', ' '); 
                     lastUpdatedTime = new Date(safeMainTimeStr);
+                    
+                    // ✅ 將主系統時間交畀全域，並叫 Header 渲染！
+                    window.globalLastUpdatedTime = lastUpdatedTime;
+                    if (typeof window.renderHeaderLang === 'function') window.renderHeaderLang();
                 }
             } catch(e) { console.warn("Main log fetch failed", e); }
 
+            // 🌟 第二部分：獲取 TrueDiscount Log (只供本地 Badge 使用)
             let tdLogUrl = `https://msbecky5354.github.io/JSON/data/update_log_TrueDiscount.txt?v=${nocache}`;
             let serverTimeStr = '';
             try {
@@ -727,33 +735,34 @@
         currentLang = lang;
         localStorage.setItem('appLang', lang);
         
-        const appTitle = document.getElementById('appTitle');
-        if (appTitle) appTitle.innerText = lang === 'en' ? 'SmartDeal' : '慳真D';
-        
-        const statusLabel = document.getElementById('todayStatusLabel');
-        if (statusLabel) {
-            if (lastUpdatedTime && !isNaN(lastUpdatedTime.getTime())) {
-                const prefix = lang === 'en' ? 'Updated: ' : (lang === 'zh-Hans' ? '更新于: ' : '更新於: ');
-                statusLabel.innerText = prefix + formatDateTime(lastUpdatedTime);
-            } else {
-                statusLabel.innerText = lang === 'en' ? 'Loading...' : (lang === 'zh-Hans' ? '载入中...' : '載入中...');
-            }
-        }
+        // 🌟 1. 徹底切除對 appTitle 同 todayStatusLabel 嘅越權干預！
+        // (已將此兩行完全刪除，交還畀 header.js 專屬大腦處理)
 
+        // 🌟 2. 統一 Report Header 字眼：跟隨 header.js 的統一口徑，拒絕「榜單更新於」
         const dailyBadge = document.getElementById('dailyUpdateBadge');
         if (dailyBadge) {
+            // 從全域字典提取，與 Header 保持 100% 一致
+            const uiDict = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : {};
+            const prefix = uiDict.lblUpdatePrefix || (lang === 'en' ? 'Updated: ' : '更新於: ');
+            const defaultTxt = uiDict.lblDailyUpdate || (lang === 'en' ? 'Daily Update' : '每日更新');
+            
             if (tdLastUpdatedTime && !isNaN(tdLastUpdatedTime.getTime())) {
-                const tdPrefix = lang === 'en' ? 'List Updated: ' : (lang === 'zh-Hans' ? '榜单更新于: ' : '榜單更新於: ');
-                dailyBadge.innerText = tdPrefix + formatDateTime(tdLastUpdatedTime);
+                dailyBadge.innerText = prefix + formatDateTime(tdLastUpdatedTime);
             } else {
-                dailyBadge.innerText = lang === 'en' ? 'Daily Update' : (lang === 'zh-Hans' ? '每日更新' : '每日更新');
+                dailyBadge.innerText = defaultTxt;
             }
         }
         
-        document.title = (lang === 'en' ? "SmartDeal Board | SmartDeal🔎" : (lang === 'zh-Hans' ? "智选真抵榜 | 悭真D🔎" : "智選真抵榜 | 慳真D🔎"));
+        // 🌟 3. 動態網頁標題 (純字典對接)
+        const uiDictTitle = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : {};
+        const appNameStr = uiDictTitle.appName || (lang === 'en' ? 'SmartDeal' : '慳真D');
+        document.title = (lang === 'en' ? "SmartDeal Board" : (lang === 'zh-Hans' ? "智选真抵榜" : "智選真抵榜")) + " | " + appNameStr;
         
         const setTxt = (id, en, tc, sc) => { const el = document.getElementById(id); if (el) el.innerText = lang === 'en' ? en : (lang === 'zh-Hans' ? sc : tc); };
         
+       
+        
+       
         // 🟢 更新：大標題中英並排
         setTxt('pageTitleText', 'SmartDeal Board', '智選真抵榜 SmartDeal Board', '智选真抵榜 SmartDeal Board');
         setTxt('backBtn', 'Back', '返回', '返回');
@@ -803,20 +812,7 @@
             filterInput.placeholder = lang === 'en' ? 'Enter keyword (e.g., ParknShop Coffee)' : (lang === 'zh-Hans' ? '输入关键字 (例如: 百佳 咖啡)' : '輸入關鍵字 (例如: 百佳 咖啡)');
         }
         
-        const uiDict = (typeof window.uiText !== 'undefined' && window.uiText[lang]) ? window.uiText[lang] : (typeof window.uiText !== 'undefined' ? window.uiText['zh-Hant'] : null);
-        const setElTxt = (id, text) => { const el = document.getElementById(id); if (el && text) el.innerText = text; };
-        const setElHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
-
-        if (uiDict) {
-            setElTxt('miniFooterLinks', uiDict.miniFooterLinks || '關於我們、條款及免責聲明');
-            setElTxt('miniFooterCopy', uiDict.miniFooterCopy || '© 2026 慳真D');
-            setElTxt('disclaimerTitle', uiDict.disclaimerTitle || '免責聲明及服務條款');
-            setElHtml('disclaimerBody', uiDict.disclaimerText || '請參閱首頁免責聲明內容。');
-            setElTxt('modalCloseBtn', uiDict.modalBtn || '我明白及接受');
-            
-            setElTxt('footerDevTeam', uiDict.devTeam || (lang === 'en' ? 'Developed by: ' : (lang === 'zh-Hans' ? '开发团队: ' : '開發團隊: ')));
-            setElTxt('footerDevName', uiDict.devName || (lang === 'en' ? 'Lazy Tools Station' : (lang === 'zh-Hans' ? '懒人工具站' : '懶人工具駅')));
-        }
+     
 
         populateDropdowns();
         if (typeof updatePctButtonsUI === 'function') updatePctButtonsUI(); 

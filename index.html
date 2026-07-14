@@ -496,28 +496,22 @@
                 const langSel = document.getElementById('langSelector');
                 if (langSel) langSel.value = lang;
                 
+            
+
                 const dict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : {};
                 const updateText = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).innerText = text; };
                 const updatePlaceholder = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).placeholder = text; };
                 const updateHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
-                document.title = dict.title || '慳真D | HK Smart Price';
-                updateText('appTitle', dict.title);
-                if (window.lastUpdatedTime) updateText('todayStatusLabel', (dict.lastUpdated || '更新: ') + window.formatDateTime(window.lastUpdatedTime));
-                else updateText('todayStatusLabel', dict.subLabel || '載入中...');
+                // 🌟 1. 網頁標題 (純字典對接)
+                document.title = (dict.title || '慳真D') + ' | ' + (lang === 'en' ? 'SmartDeal' : 'HK Smart Price');
 
-                updateText('miniFooterLinks', dict.miniFooterLinks);
-                updateText('miniFooterCopy', dict.miniFooterCopy);
-                updateText('footerDevTeam', dict.footerDevTeam);
-                updateText('footerDevName', dict.footerDevName);
-                
-                updateText('disclaimerTitle', dict.disclaimerTitle);
-                updateHtml('disclaimerBody', dict.disclaimerText);
-                updateText('modalCloseBtn', dict.modalBtn);
-
+               
                 updateText('backBtnText', dict.back);
                 updateText('sendBtnText', dict.send);
                 updatePlaceholder('chatInput', dict.placeholder);
+
+              
 
               const homeUI = {
                     'zh-Hant': { 
@@ -931,10 +925,17 @@
 
                 try {
                     const timeRes = await fetch(logUrl);
-                    if (timeRes.ok) window.lastUpdatedTime = new Date((await timeRes.text()).trim());
+                    if (timeRes.ok) {
+                        window.lastUpdatedTime = new Date((await timeRes.text()).trim());
+                        
+                        // 🌟 新增：將時間交畀全域，並叫 Header 自己做嘢！
+                        window.globalLastUpdatedTime = window.lastUpdatedTime;
+                        if (typeof window.renderHeaderLang === 'function') window.renderHeaderLang();
+                    }
                 } catch(e) { console.warn("時間紀錄載入失敗", e); }
 
                 window.updateLoadingStatus('down');
+                // ... (下方的 fetch snapshotUrl 保持不變) ...
                 
                 const snapRes = await fetch(snapshotUrl).catch(() => null);
 
