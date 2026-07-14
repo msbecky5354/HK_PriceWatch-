@@ -136,12 +136,14 @@
             </div>
         </div>
 
-        <div class="relative flex justify-center mb-6 max-w-[1400px] mx-auto w-full px-3 md:px-0">
+       <div class="relative flex justify-center mb-6 max-w-[1400px] mx-auto w-full px-3 md:px-0">
             <div class="bg-slate-200 dark:bg-slate-700 p-1 rounded-xl flex flex-col sm:flex-row shadow-inner w-full md:w-auto md:inline-flex border border-slate-300 dark:border-slate-600">
                 <button id="btn-tab-winners" onclick="switchTab('winners')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] bg-white dark:bg-slate-800 shadow-sm text-[#345B8C] dark:text-[#60A5FA] transition-all text-center mb-1 sm:mb-0 sm:mr-1"></button>
                 <button id="btn-tab-tracker" onclick="switchTab('tracker')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center mb-1 sm:mb-0 sm:mr-1"></button>
                 <button id="btn-tab-tiers" onclick="switchTab('tiers')" class="flex-1 px-6 py-2.5 rounded-lg font-bold text-[13px] md:text-[14px] text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all text-center"></button>
             </div>
+            
+            <button onclick="resetFilters()" id="txt-mcBtnResetTop" class="absolute right-3 md:right-0 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-rose-50 dark:bg-rose-900/30 hover:bg-rose-100 dark:hover:bg-rose-800/50 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-700/50 rounded-md text-[13px] font-bold transition shadow-sm whitespace-nowrap hidden md:block"></button>
         </div>
 
         <div id="view-winners" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 block">
