@@ -448,13 +448,13 @@ const localI18n = {
                 thCat2: '次分類',
                 thCat3: '細分類',
                 
-                /* --- 🌟 新增：防 Hardcode 下拉選單及按鈕文字 --- */
                 optAllSm: '所有超市',
                 optAllCat: '所有分類',
                 optAllCat2: '所有次分類',
                 optAllCat3: '所有細分類',
                 btnExpand: '展開',
-                btnCollapse: '收起'
+                btnCollapse: '收起',
+                lblLastChanged: '上次紀錄:'
             },
             'zh-Hans': {
                 mcTitle: '同款最低价综合仪表板 Integrated Price Dashboard',
@@ -547,13 +547,13 @@ const localI18n = {
                 thCat2: '次分类',
                 thCat3: '细分类',
                 
-                /* --- 🌟 新增：防 Hardcode 下拉选单及按鈕文字 --- */
                 optAllSm: '所有超市',
                 optAllCat: '所有分类',
                 optAllCat2: '所有次分类',
                 optAllCat3: '所有细分类',
                 btnExpand: '展开',
-                btnCollapse: '收起'
+                btnCollapse: '收起',
+                lblLastChanged: '上次纪录:'
             },
             'en': {
                 mcTitle: 'Integrated Price Dashboard',
@@ -646,13 +646,13 @@ const localI18n = {
                 thCat2: 'Sub Cat',
                 thCat3: 'Detail Cat',
                 
-                /* --- 🌟 新增：防 Hardcode 下拉選單及按鈕文字 --- */
                 optAllSm: 'All Supermarkets',
                 optAllCat: 'All Categories',
                 optAllCat2: 'All Sub Categories',
                 optAllCat3: 'All Detail Categories',
                 btnExpand: 'Expand',
-                btnCollapse: 'Collapse'
+                btnCollapse: 'Collapse',
+                lblLastChanged: 'Last Record:'
             }
         };
 
@@ -693,13 +693,16 @@ const localI18n = {
             return name; 
         }
 
-        function getSmBadge(code) {
+       function getSmBadge(code) {
             let name = getSmName(code);
             let style = (window.supermarketStyleDict && window.supermarketStyleDict[code]) ? window.supermarketStyleDict[code] : { badgeBg: 'bg-slate-100 dark:bg-slate-700', badgeText: 'text-slate-600 dark:text-slate-300', badgeBorder: 'border-slate-200 dark:border-slate-600' };
             
-            // 🌟 UI 佈局微調：px-2 改為 px-1.5，text-[11px] 改為 text-[10px]
-            return `<span onclick="event.stopPropagation(); applyStateFilter('sm', '${code}'); window.scrollTo({ top: 0, behavior: 'smooth' });" class="px-1.5 py-1 text-[10px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block whitespace-normal text-center leading-[1.15] max-w-[85px] break-words align-middle">${name}</span>`;
+            // 🌟 移除 onclick 內的 window.scrollTo 指令，實現靜默過濾
+            return `<span onclick="event.stopPropagation(); applyStateFilter('sm', '${code}');" class="px-1.5 py-1 text-[10px] font-black rounded-md border ${style.badgeBg} ${style.badgeText} ${style.badgeBorder} shadow-sm cursor-pointer hover:opacity-75 transition-all inline-block whitespace-normal text-center leading-[1.15] max-w-[85px] break-words align-middle">${name}</span>`;
         }
+
+
+
      function getCatName(rawCat, level = 1) {
     let c = (rawCat || '').trim();
     if (c === '-') return '-';
@@ -1147,16 +1150,21 @@ const catEn = winnerItem.c1_en || winnerItem.cat_en || winnerItem.cat1_en || cat
 const cat2En = winnerItem.c2_en || winnerItem.cat2_en || cat2Raw;
 const cat3En = winnerItem.c3_en || winnerItem.cat3_en || cat3Raw;
 
-                       allValidItems.push({
-    sm: sm, catRaw: catRaw, catEn: catEn, cat2Raw: cat2Raw, cat2En: cat2En, cat3Raw: cat3Raw, cat3En: cat3En,
-   
-                            nameEn: nameEn, nameTc: nameTc, nameSc: nameSc,
-                            brandEn: brandEn, brandTc: brandTc, brandSc: brandSc,
-                            offerEn: offerEn, offerTc: offerTc, offerSc: offerSc,
-                            pOfferEn: pOfferEn, pOfferTc: pOfferTc, pOfferSc: pOfferSc,
-                            strategy: strategy, prev: prevEff, prevBase: prevBase, curr: currEff, currBase: currBase, diff: diffPct,
-                            avgBase: marketAvgBase, dev: devPct, realDrop: realDropPct
-                        });
+                       // 確保在 push 之前已經定義了 lcd
+                    const lcd = winnerItem.lcd || '-';
+
+                    allValidItems.push({
+                        sm: sm, catRaw: catRaw, catEn: catEn, 
+                        cat2Raw: cat2Raw, cat2En: cat2En, 
+                        cat3Raw: cat3Raw, cat3En: cat3En,
+                        nameEn: nameEn, nameTc: nameTc, nameSc: nameSc,
+                        brandEn: brandEn, brandTc: brandTc, brandSc: brandSc,
+                        offerEn: offerEn, offerTc: offerTc, offerSc: offerSc,
+                        pOfferEn: pOfferEn, pOfferTc: pOfferTc, pOfferSc: pOfferSc,
+                        lcd: lcd, // 🌟 成功接收後端的變價日期
+                        strategy: strategy, prev: prevEff, prevBase: prevBase, curr: currEff, currBase: currBase, diff: diffPct,
+                        avgBase: marketAvgBase, dev: devPct, realDrop: realDropPct
+                    });
                     }
                 });
 
@@ -1225,7 +1233,7 @@ const cat3En = winnerItem.c3_en || winnerItem.cat3_en || cat3Raw;
         // ==========================================
         // 🌟 點擊儲存格自動過濾 (Click-to-Filter)
         // ==========================================
-        window.quickFilterCat = function(c1, c2, c3) {
+      window.quickFilterCat = function(c1, c2, c3) {
             state.cat = c1;
             state.cat2 = c2;
             state.cat3 = c3;
@@ -1234,9 +1242,8 @@ const cat3En = winnerItem.c3_en || winnerItem.cat3_en || cat3Raw;
             updateCascadingDropdowns();
             syncUI();
             applyFiltersCore();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // 🌟 徹底移除 window.scrollTo，交還畫面控制權
         };
-
         // ==========================================
         // 🌟 級聯下拉選單邏輯
         // ==========================================
@@ -1306,6 +1313,24 @@ const cat3En = winnerItem.c3_en || winnerItem.cat3_en || cat3Raw;
             if (type === 'cat2') { state.cat2 = value; state.cat3 = 'ALL'; updateCascadingDropdowns(); }
             if (type === 'cat3') { state.cat3 = value; }
             
+            // 🌟 核心升級：每次過濾強制按「價格波幅」排序
+            state.sortCol = 'diff';
+            // 智能判斷：若為「收窄優勢」(加價)，由最高漲幅排起 (Desc)；否則由最大跌幅排起 (Asc)
+            state.sortAsc = (state.strategy === 'competitive_up') ? false : true;
+
+            // 🌟 更新表頭 Sort Icon 的視覺狀態
+            document.querySelectorAll('.sort-icon').forEach(el => {
+                el.innerHTML = '↕';
+                el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
+                el.classList.add('text-slate-300', 'dark:text-slate-500', 'font-normal');
+            });
+            const activeIcon = document.getElementById('sort-diff');
+            if (activeIcon) {
+                activeIcon.innerHTML = state.sortAsc ? '↑' : '↓';
+                activeIcon.classList.remove('text-slate-300', 'dark:text-slate-500', 'font-normal');
+                activeIcon.classList.add('text-slate-500', 'dark:text-slate-300', 'font-black');
+            }
+
             state.page = 1;
             syncUI();
             applyFiltersCore();
@@ -1710,12 +1735,14 @@ const tC3 = getCatName(item.cat3Raw, 3);
                     </td>
                     
                     <td class="p-3 text-right align-top pt-4 overflow-hidden border-l border-slate-100 dark:border-slate-700">
-                        <div class="font-black text-emerald-600 dark:text-emerald-400 text-[15px] whitespace-nowrap">$${item.curr.toFixed(1)}</div>
+                        <div class="font-black text-emerald-600 dark:text-emerald-400 text-[15px] whitespace-nowrap">${item.curr > 0 ? '$' + Number(item.curr.toFixed(2)) : '-'}</div>
                         <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 whitespace-nowrap leading-tight flex flex-col items-end">
-                            <span>${tLocal.lblPrevEff} ${item.prev > 0 ? '$' + item.prev.toFixed(1) : '-'}</span>
-                            <span>${tLocal.lblPrevBase} ${item.prevBase > 0 ? '$' + item.prevBase.toFixed(1) : '-'}</span>
+                            <span>${tLocal.lblPrevEff} ${item.prev > 0 ? '$' + Number(item.prev.toFixed(2)) : '-'}</span>
+                            <span>${tLocal.lblPrevBase} ${item.prevBase > 0 ? '$' + Number(item.prevBase.toFixed(2)) : '-'}</span>
                         </div>
                         <div class="text-[9px] text-slate-400 mt-1 truncate w-full ml-auto text-right" title="${pOffer}">${tLocal.lblPrevOffer} ${pOffer !== '-' ? pOffer : '-'}</div>
+                        
+                        <div class="text-[9px] text-slate-400 mt-0.5 truncate w-full ml-auto text-right font-medium bg-slate-100 dark:bg-slate-800 inline-block px-1 rounded" title="Last Record">${tLocal.lblLastChanged} ${item.lcd !== '-' ? item.lcd : '-'}</div>
                     </td>
                     
                     <td class="p-3 align-top pt-5 overflow-hidden border-l border-slate-100 dark:border-slate-700 ${hideDiffClass}">${microBarHtml}</td>
