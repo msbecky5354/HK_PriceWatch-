@@ -513,14 +513,15 @@
 
               
 
-              const homeUI = {
+             const homeUI = {
                     'zh-Hant': { 
                         title: "物價情報分析中樞", placeholder: "輸入資料源關鍵字 (例: 可口可樂)...", quickTitle: "情報捷徑", catTitle: "分類目錄瀏覽", b1: "極端差價分析", b2: "最新優惠", b3: "熱搜飲品", b4: "糧食雜貨", 
                         lowestPriceBtn: "最低價追蹤系統<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Lowest Price Tracker</span>",
                         trueDiscountBtn: "智選真抵榜<span class='block text-[10px] font-normal opacity-85 mt-0.5'>SmartDeal Board</span>", 
                         commandCenterBtn: "降價分析看板<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Discount Analytics Dashboard</span>", 
                         priceIllusionBtn: "價格稽核分析報告<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Price Analytics Report</span>", 
-                        priceStabilityBtn: "定價穩定監測板<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Price Stability Monitor</span>" 
+                        priceStabilityBtn: "定價穩定監測板<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Price Stability Monitor</span>",
+                        priceInsightsBtn: "市場定價透視矩陣<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Pricing Insights Matrix</span>"
                     },
                     'zh-Hans': { 
                         title: "物价情报分析中枢", placeholder: "输入数据源关键字 (例: 可口可乐)...", quickTitle: "情报捷径", catTitle: "分类目录浏览", b1: "极端差价分析", b2: "最新优惠", b3: "热搜饮品", b4: "粮食杂货", 
@@ -528,7 +529,8 @@
                         trueDiscountBtn: "智选真抵榜<span class='block text-[10px] font-normal opacity-85 mt-0.5'>SmartDeal Board</span>", 
                         commandCenterBtn: "降价分析看板<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Discount Analytics Dashboard</span>", 
                         priceIllusionBtn: "价格稽核分析报告<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Price Analytics Report</span>", 
-                        priceStabilityBtn: "定价稳定监测板<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Price Stability Monitor</span>" 
+                        priceStabilityBtn: "定价稳定监测板<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Price Stability Monitor</span>",
+                        priceInsightsBtn: "市场定价透视矩阵<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Pricing Insights Matrix</span>"
                     },
                     'en': { 
                         title: "Price Intelligence Center", placeholder: "Search data source (e.g., Cola)...", quickTitle: "Quick Insights", catTitle: "Browse Categories", b1: "Extreme Gap", b2: "Latest Deals", b3: "Trending Drinks", b4: "Pantry Goods", 
@@ -536,7 +538,8 @@
                         trueDiscountBtn: "SmartDeal Board<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Verified Discounts</span>", 
                         commandCenterBtn: "Discount Analytics Dashboard<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Market Pricing Matrix</span>", 
                         priceIllusionBtn: "Price Analytics Report<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Pricing Strategy Audit</span>", 
-                        priceStabilityBtn: "Price Stability Monitor<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Historical Trends</span>" 
+                        priceStabilityBtn: "Price Stability Monitor<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Historical Trends</span>",
+                        priceInsightsBtn: "Pricing Insights Matrix<span class='block text-[10px] font-normal opacity-85 mt-0.5'>Inflation Analytics</span>"
                     }
                 };
 
@@ -551,7 +554,7 @@
                 let catDrinks = '飲品';
                 let catPantry = '米 / 食油 / 罐頭 / 蔬果 / 肉類';
 
-                // 🟢 佈局更新：新增置頂皇冠按鈕，原 4 按鈕改用 div 包裝避免 truncate 錯位
+              // 🟢 佈局更新：新增置頂皇冠按鈕，原 4 按鈕改用 div 包裝避免 truncate 錯位
                 if(document.getElementById('quickBtnGroup')) {
                     document.getElementById('quickBtnGroup').innerHTML = `
                         <div class="grid grid-cols-2 gap-2.5 mb-3">
@@ -564,17 +567,40 @@
                         </div>
                         
                         <div class="flex flex-col gap-2.5 mb-1">
-                            <button onclick="window.checkDeviceAndRedirect('lowest_price_dashboard.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-2.5 text-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-3 px-3 rounded-xl font-bold active:scale-95 transition shadow-md border border-teal-600/50">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 drop-shadow-sm"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
-                                <div class="drop-shadow-sm tracking-wide leading-tight text-[13px]">${homeUI[activeLang].lowestPriceBtn}</div>
+                            
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-1">
+                            
+                            <button onclick="window.location.href='lowest_price_dashboard.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-md border border-teal-600/50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                                <div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].lowestPriceBtn}</div>
                             </button>
                             
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                <button onclick="window.checkDeviceAndRedirect('true_discount.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#345B8C] hover:opacity-90 text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#4a76b0]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg><div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].trueDiscountBtn}</div></button>
-                                <button onclick="window.checkDeviceAndRedirect('dashboard.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#D4AF37] hover:bg-[#C5A030] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-md border border-[#B8942E]/50 dark:bg-[#C5A030]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].commandCenterBtn}</div></button>
-                                <button onclick="window.checkDeviceAndRedirect('price_illusion.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#ef4444] hover:bg-[#dc2626] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#b91c1c]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].priceIllusionBtn}</div></button>
-                                <button onclick="window.checkDeviceAndRedirect('price_stability.html?lang=' + window.currentLang)" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#0ea5e9] hover:bg-[#0284c7] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#0369a1]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 drop-shadow-sm shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].priceStabilityBtn}</div></button>
-                            </div>
+                            <button onclick="window.location.href='true_discount.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#345B8C] hover:opacity-90 text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#4a76b0]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                <div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].trueDiscountBtn}</div>
+                            </button>
+                            
+                            <button onclick="window.location.href='dashboard.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#D4AF37] hover:bg-[#C5A030] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-md border border-[#B8942E]/50 dark:bg-[#C5A030]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                                <div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].commandCenterBtn}</div>
+                            </button>
+                            
+                            <button onclick="window.location.href='price_illusion.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#ef4444] hover:bg-[#dc2626] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#b91c1c]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                <div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].priceIllusionBtn}</div>
+                            </button>
+                            
+                            <button onclick="window.location.href='price_stability.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-[#0ea5e9] hover:bg-[#0284c7] text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-[#0369a1]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                <div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].priceStabilityBtn}</div>
+                            </button>
+                            
+                            <button onclick="window.location.href='price-insights-matrix.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-sm border border-transparent dark:bg-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 drop-shadow-sm" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                                <div class="drop-shadow-sm tracking-wide leading-tight">${homeUI[activeLang].priceInsightsBtn}</div>
+                            </button>
+                            
                         </div>
                     `;
                 }
