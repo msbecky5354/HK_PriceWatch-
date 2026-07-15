@@ -1,6 +1,8 @@
 // =====================================================================
-// 🧠 PriceWatch - 核心數據適配與算力中樞 (dataCore.js) - 極速版
+// 🧠 PriceWatch - 核心數據適配與算力中樞 (dataCore.js) - 跨語系終極版
 // =====================================================================
+
+window.globalSearchDict = {}; // 存放跨語系字典
 
 window.unwrapData = function(d) {
     if (!d) return [];
@@ -19,8 +21,6 @@ window.unwrapData = function(d) {
 window.buildStructuredData = function() {
     if (!window.snapshotData || !Array.isArray(window.snapshotData) || window.snapshotData.length === 0) return;
     window.structuredData = {};
-
-    // 💡 已經徹底移除 rawApiData (pricewatch.json) 嘅翻譯 Map 邏輯
 
     window.snapshotData.forEach(item => {
         const cat1 = item.c1 || (window.currentLang === 'en' ? 'Uncategorized' : '未分類');
@@ -42,13 +42,21 @@ window.buildStructuredData = function() {
         if (!window.structuredData[cat1][cat2]) window.structuredData[cat1][cat2] = {};
 
         if (!window.structuredData[cat1][cat2][uniqueProdKey]) {
+            // 🎯 核心升級：跨語系索引池 (對接 search_dict.json)
+            // 如果字典裡有這個 ID 的資料，就把它拿出來；沒有就算了。
+            const extraKeywords = window.globalSearchDict[uniqueProdKey] || '';
+
+            // 將原本的英文名字 (prodName) 與字典裡的中英文混合字串 (extraKeywords) 合併
+            let rawCombined = `${prodName} ${brandName} ${cat1} ${extraKeywords}`;
+            
+            let processedKeywords = rawCombined.toLowerCase();
+
             window.structuredData[cat1][cat2][uniqueProdKey] = {
                 originalUniqueName: prodName,
-                // 直接使用 Snapshot 提供嘅語言數據作為搜尋基礎
-                searchKeywords: window.normalizeStr ? window.normalizeStr(`${prodName} ${brandName} ${cat1}`) : `${prodName} ${brandName} ${cat1}`.toLowerCase(),
+                searchKeywords: window.normalizeStr ? window.normalizeStr(processedKeywords) : processedKeywords,
                 brand: brandName,
-                brandEn: brandName, // 無英文字典，Fallback 用返本身語言 
-                enName: prodName,   // 無英文字典，Fallback 用返本身語言
+                brandEn: brandName, 
+                enName: prodName,   
                 prices: []
             };
         }
@@ -72,7 +80,6 @@ window.buildStructuredData = function() {
             prevOfferEn: item.po || '',
             prevOfferHans: item.po || '',
             statusKey: item.status || 'maintained',
-            // 🟢 核心修復：對齊最新 SQL 鍵值，精準讀取真實嘅變動生效日期
             lastChangeDate: item.lc_date|| ''
         });
     });
@@ -208,7 +215,7 @@ window.generateProductCardHTML = function(pName, info) {
             fakePromoIcon = `<span class="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-[#FFF9F2] text-[#E65100] rounded-md border border-[#FFB74D]/30 dark:bg-orange-900/30 dark:text-orange-400">${stampText}</span>`;
         }
         
-       // =========================================================
+        // =========================================================
         // 🧠 核心升級：對齊 MECE 16 項白名單判定引擎 (修復 realStatus 脫鉤)
         // =========================================================
         let currEffCompare = currentEffPrice;
@@ -221,8 +228,6 @@ window.generateProductCardHTML = function(pName, info) {
 
         let statusText = '';
         let statusColor = 'border-slate-200 bg-[#F8F8F8] text-slate-500 dark:bg-slate-800 dark:text-slate-400';
-        
-        // 🛠️ 補回向下兼容的變數，供下方的 prevPriceHtml 箭頭邏輯使用
         let realStatus = 'maintained'; 
 
         if (p.statusKey === 'NEW_ADDED' || p.statusKey === 'new') {
@@ -352,8 +357,7 @@ window.generateProductCardHTML = function(pName, info) {
             </div>`;
 };
 
-
-/// =========================================================
+// =========================================================
 // 📚 狀態標籤指南 (16 項全景 MECE 字典與 Modal 觸發器)
 // =========================================================
 window.openStatusGuide = function() {

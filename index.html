@@ -611,6 +611,13 @@
 
                 const chatSec = document.getElementById('chatSection');
                 if (chatSec && !chatSec.classList.contains('hidden')) {
+                    // 🌟 核心修復：動態同步切換搜尋頁面的頂部標題語系
+                    const chatTitle = document.getElementById('chatTitle');
+                    if (chatTitle) {
+                        let titleStr = lang === 'en' ? 'Global Search' : (lang === 'zh-Hans' ? '全局搜寻' : '全局搜尋');
+                        chatTitle.innerHTML = `<span class="mr-1.5 text-[#345B8C]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span> ${titleStr}`;
+                    }
+
                     const chatMessages = document.getElementById('chatMessages');
                     if (chatMessages) chatMessages.innerHTML = ''; 
                     if (window.currentKeyword || (window.selectedCat1 && window.selectedCat1 !== 'GLOBAL')) {
@@ -963,7 +970,34 @@
                 window.updateLoadingStatus('down');
                 // ... (下方的 fetch snapshotUrl 保持不變) ...
                 
-                const snapRes = await fetch(snapshotUrl).catch(() => null);
+              const snapRes = await fetch(snapshotUrl).catch(() => null);
+                
+               // 🚀 修復：手動精確解包 search_dict_data，避開 unwrapData 嘅硬編碼限制
+                const dictUrl = `https://msbecky5354.github.io/JSON/data/search_dict.json?v=${cb}`;
+                fetch(dictUrl)
+                    .then(res => res.json())
+                    .then(dictData => {
+                        let rawDict = [];
+                        let dataArr = Array.isArray(dictData) ? dictData : (dictData.results || dictData.data || [dictData]);
+                        
+                        // 🎯 針對 n8n 匯出嘅 SQL JSON 結構進行強制定向解包
+                        if (dataArr.length > 0) {
+                            if (dataArr[0]?.json?.search_dict_data) rawDict = dataArr[0].json.search_dict_data;
+                            else if (dataArr[0]?.search_dict_data) rawDict = dataArr[0].search_dict_data;
+                            else rawDict = dataArr;
+                        }
+
+                        if (Array.isArray(rawDict)) {
+                            rawDict.forEach(item => {
+                                if (item && item.id && item.k) {
+                                    window.globalSearchDict[item.id] = item.k;
+                                }
+                            });
+                        }
+                        // 字典下載完畢後，重新構建一次結構化資料，把中文關鍵字塞進去
+                        if (typeof window.buildStructuredData === 'function') window.buildStructuredData();
+                    })
+                    .catch(err => console.warn("字典載入失敗，維持單一語系搜尋", err));
 
                 if (snapRes?.ok) {
                     window.snapshotData = window.unwrapData(await snapRes.json());
