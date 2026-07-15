@@ -208,32 +208,81 @@ window.generateProductCardHTML = function(pName, info) {
             fakePromoIcon = `<span class="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-[#FFF9F2] text-[#E65100] rounded-md border border-[#FFB74D]/30 dark:bg-orange-900/30 dark:text-orange-400">${stampText}</span>`;
         }
         
-        let prevEffPriceNum = parseFloat(p.prevEffPrice);
-        let realStatus = 'maintained';
-        if (p.statusKey === 'NEW_ADDED' || p.statusKey === 'new') realStatus = 'new';
-        else if (!isNaN(prevEffPriceNum)) {
-            if (currentEffPrice < prevEffPriceNum) realStatus = 'drop';      
-            else if (currentEffPrice > prevEffPriceNum) realStatus = 'increase'; 
-            else if (currentEffPrice === prevEffPriceNum && p.promoDisplay !== p.prevOfferZh) realStatus = 'promo_changed';
-        }
+       // =========================================================
+        // 🧠 核心升級：對齊 MECE 16 項白名單判定引擎 (修復 realStatus 脫鉤)
+        // =========================================================
+        let currEffCompare = currentEffPrice;
+        let prevEffCompare = parseFloat(p.prevEffPrice);
+        let currBase = parsed; 
+        let prevBase = parseFloat(p.prevBasePrice);
+        
+        let hasCompetitors = info.prices.length > 1;
+        let isAbsoluteLowest = (minEffectivePrice !== null && Math.abs(currentEffPrice - minEffectivePrice) < 0.01 && validPrices.length > 1 && !allSameEffectivePrice);
 
-        let statusText = '', statusColor = '';
-        if (realStatus === 'drop') {
-            statusText = window.currentLang === 'en' ? 'Price Drop' : '真降價';
-            statusColor = 'border-[#8BC34A]/30 bg-[#8BC34A]/10 text-[#558B2F] dark:bg-green-900/30 dark:text-[#AEEA00]';
-        } else if (realStatus === 'new') {
-            statusText = window.currentLang === 'en' ? 'New' : '首次上架';
+        let statusText = '';
+        let statusColor = 'border-slate-200 bg-[#F8F8F8] text-slate-500 dark:bg-slate-800 dark:text-slate-400';
+        
+        // 🛠️ 補回向下兼容的變數，供下方的 prevPriceHtml 箭頭邏輯使用
+        let realStatus = 'maintained'; 
+
+        if (p.statusKey === 'NEW_ADDED' || p.statusKey === 'new') {
+            realStatus = 'new';
+            statusText = window.currentLang === 'en' ? (hasCompetitors && isAbsoluteLowest ? 'Newly Added' : (hasCompetitors ? 'Secondary New' : 'Newly Added')) : (hasCompetitors && isAbsoluteLowest ? '首次上架' : (hasCompetitors ? '次平首次上架' : '首次上架'));
             statusColor = 'border-[#345B8C]/20 bg-[#E8F0F8] text-[#345B8C] dark:bg-slate-700 dark:text-[#6A95CC]';
-        } else if (realStatus === 'increase') {
-            statusText = window.currentLang === 'en' ? 'Price Up' : '價格暗升';
-            statusColor = 'border-red-200 bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400';
-        } else if (realStatus === 'promo_changed') {
-            statusText = window.currentLang === 'en' ? 'Promo Changed' : '優惠變動';
-            statusColor = 'border-[#FFB74D]/30 bg-[#FFF9F2] text-[#E65100] dark:bg-orange-900/30 dark:text-[#FFCC80]';
+        } else if (!isNaN(prevEffCompare) && prevEffCompare > 0) {
+            let rawDiff = currEffCompare - prevEffCompare;
+            let rawAbsDiffPct = Math.abs((rawDiff / prevEffCompare) * 100);
+            let isTolerance = rawAbsDiffPct > 0 && rawAbsDiffPct <= 1 && Math.abs(rawDiff) > 0.0001;
+
+            if (isTolerance) {
+                realStatus = 'tolerance';
+                if (rawDiff > 0) {
+                    statusText = window.currentLang === 'en' ? 'Maintained (Tol. Up)' : '價格維持 (容差內升)';
+                } else {
+                    statusText = window.currentLang === 'en' ? 'Maintained (Tol. Down)' : '價格維持 (容差內跌)';
+                }
+            } else if (currEffCompare > prevEffCompare) {
+                realStatus = 'increase';
+                if (hasCompetitors) {
+                    statusText = window.currentLang === 'en' ? 'Competitive Hike' : '競爭加價';
+                    statusColor = 'border-red-200 bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400';
+                } else {
+                    statusText = window.currentLang === 'en' ? 'Exclusive Hike' : '獨家加價';
+                    statusColor = 'border-red-200 bg-red-50 text-[#be123c] dark:bg-red-900/30 dark:text-[#be123c]';
+                }
+            } else if (currEffCompare < prevEffCompare) {
+                realStatus = 'drop';
+                if (hasCompetitors) {
+                    if (isAbsoluteLowest) {
+                        statusText = window.currentLang === 'en' ? 'True Price Drop' : '真降價';
+                        statusColor = 'border-[#8BC34A]/30 bg-[#8BC34A]/10 text-[#558B2F] dark:bg-green-900/30 dark:text-[#AEEA00]';
+                    } else {
+                        statusText = window.currentLang === 'en' ? 'Secondary Drop' : '次平真降價';
+                        statusColor = 'border-[#8BC34A]/30 bg-[#8BC34A]/10 text-[#27ae60] dark:bg-green-900/30 dark:text-[#AEEA00]';
+                    }
+                } else {
+                    statusText = window.currentLang === 'en' ? 'Exclusive Drop' : '獨家降價';
+                    statusColor = 'border-[#8BC34A]/30 bg-[#8BC34A]/10 text-[#15803d] dark:bg-green-900/30 dark:text-[#AEEA00]';
+                }
+            } else {
+                // 折實價完全相等 (0% 波幅)
+                if (p.promoDisplay !== p.prevOfferZh) {
+                    realStatus = 'promo_changed';
+                    statusText = window.currentLang === 'en' ? 'Promo Changed' : '優惠變動';
+                    statusColor = 'border-[#FFB74D]/30 bg-[#FFF9F2] text-[#E65100] dark:bg-orange-900/30 dark:text-[#FFCC80]';
+                } else if (currBase !== prevBase) {
+                    realStatus = 'base_changed';
+                    statusText = window.currentLang === 'en' ? 'Base Prc Changed' : '底價變動';
+                } else {
+                    realStatus = 'maintained';
+                    statusText = window.currentLang === 'en' ? 'Maintained' : '價格維持';
+                }
+            }
         } else {
+            realStatus = 'maintained';
             statusText = window.currentLang === 'en' ? 'Maintained' : '價格維持';
-            statusColor = 'border-slate-200 bg-[#F8F8F8] text-slate-500 dark:bg-slate-800 dark:text-slate-400';
         }
+        // =========================================================
 
         let lastDateText = (p.lastChangeDate && p.lastChangeDate !== 'null') ? String(p.lastChangeDate).substring(0, 10) : '-';
         let prevPriceHtml = (p.prevEffPrice && realStatus !== 'maintained' && realStatus !== 'new') ? `<span class="opacity-75 font-medium">$${parseFloat(p.prevEffPrice).toFixed(1)} &rarr;&nbsp;</span>` : '';
@@ -282,9 +331,13 @@ window.generateProductCardHTML = function(pName, info) {
     return `<div class="product-card bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-4 relative">
                 <div class="flex justify-between items-start gap-3">
                     <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
+                       <div class="flex items-center gap-2 mb-1">
                             <div class="product-brand text-[12px] text-[#345B8C] font-black tracking-widest uppercase">${info.brand || '綜合品牌'}</div>
-                            <button onclick="window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent('${fullSearchQuery}'), '_blank')" class="w-6 h-6 flex items-center justify-center bg-slate-50 border border-slate-200 rounded text-[#345B8C]"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="5" cy="5" r="4"/><line x1="11" y1="11" x2="8" y2="8"/></svg></button> 
+                            <button onclick="window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent('${fullSearchQuery}'), '_blank')" class="w-6 h-6 flex items-center justify-center bg-slate-50 border border-slate-200 rounded text-[#345B8C] active:scale-95 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="5" cy="5" r="4"/><line x1="11" y1="11" x2="8" y2="8"/></svg></button> 
+                            
+                            <button onclick="window.openStatusGuide()" class="w-6 h-6 flex items-center justify-center bg-[#E8F0F8] border border-[#345B8C]/20 rounded text-[#345B8C] dark:bg-slate-700 dark:border-slate-600 dark:text-[#608BC1] active:scale-95 transition-transform" title="狀態標籤說明">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            </button>
                         </div>
                         <h3 class="font-bold text-slate-800 dark:text-slate-100 text-[16px] leading-tight break-words flex flex-wrap items-center gap-1">
                             <span class="product-name">${defaultDisplayName}</span>
@@ -298,3 +351,129 @@ window.generateProductCardHTML = function(pName, info) {
                 <div class="flex flex-col gap-2.5">${priceList}</div>
             </div>`;
 };
+
+
+/// =========================================================
+// 📚 狀態標籤指南 (16 項全景 MECE 字典與 Modal 觸發器)
+// =========================================================
+window.openStatusGuide = function() {
+    const dict = {
+        'zh-Hant': {
+            title: '📊 狀態標籤全景指南',
+            content: `
+                <div class="space-y-3 text-[13px] text-left max-h-[60vh] overflow-y-auto no-scrollbar pr-1 pb-4">
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-2 border-b dark:border-slate-700 pb-1">🟢 降價陣營</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#558B2F] border border-[#8BC34A]/30">真降價</span> <span>折實價錄得實質下跌，且為全網最低價。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#27ae60] border border-[#8BC34A]/30">次平真降價</span> <span>折實價錄得下跌，但並非全網最低。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#15803d] border border-[#8BC34A]/30">獨家降價</span> <span>僅單一超市發售，且折實價錄得實質下跌。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🔴 加價陣營</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-50 text-red-600 border border-red-200">競爭加價</span> <span>多間超市發售下，折實價錄得實質上升。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-50 text-[#be123c] border border-red-200">獨家加價</span> <span>僅單一超市發售，折實價錄得實質上升。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🟠 促銷變動陣營</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#FFF9F2] text-[#E65100] border border-[#FFB74D]/30">無效促銷</span> <span>表面新增促銷字眼，但折實價並未實質下降。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-purple-50 text-purple-600 border border-purple-200">促銷包裝更改</span> <span>促銷條件或搭售數量改變。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-teal-50 text-teal-600 border border-teal-200">字眼微調</span> <span>標點符號或無意義字眼改變，條件實質不變。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🆕 新增與其他陣營</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#E8F0F8] text-[#345B8C] border border-[#345B8C]/20">首次上架</span> <span>系統首次紀錄，且為全網最低價。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#E8F0F8] text-[#345B8C] border border-[#345B8C]/20">次平首次</span> <span>系統首次紀錄，但並非全網最低價。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#FFF9F2] text-[#E65100] border border-[#FFB74D]/30">優惠完結</span> <span>舊有促銷活動結束，價格恢復常態。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-slate-100 text-slate-600 border border-slate-300">底價變動</span> <span>折實價不變，但標示的「原價/底價」改變。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-slate-100 text-slate-600 border border-slate-300">資料微調</span> <span>價格與促銷不變，僅系統內部標籤更新。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">⏸️ 維持與容差陣營</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">完全不變 (0%)</span> <span>折實價與促銷字眼 100% 相同。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">容差內升 (≤1%)</span> <span>價格微升 ≤1%，系統視同匯率或尾數微調。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">容差內跌 (≤1%)</span> <span>價格微跌 ≤1%，系統視同匯率或尾數微調。</span></div>
+                </div>
+            `
+        },
+        'zh-Hans': {
+            title: '📊 状态标签全景指南',
+            content: `
+                <div class="space-y-3 text-[13px] text-left max-h-[60vh] overflow-y-auto no-scrollbar pr-1 pb-4">
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-2 border-b dark:border-slate-700 pb-1">🟢 降价阵营</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#558B2F] border border-[#8BC34A]/30">真降价</span> <span>折实价录得实质下跌，且为全网最低价。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#27ae60] border border-[#8BC34A]/30">次平真降价</span> <span>折实价录得下跌，但并非全网最低。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#15803d] border border-[#8BC34A]/30">独家降价</span> <span>仅单一超市发售，且折实价录得实质下跌。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🔴 加价阵营</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-50 text-red-600 border border-red-200">竞争加价</span> <span>多间超市发售下，折实价录得实质上升。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-50 text-[#be123c] border border-red-200">独家加价</span> <span>仅单一超市发售，折实价录得实质上升。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🟠 促销变动阵营</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#FFF9F2] text-[#E65100] border border-[#FFB74D]/30">无效促销</span> <span>表面新增促销字眼，但折实价并未实质下降。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-purple-50 text-purple-600 border border-purple-200">促销包装更改</span> <span>促销条件或搭售数量改变。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-teal-50 text-teal-600 border border-teal-200">字眼微调</span> <span>标点符号或无意义字眼改变，条件实质不变。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🆕 新增与其他阵营</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#E8F0F8] text-[#345B8C] border border-[#345B8C]/20">首次上架</span> <span>系统首次纪录，且为全网最低价。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#E8F0F8] text-[#345B8C] border border-[#345B8C]/20">次平首次</span> <span>系统首次纪录，但并非全网最低价。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#FFF9F2] text-[#E65100] border border-[#FFB74D]/30">优惠完结</span> <span>旧有促销活动结束，价格恢复常态。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-slate-100 text-slate-600 border border-slate-300">底价变动</span> <span>折实价不变，但标示的「原价/底价」改变。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-slate-100 text-slate-600 border border-slate-300">资料微调</span> <span>价格与促销不变，仅系统内部标签更新。</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">⏸️ 维持与容差阵营</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">完全不变 (0%)</span> <span>折实价与促销字眼 100% 相同。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">容差内升 (≤1%)</span> <span>价格微升 ≤1%，系统视同汇率或尾数微调。</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">容差内跌 (≤1%)</span> <span>价格微跌 ≤1%，系统视同汇率或尾数微调。</span></div>
+                </div>
+            `
+        },
+        'en': {
+            title: '📊 Full Status Labels Guide',
+            content: `
+                <div class="space-y-3 text-[13px] text-left max-h-[60vh] overflow-y-auto no-scrollbar pr-1 pb-4">
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-2 border-b dark:border-slate-700 pb-1">🟢 Price Drops</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#558B2F] border border-[#8BC34A]/30">True Drop</span> <span>Actual price decreased and is the lowest across market.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#27ae60] border border-[#8BC34A]/30">Sec. Drop</span> <span>Actual price decreased, but not the lowest.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#8BC34A]/10 text-[#15803d] border border-[#8BC34A]/30">Excl. Drop</span> <span>Available in one supermarket, price decreased.</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🔴 Price Hikes</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-50 text-red-600 border border-red-200">Comp. Hike</span> <span>Actual price increased among competitors.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-50 text-[#be123c] border border-red-200">Excl. Hike</span> <span>Actual price increased in a single supermarket.</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🟠 Promotions</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#FFF9F2] text-[#E65100] border border-[#FFB74D]/30">Fake Promo</span> <span>Promo tag added, but actual price didn't drop.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-purple-50 text-purple-600 border border-purple-200">Pack Changed</span> <span>Bundle quantity or terms altered.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-teal-50 text-teal-600 border border-teal-200">Wording Adj.</span> <span>Punctuation or minor terms changed, same actual price.</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">🆕 Additions & Others</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#E8F0F8] text-[#345B8C] border border-[#345B8C]/20">Newly Added</span> <span>First recorded, is the lowest price.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#E8F0F8] text-[#345B8C] border border-[#345B8C]/20">Sec. New</span> <span>First recorded, not the lowest price.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#FFF9F2] text-[#E65100] border border-[#FFB74D]/30">Promo Ended</span> <span>Previous promo ended, price back to normal.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-slate-100 text-slate-600 border border-slate-300">Base Changed</span> <span>Actual price maintained, but displayed 'Base Price' changed.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-slate-100 text-slate-600 border border-slate-300">Data Tweaked</span> <span>System internal tag updated, price identical.</span></div>
+                    
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mt-4 border-b dark:border-slate-700 pb-1">⏸️ Maintained & Tolerance</div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">Maintained (0%)</span> <span>Price and promo terms are 100% identical.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">Tol. Up (≤1%)</span> <span>Micro increase ≤1%, treated as FX/rounding adjustments.</span></div>
+                    <div class="flex gap-2 items-start"><span class="shrink-0 mt-0.5 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F8F8F8] text-slate-500 border border-slate-200">Tol. Down (≤1%)</span> <span>Micro decrease ≤1%, treated as FX/rounding adjustments.</span></div>
+                </div>
+            `
+        }
+    };
+
+    const activeLang = window.currentLang || 'zh-Hant';
+    const modalData = dict[activeLang] || dict['zh-Hant'];
+
+    const titleEl = document.getElementById('modalTitle');
+    const contentEl = document.getElementById('modalContent');
+    const infoModal = document.getElementById('infoModal');
+    const modalBox = document.getElementById('modalBox');
+
+    if (titleEl && contentEl && infoModal && modalBox) {
+        titleEl.innerHTML = modalData.title;
+        contentEl.innerHTML = modalData.content;
+        
+        infoModal.classList.remove('hidden');
+        setTimeout(() => { 
+            infoModal.classList.remove('opacity-0'); 
+            modalBox.classList.remove('scale-95'); 
+            modalBox.classList.add('scale-100'); 
+        }, 10);
+    }
+};
+// =========================================================
