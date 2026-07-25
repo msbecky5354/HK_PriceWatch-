@@ -14,6 +14,7 @@ window.uiText['zh-Hant'] = {
     error: "載入失敗", 
     send: "搵嘢", 
     placeholder: "輸入貨品、牌子或者關鍵字...", 
+    lblUpdatePrefix: '更新於: ',
 
     notFound: "搵唔到喎！🤖 不過我喺數據庫幫你搵到啲相關嘅建議：",
     suggestBrand: "或者試吓呢個牌子：",
@@ -163,7 +164,7 @@ window.uiText['zh-Hant'] = {
     noData: "暫時未有數據 🤷‍♂️", origPriceStr: "原價", fail: "讀取數據失敗",
 
 
-    mcTitle: "最低價追蹤系統",
+    mcTitle: "最低價追蹤系統 Lowest Price Tracker",
     mcSub: "動態降價排序 ｜ 分類獨立欄位 ｜ 一鍵重置",
     mcDropCard: "📉 實質減價最平 (真降價)",
     mcDropDesc: "同款最平，且實質波幅 ≤ -1%",

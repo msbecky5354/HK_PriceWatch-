@@ -19,6 +19,7 @@ window.uiText['en'] = {
     suggestCategory: "You might be looking for this category:",
     backToSearch: "Search Again",
     searchAnyway: "Search anyway: {keyword}",
+    lblUpdatePrefix: 'Updated: ',
     
     chatWelcome: "Got it! You've selected", 
     chatAsk: "What product or brand are you looking for?", 

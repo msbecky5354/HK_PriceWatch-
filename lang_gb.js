@@ -19,6 +19,7 @@ window.uiText['zh-Hans'] = {
     suggestCategory: "您可能想找这类产品：",
     backToSearch: "重新搜索",
     searchAnyway: "强制搜索：{keyword}",
+    lblUpdatePrefix: '更新于: ',
     
     chatWelcome: "收到！您选择了", 
     chatAsk: "请问想找什么商品或品牌呢？", 
@@ -133,7 +134,7 @@ window.uiText['zh-Hans'] = {
     typeDiscount: "📉 真降价", typePromo: "🏷️ 促销优惠", noData: "暂无数据 🤷‍♂️", origPriceStr: "原价", fail: "读取数据失败",
 
 
-  mcTitle: "最低价追踪系统",
+  mcTitle: "最低价追踪系统 Lowest Price Tracker",
     mcSub: "动态降价排序 ｜ 分类独立字段 ｜ 一键重置",
     mcDropCard: "📉 实质减价最平 (真降价)",
     mcDropDesc: "同款最平，且实质波幅 ≤ -1%",
