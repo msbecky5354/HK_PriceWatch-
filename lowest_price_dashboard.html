@@ -14,18 +14,6 @@
         })();
     </script>
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y4VJQ0Q34V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Y4VJQ0Q34V');
-</script>
-
-    
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>同款最低價綜合儀表板 | 消費者格價參考</title>
@@ -911,9 +899,53 @@ const localI18n = {
             const triggerCatFilter = function (params) { if (params.name) applyStateFilter('cat', params.name); };
             const triggerResetCat = function (event) { if (!event.target) applyStateFilter('cat', 'ALL'); };
 
-            treemapChart.on('click', triggerSmFilter);
-            stackedBarChart.on('click', triggerSmFilter);
-            stackedBarChart.getZr().on('click', triggerResetSm);
+          treemapChart.on('click', triggerSmFilter);
+
+// 🌟 全新 Stacked Bar 雙重過濾邏輯 (Sandbox 驗證完畢)
+stackedBarChart.on('click', function (params) {
+    // 確保點擊位置有我哋啱啱塞入去嘅 smCode
+    if (!params.data || !params.data.smCode) return;
+    
+    const rawSmCode = params.data.smCode;
+    
+    // 根據 ECharts 嘅圖層 Index 判斷你撳緊邊隻顏色
+    const strategyMap = {
+        0: 'true_drop',      // 綠色：擴大優勢
+        1: 'flat_beaten',    // 灰色：維持優勢
+        2: 'competitive_up'  // 橙色：收窄優勢
+    };
+    const selectedStrategy = strategyMap[params.seriesIndex];
+
+    if (rawSmCode && selectedStrategy) {
+        // 直接更新全域 state，避免連續呼叫兩次 applyStateFilter 拖慢效能
+        state.sm = rawSmCode;
+        state.strategy = selectedStrategy;
+        state.page = 1;
+        
+        // 智能排序：加價(橙色)由高至低排，減價(綠色)由低至高排
+        state.sortCol = 'diff';
+        state.sortAsc = (state.strategy === 'competitive_up') ? false : true;
+
+        // 同步 Sort Icon 視覺效果
+        document.querySelectorAll('.sort-icon').forEach(el => {
+            el.innerHTML = '↕';
+            el.classList.remove('text-slate-500', 'dark:text-slate-300', 'font-black');
+            el.classList.add('text-slate-300', 'dark:text-slate-500', 'font-normal');
+        });
+        const activeIcon = document.getElementById('sort-diff');
+        if (activeIcon) {
+            activeIcon.innerHTML = state.sortAsc ? '↑' : '↓';
+            activeIcon.classList.remove('text-slate-300', 'dark:text-slate-500', 'font-normal');
+            activeIcon.classList.add('text-slate-500', 'dark:text-slate-300', 'font-black');
+        }
+
+        // 同步 UI 介面並執行表格渲染
+        syncUI();
+        applyFiltersCore();
+    }
+});
+
+stackedBarChart.getZr().on('click', triggerResetSm);
 
             smDivergingChart.on('click', triggerSmFilter);
             smDivergingChart.getZr().on('click', triggerResetSm);
@@ -1517,9 +1549,9 @@ const cat3En = winnerItem.c3_en || winnerItem.cat3_en || cat3Raw;
             const sortedSms = Object.keys(smBehaviors).filter(sm => smBehaviors[sm].total >= 1).sort((a, b) => smBehaviors[b].total - smBehaviors[a].total);
 
             const yAxisDataObj = sortedSms.map(sm => { return { value: getSmName(sm), textStyle: { color: getBrandColor(sm, isDarkMode) } }; });
-            const pctDown = sortedSms.map(sm => ((smBehaviors[sm].true_drop / smBehaviors[sm].total) * 100).toFixed(1));
-            const pctFlat = sortedSms.map(sm => ((smBehaviors[sm].flat_beaten / smBehaviors[sm].total) * 100).toFixed(1));
-            const pctUp = sortedSms.map(sm => ((smBehaviors[sm].competitive_up / smBehaviors[sm].total) * 100).toFixed(1));
+            const pctDown = sortedSms.map(sm => ({ value: ((smBehaviors[sm].true_drop / smBehaviors[sm].total) * 100).toFixed(1), smCode: sm }));
+            const pctFlat = sortedSms.map(sm => ({ value: ((smBehaviors[sm].flat_beaten / smBehaviors[sm].total) * 100).toFixed(1), smCode: sm }));
+            const pctUp = sortedSms.map(sm => ({ value: ((smBehaviors[sm].competitive_up / smBehaviors[sm].total) * 100).toFixed(1), smCode: sm }));
 
             stackedBarChart.setOption({
                 tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: '{b}<br/>{a0}: <b>{c0}%</b><br/>{a1}: <b>{c1}%</b><br/>{a2}: <b>{c2}%</b>' },
