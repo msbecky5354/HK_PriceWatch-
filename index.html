@@ -3,13 +3,50 @@
 <head>
 
     <script>
+        window.CONFIG = {
+            A: atob('aHR0cHM6Ly9oay1wcmljZS13YXRjaC52ZXJjZWwuYXBwLw=='),
+            B: atob('aHR0cHM6Ly9tc2JlY2t5NTM1NC5naXRodWIuaW8vSlNPTi9kYXRhLw=='),
+            C: atob('aHR0cHM6Ly9haXN0dWRpby5nb29nbGUuY29tL2FwcC9hcGlrZXk='),
+            D: atob('aHR0cHM6Ly9hcGkucXJzZXJ2ZXIuY29tL3YxL2NyZWF0ZS1xci1jb2RlLz9zaXplPTIwMHgyMDAmZGF0YT0='),
+            E: atob('aHR0cHM6Ly9hcGkud2hhdHNhcHAuY29tL3NlbmQ/dGV4dD0=')
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const siteUrl = window.CONFIG.A;
+            const logoUrl = siteUrl + 'logo.JPG';
+
+            const setMeta = (selector, attr, val) => {
+                const el = document.querySelector(selector);
+                if (el) el.setAttribute(attr, val);
+            };
+
+            setMeta('meta[property="og:url"]', 'content', siteUrl);
+            setMeta('meta[property="og:image"]', 'content', logoUrl);
+            setMeta('meta[name="twitter:image"]', 'content', logoUrl);
+            setMeta('link[rel="canonical"]', 'href', siteUrl);
+
+            const geminiGuide = document.getElementById('geminiGuideText');
+            if (geminiGuide) geminiGuide.href = window.CONFIG.C;
+
+            const schemaScript = document.createElement('script');
+            schemaScript.type = 'application/ld+json';
+            schemaScript.text = JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "慳真D | HK Smart Price",
+              "url": siteUrl,
+              "description": "全港超市真實價格與折扣數據分析平台，為你對比百佳、惠康、萬寧、屈臣氏、Market Place、Jasons 等最新折實價。",
+              "applicationCategory": "ShoppingApplication",
+              "operatingSystem": "All"
+            });
+            document.head.appendChild(schemaScript);
+        });
+
         (function() {
             try {
-                // 🚨 純淨版：只做系統維護檢測 (防偷渡核心)
                 fetch('status.txt?v=' + new Date().getTime())
                     .then(response => response.text())
                     .then(status => {
-                        // 如果 status.txt 入面係 1，即刻踢去維護版面
                         if (status.trim() === '1') {
                             window.location.replace('maintenance.html');
                         }
@@ -20,21 +57,20 @@
     </script>
 
     <meta charset="UTF-8">
-    <meta name="description" content="HK Smart Price 慳真D - 全城超市真・劈價即時追蹤器。踢走假促銷，為你比較百佳、惠康、萬寧、屈臣氏等最新折實價。全自動 AI 運算，完全免費！">
-    <meta name="keywords" content="慳真D, 超市格價, 百佳優惠, 惠康減價, 萬寧優惠, 香港超市, 劈價, 免費格價App, HK Smart Price, 懶人工具駅, 免費工具">
+    <meta name="description" content="HK Smart Price 慳真D - 全港超市真實價格與折扣數據分析平台。以客觀數據即時對比百佳、惠康、萬寧、屈臣氏、Market Place、Jasons 等各大超市最新折實價，精準透視真實優惠。全自動數據監測，完全免費！">
+    <meta name="keywords" content="慳真D, 超市格價, 物價數據分析, 折實價追蹤, 百佳優惠, 惠康減價, 萬寧優惠, 屈臣氏優惠, Market Place優惠, Jasons優惠, 香港超市, HK Smart Price, 懶人工具駅, 免費工具">
     <meta property="og:title" content="慳真D | HK Smart Price">
-    <meta property="og:description" content="踢走假促銷！自動對比全港超市真・劈價，幫你搵最抵折實價。">
-    <meta property="og:image" content="https://hk-price-watch.vercel.app/logo.JPG">
-    <meta property="og:url" content="https://hk-price-watch.vercel.app/">
+    <meta property="og:description" content="全港超市真實價格數據中樞。即時對比百佳、惠康、Market Place 等各大超市最新折實價與價格趨勢，精準掌握市場真實折扣。">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
     
+    <link rel="canonical" href="">
+
     <meta name="google-site-verification" content="Hc5hN1_E9_sRd-qshFZDMPThUHWkh4-9ajxGvxR43wE" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-8256903623772163">
     <title>慳真D | HK Smart Price</title>
-    
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HHQDSPWR2N"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -49,7 +85,7 @@
     <link rel="apple-touch-icon" href="/logo.JPG">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://hk-price-watch.vercel.app/logo.JPG">
+    <meta name="twitter:image" content="">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -100,7 +136,7 @@
                 <div class="w-14 h-14 rounded-2xl bg-[#345B8C] dark:bg-[#2A4B75] flex items-center justify-center text-white shadow-md mb-4 transform hover:scale-105 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                 </div>
-                <h2 id="homeTitle" class="text-[18px] sm:text-[20px] font-bold text-slate-800 dark:text-slate-100 mb-5 tracking-tight transition-colors">物價情報分析中樞</h2>
+                <h1 id="homeTitle" class="text-[18px] sm:text-[20px] font-bold text-slate-800 dark:text-slate-100 mb-5 tracking-tight transition-colors">物價情報分析中樞</h1>
                 
             <input type="file" id="ocrFileInput" accept="image/*" class="hidden" onchange="handleOcrUpload(event); closeCameraMenu();">
                 
@@ -154,7 +190,7 @@
                                     <span id="geminiDescText">預設使用離線基礎辨識。輸入 Google Gemini API Key 可大幅提升辨識準確率。(僅安全儲存於本機)</span>
                                 </p>
                                 <div class="mt-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-[#E8F0F8] dark:border-slate-700 text-center">
-                                    <a id="geminiGuideText" href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[#345B8C] dark:text-[#608BC1] hover:underline font-bold inline-flex items-center gap-1 py-1">
+                                    <a id="geminiGuideText" href="" target="_blank" class="text-[#345B8C] dark:text-[#608BC1] hover:underline font-bold inline-flex items-center gap-1 py-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                         取得 Google 免費 API Key
                                     </a>
@@ -275,6 +311,8 @@
     <script src="ocrEngine.js"></script>
 
    <script>
+        const DATA_BASE_URL = window.CONFIG.B;
+
         // =====================================================================
         // 🌐 1. 全域狀態初始化
         // =====================================================================
@@ -410,7 +448,7 @@
             const qrCodeImg = document.getElementById('qrCodeImg');
             const shareAppModal = document.getElementById('shareAppModal');
             const shareAppBox = document.getElementById('shareAppBox');
-            if(qrCodeImg) qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}&margin=10`;
+            if(qrCodeImg) qrCodeImg.src = window.CONFIG.D + encodeURIComponent(currentUrl);
             if(shareAppModal && shareAppBox) {
                 shareAppModal.classList.remove('hidden');
                 setTimeout(() => { shareAppModal.classList.remove('opacity-0'); shareAppBox.classList.remove('scale-95'); shareAppBox.classList.add('scale-100'); }, 10);
@@ -447,7 +485,7 @@
             const currentUrl = window.location.origin + window.location.pathname;
             const defaultMsg = "推薦你用「慳真D🔎」！秒速格價，幫你慳到盡！🛒\n";
             const msgText = (typeof uiText !== 'undefined' && uiText[window.currentLang] && uiText[window.currentLang].shareMessage) ? uiText[window.currentLang].shareMessage : defaultMsg;
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msgText + currentUrl)}`, '_blank');
+            window.open(window.CONFIG.E + encodeURIComponent(msgText + currentUrl), '_blank');
         };
 
         window.shareNative = function() {
@@ -459,12 +497,11 @@
         };
 
        window.checkDeviceAndRedirect = function(url) {
-    // 解除所有裝置限制，一律直接跳轉
-    window.location.href = url;
-};
+            window.location.href = url;
+       };
 
        // =====================================================================
-        // 🌐 4. 語系與 UI 動態切換引擎 (🚀 修正 3：加入強制換行與新按鈕)
+        // 🌐 4. 語系與 UI 動態切換引擎
         // =====================================================================
         window.changeLanguage = async function(lang) {
             try {
@@ -481,7 +518,7 @@
 
                     try {
                         const cb = Date.now();
-                        const snapshotUrl = `https://msbecky5354.github.io/JSON/data/snapshot_${lang}.json?v=${cb}`;
+                        const snapshotUrl = `${DATA_BASE_URL}snapshot_${lang}.json?v=${cb}`;
                         const snapRes = await fetch(snapshotUrl);
                         if (snapRes.ok) window.snapshotData = window.unwrapData(await snapRes.json());
                     } catch (e) { console.error('語系快照拉取失敗', e); }
@@ -495,23 +532,16 @@
 
                 const langSel = document.getElementById('langSelector');
                 if (langSel) langSel.value = lang;
-                
-            
 
                 const dict = (typeof uiText !== 'undefined' && uiText[lang]) ? uiText[lang] : {};
                 const updateText = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).innerText = text; };
                 const updatePlaceholder = (id, text) => { if (document.getElementById(id) && text) document.getElementById(id).placeholder = text; };
-                const updateHtml = (id, html) => { const el = document.getElementById(id); if (el && html) el.innerHTML = html; };
 
-                // 🌟 1. 網頁標題 (純字典對接)
                 document.title = (dict.title || '慳真D') + ' | ' + (lang === 'en' ? 'SmartDeal' : 'HK Smart Price');
 
-               
                 updateText('backBtnText', dict.back);
                 updateText('sendBtnText', dict.send);
                 updatePlaceholder('chatInput', dict.placeholder);
-
-              
 
              const homeUI = {
                     'zh-Hant': { 
@@ -554,7 +584,6 @@
                 let catDrinks = '飲品';
                 let catPantry = '米 / 食油 / 罐頭 / 蔬果 / 肉類';
 
-              // 🟢 佈局更新：新增置頂皇冠按鈕，原 4 按鈕改用 div 包裝避免 truncate 錯位
                 if(document.getElementById('quickBtnGroup')) {
                     document.getElementById('quickBtnGroup').innerHTML = `
                         <div class="grid grid-cols-2 gap-2.5 mb-3">
@@ -567,8 +596,6 @@
                         </div>
                         
                         <div class="flex flex-col gap-2.5 mb-1">
-                            
-                            
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-1">
                             
                             <button onclick="window.location.href='lowest_price_dashboard.html?lang=' + window.currentLang" class="w-full flex items-center justify-center gap-1.5 text-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-3 px-2 rounded-xl text-[12px] sm:text-[13px] font-bold active:scale-95 transition shadow-md border border-teal-600/50">
@@ -611,7 +638,6 @@
 
                 const chatSec = document.getElementById('chatSection');
                 if (chatSec && !chatSec.classList.contains('hidden')) {
-                    // 🌟 核心修復：動態同步切換搜尋頁面的頂部標題語系
                     const chatTitle = document.getElementById('chatTitle');
                     if (chatTitle) {
                         let titleStr = lang === 'en' ? 'Global Search' : (lang === 'zh-Hans' ? '全局搜寻' : '全局搜尋');
@@ -771,7 +797,7 @@
 
                 let finalHtml = searchResults.exactHtml;
                 if (!window.isBigGapMode) {
-                    let sortText = window.currentLang === 'en' ? 'Sort by Gap' : (window.currentLang === 'zh-Hans' ? '按差价排序' : '按差价排序');
+                    let sortText = window.currentLang === 'en' ? 'Sort by Gap' : (window.currentLang === 'zh-Hans' ? '按差价排序' : '按差價排序');
                     finalHtml = `<div class="flex justify-end w-full mb-3"><button onclick="window.handleQuickAction('filterBigGap', '${sortText}')" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg text-[12px] font-medium hover:bg-[#F8F8F8] dark:hover:bg-slate-700 active:scale-95 transition-transform shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#345B8C] dark:text-[#608BC1]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>${sortText}</button></div>` + finalHtml;
                 }
                 window.addBotMessage(botTip, finalHtml);
@@ -838,55 +864,34 @@
         };
 
        // =====================================================================
-        // 🎨 企業級分類圖標註冊表 (支援三語動態攔截與明暗主題變色)
+        // 🎨 分類圖標註冊表
         // =====================================================================
         window.getCatStyle = function(catName) {
             const name = (catName || '').toLowerCase();
             const svgClass = "w-7 h-7 text-[#345B8C] dark:text-[#608BC1] mb-1.5 transition-colors drop-shadow-sm";
             let svgIcon = '';
 
-            // 1. 飲品類
             if (name.includes('drink') || name.includes('beverage') || name.includes('飲') || name.includes('饮')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M15.2 22H8.8a2 2 0 0 1-2-1.79L5 3h14l-1.81 17.21A2 2 0 0 1 15.2 22Z"/><path d="M6 12h12"/></svg>`;
-            }
-            // 2. 糧食雜貨
-            else if (name.includes('rice') || name.includes('meat') || name.includes('米') || name.includes('肉') || name.includes('罐')) {
+            } else if (name.includes('rice') || name.includes('meat') || name.includes('米') || name.includes('肉') || name.includes('罐')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="m5 11 4-7"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8c.9 0 1.8-.7 2-1.6l1.7-7.4"/></svg>`;
-            }
-            // 3. 零食餅乾
-            else if (name.includes('snack') || name.includes('cand') || name.includes('零') || name.includes('糖') || name.includes('餅')) {
+            } else if (name.includes('snack') || name.includes('cand') || name.includes('零') || name.includes('糖') || name.includes('餅')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><rect width="16" height="16" x="4" y="4" rx="2" ry="2"/><rect width="6" height="6" x="9" y="9" rx="1" ry="1"/></svg>`;
-            }
-            // 4. 家居寵物
-            else if (name.includes('house') || name.includes('pet') || name.includes('家居') || name.includes('寵') || name.includes('宠')) {
+            } else if (name.includes('house') || name.includes('pet') || name.includes('家居') || name.includes('寵') || name.includes('宠')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
-            }
-            // 5. 麵食烹調 (🚀 修正：收緊匹配，避免誤判麵包)
-            else if (name.includes('noodle') || name.includes('cook') || name.includes('粉麵') || name.includes('粉面') || name.includes('煮') || name.includes('烹')) {
+            } else if (name.includes('noodle') || name.includes('cook') || name.includes('粉麵') || name.includes('粉面') || name.includes('煮') || name.includes('烹')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`;
-            }
-            // 6. 乳製品蛋類
-            else if (name.includes('dairy') || name.includes('egg') || name.includes('乳') || name.includes('蛋')) {
+            } else if (name.includes('dairy') || name.includes('egg') || name.includes('乳') || name.includes('蛋')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>`;
-            }
-            // 7. 烘焙麥片 (🚀 修正：加入麵包、蛋糕、穀類精確匹配)
-            else if (name.includes('baker') || name.includes('cereal') || name.includes('烘') || name.includes('麥') || name.includes('麦') || name.includes('麵包') || name.includes('面包') || name.includes('蛋糕') || name.includes('穀')) {
+            } else if (name.includes('baker') || name.includes('cereal') || name.includes('烘') || name.includes('麥') || name.includes('麦') || name.includes('麵包') || name.includes('面包') || name.includes('蛋糕') || name.includes('穀')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M2 22 22 2"/><path d="M16 2a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M8 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M16 10a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M8 16a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/></svg>`;
-            }
-            // 8. 酒類
-            else if (name.includes('beer') || name.includes('wine') || name.includes('酒')) {
+            } else if (name.includes('beer') || name.includes('wine') || name.includes('酒')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/></svg>`;
-            }
-            // 9. 個人護理
-            else if (name.includes('personal') || name.includes('care') || name.includes('個人') || name.includes('护') || name.includes('護')) {
+            } else if (name.includes('personal') || name.includes('care') || name.includes('個人') || name.includes('护') || name.includes('護')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6-8 10-8 10z"/><path d="M12 8v4"/><path d="M10 10h4"/></svg>`;
-            }
-            // 10. 嬰兒用品
-            else if (name.includes('baby') || name.includes('milk') || name.includes('嬰') || name.includes('婴') || name.includes('奶')) {
+            } else if (name.includes('baby') || name.includes('milk') || name.includes('嬰') || name.includes('婴') || name.includes('奶')) {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`;
-            }
-            // 預設
-            else {
+            } else {
                 svgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="${svgClass}"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>`;
             }
 
@@ -953,34 +958,29 @@
                 window.updateLoadingStatus('check');
                 const cb = Date.now();
                 
-                const logUrl = `https://msbecky5354.github.io/JSON/data/update_log.txt?v=${cb}`;
-                const snapshotUrl = `https://msbecky5354.github.io/JSON/data/snapshot_${window.currentLang}.json?v=${cb}`;
+                const logUrl = `${DATA_BASE_URL}update_log.txt?v=${cb}`;
+                const snapshotUrl = `${DATA_BASE_URL}snapshot_${window.currentLang}.json?v=${cb}`;
 
                 try {
                     const timeRes = await fetch(logUrl);
                     if (timeRes.ok) {
                         window.lastUpdatedTime = new Date((await timeRes.text()).trim());
-                        
-                        // 🌟 新增：將時間交畀全域，並叫 Header 自己做嘢！
                         window.globalLastUpdatedTime = window.lastUpdatedTime;
                         if (typeof window.renderHeaderLang === 'function') window.renderHeaderLang();
                     }
                 } catch(e) { console.warn("時間紀錄載入失敗", e); }
 
                 window.updateLoadingStatus('down');
-                // ... (下方的 fetch snapshotUrl 保持不變) ...
                 
-              const snapRes = await fetch(snapshotUrl).catch(() => null);
+                const snapRes = await fetch(snapshotUrl).catch(() => null);
                 
-               // 🚀 修復：手動精確解包 search_dict_data，避開 unwrapData 嘅硬編碼限制
-                const dictUrl = `https://msbecky5354.github.io/JSON/data/search_dict.json?v=${cb}`;
+                const dictUrl = `${DATA_BASE_URL}search_dict.json?v=${cb}`;
                 fetch(dictUrl)
                     .then(res => res.json())
                     .then(dictData => {
                         let rawDict = [];
                         let dataArr = Array.isArray(dictData) ? dictData : (dictData.results || dictData.data || [dictData]);
                         
-                        // 🎯 針對 n8n 匯出嘅 SQL JSON 結構進行強制定向解包
                         if (dataArr.length > 0) {
                             if (dataArr[0]?.json?.search_dict_data) rawDict = dataArr[0].json.search_dict_data;
                             else if (dataArr[0]?.search_dict_data) rawDict = dataArr[0].search_dict_data;
@@ -994,7 +994,6 @@
                                 }
                             });
                         }
-                        // 字典下載完畢後，重新構建一次結構化資料，把中文關鍵字塞進去
                         if (typeof window.buildStructuredData === 'function') window.buildStructuredData();
                     })
                     .catch(err => console.warn("字典載入失敗，維持單一語系搜尋", err));
