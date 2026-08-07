@@ -3,15 +3,28 @@ function calculateAvgPrice(enPromoText, originalPrice) {
     if (!enPromoText || isNaN(originalPrice)) return { status: 'ERROR_EXCEPTION', price: null, formula: 'Error' };
 
     try {
-        // ==========================================
-        // 🛠️ 預處理 1：複合優惠拆解 (The Wrapper)
-        // 將字串用 '/' 劈開，獨立成多個 offer，準備掟上擂台
-        // ==========================================
+        // ========== 新增：先處理 $X / Y 格式 ==========
+        let specialOffers = [];
+        enPromoText = enPromoText.replace(/\$([0-9.]+)\s*\/\s*([0-9]+)\s*(pcs|pc|pieces?)?/gi, (match, price, qty) => {
+            specialOffers.push({price: parseFloat(price), qty: parseFloat(qty)});
+            return '';
+        });
+
         let rawOffers = enPromoText.split('/');
         
-        let bestPrice = null;     // 擂台王者：最低折實價
+        let bestPrice = null;
         let bestFormula = 'Unparsed';
         let bestStatus = 'ERROR_UNPARSED';
+
+        // ========== 新增：先計 specialOffers ==========
+        for (let s of specialOffers) {
+            let avg = s.price / s.qty;
+            if (avg >= originalPrice * 0.05 && (bestPrice === null || avg < bestPrice)) {
+                bestPrice = avg;
+                bestFormula = `${s.price} / ${s.qty} [Case 10]`;
+                bestStatus = 'OK';
+            }
+        }
 
         // ⚔️ 擂台對決：逐個拆出嚟嘅優惠進行獨立計算
         for (let i = 0; i < rawOffers.length; i++) {
@@ -51,7 +64,7 @@ function calculateAvgPrice(enPromoText, originalPrice) {
             let mGetFree    = p.match(/(?:buy|add).*?\b([0-9]+)\b.*?(?:get|free).*?\b([0-9]+)\b(?!\s*%)/);           // Case 6
             let m2ndFor     = p.match(/(?:second|2nd).*?(?:for|at)\s*\$([0-9.]+)/);                                  // Case 7
             let m2ndPerc    = p.match(/(?:second|2nd).*?([0-9.]+)%|([0-9.]+)%.*?(?:second|2nd)/);                    // Case 9
-            let mFor        = p.match(/\b([0-9]+)\b[^\d\$]*\$([0-9.]+)/);                                            // Case 10
+            let mFor = p.match(/\b([0-9]+)\b[^\d\$]*\$([0-9.]+)/) || p.match(/\$([0-9.]+)\s*\/\s*([0-9]+)/);         // Case 10
             let mPerc       = p.match(/([0-9.]+)%\s*off/);                                                           // Case 11
 
             let currentPrice = null;
@@ -127,11 +140,20 @@ function calculateAvgPrice(enPromoText, originalPrice) {
                 currentPrice = (originalPrice * (2 - (perc / 100))) / 2; 
                 currentFormula = `(${originalPrice} * (2 - (${perc} / 100))) / 2 [Case 9]`;
             }
-            // 📊 Case 10: X 件 Y 蚊 - 超級萬用網 (例如: 3 for $210 / 3 pcs $210)
-            else if (mFor && !is2nd) {
-                currentPrice = getNum(mFor[2]) / getNum(mFor[1]); 
-                currentFormula = `${mFor[2]} / ${mFor[1]} [Case 10]`;
-            }
+            // Case 10: X for $Y OR $Y / X pcs
+             
+             else if (mFor && !is2nd) {
+    let qty, total;
+    if (mFor[0].startsWith('$')) {
+        total = getNum(mFor[1]);
+        qty = getNum(mFor[2]);
+    } else {
+        qty = getNum(mFor[1]);
+        total = getNum(mFor[2]);
+    }
+    currentPrice = total / qty;
+    currentFormula = `${total} / ${qty} [Case 10]`;
+}
             // 📊 Case 11: 淨係寫住打幾多折 (例如: 25% off)
             else if (mPerc && !is2nd) {
                 currentPrice = originalPrice * (1 - (getNum(mPerc[1]) / 100)); 
