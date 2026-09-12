@@ -1,35 +1,7 @@
-// footer.js - 統一全站 Footer (自帶字典、全域感應版)
+// footer.js - 統一全站 Footer (無縫對接全域 lang.js 版)
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 🌟 1. 封裝 Footer 專屬多語系字典
-    const footerI18n = {
-        'zh-Hant': {
-            links: '關於我們、條款及免責聲明',
-            copy: '© 2026 慳真D',
-            team: '開發團隊: ',
-            devName: '懶人工具駅',
-            modalTitle: '免責聲明及服務條款',
-            modalBtn: '我明白及接受'
-        },
-        'zh-Hans': {
-            links: '关于我们、条款及免责声明',
-            copy: '© 2026 悭真D',
-            team: '开发团队: ',
-            devName: '懒人工具駅',
-            modalTitle: '免责声明及服务条款',
-            modalBtn: '我明白及接受'
-        },
-        'en': {
-            links: 'About Us, Terms & Disclaimer',
-            copy: '© 2026 SmartDeal',
-            team: 'Developed by: ',
-            devName: 'Lazy Tools Station',
-            modalTitle: 'Disclaimer & Terms of Service',
-            modalBtn: 'I Understand & Accept'
-        }
-    };
-
-    // 🌟 2. 純 DOM 骨架
+    // 🌟 1. 純 DOM 骨架 (維持不變)
     const footerHtml = `
     <div class="text-center pt-8 pb-8 flex-none w-full z-20 relative"> 
         <button id="ft-links" onclick="document.getElementById('disclaimerModal').classList.remove('hidden');" 
@@ -66,23 +38,31 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.insertAdjacentHTML('beforeend', footerHtml);
     }
 
-    // 🌟 3. Footer 渲染引擎
+    // 🌟 2. Footer 渲染引擎 (改為讀取 window.uiText)
     function renderFooterLang() {
         const lang = localStorage.getItem('appLang') || 'zh-Hant';
-        const dict = footerI18n[lang] || footerI18n['zh-Hant'];
+        
+        // 確保 window.uiText 存在，否則 fallback
+        if (!window.uiText) return; 
+        const dict = window.uiText[lang] || window.uiText['zh-Hant'];
+        if (!dict) return;
 
         const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
 
-        setTxt('ft-links', dict.links);
-        setTxt('ft-copy', dict.copy);
-        setTxt('ft-team', dict.team);
-        setTxt('ft-devName', dict.devName);
-        setTxt('ft-modalTitle', dict.modalTitle);
+        // 讀取你在三個 lang_*.js 檔案中早已寫好的變數名稱
+        setTxt('ft-links', dict.miniFooterLinks);
+        setTxt('ft-copy', dict.miniFooterCopy);
+        setTxt('ft-team', dict.footerDevTeam);
+        setTxt('ft-devName', dict.footerDevName);
+        setTxt('ft-modalTitle', dict.disclaimerTitle);
         setTxt('ft-modalBtn', dict.modalBtn);
+        
+        // 將 HTML 格式的 disclaimerText 寫入模態框
+        const bodyEl = document.getElementById('disclaimerBody');
+        if (bodyEl) bodyEl.innerHTML = dict.disclaimerText;
     }
 
-    // 🌟 4. 終極修復：全域攔截 LocalStorage 變更 (Global Sensor)
-    // 透過改寫 setItem，任何網頁只要轉語言，Footer 就會瞬間自行更新，唔使改其他 HTML！
+    // 🌟 3. 終極修復：全域攔截 LocalStorage 變更
     const originalSetItem = localStorage.setItem;
     localStorage.setItem = function(key, value) {
         originalSetItem.apply(this, arguments);
@@ -91,9 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // 兼容舊版事件廣播 (雙重保險)
     window.addEventListener('languageChanged', renderFooterLang);
 
-    // 初始化渲染
-    renderFooterLang();
+    // 初始化渲染 (加入少量 delay 確保三個 lang 檔案已經載入完畢)
+    setTimeout(renderFooterLang, 50);
 });
