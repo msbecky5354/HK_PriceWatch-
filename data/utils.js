@@ -1,9 +1,9 @@
-// utils.js 終極藍圖版 (支援複合優惠擂台對決 + 15大 Case Study 詳盡註解)
+// utils.js 終極藍圖版 (支援複合優惠擂台對決 + 16大 Case Study 詳盡註解)
 function calculateAvgPrice(enPromoText, originalPrice) {
     if (!enPromoText || isNaN(originalPrice)) return { status: 'ERROR_EXCEPTION', price: null, formula: 'Error' };
 
     try {
-        // ========== 新增：先處理 $X / Y 格式 ==========
+        // ========== 先處理 $X / Y 格式 ==========
         let specialOffers = [];
         enPromoText = enPromoText.replace(/\$([0-9.]+)\s*\/\s*([0-9]+)\s*(pcs|pc|pieces?)?/gi, (match, price, qty) => {
             specialOffers.push({price: parseFloat(price), qty: parseFloat(qty)});
@@ -16,7 +16,7 @@ function calculateAvgPrice(enPromoText, originalPrice) {
         let bestFormula = 'Unparsed';
         let bestStatus = 'ERROR_UNPARSED';
 
-        // ========== 新增：先計 specialOffers ==========
+        // ========== 先計 specialOffers ==========
         for (let s of specialOffers) {
             let avg = s.price / s.qty;
             if (avg >= originalPrice * 0.05 && (bestPrice === null || avg < bestPrice)) {
@@ -62,10 +62,17 @@ function calculateAvgPrice(enPromoText, originalPrice) {
             let mGetPerc    = p.match(/(?:buy|add).*?\b([0-9]+)\b.*?get.*?\b([0-9]+)\b\s+([0-9.]+)%\s*off/);         // Case 4
             let mBuyPercOff = p.match(/(?:buy|add).*?\b([0-9]+)\b.*?(?:to\s*)?(?:get|enjoy)\s+([0-9.]+)%\s*off/);     // Case 5
             let mGetFree    = p.match(/(?:buy|add).*?\b([0-9]+)\b.*?(?:get|free).*?\b([0-9]+)\b(?!\s*%)/);           // Case 6
-            let m2ndFor     = p.match(/(?:second|2nd).*?(?:for|at)\s*\$([0-9.]+)/);                                  // Case 7
+            
+            // 【Case 7 更新】：支援雙向語序（例如 "2nd for $20" 或 "+$1.00 for 2nd item"）
+            let m2ndFor     = p.match(/(?:second|2nd).*?(?:for|at)\s*\$([0-9.]+)/) || 
+                              p.match(/(?:\+\s*)?\$([0-9.]+).*?(?:for|at)?\s*(?:second|2nd)/);                       // Case 7
+                              
             let m2ndPerc    = p.match(/(?:second|2nd).*?([0-9.]+)%|([0-9.]+)%.*?(?:second|2nd)/);                    // Case 9
-            let mFor = p.match(/\b([0-9]+)\b[^\d\$]*\$([0-9.]+)/) || p.match(/\$([0-9.]+)\s*\/\s*([0-9]+)/);         // Case 10
+            let mFor        = p.match(/\b([0-9]+)\b[^\d\$]*\$([0-9.]+)/) || p.match(/\$([0-9.]+)\s*\/\s*([0-9]+)/); // Case 10
             let mPerc       = p.match(/([0-9.]+)%\s*off/);                                                           // Case 11
+            
+            // 【Case 16 新增】：滿件或全單扣減百分比（例如 "Buy 2 save 25%", "6 RED WHITE WINE SAVE 15%"）
+            let mSavePerc   = p.match(/\bsave\s*([0-9.]+)%/);                                                         // Case 16
 
             let currentPrice = null;
             let currentFormula = '';
@@ -124,10 +131,12 @@ function calculateAvgPrice(enPromoText, originalPrice) {
                 currentPrice = (originalPrice * getNum(mGetFree[1])) / (getNum(mGetFree[1]) + getNum(mGetFree[2])); 
                 currentFormula = `(${originalPrice} * ${mGetFree[1]}) / (${mGetFree[1]} + ${mGetFree[2]}) [Case 6]`;
             }
-            // 📊 Case 7: 第二件一口價 (例如: 2nd for $20)
+            // 📊 Case 7: 第二件一口價 / 加購價 (例如: 2nd for $20 或 +$1.00 for 2nd item)
+            // 註解：兼容「2nd 在前」與「金額在附加在前」兩種格式，均價為 (原價 + 第二件特價) / 2
             else if (m2ndFor) {
-                currentPrice = (originalPrice + getNum(m2ndFor[1])) / 2; 
-                currentFormula = `(${originalPrice} + ${m2ndFor[1]}) / 2 [Case 7]`;
+                let secondPrice = getNum(m2ndFor[1]);
+                currentPrice = (originalPrice + secondPrice) / 2; 
+                currentFormula = `(${originalPrice} + ${secondPrice}) / 2 [Case 7]`;
             }
             // 📊 Case 8: 第二件半價 (例如: 2nd item half price)
             else if (p.match(/(?:second|2nd).*?half/)) {
@@ -140,20 +149,19 @@ function calculateAvgPrice(enPromoText, originalPrice) {
                 currentPrice = (originalPrice * (2 - (perc / 100))) / 2; 
                 currentFormula = `(${originalPrice} * (2 - (${perc} / 100))) / 2 [Case 9]`;
             }
-            // Case 10: X for $Y OR $Y / X pcs
-             
-             else if (mFor && !is2nd) {
-    let qty, total;
-    if (mFor[0].startsWith('$')) {
-        total = getNum(mFor[1]);
-        qty = getNum(mFor[2]);
-    } else {
-        qty = getNum(mFor[1]);
-        total = getNum(mFor[2]);
-    }
-    currentPrice = total / qty;
-    currentFormula = `${total} / ${qty} [Case 10]`;
-}
+            // 📊 Case 10: X for $Y OR$Y / X pcs
+            else if (mFor && !is2nd) {
+                let qty, total;
+                if (mFor[0].startsWith('$')) {
+                    total = getNum(mFor[1]);
+                    qty = getNum(mFor[2]);
+                } else {
+                    qty = getNum(mFor[1]);
+                    total = getNum(mFor[2]);
+                }
+                currentPrice = total / qty;
+                currentFormula = `${total} / ${qty} [Case 10]`;
+            }
             // 📊 Case 11: 淨係寫住打幾多折 (例如: 25% off)
             else if (mPerc && !is2nd) {
                 currentPrice = originalPrice * (1 - (getNum(mPerc[1]) / 100)); 
@@ -163,6 +171,13 @@ function calculateAvgPrice(enPromoText, originalPrice) {
             else if (p.includes('half price') && !is2nd) {
                 currentPrice = originalPrice * 0.5; 
                 currentFormula = `${originalPrice} * 0.5 [Case 12]`;
+            }
+            // 📊 Case 16: 滿件或全單扣減百分比 (例如: Buy 2 save 25%, 6 RED WHITE WINE SAVE 15%)
+            // 註解：專門處理「Save X%」折扣格式（不同於 Case 2 的 Save $X 扣錢或 Case 5 的 enjoy X% off）
+            else if (mSavePerc && !is2nd) {
+                let discount = getNum(mSavePerc[1]);
+                currentPrice = originalPrice * (1 - (discount / 100));
+                currentFormula = `${originalPrice} * (1 - (${discount} / 100)) [Case 16]`;
             }
 
             // ==========================================
